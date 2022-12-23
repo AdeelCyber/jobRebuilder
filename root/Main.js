@@ -8,6 +8,34 @@ import SignIn from "./Screens/SignIn";
 import Signup from "./Screens/Signup";
 import Offset from "./Offset";
 
+//Navigation
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+//Navigation out
+
+// Creating Stacks
+const Stack = createNativeStackNavigator();
+const Tab = createMaterialBottomTabNavigator();
+
+// All stack Pages goes here
+const MyStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="SignIn"
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen name="SignIn" component={SignIn} />
+      <Stack.Screen name="SignUp" component={Signup} />
+    </Stack.Navigator>
+  );
+};
+
+// All bottom tabs pages goes here
+const MyBottomTabs = () => {
+  return <Tab.Navigator></Tab.Navigator>;
+};
+
 const Main = () => {
   const {
     theme: { colors },
@@ -20,12 +48,11 @@ const Main = () => {
         { backgroundColor: colors.background },
       ]}
     >
-      {/* <StatusBar /> */}
+      <StatusBar style="auto" />
       {/* <SignIn /> */}
-      <View>
-        {/* <SignIn /> */}
-        <Signup />
-      </View>
+      <NavigationContainer>
+        <MyStack />
+      </NavigationContainer>
     </SafeAreaView>
   );
 };
