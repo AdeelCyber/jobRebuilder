@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import Top from "../../assets/img/SignInTop.png";
 import Fitness from "../../assets/img/Fitness.png";
 import HandGesture from "../../assets/img/callhandgensture.png";
-import global from "../globalStyles";
+import global from "../GlobalStyles/globalStyles";
 import Buttons from "../Components/Buttons";
 
 const Signup = () => {

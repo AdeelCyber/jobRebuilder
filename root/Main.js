@@ -6,7 +6,7 @@ import Context from "../root/Context/Context";
 import PinkButton from "./Components/PinkButton";
 import SignIn from "./Screens/SignIn";
 import Signup from "./Screens/Signup";
-import Offset from "./Offset";
+import Offset from "./GlobalStyles/Offset";
 
 //Navigation
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
