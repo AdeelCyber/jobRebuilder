@@ -1,12 +1,17 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import React from "react";
+import React, { useState } from "react";
+import { Dimensions } from "react-native";
+
+const window = Dimensions.get("window");
+const screen = Dimensions.get("screen");
 
 const PinkAback = () => {
+  const [dimensions, setDimensions] = useState({ window, screen });
   return (
     <View
       style={{
-        width: 41,
+        width: "97%",
         height: 41,
         borderRadius: 15,
         backgroundColor: "#C38BFF",

@@ -8,10 +8,18 @@ import SignIn from "./Screens/SignIn";
 import Signup from "./Screens/Signup";
 import Offset from "./GlobalStyles/Offset";
 
+//screens
+import Home from "./Screens/campaignHomeScreen/Home";
+
+//screens out
+
 //Navigation
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+Home;
+import PinkAback from "./Components/PinkAback";
+
 //Navigation out
 
 // Creating Stacks
@@ -22,9 +30,10 @@ const Tab = createMaterialBottomTabNavigator();
 const MyStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="SignIn"
+      initialRouteName="Home"
       screenOptions={{ headerShown: false }}
     >
+      <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="SignIn" component={SignIn} />
       <Stack.Screen name="SignUp" component={Signup} />
     </Stack.Navigator>
@@ -63,7 +72,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // borderWidth:1,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
 
     // alignItems: "center",
     // justifyContent: "center",

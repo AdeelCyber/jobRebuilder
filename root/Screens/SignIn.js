@@ -8,7 +8,12 @@ import Buttons from "../Components/Buttons";
 import SvgImport from "../Components/SvgImport";
 import GraduationHat from "../../assets/Svgs/GraduationHat";
 
-const SignIn = () => {
+const SignIn = ({ navigation, routes }) => {
+  React.useEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => <PinkAback />,
+    });
+  }, []);
   return (
     <View style={styles.main}>
       {/* Pink back button */}

@@ -9,6 +9,7 @@ const palette = {
   gray: "#3C3C3C",
   lightGray: "#757575",
   iconGray: "#717171",
+  text: "#232323",
 };
 
 export const theme = {
@@ -19,7 +20,7 @@ export const theme = {
     tertiary: palette.lime,
     secondary: palette.green,
     white: palette.white,
-    text: palette.gray,
+    text: palette.text,
     secondaryText: palette.lightGray,
     iconGray: palette.iconGray,
   },
