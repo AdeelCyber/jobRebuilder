@@ -6,8 +6,7 @@ import MyText from "./Text";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import SvgImport from "./SvgImport";
 import { Entypo } from "@expo/vector-icons";
-// import VideoPlayer from "react-native-video-player";
-
+// import Video from "react-native-video";
 const CampaignCard = ({ ...props }) => {
   const {
     theme: { colors },
@@ -43,13 +42,9 @@ const CampaignCard = ({ ...props }) => {
       {/* card header out */}
       {/* video in */}
       <View>
-        {/* <VideoPlayer
-          video={{ uri: "https://www.youtube.com/watch?v=WSJHAsnot54" }}
-          autoplay={false}
-          defaultMuted={true}
-          videoWidth={1500}
-          videoHeight={1000}
-          thumbnail={props.Thumbnail}
+        {/* <Video
+          source={{ uri: "https://www.youtube.com/watch?v=mpSmBuco6I0" }}
+          style={{ width: "100%", height: "30%" }}
         /> */}
       </View>
     </View>

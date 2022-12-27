@@ -23,6 +23,7 @@
     "react-native-modal": "^13.0.1",
     "react-native-paper": "^5.1.0",
     "react-native-svg": "13.4.0",
+    "react-native-video": "^5.2.1",
     "react-native-web": "~0.18.7",
     "react-select-country-list": "^2.2.3"
   },
