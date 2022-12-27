@@ -10,6 +10,9 @@ const palette = {
   lightGray: "#757575",
   iconGray: "#717171",
   text: "#232323",
+  textlight: "#ACA9A9",
+  LightishGray: "#23232366",
+  Purple: "#8489FC",
 };
 
 export const theme = {
@@ -18,10 +21,12 @@ export const theme = {
     foreground: palette.tealGreenDark,
     primary: palette.tealGreen,
     tertiary: palette.lime,
-    secondary: palette.green,
+    secondary: palette.Purple,
     white: palette.white,
     text: palette.text,
+    lighttext: palette.textlight,
     secondaryText: palette.lightGray,
     iconGray: palette.iconGray,
+    placeHolder: palette.LightishGray,
   },
 };
