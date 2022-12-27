@@ -39,11 +39,12 @@ const ChangePhoneNumberScreen = () => {
         >
           <MyText
             style={{
-              fontWeight: '600',
+              fontWeight: '700',
               lineHeight: 30,
               color: colors.text,
               textAlign: 'left',
               marginTop: 20,
+              fontSize: 16,
             }}
           >
             Phone Number
@@ -67,9 +68,8 @@ const ChangePhoneNumberScreen = () => {
           labelStyle={{ color: '#fff' }}
           style={{
             marginHorizontal: 18,
-            backgroundColor: '#34b7f1',
+            backgroundColor: colors.secondary,
             borderRadius: 10,
-            width: '90%',
             justifyContent: 'center',
             alignItems: 'center',
             padding: 15,
@@ -80,6 +80,7 @@ const ChangePhoneNumberScreen = () => {
           <MyText
             style={{
               color: 'white',
+              fontSize: 14,
             }}
           >
             Done
@@ -115,38 +116,6 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 26,
     color: '#424242',
-  },
-  listItem: {
-    padding: 15,
-    backgroundColor: '#f8f8f8',
-    borderBottomWidth: 1,
-    borderColor: '#eee',
-  },
-  listItemView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 10,
-    paddingRight: 0,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  listItemText: {
-    fontSize: 18,
-  },
-  checkedItemText: {
-    fontSize: 18,
-    textDecorationLine: 'line-through',
-    color: 'green',
-  },
-  iconView: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    width: 70,
-  },
-  editItemInput: {
-    padding: 0,
-    fontSize: 18,
   },
 })
 

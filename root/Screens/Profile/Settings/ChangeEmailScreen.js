@@ -37,15 +37,7 @@ const ChangeEmailScreen = () => {
             marginTop: 60,
           }}
         >
-          <MyText
-            style={{
-              fontWeight: '600',
-              lineHeight: 30,
-              color: colors.text,
-              textAlign: 'left',
-              marginTop: 20,
-            }}
-          >
+          <MyText style={[styles.heading, { color: colors.text }]}>
             Email Address
           </MyText>
         </View>
@@ -65,21 +57,12 @@ const ChangeEmailScreen = () => {
 
         <TouchableOpacity
           labelStyle={{ color: '#fff' }}
-          style={{
-            marginHorizontal: 18,
-            backgroundColor: '#34b7f1',
-            borderRadius: 10,
-            width: '90%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: 15,
-            marginTop: 15,
-            marginBottom: 40,
-          }}
+          style={[styles.btn, { backgroundColor: colors.secondary }]}
         >
           <MyText
             style={{
               color: 'white',
+              fontSize: 14,
             }}
           >
             Done
@@ -93,6 +76,13 @@ const ChangeEmailScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  heading: {
+    fontWeight: '700',
+    lineHeight: 30,
+    textAlign: 'left',
+    marginTop: 20,
+    fontSize: 16,
   },
   searchSection: {
     flexDirection: 'row',
@@ -116,37 +106,15 @@ const styles = StyleSheet.create({
     paddingLeft: 26,
     color: '#424242',
   },
-  listItem: {
-    padding: 15,
-    backgroundColor: '#f8f8f8',
-    borderBottomWidth: 1,
-    borderColor: '#eee',
-  },
-  listItemView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+
+  btn: {
+    marginHorizontal: 18,
+    borderRadius: 10,
+    justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
-    paddingRight: 0,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  listItemText: {
-    fontSize: 18,
-  },
-  checkedItemText: {
-    fontSize: 18,
-    textDecorationLine: 'line-through',
-    color: 'green',
-  },
-  iconView: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    width: 70,
-  },
-  editItemInput: {
-    padding: 0,
-    fontSize: 18,
+    padding: 15,
+    marginTop: 15,
+    marginBottom: 40,
   },
 })
 

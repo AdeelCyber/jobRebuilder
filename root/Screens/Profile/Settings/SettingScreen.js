@@ -12,15 +12,19 @@ import Context from '../../../Context/Context'
 import Icon from '@expo/vector-icons/FontAwesome'
 import { useNavigation } from '@react-navigation/native'
 
+import PasswordChangeIcon from '../../../../assets/Svgs/PasswordChangeIcon'
+import SvgImport from '../../../Components/SvgImport'
+
 const SettingScreen = () => {
   const navigation = useNavigation()
   const [appNotification, setAppNotification] = useState(false)
 
   const ListItem = ({ title, icon, isToggle, navigate }) => (
     <TouchableOpacity
+      disabled={isToggle}
       style={{ marginTop: 10 }}
       onPress={() => {
-        navigation.navigate(navigate)
+        if (!isToggle) navigation.navigate(navigate)
       }}
     >
       <View style={styles.listItemView}>
@@ -35,19 +39,18 @@ const SettingScreen = () => {
             alignItems: 'center',
           }}
         >
-          <Icon
-            name={icon}
-            size={24}
-            style={{}}
-            color={'black'}
-            onPress={() => {}}
-          />
+          {title === 'Change Password' ? (
+            <SvgImport svg={PasswordChangeIcon} />
+          ) : (
+            <Icon name={icon} size={24} color={'black'} />
+          )}
         </View>
 
         <View style={{ flex: 1, flexDirection: 'row' }}>
           <MyText
             style={{
               fontWeight: '500',
+              fontSize: 15,
             }}
           >
             {title}
@@ -111,7 +114,7 @@ const SettingScreen = () => {
         </View>
         <ListItem
           title='Email Address'
-          icon='home'
+          icon='envelope'
           isToggle={false}
           navigate='ChangeEmail'
         />
@@ -206,12 +209,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  listItem: {
-    padding: 15,
-    backgroundColor: '#f8f8f8',
-    borderBottomWidth: 1,
-    borderColor: '#eee',
-  },
+
   listItemView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -221,22 +219,11 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
-  listItemText: {
-    fontSize: 18,
-  },
-  checkedItemText: {
-    fontSize: 18,
-    textDecorationLine: 'line-through',
-    color: 'green',
-  },
+
   iconView: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     width: 70,
-  },
-  editItemInput: {
-    padding: 0,
-    fontSize: 18,
   },
 })
 

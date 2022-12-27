@@ -17,12 +17,12 @@ export const profileMenu = [
     icon: 'credit-card',
     navigate: 'PaymentMethod',
   },
-  {
-    id: 4,
-    title: 'Financial Report',
-    icon: 'home',
-    navigate: 'FinancialReport',
-  },
+  // {
+  //   id: 4,
+  //   title: 'Financial Report',
+  //   icon: 'home',
+  //   navigate: 'FinancialReport',
+  // },
   {
     id: 5,
     title: 'My Campaigns',

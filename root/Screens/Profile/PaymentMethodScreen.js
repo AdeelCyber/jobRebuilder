@@ -28,35 +28,6 @@ const PaymentMethodScreen = () => {
     theme: { colors },
   } = useContext(Context)
 
-  const InputField = () => (
-    <View
-      style={{
-        paddingVertical: 13,
-        width: '90%',
-        borderWidth: 0.8,
-        borderColor: '#222222',
-        borderRadius: 15,
-        flexDirection: 'row',
-        paddingHorizontal: 10,
-        paddingRight: 14,
-        marginHorizontal: 18,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: 10,
-      }}
-    >
-      <TextInput
-        placeholder='Phone no here'
-        style={{
-          paddingLeft: 15,
-          marginLeft: 4,
-          flex: 1,
-          border: 'none',
-        }}
-      />
-    </View>
-  )
-
   return (
     <ScrollView>
       <View
@@ -147,22 +118,7 @@ const PaymentMethodScreen = () => {
 
         {/* First Name Field */}
 
-        <View
-          style={{
-            paddingVertical: 13,
-            width: '90%',
-            borderWidth: 0.8,
-            borderColor: '#222222',
-            borderRadius: 15,
-            flexDirection: 'row',
-            paddingHorizontal: 10,
-            paddingRight: 14,
-            marginHorizontal: 18,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 10,
-          }}
-        >
+        <View style={styles.textInputView}>
           <TextInput
             placeholder='First Name'
             style={{
@@ -176,22 +132,7 @@ const PaymentMethodScreen = () => {
 
         {/* Last Name Field */}
 
-        <View
-          style={{
-            paddingVertical: 13,
-            width: '90%',
-            borderWidth: 0.8,
-            borderColor: '#222222',
-            borderRadius: 15,
-            flexDirection: 'row',
-            paddingHorizontal: 10,
-            paddingRight: 14,
-            marginHorizontal: 18,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 10,
-          }}
-        >
+        <View style={styles.textInputView}>
           <TextInput
             placeholder='Last Name'
             style={{
@@ -229,281 +170,57 @@ const PaymentMethodScreen = () => {
 
         {/* City 1 Field */}
 
-        <View
-          style={{
-            paddingVertical: 13,
-            width: '90%',
-            borderWidth: 0.8,
-            borderColor: '#222222',
-            borderRadius: 15,
-            flexDirection: 'row',
-            paddingHorizontal: 10,
-            paddingRight: 14,
-            marginHorizontal: 18,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 10,
-          }}
-        >
-          <TextInput
-            placeholder='City'
-            style={{
-              paddingLeft: 15,
-              marginLeft: 4,
-              flex: 1,
-              border: 'none',
-            }}
-          />
-        </View>
-
-        {/* COuntry 2 Field */}
-
-        <View
-          style={{
-            width: '90%',
-
-            marginHorizontal: 18,
-            marginBottom: 10,
-          }}
-        >
-          <Dropdown
-            style={[styles.dropdown]}
-            data={countryListData}
-            placeholderStyle={styles.placeholderStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            search
-            labelField='label'
-            valueField='value'
-            placeholder='Country'
-            searchPlaceholder='Search...'
-          />
-        </View>
-
-        {/* City 2 Field */}
-
-        <View
-          style={{
-            paddingVertical: 13,
-            width: '90%',
-            borderWidth: 0.8,
-            borderColor: '#222222',
-            borderRadius: 15,
-            flexDirection: 'row',
-            paddingHorizontal: 10,
-            paddingRight: 14,
-            marginHorizontal: 18,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 10,
-          }}
-        >
-          <TextInput
-            placeholder='City'
-            style={{
-              paddingLeft: 15,
-              marginLeft: 4,
-              flex: 1,
-              border: 'none',
-            }}
-          />
+        <View style={styles.textInputView}>
+          <TextInput placeholder='City' style={styles.textInput} />
         </View>
 
         {/* Address Field */}
-        <View
-          style={{
-            paddingVertical: 13,
-            width: '90%',
-            borderWidth: 0.8,
-            borderColor: '#222222',
-            borderRadius: 15,
-            flexDirection: 'row',
-            paddingHorizontal: 10,
-            paddingRight: 14,
-            marginHorizontal: 18,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 10,
-          }}
-        >
-          <TextInput
-            placeholder='Address'
-            style={{
-              paddingLeft: 15,
-              marginLeft: 4,
-              flex: 1,
-              border: 'none',
-            }}
-          />
+        <View style={styles.textInputView}>
+          <TextInput placeholder='Address' style={styles.textInput} />
         </View>
 
         {/* Postal Code Field */}
 
-        <View
-          style={{
-            paddingVertical: 13,
-            width: '90%',
-            borderWidth: 0.8,
-            borderColor: '#222222',
-            borderRadius: 15,
-            flexDirection: 'row',
-            paddingHorizontal: 10,
-            paddingRight: 14,
-            marginHorizontal: 18,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 10,
-          }}
-        >
-          <TextInput
-            placeholder='Postal Code'
-            style={{
-              paddingLeft: 15,
-              marginLeft: 4,
-              flex: 1,
-              border: 'none',
-            }}
-          />
+        <View style={styles.textInputView}>
+          <TextInput placeholder='Postal Code' style={styles.textInput} />
         </View>
 
         {/* Phone Number Field */}
 
-        <View
-          style={{
-            paddingVertical: 13,
-            width: '90%',
-            borderWidth: 0.8,
-            borderColor: '#222222',
-            borderRadius: 15,
-            flexDirection: 'row',
-            paddingHorizontal: 10,
-            paddingRight: 14,
-            marginHorizontal: 18,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 10,
-          }}
-        >
-          <TextInput
-            placeholder='Phone Number'
-            style={{
-              paddingLeft: 15,
-              marginLeft: 4,
-              flex: 1,
-              border: 'none',
-            }}
-          />
+        <View style={styles.textInputView}>
+          <TextInput placeholder='Phone Number' style={styles.textInput} />
         </View>
 
         {/* Account Number */}
 
-        <View
-          style={{
-            paddingVertical: 13,
-            width: '90%',
-            borderWidth: 0.8,
-            borderColor: '#222222',
-            borderRadius: 15,
-            flexDirection: 'row',
-            paddingHorizontal: 10,
-            paddingRight: 14,
-            marginHorizontal: 18,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 10,
-          }}
-        >
-          <TextInput
-            placeholder='Account Number'
-            style={{
-              paddingLeft: 15,
-              marginLeft: 4,
-              flex: 1,
-              border: 'none',
-            }}
-          />
+        <View style={styles.textInputView}>
+          <TextInput placeholder='Account Number' style={styles.textInput} />
         </View>
 
         {/* CVC  Field */}
 
-        <View
-          style={{
-            paddingVertical: 13,
-            width: '90%',
-            borderWidth: 0.8,
-            borderColor: '#222222',
-            borderRadius: 15,
-            flexDirection: 'row',
-            paddingHorizontal: 10,
-            paddingRight: 14,
-            marginHorizontal: 18,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 10,
-          }}
-        >
-          <TextInput
-            placeholder='CVC'
-            style={{
-              paddingLeft: 15,
-              marginLeft: 4,
-              flex: 1,
-              border: 'none',
-            }}
-          />
+        <View style={styles.textInputView}>
+          <TextInput placeholder='CVC' style={styles.textInput} />
         </View>
 
         {/* Expiry Date */}
 
-        <View
-          style={{
-            paddingVertical: 13,
-            width: '90%',
-            borderWidth: 0.8,
-            borderColor: '#222222',
-            borderRadius: 15,
-            flexDirection: 'row',
-            paddingHorizontal: 10,
-            paddingRight: 14,
-            marginHorizontal: 18,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 10,
-          }}
-        >
-          <TextInput
-            placeholder='Expiry Date'
-            style={{
-              paddingLeft: 15,
-              marginLeft: 4,
-              flex: 1,
-              border: 'none',
-            }}
-          />
+        <View style={styles.textInputView}>
+          <TextInput placeholder='Expiry Date' style={styles.textInput} />
         </View>
 
         {/* Done Button */}
 
         <TouchableOpacity
           labelStyle={{ color: '#fff' }}
-          style={{
-            marginHorizontal: 18,
-
-            backgroundColor: '#8489FC',
-            borderRadius: 10,
-            width: '90%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: 10,
-            marginTop: 15,
-            marginBottom: 40,
-          }}
+          style={styles.btn}
           onPress={() => {
             setModalVisible(!isModalVisible)
           }}
         >
           <MyText
             style={{
+              fontSize: 14,
               color: 'white',
             }}
           >
@@ -524,21 +241,34 @@ const PaymentMethodScreen = () => {
               style={{
                 marginTop: 15,
                 flexDirection: 'row',
-                justifyContent: 'space-between',
               }}
             >
-              <MyText style={{ paddingLeft: 140, fontWeight: '600' }}>
-                Tax Details
-              </MyText>
-
-              <Icon
-                name='close'
-                size={20}
-                style={{ marginRight: 15 }}
-                onPress={() => {
-                  setModalVisible(!isModalVisible)
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
                 }}
-              />
+              >
+                <MyText
+                  style={{
+                    width: '90%',
+                    fontWeight: '600',
+                    fontSize: 16,
+                    textAlign: 'center',
+                  }}
+                >
+                  Tax Details
+                </MyText>
+                <Icon
+                  name='close'
+                  size={20}
+                  style={{ marginRight: 15 }}
+                  onPress={() => {
+                    setModalVisible(!isModalVisible)
+                  }}
+                />
+              </View>
             </View>
 
             <View style={{ flex: 1 }}>
@@ -596,32 +326,45 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingLeft: 30,
   },
-  icon: {
-    marginRight: 5,
-  },
-  label: {
-    position: 'absolute',
-    backgroundColor: 'white',
-    left: 22,
-    top: 8,
-    zIndex: 999,
-    paddingHorizontal: 8,
-    fontSize: 14,
-  },
-  placeholderStyle: {
-    fontSize: 16,
-    color: 'gray',
-  },
-  selectedTextStyle: {
-    fontSize: 16,
-  },
-  iconStyle: {
-    width: 20,
-    height: 20,
-  },
+
   inputSearchStyle: {
     height: 40,
     fontSize: 16,
+  },
+
+  textInput: {
+    paddingLeft: 15,
+    marginLeft: 4,
+    flex: 1,
+    border: 'none',
+  },
+
+  textInputView: {
+    paddingVertical: 13,
+    width: '90%',
+    borderWidth: 0.8,
+    borderColor: '#222222',
+    borderRadius: 15,
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+    paddingRight: 14,
+    marginHorizontal: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
+  btn: {
+    marginHorizontal: 18,
+
+    backgroundColor: '#8489FC',
+    borderRadius: 10,
+    width: '90%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 20,
+    paddingBottom: 20,
+    marginTop: 15,
+    marginBottom: 40,
   },
 })
 

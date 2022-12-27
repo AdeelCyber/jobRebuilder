@@ -13,6 +13,13 @@ import { profileMenu } from '../../utilities/profileMenu'
 import Icon from '@expo/vector-icons/FontAwesome'
 import MyText from '../../Components/Text'
 import { useNavigation } from '@react-navigation/native'
+import SvgImport from '../../Components/SvgImport'
+import HomeIcon from '../../../assets/Svgs/Home'
+import SettingIcon2 from '../../../assets/Svgs/Setting'
+import PaymentCardIcon from '../../../assets/Svgs/PaymentCardIcon'
+import BagIcon from '../../../assets/Svgs/BagIcon'
+import CrossIcon from '../../../assets/Svgs/CrossIcon'
+import LogoutIcon from '../../../assets/Svgs/LogoutIcon'
 
 const ProfileScreen = () => {
   const navigation = useNavigation()
@@ -20,7 +27,18 @@ const ProfileScreen = () => {
     theme: { colors },
   } = useContext(Context)
 
-  const ListItem = ({ profile }) => (
+  const icons = [
+    <Icon name='home' size={24} />,
+    <SvgImport svg={SettingIcon2} />,
+    <SvgImport svg={PaymentCardIcon} />,
+    <Icon name='cube' size={24} />,
+    <SvgImport svg={BagIcon} />,
+    <SvgImport svg={CrossIcon} />,
+    <Icon name='compass' size={24} />,
+    <SvgImport svg={LogoutIcon} />,
+  ]
+
+  const ListItem = ({ profile, index }) => (
     <Pressable style={{ marginTop: 10 }}>
       <TouchableOpacity
         onPress={() => {
@@ -39,19 +57,14 @@ const ProfileScreen = () => {
               alignItems: 'center',
             }}
           >
-            <Icon
-              name={profile.icon}
-              size={24}
-              style={{}}
-              color={'black'}
-              onPress={() => {}}
-            />
+            {icons[index]}
           </View>
 
           <View style={{ flex: 1, flexDirection: 'row' }}>
             <MyText
               style={{
-                fontWeight: '500',
+                fontWeight: '700',
+                fontSize: 15,
               }}
             >
               {profile.title}
@@ -107,12 +120,13 @@ const ProfileScreen = () => {
           <TouchableOpacity
             labelStyle={{ color: '#fff' }}
             style={{
-              backgroundColor: '#34b7f1',
+              backgroundColor: colors.secondary,
               borderRadius: 4,
               width: 100,
               height: 30,
               justifyContent: 'center',
               alignItems: 'center',
+              marginBottom: 20,
             }}
           >
             <MyText
@@ -125,8 +139,8 @@ const ProfileScreen = () => {
             </MyText>
           </TouchableOpacity>
         </View>
-        {profileMenu.map((profile) => {
-          return <ListItem key={profile.id} profile={profile} />
+        {profileMenu.map((profile, index) => {
+          return <ListItem key={profile.id} index={index} profile={profile} />
         })}
       </View>
     </ScrollView>
@@ -137,12 +151,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  listItem: {
-    padding: 15,
-    backgroundColor: '#f8f8f8',
-    borderBottomWidth: 1,
-    borderColor: '#eee',
-  },
+
   listItemView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -152,22 +161,11 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
-  listItemText: {
-    fontSize: 18,
-  },
-  checkedItemText: {
-    fontSize: 18,
-    textDecorationLine: 'line-through',
-    color: 'green',
-  },
+
   iconView: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     width: 70,
-  },
-  editItemInput: {
-    padding: 0,
-    fontSize: 18,
   },
 })
 
