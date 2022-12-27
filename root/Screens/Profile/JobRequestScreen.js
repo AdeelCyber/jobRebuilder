@@ -45,9 +45,10 @@ const JobRequestScreen = () => {
               justifyContent: 'center',
               alignItems: 'center',
               fontSize: 10,
+              fontWeight: '600',
             }}
           >
-            <Icon name='star' /> 5.0
+            <Icon name='star' color='#FFB33E' /> 5.0
           </MyText>
         </View>
       </View>
@@ -168,6 +169,7 @@ const JobRequestScreen = () => {
             backgroundColor: colors.background,
             paddingTop: 40,
             paddingHorizontal: 24,
+            paddingBottom: 100,
           },
         ]}
       >
@@ -186,17 +188,13 @@ const styles = StyleSheet.create({
   },
 
   requestBox: {
-    borderWidth: 10,
+    borderWidth: 1,
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingTop: 8,
     paddingBottom: 15,
     marginBottom: 16,
-    // shadowColor: '#000',
-    // shadowOffset: { width: 0, height: 1 },
-    // shadowOpacity: 0.8,
-    // shadowRadius: 2,
-    // elevation: 5,
+    borderColor: 'lightgray',
   },
 })
 

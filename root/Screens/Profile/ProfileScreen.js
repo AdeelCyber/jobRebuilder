@@ -118,15 +118,10 @@ const ProfileScreen = () => {
             <MyText
               style={{
                 color: 'white',
-                fontSize: 11,
+                fontSize: 13,
               }}
             >
-              <Icon
-                name='pencil'
-                size={11.5}
-                style={{ marginHorizontal: 50 }}
-              />{' '}
-              Edit Profile
+              <Icon name='pencil' size={11.5} /> &nbsp;&nbsp; Edit Profile
             </MyText>
           </TouchableOpacity>
         </View>
