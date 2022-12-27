@@ -10,13 +10,44 @@ import SettingIcon from "../../../assets/Svgs/SettingIcon";
 import GraduationHat from "../../../assets/Svgs/GraduationHat";
 import MyText from "../../Components/Text";
 import HomeCategories from "../../Components/HomeCategories";
+import HomePopular from "../../Components/HomePopular";
+import Buildings from "../../../assets/img/Buildings.png";
+import Logo from "../../../assets/Svgs/Logo";
 
 const Home = ({ navigation, routes }) => {
+  //categories hook
   const [catgeories, setCategories] = useState([
     { icon: GraduationHat, text: "GraduationHat" },
-    { icon: GraduationHat, text: "Pizza" },
-    { icon: GraduationHat, text: "Burger" },
-    { icon: GraduationHat, text: "Fruit Chaat" },
+    { icon: GraduationHat, text: "GraduationHat" },
+    { icon: GraduationHat, text: "GraduationHat" },
+    { icon: GraduationHat, text: "GraduationHat" },
+  ]);
+  //Popular hook
+  const [popularCards, setPopularCards] = useState([
+    {
+      src: Buildings,
+      title: "Beyond",
+      desc: "",
+      raisedFunds: "$250 M",
+      minInv: "$124.0",
+      ShareHolders: 2560,
+    },
+    {
+      src: Buildings,
+      title: "Beyond",
+      desc: "",
+      raisedFunds: "$250 M",
+      minInv: "$124.0",
+      ShareHolders: 2560,
+    },
+    {
+      src: Buildings,
+      title: "Beyond",
+      desc: "",
+      raisedFunds: "$250 M",
+      minInv: "$124.0",
+      ShareHolders: 2560,
+    },
   ]);
   //   React.useEffect(() => {
   //     navigation.setOptions({
@@ -88,7 +119,7 @@ const Home = ({ navigation, routes }) => {
                 svg={item.icon}
                 title={item.text}
                 style={{
-                  marginHorizontal: index != numCols - 1 && index != 0 ? 30 : 0,
+                  marginLeft: index != 0 ? 35 : 0,
                 }}
               />
             )}
@@ -98,18 +129,37 @@ const Home = ({ navigation, routes }) => {
       {/* Categories Out */}
       {/* popular In */}
       <View style={{ marginTop: "8%", paddingLeft: 10 }}>
-        <MyText style={{ fontSize: 24, fontWeight: "700" }}>Popular</MyText>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingRight: 4,
+          }}
+        >
+          <MyText style={{ fontSize: 24, fontWeight: "700" }}>Recents</MyText>
+          <MyText
+            style={{ fontWeight: "500", fontSize: 10, color: colors.lighttext }}
+          >
+            View All
+          </MyText>
+        </View>
         <View style={{ width: "100%", marginTop: 10 }}>
           <FlatList
             horizontal
-            data={catgeories}
+            data={popularCards}
             showsHorizontalScrollIndicator={false}
             renderItem={({ item, index }) => (
-              <HomeCategories
-                svg={item.icon}
-                title={item.text}
+              <HomePopular
+                Src={item.src}
+                title={item.title}
+                Logo={Logo}
+                raisedFunds={item.raisedFunds}
+                minInv={item.minInv}
+                ShareHolders={item.ShareHolders}
                 style={{
-                  marginHorizontal: index != numCols - 1 && index != 0 ? 30 : 0,
+                  marginLeft: index != 0 ? 20 : 0,
+                  width: 200,
                 }}
               />
             )}
@@ -117,6 +167,47 @@ const Home = ({ navigation, routes }) => {
         </View>
       </View>
       {/* popular Out */}
+      {/* Recents In  */}
+      <View style={{ marginTop: "8%", paddingLeft: 10 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingRight: 4,
+          }}
+        >
+          <MyText style={{ fontSize: 24, fontWeight: "700" }}>Popular</MyText>
+          <MyText
+            style={{ fontWeight: "500", fontSize: 10, color: colors.lighttext }}
+          >
+            View All
+          </MyText>
+        </View>
+        <View style={{ width: "100%", marginTop: 10 }}>
+          <FlatList
+            horizontal
+            data={popularCards}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item, index }) => (
+              <HomePopular
+                Src={item.src}
+                title={item.title}
+                Logo={Logo}
+                raisedFunds={item.raisedFunds}
+                minInv={item.minInv}
+                ShareHolders={item.ShareHolders}
+                style={{
+                  marginLeft: index != 0 ? 20 : 0,
+                  width: 200,
+                }}
+              />
+            )}
+          />
+        </View>
+      </View>
+
+      {/* Recents Out */}
     </View>
   );
 };
