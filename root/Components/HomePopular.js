@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Pressable, Image } from "react-native";
 import React, { useContext, useState } from "react";
 import Context from "../Context/Context";
 import SvgImport from "./SvgImport";
+import { AntDesign } from "@expo/vector-icons";
 import MyText from "./Text";
 
 const HomePopular = ({
@@ -98,6 +99,19 @@ const HomePopular = ({
             {props.ShareHolders}
           </MyText>
         </View>
+      </View>
+      <View
+        style={{
+          position: "absolute",
+          right: 8,
+          backgroundColor: colors.white,
+          top: 10,
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 20,
+        }}
+      >
+        <AntDesign name="arrowright" size={20} color="black" />
       </View>
     </View>
   );

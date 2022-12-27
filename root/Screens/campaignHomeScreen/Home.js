@@ -1,8 +1,7 @@
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList, ScrollView } from "react-native";
 
 import React, { useContext, useState } from "react";
 import Context from "../../Context/Context";
-import PinkAback from "../../Components/PinkAback";
 import CustomHeader from "../../Components/CustomHeader";
 import { Searchbar } from "react-native-paper";
 import SvgImport from "../../Components/SvgImport";
@@ -17,10 +16,13 @@ import Logo from "../../../assets/Svgs/Logo";
 const Home = ({ navigation, routes }) => {
   //categories hook
   const [catgeories, setCategories] = useState([
-    { icon: GraduationHat, text: "GraduationHat" },
-    { icon: GraduationHat, text: "GraduationHat" },
-    { icon: GraduationHat, text: "GraduationHat" },
-    { icon: GraduationHat, text: "GraduationHat" },
+    { icon: GraduationHat, text: "Ai Tech" },
+    { icon: GraduationHat, text: "Software Co" },
+    { icon: GraduationHat, text: "Education" },
+    { icon: GraduationHat, text: "Construction" },
+    { icon: GraduationHat, text: "Construction" },
+    { icon: GraduationHat, text: "Construction" },
+    { icon: GraduationHat, text: "Construction" },
   ]);
   //Popular hook
   const [popularCards, setPopularCards] = useState([
@@ -63,12 +65,10 @@ const Home = ({ navigation, routes }) => {
   const numCols = catgeories.length; //for categories gapping
   return (
     // main container
-    <View
+    <ScrollView
       style={{
         flex: 1,
         backgroundColor: colors.white,
-        borderWidth: 2,
-        borderColor: "red", //remove border frm here
       }}
     >
       {/* header */}
@@ -137,7 +137,7 @@ const Home = ({ navigation, routes }) => {
             paddingRight: 4,
           }}
         >
-          <MyText style={{ fontSize: 24, fontWeight: "700" }}>Recents</MyText>
+          <Text style={{ fontSize: 24, fontWeight: "700" }}>Recents</Text>
           <MyText
             style={{ fontWeight: "500", fontSize: 10, color: colors.lighttext }}
           >
@@ -208,7 +208,7 @@ const Home = ({ navigation, routes }) => {
       </View>
 
       {/* Recents Out */}
-    </View>
+    </ScrollView>
   );
 };
 

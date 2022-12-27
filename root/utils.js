@@ -13,6 +13,7 @@ const palette = {
   textlight: "#ACA9A9",
   LightishGray: "#23232366",
   Purple: "#8489FC",
+  Bluish: "#8489FC",
 };
 
 export const theme = {
@@ -28,5 +29,6 @@ export const theme = {
     secondaryText: palette.lightGray,
     iconGray: palette.iconGray,
     placeHolder: palette.LightishGray,
+    Bluish: palette.Bluish,
   },
 };
