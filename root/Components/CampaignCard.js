@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 import React, { useContext } from "react";
 import Context from "../Context/Context";
@@ -6,6 +6,8 @@ import MyText from "./Text";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import SvgImport from "./SvgImport";
 import { Entypo } from "@expo/vector-icons";
+import Team from "../../assets/Svgs/TeamIcon";
+import todo from "../../assets/Svgs/TodoIcon";
 // import Video from "react-native-video";
 const CampaignCard = ({ ...props }) => {
   const {
@@ -36,16 +38,81 @@ const CampaignCard = ({ ...props }) => {
           </View>
         </View>
         <View>
-          <Entypo name="share" size={24} color={colors.Bluish} />
+          <Entypo name="share" size={24} color={colors.secondary} />
         </View>
       </View>
       {/* card header out */}
       {/* video in */}
-      <View>
+      <View
+        style={{
+          width: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+          paddingHorizontal: 23,
+        }}
+      >
         {/* <Video
           source={{ uri: "https://www.youtube.com/watch?v=mpSmBuco6I0" }}
           style={{ width: "100%", height: "30%" }}
         /> */}
+
+        <Image source={props.Thumbnail} style={{}} />
+
+        {/* Buttons View in */}
+        <View
+          style={{
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "space-between",
+          }}
+        >
+          <Pressable
+            style={{
+              backgroundColor: colors.secondary,
+              justifyContent: "center",
+              alignItems: "center",
+              paddingHorizontal: 50,
+              paddingVertical: 10,
+              flexDirection: "row",
+              borderRadius: 5,
+            }}
+          >
+            <SvgImport svg={Team} />
+            <MyText
+              style={{
+                color: colors.white,
+                fontSize: 16,
+                fontWeight: "500",
+                marginLeft: 10,
+              }}
+            >
+              Team
+            </MyText>
+          </Pressable>
+          <Pressable
+            style={{
+              backgroundColor: colors.white,
+              justifyContent: "center",
+              alignItems: "center",
+              paddingHorizontal: 50,
+              paddingVertical: 10,
+              flexDirection: "row",
+              borderRadius: 5,
+              borderWidth: 1,
+            }}
+          >
+            <SvgImport svg={todo} />
+            <MyText
+              style={{
+                fontSize: 16,
+                fontWeight: "500",
+                marginLeft: 10,
+              }}
+            >
+              To do
+            </MyText>
+          </Pressable>
+        </View>
       </View>
     </View>
   );

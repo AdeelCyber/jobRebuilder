@@ -14,6 +14,7 @@ const palette = {
   LightishGray: "#23232366",
   Purple: "#8489FC",
   Bluish: "#8489FC",
+  greish: "#F8F8F8",
 };
 
 export const theme = {
@@ -30,5 +31,6 @@ export const theme = {
     iconGray: palette.iconGray,
     placeHolder: palette.LightishGray,
     Bluish: palette.Bluish,
+    listback: palette.greish,
   },
 };
