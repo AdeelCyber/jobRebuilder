@@ -15,6 +15,7 @@ const palette = {
   Purple: "#8489FC",
   Bluish: "#8489FC",
   greish: "#F8F8F8",
+  littlegrey: "#232323BF",
 };
 
 export const theme = {
@@ -32,5 +33,6 @@ export const theme = {
     placeHolder: palette.LightishGray,
     Bluish: palette.Bluish,
     listback: palette.greish,
+    heighlight: palette.littlegrey,
   },
 };

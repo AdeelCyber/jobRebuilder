@@ -7,10 +7,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 
 const CustomHeader = ({
-  partOfDay = "Morning",
-  imageSource = "https://bit.ly/kent-c-dodds",
-  name = "Abdullah",
-  Notifications = true,
+  icon = () => <MaterialIcons name="message" size={24} color="black" />,
+  Title = "Moto Mobiles",
 }) => {
   const {
     theme: { colors },
@@ -40,14 +38,10 @@ const CustomHeader = ({
       </View>
       {/* Text View in */}
       <View>
-        <MyText style={{ fontWeight: "700", fontSize: 16 }}>
-          Moto Mobiles
-        </MyText>
+        <MyText style={{ fontWeight: "700", fontSize: 16 }}>{Title}</MyText>
       </View>
 
-      <View>
-        <MaterialIcons name="message" size={24} color="black" />
-      </View>
+      <View>{icon()}</View>
     </View>
   );
 };

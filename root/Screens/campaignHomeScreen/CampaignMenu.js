@@ -88,11 +88,7 @@ const CampaignMenu = () => {
         </Pressable>
       </View>
       {/* Little nav in */}
-      <LittleNav
-        style={{ marginTop: 10 }}
-        title={"Milestone"}
-        hamburger={false}
-      />
+      <LittleNav title={"Milestone"} hamburger={false} />
       {/* Little nav out */}
       <Pressable
         style={{

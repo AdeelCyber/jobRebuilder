@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Pressable } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import React from "react";
 
-const Buttons = ({ color, arrow, text }) => {
+const Buttons = ({ color, arrow, text, ...props }) => {
   return (
     <Pressable
       style={{
@@ -16,6 +16,7 @@ const Buttons = ({ color, arrow, text }) => {
         justifyContent: "center",
         paddingVertical: 20,
         position: "relative",
+        ...props.style,
       }}
     >
       <Text

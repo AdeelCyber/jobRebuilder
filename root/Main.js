@@ -20,15 +20,20 @@ import ChangePasswordScreen from "./Screens/Profile/Settings/ChangePasswordScree
 import DeleteAccountScreen from "./Screens/Profile/Settings/DeleteAccountScreen";
 import FinancialReportScreen from "./Screens/Profile/FinancialReport/FinancialReportScreen";
 import AddFinancialScreen from "./Screens/Profile/FinancialReport/AddFinancialScreen";
+import CampaignMenu from "./Screens/campaignHomeScreen/CampaignMenu";
+import OverView from "./Screens/campaignHomeScreen/CampaignOverview";
+import PartnerShipTerms from "./Screens/campaignHomeScreen/PartnerShipTerms";
+import TeamRoles from "./Screens/campaignHomeScreen/TeamRoles";
+import EditRoles from "./Screens/campaignHomeScreen/EditRoles";
+import AddRoles from "./Screens/campaignHomeScreen/AddRole";
+import AddMileStone from "./Screens/campaignHomeScreen/AddMileStone";
 //screens out
 
 //Navigation
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-Home;
-import PinkAback from "./Components/PinkAback";
-import CampaignMenu from "./Screens/campaignHomeScreen/CampaignMenu";
+import MileStone from "./Screens/campaignHomeScreen/MileStone";
 
 //Navigation out
 
@@ -40,11 +45,19 @@ const Tab = createMaterialBottomTabNavigator();
 const MyStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="CampaignMenu"
+      initialRouteName="MileStone"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="CampaignMenu" component={CampaignMenu} />
+      <Stack.Screen name="OverView" component={OverView} />
+      <Stack.Screen name="PartnerShipTerms" component={PartnerShipTerms} />
+      <Stack.Screen name="TeamRoles" component={TeamRoles} />
+      <Stack.Screen name="EditRoles" component={EditRoles} />
+      <Stack.Screen name="AddRoles" component={AddRoles} />
+      <Stack.Screen name="MileStone" component={MileStone} />
+      <Stack.Screen name="AddMileStone" component={AddMileStone} />
+
       <Stack.Screen name="SignIn" component={SignIn} />
       <Stack.Screen name="SignUp" component={Signup} />
       <Stack.Screen name="Settings" component={SettingScreen} />
