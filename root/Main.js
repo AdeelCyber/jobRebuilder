@@ -9,7 +9,7 @@ import Signup from './Screens/Signup'
 import Offset from './GlobalStyles/Offset'
 
 //screens
-import Home from './Screens/campaignHomeScreen/Home'
+import Home from './Screens/Profile/ExploreScreen'
 import CampaignMenu from './Screens/campaignHomeScreen/CampaignMenu'
 import OverView from './Screens/campaignHomeScreen/CampaignOverview'
 import PartnerShipTerms from './Screens/campaignHomeScreen/PartnerShipTerms'
@@ -49,14 +49,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { NavigationContainer } from '@react-navigation/native'
 
 import PinkAback from './Components/PinkAback'
-// import DashboardScreen from './Screens/Profile/Dashboard/DashboardScreen'
-// import AmountSpentScreen from './Screens/Profile/Dashboard/AmountSpentScreen'
-// import JobDetailScreen from './Screens/Profile/Job/JobDetailScreen'
-// import ManageJobScreen from './Screens/Profile/Job/ManageJobScreen'
-// import CancelledOrdersScreen from './Screens/Profile/Orders/CancelledOrdersScreen'
-// import CancelledOrderDetailScreen from './Screens/Profile/Orders/CancelledOrderDetailScreen'
-// import OrdersScreen from './Screens/Profile/Orders/OrdersScreen'
-// import CompletedOrderDetailScreen from './Screens/Profile/Orders/CompletedOrderDetailScreen'
+import ExploreScreen from './Screens/Profile/ExploreScreen'
 
 //Navigation out
 
@@ -115,6 +108,7 @@ const MyStack = () => {
       <Stack.Screen name='ChangePassword' component={ChangePasswordScreen} />
       <Stack.Screen name='DeleteAccount' component={DeleteAccountScreen} />
       <Stack.Screen name='MyOrders' component={OrdersScreen} />
+      <Stack.Screen name='Explore' component={ExploreScreen} />
     </Stack.Navigator>
   )
 }
