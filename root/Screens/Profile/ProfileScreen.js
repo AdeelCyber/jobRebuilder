@@ -19,7 +19,6 @@ import SettingIcon2 from '../../../assets/Svgs/Setting'
 import PaymentCardIcon from '../../../assets/Svgs/PaymentCardIcon'
 import BagIcon from '../../../assets/Svgs/BagIcon'
 import CrossIcon from '../../../assets/Svgs/CrossIcon'
-import LogoutIcon from '../../../assets/Svgs/LogoutIcon'
 
 const ProfileScreen = () => {
   const navigation = useNavigation()
@@ -35,7 +34,7 @@ const ProfileScreen = () => {
     <SvgImport svg={BagIcon} />,
     <SvgImport svg={CrossIcon} />,
     <Icon name='compass' size={24} />,
-    <SvgImport svg={LogoutIcon} />,
+    <Icon name='arrow-right' size={24} />,
   ]
 
   const ListItem = ({ profile, index }) => (
