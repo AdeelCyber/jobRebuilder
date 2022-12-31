@@ -34,6 +34,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import MileStone from "./Screens/campaignHomeScreen/MileStone";
+import StartScreen from "./Screens/StartScreens/StartScreen";
+import Login from "./Screens/StartScreens/Login";
+import CreateAccount from "./Screens/StartScreens/Createaccount";
+import Message from "./Screens/Chat/Message";
+import MessageBox from "./Screens/Chat/MessageBox";
 
 //Navigation out
 
@@ -45,7 +50,7 @@ const Tab = createMaterialBottomTabNavigator();
 const MyStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="MileStone"
+      initialRouteName="Message"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={Home} />
@@ -67,6 +72,16 @@ const MyStack = () => {
       <Stack.Screen name="PaymentMethod" component={PaymentMethodScreen} />
       <Stack.Screen name="ChangeEmail" component={ChangeEmailScreen} />
       <Stack.Screen name="AddFinancialDetail" component={AddFinancialScreen} />
+
+      <Stack.Screen name="StartScreen" component={StartScreen} />
+      <Stack.Screen name="LoginScreen" component={Login} />
+      <Stack.Screen name="CreateAccount" component={CreateAccount} />
+
+      <Stack.Screen name="Message" component={Message} />
+      <Stack.Screen name="MessageBox" component={MessageBox} />
+
+
+
 
       <Stack.Screen
         name="ChangePhoneNumber"
