@@ -23,18 +23,11 @@ const DashboardScreen = () => {
   } = useContext(Context)
 
   const OrderItem = () => (
-    <View
-      style={{
-        paddingTop: 13,
-        paddingLeft: 13,
-        paddingBottom: 14,
-        paddingRight: 17,
-        borderWidth: 1,
-        borderColor: 'lightgray',
-        borderRadius: 10,
-        flexDirection: 'row',
-        marginBottom: 9,
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate('ActiveOrderDetail')
       }}
+      style={styles.orderItem}
     >
       <View>
         <Image
@@ -100,7 +93,7 @@ const DashboardScreen = () => {
           </MyText>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 
   return (
@@ -307,6 +300,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: 16,
+  },
+  orderItem: {
+    paddingTop: 13,
+    paddingLeft: 13,
+    paddingBottom: 14,
+    paddingRight: 17,
+    borderWidth: 1,
+    borderColor: 'lightgray',
+    borderRadius: 10,
+    flexDirection: 'row',
+    marginBottom: 9,
   },
 })
 

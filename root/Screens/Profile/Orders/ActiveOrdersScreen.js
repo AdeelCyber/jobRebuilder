@@ -7,8 +7,15 @@ import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader'
 
 const ActiveOrdersScreen = () => {
+  const navigation = useNavigation()
+
   const OrderItem = () => (
-    <View style={styles.orderItem}>
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate('ActiveOrderDetail')
+      }}
+      style={[styles.orderItem]}
+    >
       <View>
         <Image
           source={{
@@ -73,7 +80,7 @@ const ActiveOrdersScreen = () => {
           </MyText>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 
   return (
@@ -119,6 +126,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flexDirection: 'row',
     marginBottom: 9,
+
+    // backgroundColor: 'white',
+    // shadowColor: '#000000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 8,
+    // },
+    // elevation: 2,
   },
   heading: {
     fontWeight: '700',

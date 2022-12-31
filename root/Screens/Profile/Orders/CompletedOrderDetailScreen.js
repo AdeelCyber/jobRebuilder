@@ -240,7 +240,7 @@ const CompletedOrderDetailScreen = () => {
                 borderBottomColor: '#eee',
               }}
             >
-              <MyText style={styles.heading}>Cancelled On</MyText>
+              <MyText style={styles.heading}>Delivered On</MyText>
             </View>
             <MyText style={styles.description}>23 Dec 2022</MyText>
           </View>
@@ -254,9 +254,6 @@ const CompletedOrderDetailScreen = () => {
             justifyContent: 'center',
             width: '40%',
             alignItems: 'center',
-          }}
-          onPress={() => {
-            navigation.navigate('ManageJobs')
           }}
         >
           <MyText

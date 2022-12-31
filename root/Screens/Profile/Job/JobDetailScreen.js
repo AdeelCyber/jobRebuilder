@@ -187,7 +187,7 @@ const JobDetailScreen = () => {
             alignItems: 'center',
           }}
           onPress={() => {
-            navigation.navigate('ManageJobs')
+            navigation.navigate('ActiveOrderDetail')
           }}
         >
           <MyText

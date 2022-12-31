@@ -35,7 +35,7 @@ import AddFinancialScreen from './Screens/Profile/FinancialReport/AddFinancialSc
 import DashboardScreen from './Screens/Profile/Dashboard/DashboardScreen'
 import AmountSpentScreen from './Screens/Profile/Dashboard/AmountSpentScreen'
 import JobDetailScreen from './Screens/Profile/Job/JobDetailScreen'
-import ManageJobScreen from './Screens/Profile/Job/ManageJobScreen'
+import ActiveOrderDetailScreen from './Screens/Profile/Orders/ActiveOrderDetailScreen'
 import CancelledOrdersScreen from './Screens/Profile/Orders/CancelledOrdersScreen'
 import CancelledOrderDetailScreen from './Screens/Profile/Orders/CancelledOrderDetailScreen'
 import OrdersScreen from './Screens/Profile/Orders/OrdersScreen'
@@ -50,6 +50,7 @@ import { NavigationContainer } from '@react-navigation/native'
 
 import PinkAback from './Components/PinkAback'
 import ExploreScreen from './Screens/Profile/ExploreScreen'
+import PendingOrderDetailScreen from './Screens/Profile/Orders/PendingOrderDetailScreen'
 
 //Navigation out
 
@@ -89,7 +90,10 @@ const MyStack = () => {
       <Stack.Screen name='AddFinancialDetail' component={AddFinancialScreen} />
       <Stack.Screen name='AmountSpent' component={AmountSpentScreen} />
       <Stack.Screen name='JobDetails' component={JobDetailScreen} />
-      <Stack.Screen name='ManageJobs' component={ManageJobScreen} />
+      <Stack.Screen
+        name='ActiveOrderDetail'
+        component={ActiveOrderDetailScreen}
+      />
       <Stack.Screen name='CancelledOrders' component={CancelledOrdersScreen} />
       <Stack.Screen
         name='CompletedOrderDetail'
@@ -103,6 +107,10 @@ const MyStack = () => {
       <Stack.Screen
         name='CancelledOrderDetail'
         component={CancelledOrderDetailScreen}
+      />
+      <Stack.Screen
+        name='PendingOrderDetail'
+        component={PendingOrderDetailScreen}
       />
 
       <Stack.Screen name='ChangePassword' component={ChangePasswordScreen} />
