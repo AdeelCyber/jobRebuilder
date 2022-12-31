@@ -21,7 +21,12 @@ const PendingOrdersScreen = () => {
   } = useContext(Context)
 
   const OrderItem = () => (
-    <View style={styles.orderItem}>
+    <TouchableOpacity
+      style={styles.orderItem}
+      onPress={() => {
+        navigation.navigate('PendingOrderDetail')
+      }}
+    >
       <View
         style={{
           flexDirection: 'row',
@@ -140,7 +145,7 @@ const PendingOrdersScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 
   return (
