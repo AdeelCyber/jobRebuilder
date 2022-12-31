@@ -54,3 +54,30 @@ export const profileMenu = [
     navigate: 'SignIn',
   },
 ]
+
+export const saleItemsData = [
+  {
+    price: 5404.0,
+    title: 'Gross Sales',
+  },
+  {
+    price: 35033,
+    title: 'Net Sales',
+  },
+  {
+    price: 5404.0,
+    title: 'Gross Profit',
+  },
+  {
+    price: 25,
+    title: 'Net Profit',
+  },
+  {
+    price: 540.0,
+    title: 'Prior Interest Earning',
+  },
+  {
+    price: 3500,
+    title: 'Taxes',
+  },
+]
