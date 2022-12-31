@@ -11,6 +11,8 @@ import Context from '../../../Context/Context'
 
 import Icon from '@expo/vector-icons/FontAwesome'
 import { useNavigation } from '@react-navigation/native'
+import SvgImport from '../../../Components/SvgImport'
+import PasswordChangeIcon from '../../../../assets/Svgs/PasswordChangeIcon'
 
 import PasswordChangeIcon from '../../../../assets/Svgs/PasswordChangeIcon'
 import SvgImport from '../../../Components/SvgImport'
