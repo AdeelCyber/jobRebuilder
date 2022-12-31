@@ -57,7 +57,9 @@ const OverView = () => {
             paddingHorizontal: 23,
           }}
         >
-          <Text style={{ fontSize: 24, fontWeight: "700" }}>Highlights</Text>
+          <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            Highlights
+          </MyText>
         </View>
         <View>
           {HeighLights.map((item) => (

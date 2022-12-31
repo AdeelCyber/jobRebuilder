@@ -16,6 +16,8 @@ const palette = {
   Bluish: "#8489FC",
   greish: "#F8F8F8",
   littlegrey: "#232323BF",
+  lightback: "#EEEEEE",
+  black: "#000000",
 };
 
 export const theme = {
@@ -31,8 +33,11 @@ export const theme = {
     secondaryText: palette.lightGray,
     iconGray: palette.iconGray,
     placeHolder: palette.LightishGray,
-    Bluish: palette.Bluish,
+    black: palette.black,
+
     listback: palette.greish,
     heighlight: palette.littlegrey,
+    lightback: palette.lightback,
+    Datee: "#969696",
   },
 };

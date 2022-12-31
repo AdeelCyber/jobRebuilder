@@ -3,6 +3,9 @@ import { AntDesign } from "@expo/vector-icons";
 import React from "react";
 
 const Buttons = ({ color, arrow, text, ...props }) => {
+  const handleit = (text) => {
+    props.pass(text);
+  };
   return (
     <Pressable
       style={{
@@ -18,6 +21,7 @@ const Buttons = ({ color, arrow, text, ...props }) => {
         position: "relative",
         ...props.style,
       }}
+      onPress={() => handleit(text)}
     >
       <Text
         style={{

@@ -27,13 +27,16 @@ import TeamRoles from "./Screens/campaignHomeScreen/TeamRoles";
 import EditRoles from "./Screens/campaignHomeScreen/EditRoles";
 import AddRoles from "./Screens/campaignHomeScreen/AddRole";
 import AddMileStone from "./Screens/campaignHomeScreen/AddMileStone";
+import MileStone from "./Screens/campaignHomeScreen/MileStone";
+import PitchDeck from "./Screens/campaignHomeScreen/PitchDeck";
+import Team from "./Screens/campaignHomeScreen/Team";
+import Todo from "./Screens/campaignHomeScreen/ToDo";
 //screens out
 
 //Navigation
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import MileStone from "./Screens/campaignHomeScreen/MileStone";
 
 //Navigation out
 
@@ -45,7 +48,7 @@ const Tab = createMaterialBottomTabNavigator();
 const MyStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="MileStone"
+      initialRouteName="Todo"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={Home} />
@@ -57,6 +60,9 @@ const MyStack = () => {
       <Stack.Screen name="AddRoles" component={AddRoles} />
       <Stack.Screen name="MileStone" component={MileStone} />
       <Stack.Screen name="AddMileStone" component={AddMileStone} />
+      <Stack.Screen name="PitchDeck" component={PitchDeck} />
+      <Stack.Screen name="Team" component={Team} />
+      <Stack.Screen name="Todo" component={Todo} />
 
       <Stack.Screen name="SignIn" component={SignIn} />
       <Stack.Screen name="SignUp" component={Signup} />

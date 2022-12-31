@@ -24,6 +24,9 @@ const TeamRoles = () => {
   const {
     theme: { colors },
   } = useContext(Context);
+  function handlePress(text) {
+    alert(text);
+  }
   const [Roles, setRoles] = useState([
     {
       Title: "Graphic Designer",
@@ -77,7 +80,7 @@ const TeamRoles = () => {
       {/* roles out */}
       {/* Black Button */}
 
-      <Pressable
+      <View
         style={{
           justifyContent: "center",
           alignItems: "center",
@@ -88,8 +91,9 @@ const TeamRoles = () => {
           color={colors.text}
           text=" + Add new Item"
           style={{ width: "50%", alignSelf: "center" }}
+          pass={handlePress}
         />
-      </Pressable>
+      </View>
     </ScrollView>
   );
 };
