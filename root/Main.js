@@ -48,6 +48,16 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 
+import PinkAback from './Components/PinkAback'
+// import DashboardScreen from './Screens/Profile/Dashboard/DashboardScreen'
+// import AmountSpentScreen from './Screens/Profile/Dashboard/AmountSpentScreen'
+// import JobDetailScreen from './Screens/Profile/Job/JobDetailScreen'
+// import ManageJobScreen from './Screens/Profile/Job/ManageJobScreen'
+// import CancelledOrdersScreen from './Screens/Profile/Orders/CancelledOrdersScreen'
+// import CancelledOrderDetailScreen from './Screens/Profile/Orders/CancelledOrderDetailScreen'
+// import OrdersScreen from './Screens/Profile/Orders/OrdersScreen'
+// import CompletedOrderDetailScreen from './Screens/Profile/Orders/CompletedOrderDetailScreen'
+
 //Navigation out
 
 // Creating Stacks
