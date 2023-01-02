@@ -9,17 +9,7 @@ import Signup from "./Screens/Signup";
 import Offset from "./GlobalStyles/Offset";
 
 //screens
-import Home from "./Screens/campaignHomeScreen/Home";
-import SettingScreen from "./Screens/Profile/Settings/SettingScreen";
-import ProfileScreen from "./Screens/Profile/ProfileScreen";
-import JobRequestScreen from "./Screens/Profile/JobRequestScreen";
-import PaymentMethodScreen from "./Screens/Profile/PaymentMethodScreen";
-import ChangeEmailScreen from "./Screens/Profile/Settings/ChangeEmailScreen";
-import ChangePhoneNumberScreen from "./Screens/Profile/Settings/ChangePhoneNumberScreen";
-import ChangePasswordScreen from "./Screens/Profile/Settings/ChangePasswordScreen";
-import DeleteAccountScreen from "./Screens/Profile/Settings/DeleteAccountScreen";
-import FinancialReportScreen from "./Screens/Profile/FinancialReport/FinancialReportScreen";
-import AddFinancialScreen from "./Screens/Profile/FinancialReport/AddFinancialScreen";
+import Home from "./Screens/Profile/ExploreScreen";
 import CampaignMenu from "./Screens/campaignHomeScreen/CampaignMenu";
 import OverView from "./Screens/campaignHomeScreen/CampaignOverview";
 import PartnerShipTerms from "./Screens/campaignHomeScreen/PartnerShipTerms";
@@ -31,12 +21,36 @@ import MileStone from "./Screens/campaignHomeScreen/MileStone";
 import PitchDeck from "./Screens/campaignHomeScreen/PitchDeck";
 import Team from "./Screens/campaignHomeScreen/Team";
 import Todo from "./Screens/campaignHomeScreen/ToDo";
+
+import SettingScreen from "./Screens/Profile/Settings/SettingScreen";
+import ProfileScreen from "./Screens/Profile/ProfileScreen";
+import JobRequestScreen from "./Screens/Profile/Job/JobRequestScreen";
+import PaymentMethodScreen from "./Screens/Profile/PaymentMethodScreen";
+import ChangeEmailScreen from "./Screens/Profile/Settings/ChangeEmailScreen";
+import ChangePhoneNumberScreen from "./Screens/Profile/Settings/ChangePhoneNumberScreen";
+import ChangePasswordScreen from "./Screens/Profile/Settings/ChangePasswordScreen";
+import DeleteAccountScreen from "./Screens/Profile/Settings/DeleteAccountScreen";
+import FinancialReportScreen from "./Screens/Profile/FinancialReport/FinancialReportScreen";
+import AddFinancialScreen from "./Screens/Profile/FinancialReport/AddFinancialScreen";
+import DashboardScreen from "./Screens/Profile/Dashboard/DashboardScreen";
+import AmountSpentScreen from "./Screens/Profile/Dashboard/AmountSpentScreen";
+import JobDetailScreen from "./Screens/Profile/Job/JobDetailScreen";
+import ActiveOrderDetailScreen from "./Screens/Profile/Orders/ActiveOrderDetailScreen";
+import CancelledOrdersScreen from "./Screens/Profile/Orders/CancelledOrdersScreen";
+import CancelledOrderDetailScreen from "./Screens/Profile/Orders/CancelledOrderDetailScreen";
+import OrdersScreen from "./Screens/Profile/Orders/OrdersScreen";
+import CompletedOrderDetailScreen from "./Screens/Profile/Orders/CompletedOrderDetailScreen";
+
 //screens out
 
 //Navigation
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+
+import PinkAback from "./Components/PinkAback";
+import ExploreScreen from "./Screens/Profile/ExploreScreen";
+import PendingOrderDetailScreen from "./Screens/Profile/Orders/PendingOrderDetailScreen";
 
 //Navigation out
 
@@ -66,6 +80,7 @@ const MyStack = () => {
 
       <Stack.Screen name="SignIn" component={SignIn} />
       <Stack.Screen name="SignUp" component={Signup} />
+      <Stack.Screen name="Dashboard" component={DashboardScreen} />
       <Stack.Screen name="Settings" component={SettingScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="JobRequests" component={JobRequestScreen} />
@@ -73,13 +88,35 @@ const MyStack = () => {
       <Stack.Screen name="PaymentMethod" component={PaymentMethodScreen} />
       <Stack.Screen name="ChangeEmail" component={ChangeEmailScreen} />
       <Stack.Screen name="AddFinancialDetail" component={AddFinancialScreen} />
-
+      <Stack.Screen name="AmountSpent" component={AmountSpentScreen} />
+      <Stack.Screen name="JobDetails" component={JobDetailScreen} />
+      <Stack.Screen
+        name="ActiveOrderDetail"
+        component={ActiveOrderDetailScreen}
+      />
+      <Stack.Screen name="CancelledOrders" component={CancelledOrdersScreen} />
+      <Stack.Screen
+        name="CompletedOrderDetail"
+        component={CompletedOrderDetailScreen}
+      />
       <Stack.Screen
         name="ChangePhoneNumber"
         component={ChangePhoneNumberScreen}
       />
+
+      <Stack.Screen
+        name="CancelledOrderDetail"
+        component={CancelledOrderDetailScreen}
+      />
+      <Stack.Screen
+        name="PendingOrderDetail"
+        component={PendingOrderDetailScreen}
+      />
+
       <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
       <Stack.Screen name="DeleteAccount" component={DeleteAccountScreen} />
+      <Stack.Screen name="MyOrders" component={OrdersScreen} />
+      <Stack.Screen name="Explore" component={ExploreScreen} />
     </Stack.Navigator>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import MyText from '../../Components/Text'
-import Context from '../../Context/Context'
+import MyText from '../../../Components/Text'
+import Context from '../../../Context/Context'
 import Icon from '@expo/vector-icons/FontAwesome'
 
 import {
@@ -11,9 +11,11 @@ import {
   Image,
 } from 'react-native'
 
-import Buttons from '../../Components/Buttons'
+import { useNavigation } from '@react-navigation/native'
 
 const JobRequestScreen = () => {
+  const navigation = useNavigation()
+
   const {
     theme: { colors },
   } = useContext(Context)
@@ -118,11 +120,13 @@ const JobRequestScreen = () => {
           justifyContent: 'space-between',
         }}
       >
-        <View
+        <TouchableOpacity
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            flexWrap: 'wrap',
+          }}
+          onPress={() => {
+            navigation.navigate('JobDetails')
           }}
         >
           <MyText
@@ -132,7 +136,7 @@ const JobRequestScreen = () => {
           >
             View Profile <Icon name='arrow-right' />
           </MyText>
-        </View>
+        </TouchableOpacity>
 
         <View>
           <TouchableOpacity

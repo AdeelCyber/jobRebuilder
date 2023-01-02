@@ -17,12 +17,12 @@ export const profileMenu = [
     icon: 'credit-card',
     navigate: 'PaymentMethod',
   },
-  {
-    id: 4,
-    title: 'Financial Report',
-    icon: 'home',
-    navigate: 'FinancialReport',
-  },
+  // {
+  //   id: 4,
+  //   title: 'Financial Report',
+  //   icon: 'home',
+  //   navigate: 'FinancialReport',
+  // },
   {
     id: 5,
     title: 'My Campaigns',
@@ -52,5 +52,32 @@ export const profileMenu = [
     title: 'Logout',
     icon: 'arrow-right',
     navigate: 'SignIn',
+  },
+]
+
+export const saleItemsData = [
+  {
+    price: 5404.0,
+    title: 'Gross Sales',
+  },
+  {
+    price: 35033,
+    title: 'Net Sales',
+  },
+  {
+    price: 5404.0,
+    title: 'Gross Profit',
+  },
+  {
+    price: 25,
+    title: 'Net Profit',
+  },
+  {
+    price: 540.0,
+    title: 'Prior Interest Earning',
+  },
+  {
+    price: 3500,
+    title: 'Taxes',
   },
 ]
