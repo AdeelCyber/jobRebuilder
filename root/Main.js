@@ -48,7 +48,7 @@ const Tab = createMaterialBottomTabNavigator();
 const MyStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Todo"
+      initialRouteName="MileStone"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={Home} />

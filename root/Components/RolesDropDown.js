@@ -39,14 +39,15 @@ const RolesDropDown = ({ Title, desc, ...props }) => {
             {select ? (
               <SvgImport svg={tick} />
             ) : (
-              <View
+              <Pressable
                 style={{
                   backgroundColor: "#D9D9D9",
                   height: 17,
                   width: 17,
                   borderRadius: 20,
                 }}
-              ></View>
+                onPress={() => setselected(!select)}
+              ></Pressable>
             )}
           </Pressable>
           <MyText style={{ marginLeft: 10, fontSize: 14, fontWeight: "500" }}>

@@ -24,6 +24,8 @@ import DynamicButton from "../../Components/DynamicButton";
 import TeamItem from "../../Components/TeamItem";
 import { FontAwesome } from "@expo/vector-icons";
 import HorizontalCalendar from "../../Components/HorizontalCalendar";
+import TodoListItem from "../../Components/TodoListItem";
+import Buttons from "../../Components/Buttons";
 
 const Todo = () => {
   const {
@@ -32,7 +34,19 @@ const Todo = () => {
   function handlePress(text) {
     alert(text);
   }
+
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [Roles, setRoles] = useState([
+    {
+      Title: "Design Front end",
+    },
+    {
+      Title: "Design Backend",
+    },
+    {
+      Title: "Design Schema",
+    },
+  ]);
 
   return (
     // main container
@@ -40,31 +54,56 @@ const Todo = () => {
       style={{
         flex: 1,
         backgroundColor: colors.white,
+        justifyContent: "space-between",
+        paddingBottom: 20,
       }}
     >
-      {/* header */}
-      <CustomHeader2
-        icon={() => <FontAwesome name="calendar" size={24} color="black" />}
-        Title="January"
-      />
-      {/* header out */}
-      <View style={{ width: "100%", marginTop: 20 }}>
-        <HorizontalCalendar
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
+      <View>
+        {/* header */}
+        <CustomHeader2
+          icon={() => <FontAwesome name="calendar" size={24} color="black" />}
+          Title="January"
         />
+        {/* header out */}
+        <View style={{ width: "100%", marginTop: 20 }}>
+          <HorizontalCalendar
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+          />
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingHorizontal: 23,
+          }}
+        >
+          <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            {} Tasks Today
+          </MyText>
+        </View>
+        {/* Todo Item in */}
+        <View style={{ paddingHorizontal: 23 }}>
+          {Roles.map((item) => (
+            <TodoListItem Title={item.Title} />
+          ))}
+        </View>
+        {/* Todo item out */}
       </View>
       <View
         style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
+          justifyContent: "center",
           alignItems: "center",
-          paddingHorizontal: 23,
+          marginTop: 10,
         }}
       >
-        <MyText style={{ fontSize: 24, fontWeight: "700" }}>
-          {} Tasks Today
-        </MyText>
+        <Buttons
+          color={colors.text}
+          text=" + Add new Task"
+          style={{ width: "50%", alignSelf: "center" }}
+          pass={handlePress}
+        />
       </View>
     </View>
   );

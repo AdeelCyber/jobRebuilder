@@ -21,6 +21,7 @@ import TickPara from "../../Components/TickPara";
 import { Feather } from "@expo/vector-icons";
 import CircularProgress from "react-native-circular-progress-indicator";
 import Buttons from "../../Components/Buttons";
+import BottomPopup from "../../Components/BottomPopup";
 
 // component
 function MileStoneComponent({ para, ...props }) {
@@ -132,6 +133,7 @@ const MileStone = () => {
   function handlePress(text) {
     alert(text);
   }
+  let popupRef = React.useRef();
   const [MileStones, setMileStone] = useState([
     {
       para: " Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo,",
@@ -197,6 +199,7 @@ const MileStone = () => {
           pass={handlePress}
         />
       </View>
+      <BottomPopup />
     </ScrollView>
   );
 };

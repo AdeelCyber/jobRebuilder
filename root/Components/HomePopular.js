@@ -22,10 +22,11 @@ const HomePopular = ({
           justifyContent: "center",
           alignItems: "center",
 
-          elevation: 1,
+          elevation: 10,
           shadowColor: "#000",
           borderRadius: 10,
           paddingBottom: 5,
+          marginVertical: 17,
         },
         {
           backgroundColor: colors.white,

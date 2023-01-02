@@ -30,7 +30,7 @@ const CustomHeader = ({
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Image
           source={{ uri: imageSource }}
-          style={{ width: 30, height: 30, borderRadius: 20 }}
+          style={{ width: 30, height: 30, borderRadius: 20, marginRight: 8 }}
         />
         <View>
           <MyText style={{ color: colors.lighttext, fontSize: 10 }}>

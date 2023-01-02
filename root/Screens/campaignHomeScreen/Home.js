@@ -144,7 +144,7 @@ const Home = ({ navigation, routes }) => {
             View All
           </MyText>
         </View>
-        <View style={{ width: "100%", marginTop: 10 }}>
+        <View style={{ width: "100%" }}>
           <FlatList
             horizontal
             data={popularCards}
@@ -184,7 +184,7 @@ const Home = ({ navigation, routes }) => {
             View All
           </MyText>
         </View>
-        <View style={{ width: "100%", marginTop: 10 }}>
+        <View style={{ width: "100%" }}>
           <FlatList
             horizontal
             data={popularCards}
