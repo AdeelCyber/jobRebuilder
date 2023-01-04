@@ -1,4 +1,4 @@
-const MasterCard = `<svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+const MasterCard = `<svg width="41" height="50" viewBox="0 0 41 48" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M40 25C40 31.6032 34.6667 37 28 37C21.3968 37 16 31.6032 16 25C16 18.3968 21.3333 13 27.9365 13C34.6667 13 40 18.3968 40 25Z" fill="#FFB600"/>
 <path d="M28 13C34.6032 13 40 18.3968 40 25C40 31.6032 34.6667 37 28 37C21.3968 37 16 31.6032 16 25" fill="#F7981D"/>
 <path d="M28 13C34.6032 13 40 18.3968 40 25C40 31.6032 34.6667 37 28 37" fill="#FF8500"/>
