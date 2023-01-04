@@ -20,6 +20,9 @@ import PaymentCardIcon from '../../../assets/Svgs/PaymentCardIcon'
 import BagIcon from '../../../assets/Svgs/BagIcon'
 import CrossIcon from '../../../assets/Svgs/CrossIcon'
 import LogoutIcon from '../../../assets/Svgs/LogoutIcon'
+import CubeIcon from '../../../assets/Svgs/CubeIcon'
+import CompassIcon from '../../../assets/Svgs/CompassIcon'
+import ArrowRightIcon from '../../../assets/Svgs/ArrowRightIcon'
 
 const ProfileScreen = () => {
   const navigation = useNavigation()
@@ -28,13 +31,13 @@ const ProfileScreen = () => {
   } = useContext(Context)
 
   const icons = [
-    <Icon name='home' size={24} />,
+    <SvgImport svg={HomeIcon} />,
     <SvgImport svg={SettingIcon2} />,
     <SvgImport svg={PaymentCardIcon} />,
-    <Icon name='cube' size={24} />,
+    <SvgImport svg={CubeIcon} />,
     <SvgImport svg={BagIcon} />,
     <SvgImport svg={CrossIcon} />,
-    <Icon name='compass' size={24} />,
+    <SvgImport svg={CompassIcon} />,
     <SvgImport svg={LogoutIcon} />,
   ]
 
@@ -71,7 +74,8 @@ const ProfileScreen = () => {
             </MyText>
           </View>
           <View style={styles.iconView}>
-            <Icon style={{ fontWeight: 0 }} name='arrow-right' size={15} />
+            <SvgImport svg={ArrowRightIcon} />
+            {/* <Icon style={{ fontWeight: 0 }} name='arrow-right' size={15} /> */}
           </View>
         </View>
       </TouchableOpacity>
@@ -79,7 +83,7 @@ const ProfileScreen = () => {
   )
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <View style={[styles.container, { backgroundColor: colors.background }]}>
         <View
           style={{
@@ -150,16 +154,15 @@ const ProfileScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingLeft: 29,
   },
 
   listItemView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 10,
-    paddingRight: 0,
-    marginLeft: 10,
-    marginRight: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
 
   iconView: {

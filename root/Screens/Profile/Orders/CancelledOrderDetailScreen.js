@@ -25,14 +25,13 @@ const CancelledOrderDetailScreen = () => {
   } = useContext(Context)
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <View
         style={[
           styles.container,
           {
             backgroundColor: colors.background,
             paddingTop: 40,
-            height: 1000,
             padding: 23,
           },
         ]}

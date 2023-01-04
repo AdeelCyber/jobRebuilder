@@ -165,7 +165,7 @@ const JobRequestScreen = () => {
   )
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <View
         style={[
           styles.container,

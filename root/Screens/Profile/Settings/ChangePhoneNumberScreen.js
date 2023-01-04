@@ -17,14 +17,13 @@ const ChangePhoneNumberScreen = () => {
   } = useContext(Context)
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <View
         style={[
           styles.container,
           {
             backgroundColor: colors.background,
             paddingTop: 40,
-            height: 1000,
           },
         ]}
       >

@@ -14,6 +14,7 @@ import { useNavigation } from '@react-navigation/native'
 import SvgImport from '../../../Components/SvgImport'
 
 import PasswordChangeIcon from '../../../../assets/Svgs/PasswordChangeIcon'
+import ArrowRightIcon from '../../../../assets/Svgs/ArrowRightIcon'
 
 const SettingScreen = () => {
   const navigation = useNavigation()
@@ -59,7 +60,7 @@ const SettingScreen = () => {
 
         <View style={styles.iconView}>
           {!isToggle ? (
-            <Icon style={{ fontWeight: 0 }} name='arrow-right' size={15} />
+            <SvgImport svg={ArrowRightIcon} />
           ) : (
             <Switch
               trackColor={{ false: '#000', true: '#000' }}
@@ -81,14 +82,13 @@ const SettingScreen = () => {
   } = useContext(Context)
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <View
         style={[
           styles.container,
           {
             backgroundColor: colors.background,
             paddingTop: 40,
-            height: 1000,
           },
         ]}
       >
@@ -107,6 +107,8 @@ const SettingScreen = () => {
               color: colors.text,
               textAlign: 'left',
               marginTop: 20,
+              fontSize: 16,
+              marginLeft: 8,
             }}
           >
             Contact Details
@@ -140,6 +142,8 @@ const SettingScreen = () => {
               color: colors.text,
               textAlign: 'left',
               marginTop: 20,
+              fontSize: 16,
+              marginLeft: 8,
             }}
           >
             Security Details
@@ -167,6 +171,8 @@ const SettingScreen = () => {
               color: colors.text,
               textAlign: 'left',
               marginTop: 20,
+              fontSize: 16,
+              marginLeft: 8,
             }}
           >
             App Settings
@@ -189,6 +195,8 @@ const SettingScreen = () => {
               color: colors.text,
               textAlign: 'left',
               marginTop: 20,
+              fontSize: 16,
+              marginLeft: 8,
             }}
           >
             Account
@@ -216,8 +224,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     paddingRight: 0,
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 15,
   },
 
   iconView: {

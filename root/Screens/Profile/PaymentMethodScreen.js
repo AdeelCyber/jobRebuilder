@@ -17,7 +17,6 @@ import MasterCard from '../../../assets/Svgs/MasterCard'
 import { Dropdown } from 'react-native-element-dropdown'
 import countryList from 'react-select-country-list'
 import ReactNativeModal from 'react-native-modal'
-import { Button } from 'react-native-paper'
 
 const PaymentMethodScreen = () => {
   const [isModalVisible, setModalVisible] = useState(false)
@@ -29,7 +28,7 @@ const PaymentMethodScreen = () => {
   } = useContext(Context)
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <View
         style={[
           styles.container,
@@ -70,7 +69,7 @@ const PaymentMethodScreen = () => {
               borderWidth: 1,
               width: 172,
               borderColor: '#ECE7E7',
-              height: 70,
+              height: 50,
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 5,
@@ -83,7 +82,7 @@ const PaymentMethodScreen = () => {
               borderWidth: 1,
               borderColor: '#ECE7E7',
               width: 172,
-              height: 70,
+              height: 50,
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 5,
@@ -281,7 +280,10 @@ const PaymentMethodScreen = () => {
                 </MyText>
               </View>
               <View style={{ marginHorizontal: 15 }}>
-                <SvgImport svg={MasterCard} style={{ width: '100%' }} />
+                <SvgImport
+                  svg={MasterCard}
+                  style={{ width: '100%', marginBottom: 19 }}
+                />
                 <MyText style={{ fontSize: 11 }}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
                   venenatissit amet risus a bibendum. Integer a nibh feugiat,
@@ -289,7 +291,6 @@ const PaymentMethodScreen = () => {
                 </MyText>
               </View>
               <View style={{ marginHorizontal: 15 }}>
-                <SvgImport svg={PayPalSvg} style={{ width: '100%' }} />
                 <MyText style={{ fontSize: 11 }}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
                   venenatissit amet risus a bibendum. Integer a nibh feugiat,
@@ -297,7 +298,10 @@ const PaymentMethodScreen = () => {
                 </MyText>
               </View>
               <View style={{ marginHorizontal: 15 }}>
-                <SvgImport svg={MasterCard} style={{ width: '100%' }} />
+                <SvgImport
+                  svg={MasterCard}
+                  style={{ width: '100%', marginBottom: 19 }}
+                />
                 <MyText style={{ fontSize: 11 }}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
                   venenatissit amet risus a bibendum. Integer a nibh feugiat,
