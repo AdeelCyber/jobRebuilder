@@ -12,6 +12,10 @@ import {
 } from 'react-native'
 
 import { useNavigation } from '@react-navigation/native'
+import SvgImport from '../../../Components/SvgImport'
+import MotoMobileIcon from '../../../../assets/Svgs/MotoMobileIcon'
+import ArrowRightIcon from '../../../../assets/Svgs/ArrowRightIcon'
+import SmallArrowRight from '../../../../assets/Svgs/SmallArrowRight'
 
 const JobRequestScreen = () => {
   const navigation = useNavigation()
@@ -55,34 +59,41 @@ const JobRequestScreen = () => {
         </View>
       </View>
 
-      <View style={{ display: 'flex', flexDirection: 'row', paddingTop: 23 }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          paddingTop: 23,
+          justifyContent: 'space-between',
+        }}
+      >
         <View style={{ marginHorizontal: 4 }}>
           <MyText
-            style={{ paddingBottom: 10, fontWeight: '600', fontSize: 10 }}
+            style={{ paddingBottom: 10, fontWeight: '600', fontSize: 12 }}
           >
             Applied For
           </MyText>
-          <MyText
+          <View
             style={{
-              fontSize: 10,
-              display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
+              flexDirection: 'row',
             }}
           >
-            <Icon name='compass' color='blue' /> Moto Mobiles
-          </MyText>
+            <SvgImport svg={MotoMobileIcon} />
+            <MyText style={{ fontSize: 11 }}> Moto Mobiles</MyText>
+            {/* <Icon name='compass' color='blue' />  */}
+          </View>
         </View>
 
         <View style={{ marginHorizontal: 10 }}>
           <MyText
-            style={{ paddingBottom: 10, fontWeight: '600', fontSize: 10 }}
+            style={{ paddingBottom: 10, fontWeight: '600', fontSize: 12 }}
           >
             Applied For
           </MyText>
           <MyText
             style={{
-              fontSize: 10,
+              fontSize: 11,
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -94,14 +105,13 @@ const JobRequestScreen = () => {
 
         <View style={{ marginHorizontal: 10 }}>
           <MyText
-            style={{ paddingBottom: 10, fontWeight: '600', fontSize: 10 }}
+            style={{ paddingBottom: 10, fontWeight: '600', fontSize: 12 }}
           >
             Applied For
           </MyText>
           <MyText
             style={{
-              fontSize: 10,
-              display: 'flex',
+              fontSize: 11,
               justifyContent: 'center',
               alignItems: 'center',
             }}
@@ -124,6 +134,7 @@ const JobRequestScreen = () => {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
+            justifyContent: 'center',
           }}
           onPress={() => {
             navigation.navigate('JobDetails')
@@ -132,9 +143,14 @@ const JobRequestScreen = () => {
           <MyText
             style={{
               fontSize: 10,
+              fontWeight: '600',
             }}
           >
-            View Profile <Icon name='arrow-right' />
+            View Profile
+          </MyText>
+          <MyText style={{ fontWeight: '600', fontSize: 13 }}>
+            {' '}
+            &#x3e;&#x3e;
           </MyText>
         </TouchableOpacity>
 
@@ -192,13 +208,18 @@ const styles = StyleSheet.create({
   },
 
   requestBox: {
-    borderWidth: 1,
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingTop: 8,
     paddingBottom: 15,
     marginBottom: 16,
-    borderColor: 'lightgray',
+    backgroundColor: 'white',
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    elevation: 12,
   },
 })
 

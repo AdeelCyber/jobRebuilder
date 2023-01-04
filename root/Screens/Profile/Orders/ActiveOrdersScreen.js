@@ -124,19 +124,19 @@ const styles = StyleSheet.create({
     paddingLeft: 13,
     paddingBottom: 14,
     paddingRight: 17,
-    borderWidth: 1,
-    borderColor: 'lightgray',
+    // borderWidth: 1,
+    // borderColor: 'lightgray',
     borderRadius: 10,
     flexDirection: 'row',
     marginBottom: 9,
 
-    // backgroundColor: 'white',
-    // shadowColor: '#000000',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 8,
-    // },
-    // elevation: 2,
+    backgroundColor: 'white',
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    elevation: 10,
   },
   heading: {
     fontWeight: '700',

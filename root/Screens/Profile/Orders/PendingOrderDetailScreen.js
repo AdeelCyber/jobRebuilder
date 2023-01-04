@@ -244,7 +244,13 @@ const PendingOrderDetailScreen = () => {
           </MyText>
         </TouchableOpacity>
 
-        <ReactNativeModal transparent isVisible={isModalVisible}>
+        <ReactNativeModal
+          transparent
+          isVisible={isModalVisible}
+          onBackdropPress={() => {
+            setModalVisible(!isModalVisible)
+          }}
+        >
           <View
             style={{
               backgroundColor: 'white',
@@ -266,19 +272,19 @@ const PendingOrderDetailScreen = () => {
                   width: '95%',
                   fontWeight: '600',
                   fontSize: 16,
-                  textAlign: 'center',
+                  // textAlign: 'center',
                 }}
               >
                 Cancellation Reason
               </MyText>
-              <Icon
+              {/* <Icon
                 name='close'
                 size={20}
                 style={{ marginRight: 15 }}
                 onPress={() => {
                   setModalVisible(!isModalVisible)
                 }}
-              />
+              /> */}
             </View>
 
             <View

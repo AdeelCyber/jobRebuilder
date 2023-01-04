@@ -183,10 +183,15 @@ const styles = StyleSheet.create({
     paddingTop: 13,
     paddingLeft: 13,
     paddingRight: 17,
-    borderWidth: 1,
-    borderColor: 'lightgray',
     borderRadius: 10,
     marginBottom: 9,
+    backgroundColor: 'white',
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    elevation: 10,
   },
 
   cancelledBadge: {

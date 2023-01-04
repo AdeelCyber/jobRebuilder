@@ -174,20 +174,7 @@ const DashboardScreen = () => {
               navigation.navigate('JobRequests')
             }}
           >
-            <View
-              style={{
-                borderColor: 'lightgray',
-                borderWidth: 1,
-                borderRadius: 8,
-                paddingTop: 24,
-                paddingLeft: 15,
-                paddingBottom: 19,
-                paddingRight: 15,
-                marginRight: 20,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
+            <View style={styles.card}>
               <Icon name='group' size={37} />
               <MyText
                 style={{
@@ -222,15 +209,16 @@ const DashboardScreen = () => {
             }}
           >
             <View
-              style={{
-                borderColor: 'lightgray',
-                borderWidth: 1,
-                borderRadius: 8,
-                paddingTop: 24,
-                paddingLeft: 35,
-                paddingBottom: 19,
-                paddingRight: 30,
-              }}
+              style={[
+                styles.card,
+                {
+                  borderRadius: 8,
+                  paddingTop: 24,
+                  paddingLeft: 35,
+                  paddingBottom: 19,
+                  paddingRight: 30,
+                },
+              ]}
             >
               <Icon name='shopping-bag' size={37} />
               <MyText
@@ -305,11 +293,34 @@ const styles = StyleSheet.create({
     paddingLeft: 13,
     paddingBottom: 14,
     paddingRight: 17,
-    borderWidth: 1,
-    borderColor: 'lightgray',
     borderRadius: 10,
     flexDirection: 'row',
     marginBottom: 9,
+    backgroundColor: 'white',
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    elevation: 10,
+  },
+
+  card: {
+    borderRadius: 8,
+    paddingTop: 24,
+    paddingLeft: 15,
+    paddingBottom: 19,
+    paddingRight: 15,
+    marginRight: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    elevation: 25,
   },
 })
 

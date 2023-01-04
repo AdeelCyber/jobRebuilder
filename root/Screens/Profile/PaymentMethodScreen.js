@@ -291,6 +291,10 @@ const PaymentMethodScreen = () => {
                 </MyText>
               </View>
               <View style={{ marginHorizontal: 15 }}>
+                <SvgImport
+                  svg={PayPalSvg}
+                  style={{ width: '100%', marginBottom: 10 }}
+                />
                 <MyText style={{ fontSize: 11 }}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
                   venenatissit amet risus a bibendum. Integer a nibh feugiat,
