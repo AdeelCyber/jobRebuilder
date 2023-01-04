@@ -20,14 +20,15 @@ const RolesDropDown = ({ Title, desc, ...props }) => {
         style={[
           {
             width: "100%",
+            backgroundColor: colors.white,
 
             alignItems: "center",
             flexDirection: "row",
             justifyContent: "space-between",
-            borderWidth: 0.2,
+
             paddingHorizontal: 8,
             paddingVertical: 14,
-            borderRadius: 7,
+            borderRadius: 10,
             marginVertical: 8,
             ...props.style,
           },
@@ -111,7 +112,7 @@ export default RolesDropDown;
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowColor: "#D9D9D9",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -119,6 +120,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 1.84,
 
-    elevation: 0.1,
+    elevation: 1,
   },
 });

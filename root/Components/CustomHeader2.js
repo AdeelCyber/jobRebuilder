@@ -24,17 +24,19 @@ const CustomHeader = ({
           backgroundColor: colors.white,
 
           padding: 6,
-          paddingVertical: 10,
+          paddingVertical: 15,
+          paddingHorizontal: 10,
           justifyContent: "space-between",
           alignItems: "center",
           marginTop: 5,
-          borderRadius: 10,
+          borderRadius: 20,
+          paddingRight: 14,
         },
         styles.shadow,
       ]}
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Entypo name="chevron-left" size={24} color="black" />
+        <Entypo name="chevron-left" size={22} color="black" />
       </View>
       {/* Text View in */}
       <View>

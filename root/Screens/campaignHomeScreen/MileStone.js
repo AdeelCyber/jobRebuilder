@@ -88,7 +88,7 @@ function MileStoneComponent({ para, ...props }) {
           >
             {props.item.Title}
           </MyText>
-          <Feather name="more-horizontal" size={24} color="black" />
+          <Feather name="more-horizontal" size={24} color="#A1A1A1" />
         </View>
         {/* head off */}
         {/* lorem in */}

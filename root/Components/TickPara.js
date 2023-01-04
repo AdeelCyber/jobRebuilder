@@ -19,7 +19,7 @@ const TickPara = ({ para, ...props }) => {
           style={{
             alignItems: "center",
             justifyContent: "center",
-            marginRight: 7,
+            marginRight: 13,
           }}
         >
           <SvgImport svg={tick} />
@@ -41,7 +41,7 @@ const TickPara = ({ para, ...props }) => {
         style={{
           width: "90%",
           borderWidth: 0.8,
-          marginTop: 15,
+          marginVertical: 17,
           borderColor: "#C9CBCB9C",
         }}
       ></View>

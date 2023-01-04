@@ -16,6 +16,7 @@ import SvgImport from "../../Components/SvgImport";
 import MyText from "../../Components/Text";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DynamicButton from "../../Components/DynamicButton";
+import questionMark from "../../../assets/Svgs/QuestionMark";
 
 const AddRoles = () => {
   const {
@@ -40,6 +41,7 @@ const AddRoles = () => {
         justifyContent: "space-between",
       }}
     >
+      {/* 1st view in between */}
       <View style={{ justifyContent: "flex-start" }}>
         {/* header */}
         <CustomHeader2
@@ -56,16 +58,19 @@ const AddRoles = () => {
         />
         {/* header out */}
         {/* heading */}
-        <MyText
-          style={{
-            marginLeft: 15,
-            fontWeight: "700",
-            fontSize: 16,
-            marginTop: 15,
-          }}
-        >
-          Enter the details
-        </MyText>
+        <View style={{ width: "100%", alignItems: "center" }}>
+          <View style={{ width: "94%" }}>
+            <MyText
+              style={{
+                fontWeight: "700",
+                fontSize: 16,
+                marginTop: 15,
+              }}
+            >
+              Enter the details
+            </MyText>
+          </View>
+        </View>
         {/* Inputs In */}
         <View
           style={{
@@ -89,6 +94,8 @@ const AddRoles = () => {
               fontWeight: "400",
               fontSize: 14,
               borderRadius: 10,
+              paddingVertical: 12,
+              paddingHorizontal: 14,
             }}
             onChangeText={(got) => {
               {
@@ -96,32 +103,45 @@ const AddRoles = () => {
               }
             }}
           />
-          <TextInput
-            multiline={true}
-            placeholderTextColor="#ACA9A9"
-            placeholder="Role Description"
-            value={changed.desc}
+          <View
             style={{
-              backgroundColor: "#EEEEEE",
+              width: "100%",
 
-              borderColor: "#000000",
-              color: colors.lighttext,
-              padding: 8,
-              width: "94%",
-              marginTop: 20,
-              height: "50%",
-              fontWeight: "400",
-              fontSize: 14,
-              justifyContent: "flex-start",
-              textAlignVertical: "top",
-              borderRadius: 10,
+              alignItems: "center",
+              position: "relative",
             }}
-            onChangeText={(got) => {
-              {
-                setchanged({ ...changed, desc: got });
-              }
-            }}
-          />
+          >
+            <TextInput
+              multiline={true}
+              placeholderTextColor="#ACA9A9"
+              placeholder="Role Description"
+              value={changed.desc}
+              style={{
+                backgroundColor: "#EEEEEE",
+
+                borderColor: "#000000",
+                color: colors.lighttext,
+                padding: 8,
+                width: "94%",
+                marginTop: 10,
+                height: 200,
+                fontWeight: "400",
+                fontSize: 14,
+                justifyContent: "flex-start",
+                textAlignVertical: "top",
+                borderRadius: 10,
+                paddingHorizontal: 14,
+              }}
+              onChangeText={(got) => {
+                {
+                  setchanged({ ...changed, desc: got });
+                }
+              }}
+            />
+            <Pressable style={{ right: 20, top: 20, position: "absolute" }}>
+              <SvgImport svg={questionMark} />
+            </Pressable>
+          </View>
         </View>
         {/* Inputs Out */}
       </View>
@@ -139,14 +159,14 @@ const AddRoles = () => {
           text={"Add Role"}
           color={colors.secondary}
           textStyle={{ color: colors.white }}
-          style={{ borderRadius: 10 }}
+          style={{ borderRadius: 10, paddingVertical: 18 }}
         />
         <DynamicButton
           handlePress={handlePress}
           text={"Cancel"}
           color={"#EBEBEB"}
           textStyle={{ color: colors.text }}
-          style={{ marginTop: 15, borderRadius: 10 }}
+          style={{ marginTop: 15, borderRadius: 10, paddingVertical: 18 }}
         />
       </View>
     </View>

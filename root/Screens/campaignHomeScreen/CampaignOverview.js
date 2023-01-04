@@ -55,6 +55,8 @@ const OverView = () => {
             justifyContent: "space-between",
             alignItems: "center",
             paddingHorizontal: 23,
+            marginTop: 15,
+            marginBottom: 25,
           }}
         >
           <MyText style={{ fontSize: 24, fontWeight: "700" }}>

@@ -17,6 +17,7 @@ import MyText from "../../Components/Text";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DynamicButton from "../../Components/DynamicButton";
 import calender from "../../../assets/Svgs/Calender";
+import questionMark from "../../../assets/Svgs/QuestionMark";
 
 const AddMileStone = () => {
   const {
@@ -39,10 +40,12 @@ const AddMileStone = () => {
       style={{
         flex: 1,
         backgroundColor: colors.white,
+
         justifyContent: "space-between",
       }}
     >
-      <View style={{ justifyContent: "flex-start" }}>
+      {/* View 1 */}
+      <View style={{}}>
         {/* header */}
         <CustomHeader2
           icon={() => {
@@ -91,6 +94,8 @@ const AddMileStone = () => {
               fontWeight: "400",
               fontSize: 14,
               borderRadius: 10,
+              paddingVertical: 12,
+              paddingHorizontal: 14,
             }}
             onChangeText={(got) => {
               {
@@ -98,70 +103,87 @@ const AddMileStone = () => {
               }
             }}
           />
-          <TextInput
-            multiline={true}
-            placeholderTextColor="#ACA9A9"
-            placeholder="Description"
-            value={changed.desc}
+          <View
             style={{
-              backgroundColor: "#EEEEEE",
+              width: "100%",
 
-              borderColor: "#000000",
-              color: colors.lighttext,
-              padding: 8,
-              width: "94%",
-              marginTop: 20,
-              height: "48%",
-              fontWeight: "400",
-              fontSize: 14,
-              justifyContent: "flex-start",
-              textAlignVertical: "top",
-              borderRadius: 10,
+              alignItems: "center",
+              position: "relative",
             }}
-            onChangeText={(got) => {
-              {
-                setchanged({ ...changed, desc: got });
-              }
-            }}
-          />
-          {/* Date View In */}
-          <View style={{ marginTop: 10, width: "94%" }}>
-            <View
+          >
+            <TextInput
+              multiline={true}
+              placeholderTextColor="#ACA9A9"
+              placeholder="Role Description"
+              value={changed.desc}
               style={{
                 backgroundColor: "#EEEEEE",
-                flexDirection: "row",
+
+                borderColor: "#000000",
+                color: colors.lighttext,
+                padding: 8,
+                width: "94%",
+                marginTop: 10,
+                height: 200,
+                fontWeight: "400",
+                fontSize: 14,
+                justifyContent: "flex-start",
+                textAlignVertical: "top",
                 borderRadius: 10,
-                paddingVertical: 10,
-                width: "30%",
-                justifyContent: "center",
-                alignItems: "center",
+                paddingHorizontal: 14,
               }}
-            >
-              <TextInput
-                style={{ width: "70%", height: "100%", padding: 5 }}
-                placeholderTextColor="#ACA9A9"
-                placeholder="Due Date"
-                value={changed.date}
-                onChangeText={(got) => {
-                  {
-                    setchanged({ ...changed, date: got });
-                  }
+              onChangeText={(got) => {
+                {
+                  setchanged({ ...changed, desc: got });
+                }
+              }}
+            />
+            <Pressable style={{ right: 20, top: 20, position: "absolute" }}>
+              <SvgImport svg={questionMark} />
+            </Pressable>
+            {/* Date View In */}
+            <View style={{ marginTop: 10, width: "94%" }}>
+              <View
+                style={{
+                  backgroundColor: "#EEEEEE",
+                  flexDirection: "row",
+                  borderRadius: 10,
+                  paddingVertical: 10,
+                  width: "30%",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
-              />
-              <SvgImport svg={calender} />
+              >
+                <TextInput
+                  style={{ width: "70%", height: "100%", padding: 5 }}
+                  placeholderTextColor="#ACA9A9"
+                  placeholder="Due Date"
+                  value={changed.date}
+                  onChangeText={(got) => {
+                    {
+                      setchanged({ ...changed, date: got });
+                    }
+                  }}
+                />
+                <SvgImport svg={calender} />
+              </View>
             </View>
+            {/* date out view above */}
           </View>
+
           {/* Date View Out */}
         </View>
         {/* Inputs Out */}
       </View>
       {/* Buttons View In */}
+      {/* View 2 */}
       <View
         style={{
           flexDirection: "column",
           width: "100%",
           paddingHorizontal: 10,
-          justifyContent: "space-between",
+
+          marginBottom: 15,
         }}
       >
         <DynamicButton
@@ -169,14 +191,14 @@ const AddMileStone = () => {
           text={"Add Mile Stone"}
           color={colors.secondary}
           textStyle={{ color: colors.white }}
-          style={{ borderRadius: 10 }}
+          style={{ borderRadius: 10, paddingVertical: 18 }}
         />
         <DynamicButton
           handlePress={handlePress}
           text={"Cancel"}
           color={"#EBEBEB"}
           textStyle={{ color: colors.text }}
-          style={{ marginTop: 15, borderRadius: 10 }}
+          style={{ marginTop: 15, borderRadius: 10, paddingVertical: 18 }}
         />
       </View>
     </View>

@@ -41,7 +41,11 @@ const CampaignMenu = () => {
       />
       {/* card out */}
       {/* Little nav in */}
-      <LittleNav style={{ marginTop: 10 }} title={"Milestone"} chevron={true} />
+      <LittleNav
+        style={{ marginTop: 10 }}
+        title={"Milestones"}
+        chevron={true}
+      />
       {/* Little nav out */}
       <View>
         {/* 1 */}
@@ -49,7 +53,7 @@ const CampaignMenu = () => {
           style={{
             backgroundColor: colors.listback,
             paddingVertical: 15,
-            paddingHorizontal: 6,
+            paddingHorizontal: 18,
           }}
         >
           <MyText
@@ -63,7 +67,7 @@ const CampaignMenu = () => {
           style={{
             backgroundColor: colors.listback,
             paddingVertical: 15,
-            paddingHorizontal: 6,
+            paddingHorizontal: 18,
           }}
         >
           <MyText
@@ -77,7 +81,7 @@ const CampaignMenu = () => {
           style={{
             backgroundColor: colors.listback,
             paddingVertical: 15,
-            paddingHorizontal: 6,
+            paddingHorizontal: 18,
           }}
         >
           <MyText
@@ -88,13 +92,13 @@ const CampaignMenu = () => {
         </Pressable>
       </View>
       {/* Little nav in */}
-      <LittleNav title={"Milestone"} hamburger={false} />
+      <LittleNav title={"Milestones"} hamburger={false} />
       {/* Little nav out */}
       <Pressable
         style={{
           backgroundColor: colors.listback,
           paddingVertical: 15,
-          paddingHorizontal: 6,
+          paddingHorizontal: 18,
         }}
       >
         <MyText

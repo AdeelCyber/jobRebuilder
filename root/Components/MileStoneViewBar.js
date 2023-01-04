@@ -9,7 +9,7 @@ import { Entypo } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-const TodoListItem = ({ Title, ...props }) => {
+const MileStoneViewBar = ({ Title, ...props }) => {
   const {
     theme: { colors },
   } = useContext(Context);
@@ -19,36 +19,32 @@ const TodoListItem = ({ Title, ...props }) => {
     <View
       style={[
         {
+          width: "100%",
+
           alignItems: "center",
           flexDirection: "row",
           justifyContent: "space-between",
-          backgroundColor: "white",
+          borderWidth: 0.2,
 
           paddingHorizontal: 8,
           paddingVertical: 14,
-          borderRadius: 10,
-          // marginVertical: 8,
+          borderRadius: 4,
+          marginVertical: 8,
         },
         styles.shadow,
-
         { ...props.style },
       ]}
     >
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <View style={{ flexDirection: "row" }}>
         <Pressable onPress={() => setselected(!select)}>
-          {select ? (
-            <SvgImport svg={tick} />
-          ) : (
-            <Pressable
-              style={{
-                backgroundColor: "#D9D9D9",
-                height: 17,
-                width: 17,
-                borderRadius: 20,
-              }}
-              onPress={() => setselected(!select)}
-            ></Pressable>
-          )}
+          <View
+            style={{
+              backgroundColor: colors.secondary,
+              height: 17,
+              width: 17,
+              borderRadius: 20,
+            }}
+          ></View>
         </Pressable>
         <MyText style={{ marginLeft: 10, fontSize: 14, fontWeight: "500" }}>
           {Title}
@@ -63,11 +59,11 @@ const TodoListItem = ({ Title, ...props }) => {
   );
 };
 
-export default TodoListItem;
+export default MileStoneViewBar;
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowColor: "#000",
+    shadowColor: "#D9D9D9",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -75,6 +71,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 1.84,
 
-    elevation: 5,
+    elevation: 0.1,
   },
 });

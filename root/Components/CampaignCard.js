@@ -14,7 +14,7 @@ const CampaignCard = ({ ...props }) => {
     theme: { colors },
   } = useContext(Context);
   return (
-    <View>
+    <View style={{ marginTop: 10 }}>
       {/* card header in */}
       <View
         style={{

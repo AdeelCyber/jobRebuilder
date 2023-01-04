@@ -14,7 +14,7 @@ const DynamicButton = ({ color = "#8489FC", text = "Update", ...props }) => {
       style={{
         backgroundColor: color,
         paddingHorizontal: 30,
-        paddingVertical: 20,
+        paddingVertical: 15,
         borderRadius: 6,
         justifyContent: "center",
         alignItems: "center",

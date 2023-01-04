@@ -67,6 +67,7 @@ const TeamRoles = () => {
             justifyContent: "space-between",
             alignItems: "center",
             paddingHorizontal: 23,
+            marginTop: 15,
           }}
         >
           <Text style={{ fontSize: 24, fontWeight: "700" }}>Team Roles</Text>

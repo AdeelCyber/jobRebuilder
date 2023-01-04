@@ -58,14 +58,14 @@ const Todo = () => {
         paddingBottom: 20,
       }}
     >
-      <View>
+      <View style={{ flex: 1 }}>
         {/* header */}
         <CustomHeader2
           icon={() => <FontAwesome name="calendar" size={24} color="black" />}
           Title="January"
         />
         {/* header out */}
-        <View style={{ width: "100%", marginTop: 20 }}>
+        <View style={{ width: "100%", marginTop: 28 }}>
           <HorizontalCalendar
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
@@ -76,19 +76,42 @@ const Todo = () => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            paddingHorizontal: 23,
+            paddingHorizontal: 15,
+            marginVertical: 13,
           }}
         >
           <MyText style={{ fontSize: 24, fontWeight: "700" }}>
-            {} Tasks Today
+            {Roles.length} Tasks Today
           </MyText>
         </View>
         {/* Todo Item in */}
-        <View style={{ paddingHorizontal: 23 }}>
+        {/* <ScrollView style={{}}>
           {Roles.map((item) => (
-            <TodoListItem Title={item.Title} />
+            <TodoListItem
+              Title={item.Title}
+              style={{
+                marginHorizontal: 23,
+                elevation: 5,
+                shadowColor: "#0000003B",
+                marginVertical: 10,
+                borderWidth: 0.2,
+              }}
+            />
           ))}
-        </View>
+        </ScrollView> */}
+
+        <FlatList
+          data={Roles}
+          keyExtractor={(item) => item.Title}
+          contentContainerStyle={{ flexGrow: 1 }}
+          renderItem={({ item }) => (
+            <TodoListItem
+              Title={item.Title}
+              style={{ marginHorizontal: 23, marginVertical: 10 }}
+            />
+          )}
+        />
+
         {/* Todo item out */}
       </View>
       <View

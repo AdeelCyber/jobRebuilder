@@ -51,6 +51,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import PinkAback from "./Components/PinkAback";
 import ExploreScreen from "./Screens/Profile/ExploreScreen";
 import PendingOrderDetailScreen from "./Screens/Profile/Orders/PendingOrderDetailScreen";
+import ViewMileStone from "./Screens/campaignHomeScreen/ViewMileStone";
+import EditMileStone from "./Screens/campaignHomeScreen/EditMileStone";
+import TodoTaskView from "./Screens/campaignHomeScreen/TodoTaskView";
 
 //Navigation out
 
@@ -77,6 +80,9 @@ const MyStack = () => {
       <Stack.Screen name="PitchDeck" component={PitchDeck} />
       <Stack.Screen name="Team" component={Team} />
       <Stack.Screen name="Todo" component={Todo} />
+      <Stack.Screen name="ViewMileStone" component={ViewMileStone} />
+      <Stack.Screen name="EditMileStone" component={EditMileStone} />
+      <Stack.Screen name="TodoTaskView" component={TodoTaskView} />
 
       <Stack.Screen name="SignIn" component={SignIn} />
       <Stack.Screen name="SignUp" component={Signup} />
@@ -159,3 +165,13 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
   },
 });
+// text boxes in edit screen
+// Role Title ?  +  padding
+// Correct header
+// mileStone plus more icon color
+// Add mile Stone ? include
+// Ceo in Cards
+// ViewMile Stone padding
+// team roles padding + border radius  , paddingVertical in first input
+// TodoTaskView
+// Horizontal Calendar line
