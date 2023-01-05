@@ -1,58 +1,60 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from 'react-native'
 
-import React, { useContext } from "react";
-import Context from "../Context/Context";
-import MyText from "./Text";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
+import React, { useContext } from 'react'
+import Context from '../Context/Context'
+import MyText from './Text'
+import { MaterialIcons } from '@expo/vector-icons'
+import { Entypo } from '@expo/vector-icons'
 
 const CustomHeader = ({
-  icon = () => <MaterialIcons name="message" size={24} color="black" />,
-  Title = "Moto Mobiles",
+  icon = () => <MaterialIcons name='message' size={24} color='black' />,
+  Title = 'Moto Mobiles',
+  style,
 }) => {
   const {
     theme: { colors },
-  } = useContext(Context);
+  } = useContext(Context)
   return (
     <View
       style={[
         {
-          display: "flex",
-          flexDirection: "row",
-          width: "100%",
+          display: 'flex',
+          flexDirection: 'row',
+          width: '100%',
 
           backgroundColor: colors.white,
 
           padding: 6,
           paddingVertical: 15,
           paddingHorizontal: 10,
-          justifyContent: "space-between",
-          alignItems: "center",
+          justifyContent: 'space-between',
+          alignItems: 'center',
           marginTop: 5,
           borderRadius: 20,
           paddingRight: 14,
         },
         styles.shadow,
+        style,
       ]}
     >
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Entypo name="chevron-left" size={22} color="black" />
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <Entypo name='chevron-left' size={22} color='black' />
       </View>
       {/* Text View in */}
       <View>
-        <MyText style={{ fontWeight: "700", fontSize: 16 }}>{Title}</MyText>
+        <MyText style={{ fontWeight: '700', fontSize: 16 }}>{Title}</MyText>
       </View>
 
       <View>{icon()}</View>
     </View>
-  );
-};
+  )
+}
 
-export default CustomHeader;
+export default CustomHeader
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -62,4 +64,4 @@ const styles = StyleSheet.create({
 
     elevation: 6,
   },
-});
+})
