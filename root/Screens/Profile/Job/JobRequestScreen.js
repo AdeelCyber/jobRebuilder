@@ -16,6 +16,8 @@ import SvgImport from '../../../Components/SvgImport'
 import MotoMobileIcon from '../../../../assets/Svgs/MotoMobileIcon'
 import ArrowRightIcon from '../../../../assets/Svgs/ArrowRightIcon'
 import SmallArrowRight from '../../../../assets/Svgs/SmallArrowRight'
+import CustomHeader from '../../../Components/CustomHeader2'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 const JobRequestScreen = () => {
   const navigation = useNavigation()
@@ -182,6 +184,19 @@ const JobRequestScreen = () => {
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
+      <CustomHeader
+        Title='Job Requests'
+        style={{ elevation: 0 }}
+        icon={() => {
+          return (
+            <MaterialCommunityIcons
+              name='bell-circle'
+              size={28}
+              color='black'
+            />
+          )
+        }}
+      />
       <View
         style={[
           styles.container,

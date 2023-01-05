@@ -23,6 +23,8 @@ import LogoutIcon from '../../../assets/Svgs/LogoutIcon'
 import CubeIcon from '../../../assets/Svgs/CubeIcon'
 import CompassIcon from '../../../assets/Svgs/CompassIcon'
 import ArrowRightIcon from '../../../assets/Svgs/ArrowRightIcon'
+import CustomHeader from '../../Components/CustomHeader2'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 const ProfileScreen = () => {
   const navigation = useNavigation()
@@ -55,7 +57,8 @@ const ProfileScreen = () => {
               borderRadius: 10,
               marginRight: 20,
               padding: 7,
-              width: 40,
+              height: 38,
+              width: 38,
               justifyContent: 'center',
               alignItems: 'center',
             }}
@@ -84,12 +87,25 @@ const ProfileScreen = () => {
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
+      <CustomHeader
+        Title=''
+        style={{ elevation: 0 }}
+        icon={() => {
+          return (
+            <MaterialCommunityIcons
+              name='bell-circle'
+              size={28}
+              color='black'
+            />
+          )
+        }}
+      />
       <View style={[styles.container, { backgroundColor: colors.background }]}>
         <View
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: 40,
+            marginTop: 15,
           }}
         >
           <Image
@@ -154,7 +170,6 @@ const ProfileScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingLeft: 29,
   },
 
   listItemView: {
@@ -163,12 +178,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 10,
     paddingBottom: 10,
+    paddingLeft: 29,
   },
 
   iconView: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    width: 70,
+    width: 60,
   },
 })
 

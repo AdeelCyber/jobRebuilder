@@ -15,6 +15,8 @@ import SvgImport from '../../../Components/SvgImport'
 
 import PasswordChangeIcon from '../../../../assets/Svgs/PasswordChangeIcon'
 import ArrowRightIcon from '../../../../assets/Svgs/ArrowRightIcon'
+import CustomHeader from '../../../Components/CustomHeader2'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 const SettingScreen = () => {
   const navigation = useNavigation()
@@ -83,12 +85,24 @@ const SettingScreen = () => {
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
+      <CustomHeader
+        Title='Settings'
+        style={{}}
+        icon={() => {
+          return (
+            <MaterialCommunityIcons
+              name='bell-circle'
+              size={28}
+              color='black'
+            />
+          )
+        }}
+      />
       <View
         style={[
           styles.container,
           {
-            backgroundColor: colors.background,
-            paddingTop: 40,
+            paddingTop: 17,
           },
         ]}
       >

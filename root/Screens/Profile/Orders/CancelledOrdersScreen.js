@@ -14,7 +14,8 @@ import Icon from '@expo/vector-icons/FontAwesome'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 
 import { useNavigation } from '@react-navigation/native'
-import CustomHeader from '../../../Components/CustomHeader'
+import CustomHeader from '../../../Components/CustomHeader2'
+import { Entypo } from '@expo/vector-icons'
 
 const CancelledOrdersScreen = () => {
   const navigation = useNavigation()
@@ -152,11 +153,19 @@ const CancelledOrdersScreen = () => {
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
+      <CustomHeader
+        Title='Cancelled Orders'
+        style={{
+          elevation: 0,
+        }}
+        icon={() => {
+          return <Entypo name='dots-three-vertical' size={20} color='black' />
+        }}
+      />
       <View
         style={[
           styles.container,
           {
-            backgroundColor: colors.background,
             paddingTop: 40,
             padding: 23,
           },

@@ -17,6 +17,8 @@ import MasterCard from '../../../assets/Svgs/MasterCard'
 import { Dropdown } from 'react-native-element-dropdown'
 import countryList from 'react-select-country-list'
 import ReactNativeModal from 'react-native-modal'
+import CustomHeader from '../../Components/CustomHeader2'
+import { Feather } from '@expo/vector-icons'
 
 const PaymentMethodScreen = () => {
   const [isModalVisible, setModalVisible] = useState(false)
@@ -29,12 +31,14 @@ const PaymentMethodScreen = () => {
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
-      <View
-        style={[
-          styles.container,
-          { backgroundColor: colors.background, paddingTop: 40 },
-        ]}
-      >
+      <CustomHeader
+        Title='Payment Method'
+        style={{}}
+        icon={() => {
+          return <Feather name='info' size={20} color='black' />
+        }}
+      />
+      <View style={[styles.container, { paddingTop: 17 }]}>
         <View
           style={{
             paddingBottom: 10,
@@ -325,7 +329,6 @@ const PaymentMethodScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   dropdown: {
     height: 55,

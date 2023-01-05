@@ -5,11 +5,12 @@ import Context from '../../../Context/Context'
 import Icon from '@expo/vector-icons/FontAwesome'
 
 import { useNavigation } from '@react-navigation/native'
-import CustomHeader from '../../../Components/CustomHeader'
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures'
 import PendingOrdersScreen from './PendingOrdersScreen'
 import CancelledOrderDetailScreen from './CompletedOrdersScreen'
 import ActiveOrdersScreen from './ActiveOrdersScreen'
+import CustomHeader from '../../../Components/CustomHeader2'
+import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons'
 
 const OrdersScreen = () => {
   const navigation = useNavigation()
@@ -50,13 +51,29 @@ const OrdersScreen = () => {
       }}
     >
       <ScrollView style={{ backgroundColor: '#ffffff' }}>
+        <CustomHeader
+          Title='My Orders'
+          style={{
+            elevation: 0,
+          }}
+          icon={() => {
+            return <Entypo name='dots-three-vertical' size={20} color='black' />
+          }}
+        />
         <View
           style={[
             styles.container,
             {
               backgroundColor: colors.background,
-              paddingTop: 40,
+              paddingTop: 10,
               padding: 23,
+              shadowColor: '#000',
+              elevation: 10,
+              borderTopColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
             },
           ]}
         >

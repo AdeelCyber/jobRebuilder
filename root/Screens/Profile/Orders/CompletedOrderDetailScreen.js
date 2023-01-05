@@ -15,7 +15,7 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import { Entypo } from '@expo/vector-icons'
 
 import { useNavigation } from '@react-navigation/native'
-import CustomHeader from '../../../Components/CustomHeader'
+import CustomHeader from '../../../Components/CustomHeader2'
 
 const CompletedOrderDetailScreen = () => {
   const navigation = useNavigation()
@@ -94,11 +94,17 @@ const CompletedOrderDetailScreen = () => {
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
+      <CustomHeader
+        Title='My Orders'
+        style={{}}
+        icon={() => {
+          return <Entypo name='dots-three-vertical' size={20} color='black' />
+        }}
+      />
       <View
         style={[
           styles.container,
           {
-            backgroundColor: colors.background,
             paddingTop: 40,
             padding: 23,
           },
