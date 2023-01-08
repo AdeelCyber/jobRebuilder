@@ -31,12 +31,36 @@ const Team = () => {
     alert(text);
   }
   const menu = [
-    { image: "https://bit.ly/kent-c-dodds", text: "Mike Dean" },
-    { image: "https://bit.ly/kent-c-dodds", text: "Mike Dean" },
-    { image: "https://bit.ly/kent-c-dodds", text: "Mike Dean" },
-    { image: "https://bit.ly/kent-c-dodds", text: "Mike Dean" },
-    { image: "https://bit.ly/kent-c-dodds", text: "Mike Dean" },
-    { image: "https://bit.ly/kent-c-dodds", text: "Mike Dean" },
+    {
+      image: "https://bit.ly/kent-c-dodds",
+      text: "Mike Dean",
+      designation: "Ceo",
+    },
+    {
+      image: "https://bit.ly/kent-c-dodds",
+      text: "Mike Dean",
+      designation: "Ceo",
+    },
+    {
+      image: "https://bit.ly/kent-c-dodds",
+      text: "Mike Dean",
+      designation: "Designer",
+    },
+    {
+      image: "https://bit.ly/kent-c-dodds",
+      text: "Mike Dean",
+      designation: "Designer",
+    },
+    {
+      image: "https://bit.ly/kent-c-dodds",
+      text: "Mike Dean",
+      designation: "Ceo",
+    },
+    {
+      image: "https://bit.ly/kent-c-dodds",
+      text: "Mike Dean",
+      designation: "Ceo",
+    },
   ];
 
   return (
@@ -61,7 +85,7 @@ const Team = () => {
           justifyContent: "center",
         }}
       >
-        {menu.map(({ image, text }, index) => (
+        {menu.map(({ image, text, designation }, index) => (
           <TeamItem
             key={text}
             style={{
@@ -74,6 +98,7 @@ const Team = () => {
             handleClick={handlePress}
             image={image}
             text={text}
+            designation={designation}
           />
         ))}
       </View>

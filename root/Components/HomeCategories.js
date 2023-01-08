@@ -1,4 +1,10 @@
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  ImageBackground,
+} from "react-native";
 import React, { useContext, useState } from "react";
 import Context from "../Context/Context";
 import SvgImport from "./SvgImport";
@@ -8,18 +14,28 @@ const HomeCategories = ({ svg, title, ...props }) => {
     theme: { colors },
   } = useContext(Context);
   return (
-    <Pressable
+    <ImageBackground
+      source={props.img}
+      resizeMode="cover"
       style={[
-        { justifyContent: "center", alignItems: "center" },
+        {
+          justifyContent: "center",
+          alignItems: "center",
+          height: 200,
+          width: 200,
+          borderWidth: 2,
+        },
         {
           backgroundColor: colors.white,
           ...props.style,
         },
       ]}
     >
-      <SvgImport svg={svg} />
-      <MyText style={{ fontWeight: "500", fontSize: 10 }}> {title} </MyText>
-    </Pressable>
+      <Pressable style={{ justifyContent: "center", alignItems: "center" }}>
+        <SvgImport svg={svg} />
+        <MyText style={{ fontWeight: "500", fontSize: 10 }}> {title} </MyText>
+      </Pressable>
+    </ImageBackground>
   );
 };
 

@@ -54,6 +54,10 @@ import PendingOrderDetailScreen from "./Screens/Profile/Orders/PendingOrderDetai
 import ViewMileStone from "./Screens/campaignHomeScreen/ViewMileStone";
 import EditMileStone from "./Screens/campaignHomeScreen/EditMileStone";
 import TodoTaskView from "./Screens/campaignHomeScreen/TodoTaskView";
+import AddNewTask from "./Screens/campaignHomeScreen/AddNewTask";
+import TeamWarnings from "./Screens/campaignHomeScreen/TeamWarnings";
+import CampaignManagement from "./Screens/campaignHomeScreen/CampaignManagement";
+import ManagingCampaign from "./Screens/campaignHomeScreen/ManagingCampaign";
 
 //Navigation out
 
@@ -65,7 +69,7 @@ const Tab = createMaterialBottomTabNavigator();
 const MyStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="MileStone"
+      initialRouteName="Team"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={Home} />
@@ -83,6 +87,10 @@ const MyStack = () => {
       <Stack.Screen name="ViewMileStone" component={ViewMileStone} />
       <Stack.Screen name="EditMileStone" component={EditMileStone} />
       <Stack.Screen name="TodoTaskView" component={TodoTaskView} />
+      <Stack.Screen name="AddNewTask" component={AddNewTask} />
+      <Stack.Screen name="TeamWarnings" component={TeamWarnings} />
+      <Stack.Screen name="CampaignManagement" component={CampaignManagement} />
+      <Stack.Screen name="ManagingCampaign" component={ManagingCampaign} />
 
       <Stack.Screen name="SignIn" component={SignIn} />
       <Stack.Screen name="SignUp" component={Signup} />

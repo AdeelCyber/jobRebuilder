@@ -9,6 +9,7 @@ import { Entypo } from "@expo/vector-icons";
 const CustomHeader = ({
   icon = () => <MaterialIcons name="message" size={24} color="black" />,
   Title = "Moto Mobiles",
+  ...props
 }) => {
   const {
     theme: { colors },
@@ -29,10 +30,12 @@ const CustomHeader = ({
           justifyContent: "space-between",
           alignItems: "center",
           marginTop: 5,
-          borderRadius: 20,
-          paddingRight: 14,
+          borderBottomEndRadius: 20,
+          borderBottomStartRadius: 20,
+          paddingRight: 19,
         },
         styles.shadow,
+        props.style,
       ]}
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>

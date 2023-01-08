@@ -1,5 +1,6 @@
 import { Image, Pressable, StyleSheet, View } from "react-native";
-import React from "react";
+import React, { useState, useContext } from "react";
+import Context from "../Context/Context";
 import MyText from "./Text";
 import SvgImport from "./SvgImport";
 import msg from "../../assets/Svgs/Message";
@@ -8,6 +9,9 @@ import { Feather } from "@expo/vector-icons";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const TeamItem = (props) => {
+  const {
+    theme: { colors },
+  } = useContext(Context);
   const handleClick = () => {
     props.handleClick(props.text);
   };
@@ -27,9 +31,15 @@ const TeamItem = (props) => {
           fontWeight: "400",
           fontSize: 16,
           lineHeight: 24,
+          textAlign: "center",
         }}
       >
         {props.text}
+        {"\n"}
+        <MyText style={{ color: colors.lighttext, fontSize: 13 }}>
+          {" "}
+          {props.designation}{" "}
+        </MyText>
       </MyText>
       <SvgImport svg={msg} style={{ marginTop: 10 }} />
       <Pressable

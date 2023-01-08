@@ -58,6 +58,7 @@ const AddMileStone = () => {
             );
           }}
           Title="Add Milestone"
+          style={{ elevation: 0 }}
         />
         {/* header out */}
         {/* heading */}

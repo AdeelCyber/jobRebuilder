@@ -19,6 +19,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DynamicButton from "../../Components/DynamicButton";
 import TodoListItem from "../../Components/TodoListItem";
 import MileStoneViewBar from "../../Components/MileStoneViewBar";
+import TodoTaskViewBar from "../../Components/TodoTaskViewBar";
 import Slider from "@react-native-community/slider";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
@@ -31,9 +32,10 @@ const TodoTaskView = () => {
   const {
     theme: { colors },
   } = useContext(Context);
-  const [currentMileStone, setcurrentMileStone] = useState({
-    Title: "MileStone 1",
+  const [currentTask, setcurrentTask] = useState({
+    Title: "Design Ui for step ev",
     desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis. orem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis. orem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.  ",
+    day: "Monday",
   });
   function handlePress(text) {
     alert(text);
@@ -60,83 +62,89 @@ const TodoTaskView = () => {
               />
             );
           }}
-          Title={currentMileStone.Title}
+          Title={currentTask.day + "'s Task"}
+          style={{ elevation: 0 }}
         />
         {/* header out */}
         {/* Inputs In */}
-        <View
-          style={{
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {/* Title in */}
-          <MileStoneViewBar
-            Title={currentMileStone.Title}
-            style={{ borderWidth: 0, elevation: 0 }}
-          />
-          {/* title out */}
-          <MyText
-            style={{
-              color: colors.lighttext,
-              paddingHorizontal: 8,
-              fontSize: 13,
-
-              marginTop: 0,
-            }}
-          >
-            {currentMileStone.desc}
-          </MyText>
-          {/* Avatars View In */}
+        <View>
           <View
             style={{
-              flexDirection: "row",
               width: "100%",
-              paddingTop: 15,
-              paddingHorizontal: 8,
+              justifyContent: "center",
+              alignItems: "center",
+              paddingHorizontal: 14,
             }}
           >
-            <Image
-              source={{ uri: "https://bit.ly/kent-c-dodds" }}
-              style={{
-                width: 30,
-                height: 30,
-                borderRadius: 20,
-                marginRight: 8,
-              }}
+            {/* Title in */}
+            <TodoTaskViewBar
+              Title={currentTask.Title}
+              style={{ borderWidth: 0, elevation: 0 }}
             />
-            <Image
-              source={{ uri: "https://bit.ly/kent-c-dodds" }}
+            {/* title out */}
+            <MyText
               style={{
-                width: 30,
-                height: 30,
-                borderRadius: 20,
-                marginRight: 8,
+                color: colors.lighttext,
+                fontSize: 13,
+
+                marginTop: 0,
               }}
-            />
-            <Image
-              source={{ uri: "https://bit.ly/kent-c-dodds" }}
+            >
+              {currentTask.desc}
+            </MyText>
+            {/* Avatars View In */}
+            <View
               style={{
-                width: 30,
-                height: 30,
-                borderRadius: 20,
-                marginRight: 8,
+                flexDirection: "row",
+                width: "100%",
+                paddingTop: 15,
               }}
+            >
+              <Image
+                source={{ uri: "https://bit.ly/kent-c-dodds" }}
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 20,
+                  marginRight: 8,
+                }}
+              />
+              <Image
+                source={{ uri: "https://bit.ly/kent-c-dodds" }}
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 20,
+                  marginRight: 8,
+                }}
+              />
+              <Image
+                source={{ uri: "https://bit.ly/kent-c-dodds" }}
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 20,
+                  marginRight: 8,
+                }}
+              />
+            </View>
+            {/* Avatars View out */}
+            {/* Attach Button View in */}
+            <DynamicButton
+              text="Files Attached"
+              style={{
+                backgroundColor: "#E8E8E8",
+                width: "40%",
+                paddingVertical: 17,
+                alignSelf: "flex-start",
+                marginTop: 30,
+                paddingHorizontal: 27,
+              }}
+              textStyle={{ color: "#232323", fontSize: 14 }}
+              handlePress={handlePress}
+              logo={true}
             />
           </View>
-          {/* Avatars View out */}
-          {/* Attach Button View in */}
-          <DynamicButton
-            text="Complete"
-            style={{
-              backgroundColor: "#E8E8E8",
-              width: "50%",
-              paddingVertical: 15,
-            }}
-            textStyle={{ color: "#232323" }}
-            handlePress={handlePress}
-          />
         </View>
 
         {/* Inputs Out */}
@@ -144,7 +152,11 @@ const TodoTaskView = () => {
       {/* Buttons View In */}
       <View>
         <View
-          style={{ borderWidth: 1, borderColor: "#00000014", marginBottom: 5 }}
+          style={{
+            borderTopWidth: 1,
+            borderColor: "#00000014",
+            marginBottom: 5,
+          }}
         ></View>
         <View
           style={{

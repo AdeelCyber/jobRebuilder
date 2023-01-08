@@ -39,5 +39,6 @@ export const theme = {
     heighlight: palette.littlegrey,
     lightback: palette.lightback,
     Datee: "#969696",
+    Red: "#F50303",
   },
 };

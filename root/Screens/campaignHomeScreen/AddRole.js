@@ -55,6 +55,7 @@ const AddRoles = () => {
             );
           }}
           Title="Add Roles"
+          style={{ elevation: 0 }}
         />
         {/* header out */}
         {/* heading */}

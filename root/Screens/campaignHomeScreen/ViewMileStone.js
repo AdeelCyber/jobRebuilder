@@ -60,6 +60,7 @@ const ViewMileStone = () => {
             );
           }}
           Title={currentMileStone.Title}
+          style={{ elevation: 0 }}
         />
         {/* header out */}
         {/* Inputs In */}
@@ -73,7 +74,7 @@ const ViewMileStone = () => {
           {/* Title in */}
           <MileStoneViewBar
             Title={currentMileStone.Title}
-            style={{ borderWidth: 0, elevation: 0 }}
+            style={{ borderWidth: 0, elevation: 0, paddingHorizontal: 14 }}
           />
           {/* title out */}
           <MyText
@@ -83,6 +84,7 @@ const ViewMileStone = () => {
               fontSize: 13,
 
               marginTop: 0,
+              paddingHorizontal: 14,
             }}
           >
             {currentMileStone.desc}
@@ -90,7 +92,7 @@ const ViewMileStone = () => {
           <MyText
             style={{
               color: colors.text,
-              paddingHorizontal: 8,
+              paddingHorizontal: 14,
               fontSize: 16,
               fontWeight: "500",
 
@@ -128,7 +130,7 @@ const ViewMileStone = () => {
           <MyText
             style={{
               color: colors.text,
-              paddingHorizontal: 8,
+              paddingHorizontal: 14,
               fontSize: 16,
               fontWeight: "500",
 
@@ -148,7 +150,7 @@ const ViewMileStone = () => {
               justifyContent: "center",
               alignItems: "center",
               paddingVertical: 5,
-              paddingHorizontal: 8,
+              paddingHorizontal: 14,
             }}
           >
             <Feather name="calendar" size={24} color="white" />
@@ -162,7 +164,11 @@ const ViewMileStone = () => {
       {/* Buttons View In */}
       <View>
         <View
-          style={{ borderWidth: 1, borderColor: "#00000014", marginBottom: 5 }}
+          style={{
+            borderTopWidth: 1,
+            borderColor: "#00000014",
+            marginBottom: 5,
+          }}
         ></View>
         <View
           style={{

@@ -60,6 +60,7 @@ const EditMileStone = () => {
             );
           }}
           Title="Team Roles"
+          style={{ elevation: 0 }}
         />
         {/* header out */}
         {/* Inputs In */}
@@ -68,6 +69,7 @@ const EditMileStone = () => {
             width: "100%",
             justifyContent: "center",
             alignItems: "center",
+            marginTop: 15,
           }}
         >
           <TextInput
@@ -76,12 +78,14 @@ const EditMileStone = () => {
             style={{
               backgroundColor: colors.white,
               borderWidth: 1,
+              borderRadius: 5,
               borderColor: "#000000",
               color: colors.text,
               padding: 8,
-              width: "94%",
+              width: "92%",
               fontWeight: "500",
               fontSize: 16,
+              paddingHorizontal: 14,
             }}
             onChangeText={(got) => {
               {
@@ -96,11 +100,13 @@ const EditMileStone = () => {
             style={{
               backgroundColor: colors.white,
               borderWidth: 1,
+              borderRadius: 5,
               borderColor: "#000000",
               color: colors.lighttext,
               padding: 8,
-              width: "94%",
+              width: "92%",
               marginTop: 20,
+              paddingHorizontal: 14,
             }}
             onChangeText={(got) => {
               {
@@ -108,74 +114,77 @@ const EditMileStone = () => {
               }
             }}
           />
-          <MyText
-            style={{
-              color: colors.text,
-              paddingHorizontal: 8,
-              fontSize: 16,
-              fontWeight: "500",
-
-              marginTop: 15,
-              alignSelf: "flex-start",
-            }}
-          >
-            Progress
-          </MyText>
-          {/* slider view in */}
-          <View
-            style={{
-              alignSelf: "flex-start",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Slider
-              style={{ height: 40, width: 250, marginLeft: 0 }}
-              minimumTrackTintColor={colors.secondary}
-              minimumValue={0.1}
-              maximumValue={1}
-              maximumTrackTintColor={"#D9D9D9"}
-              thumbTintColor={colors.secondary}
-              value={0.5}
-              onValueChange={(value) => setrange(parseInt(value * 100) + "%")}
-            />
+          <View style={{ alignSelf: "flex-start", marginLeft: 5 }}>
             <MyText
-              style={{ marginRight: 12, fontWeight: "500", fontSize: 16 }}
-            >
-              {range}
-            </MyText>
-          </View>
-          {/* slider view out */}
-          <MyText
-            style={{
-              color: colors.text,
-              paddingHorizontal: 8,
-              fontSize: 16,
-              fontWeight: "500",
+              style={{
+                color: colors.text,
+                paddingHorizontal: 10,
+                fontSize: 16,
+                fontWeight: "500",
 
-              marginTop: 15,
-              alignSelf: "flex-start",
-            }}
-          >
-            Due Date
-          </MyText>
-          <View
-            style={{
-              marginLeft: 8,
-              backgroundColor: colors.secondary,
-              alignSelf: "flex-start",
-              borderRadius: 5,
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              paddingVertical: 5,
-              paddingHorizontal: 8,
-            }}
-          >
-            <Feather name="calendar" size={24} color="white" />
-            <MyText style={{ color: colors.white, fontSize: 13 }}>
-              Aug 9th, 2022
+                marginTop: 15,
+                alignSelf: "flex-start",
+              }}
+            >
+              Progress
             </MyText>
+            {/* slider view in */}
+            <View
+              style={{
+                alignSelf: "flex-start",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Slider
+                style={{ height: 40, width: 250, marginLeft: 0 }}
+                minimumTrackTintColor={colors.secondary}
+                minimumValue={0.1}
+                maximumValue={1}
+                maximumTrackTintColor={"#D9D9D9"}
+                thumbTintColor={colors.secondary}
+                value={0.5}
+                onValueChange={(value) => setrange(parseInt(value * 100) + "%")}
+              />
+              <MyText
+                style={{ marginRight: 12, fontWeight: "500", fontSize: 16 }}
+              >
+                {range}
+              </MyText>
+            </View>
+            {/* slider view out */}
+            <MyText
+              style={{
+                color: colors.text,
+                paddingHorizontal: 10,
+                fontSize: 16,
+                fontWeight: "500",
+
+                marginTop: 15,
+                alignSelf: "flex-start",
+              }}
+            >
+              Due Date
+            </MyText>
+
+            <View
+              style={{
+                marginLeft: 10,
+                backgroundColor: colors.secondary,
+                alignSelf: "flex-start",
+                borderRadius: 5,
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                paddingVertical: 5,
+                paddingHorizontal: 8,
+              }}
+            >
+              <Feather name="calendar" size={24} color="white" />
+              <MyText style={{ color: colors.white, fontSize: 13 }}>
+                Aug 9th, 2022
+              </MyText>
+            </View>
           </View>
         </View>
         {/* Inputs Out */}

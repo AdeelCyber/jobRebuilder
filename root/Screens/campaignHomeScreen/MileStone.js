@@ -107,16 +107,27 @@ function MileStoneComponent({ para, ...props }) {
         {/* lorem off */}
         {/* date in */}
         <View style={{ alignSelf: "flex-end", paddingHorizontal: 5 }}>
-          <MyText
+          <View
             style={{
-              color: colors.Datee,
-              fontWeight: "400",
-              fontSize: 12,
-              lineHeight: 20,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            Due:{props.item.Date}
-          </MyText>
+            <View style={{ marginRight: 4 }}>
+              <Feather name="calendar" size={15} color="#969696" />
+            </View>
+            <MyText
+              style={{
+                color: colors.Datee,
+                fontWeight: "400",
+                fontSize: 12,
+                lineHeight: 20,
+              }}
+            >
+              Due:{props.item.Date}
+            </MyText>
+          </View>
         </View>
         {/* date off */}
       </View>

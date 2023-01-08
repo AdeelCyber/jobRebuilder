@@ -46,7 +46,7 @@ const TeamRoles = () => {
       }}
     >
       {/* header */}
-      <CustomHeader2 />
+      <CustomHeader2 style={{ elevation: 0 }} />
       {/* header out */}
       {/* card in */}
       <CampaignCard

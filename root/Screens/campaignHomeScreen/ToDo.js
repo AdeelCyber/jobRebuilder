@@ -63,13 +63,29 @@ const Todo = () => {
         <CustomHeader2
           icon={() => <FontAwesome name="calendar" size={24} color="black" />}
           Title="January"
+          style={{ elevation: 0 }}
         />
         {/* header out */}
-        <View style={{ width: "100%", marginTop: 28 }}>
+        <View
+          style={{
+            width: "100%",
+            marginTop: 28,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <HorizontalCalendar
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
           />
+          <View
+            style={{
+              borderTopWidth: 1,
+              borderColor: "#00000014",
+              marginBottom: 5,
+              width: "94%",
+            }}
+          ></View>
         </View>
         <View
           style={{

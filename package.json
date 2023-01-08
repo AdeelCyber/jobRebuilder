@@ -35,7 +35,8 @@
     "react-native-tab-view": "^3.3.4",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.7",
-    "react-select-country-list": "^2.2.3"
+    "react-select-country-list": "^2.2.3",
+    "expo-font": "~11.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6"
