@@ -311,12 +311,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 9,
     backgroundColor: 'white',
-    shadowColor: '#000000',
+    shadowColor: '#878787',
     shadowOffset: {
       width: 0,
       height: 6,
     },
-    elevation: 10,
+    elevation: 15,
   },
 
   card: {
@@ -329,12 +329,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
-    shadowColor: '#000000',
+    shadowColor: '#c0c0c0',
     shadowOffset: {
       width: 0,
       height: 6,
     },
-    elevation: 25,
+    elevation: 20,
   },
 })
 

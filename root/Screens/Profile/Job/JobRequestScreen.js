@@ -229,12 +229,12 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     marginBottom: 16,
     backgroundColor: 'white',
-    shadowColor: '#000000',
+    shadowColor: '#878787',
     shadowOffset: {
       width: 0,
       height: 6,
     },
-    elevation: 12,
+    elevation: 15,
   },
 })
 
