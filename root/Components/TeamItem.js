@@ -37,11 +37,10 @@ const TeamItem = (props) => {
         {props.text}
         {"\n"}
         <MyText style={{ color: colors.lighttext, fontSize: 13 }}>
-          {" "}
-          {props.designation}{" "}
+          {props.designation}
         </MyText>
       </MyText>
-      <SvgImport svg={msg} style={{ marginTop: 10 }} />
+      <SvgImport svg={msg} style={{ marginTop: 8 }} />
       <Pressable
         style={{ position: "absolute", top: 10, right: 5 }}
         onPress={() => setopen(!open)}
@@ -60,7 +59,12 @@ const TeamItem = (props) => {
         >
           <Pressable
             onPress={handleClick}
-            style={{ flexDirection: "row", padding: 5 }}
+            style={{
+              flexDirection: "row",
+              padding: 5,
+              borderBottomColor: colors.white,
+              borderBottomWidth: 0.2,
+            }}
           >
             <Ionicons name="warning" size={15} color="#F50303" />
             <MyText
@@ -76,7 +80,12 @@ const TeamItem = (props) => {
           </Pressable>
           <Pressable
             onPress={handleClick}
-            style={{ flexDirection: "row", padding: 5 }}
+            style={{
+              flexDirection: "row",
+              padding: 5,
+              borderBottomColor: colors.white,
+              borderBottomWidth: 0.2,
+            }}
           >
             <Ionicons name="person-circle" size={15} color="#8489FC" />
             <MyText
@@ -92,7 +101,12 @@ const TeamItem = (props) => {
           </Pressable>
           <Pressable
             onPress={handleClick}
-            style={{ flexDirection: "row", padding: 5 }}
+            style={{
+              flexDirection: "row",
+              padding: 5,
+              borderBottomColor: colors.white,
+              borderBottomWidth: 0.2,
+            }}
           >
             <Ionicons name="remove-circle" size={15} color="#F50303" />
             <MyText
@@ -108,7 +122,12 @@ const TeamItem = (props) => {
           </Pressable>
           <Pressable
             onPress={handleClick}
-            style={{ flexDirection: "row", padding: 5 }}
+            style={{
+              flexDirection: "row",
+              padding: 5,
+              borderBottomColor: colors.white,
+              borderBottomWidth: 0.2,
+            }}
           >
             <Ionicons name="link" size={15} color="#8489FC" />
             <MyText
@@ -133,9 +152,10 @@ export default TeamItem;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFFFFF",
-    paddingVertical: 20,
+    paddingVertical: 18,
     elevation: 10,
     borderRadius: 9,
     alignItems: "center",
+    paddingBottom: 10,
   },
 });

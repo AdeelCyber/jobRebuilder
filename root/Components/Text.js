@@ -18,8 +18,11 @@ export default function MyText(props) {
       color: colors.text,
       fontSize: 12,
       fontWeight: "400",
-      fontFamily: "DMSANS",
     },
   });
-  return <Text style={[styles.text, props.style]}>{props.children}</Text>;
+  return (
+    <Text style={[styles.text, props.style, { fontFamily: "DMSANS" }]}>
+      {props.children}
+    </Text>
+  );
 }

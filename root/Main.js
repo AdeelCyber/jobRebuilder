@@ -69,7 +69,7 @@ const Tab = createMaterialBottomTabNavigator();
 const MyStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Team"
+      initialRouteName="ManagingCampaign"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={Home} />
@@ -89,6 +89,7 @@ const MyStack = () => {
       <Stack.Screen name="TodoTaskView" component={TodoTaskView} />
       <Stack.Screen name="AddNewTask" component={AddNewTask} />
       <Stack.Screen name="TeamWarnings" component={TeamWarnings} />
+      <Stack.Screen name="Warnings" component={TeamWarnings} />
       <Stack.Screen name="CampaignManagement" component={CampaignManagement} />
       <Stack.Screen name="ManagingCampaign" component={ManagingCampaign} />
 
