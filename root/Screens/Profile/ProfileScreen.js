@@ -20,6 +20,11 @@ import PaymentCardIcon from '../../../assets/Svgs/PaymentCardIcon'
 import BagIcon from '../../../assets/Svgs/BagIcon'
 import CrossIcon from '../../../assets/Svgs/CrossIcon'
 import LogoutIcon from '../../../assets/Svgs/LogoutIcon'
+import CubeIcon from '../../../assets/Svgs/CubeIcon'
+import CompassIcon from '../../../assets/Svgs/CompassIcon'
+import ArrowRightIcon from '../../../assets/Svgs/ArrowRightIcon'
+import CustomHeader from '../../Components/CustomHeader2'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 const ProfileScreen = () => {
   const navigation = useNavigation()
@@ -28,13 +33,13 @@ const ProfileScreen = () => {
   } = useContext(Context)
 
   const icons = [
-    <Icon name='home' size={24} />,
+    <SvgImport svg={HomeIcon} />,
     <SvgImport svg={SettingIcon2} />,
     <SvgImport svg={PaymentCardIcon} />,
-    <Icon name='cube' size={24} />,
+    <SvgImport svg={CubeIcon} />,
     <SvgImport svg={BagIcon} />,
     <SvgImport svg={CrossIcon} />,
-    <Icon name='compass' size={24} />,
+    <SvgImport svg={CompassIcon} />,
     <SvgImport svg={LogoutIcon} />,
   ]
 
@@ -52,7 +57,8 @@ const ProfileScreen = () => {
               borderRadius: 10,
               marginRight: 20,
               padding: 7,
-              width: 40,
+              height: 38,
+              width: 38,
               justifyContent: 'center',
               alignItems: 'center',
             }}
@@ -71,7 +77,8 @@ const ProfileScreen = () => {
             </MyText>
           </View>
           <View style={styles.iconView}>
-            <Icon style={{ fontWeight: 0 }} name='arrow-right' size={15} />
+            <SvgImport svg={ArrowRightIcon} />
+            {/* <Icon style={{ fontWeight: 0 }} name='arrow-right' size={15} /> */}
           </View>
         </View>
       </TouchableOpacity>
@@ -79,13 +86,26 @@ const ProfileScreen = () => {
   )
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: '#ffffff' }}>
+      <CustomHeader
+        Title=''
+        style={{ elevation: 0 }}
+        icon={() => {
+          return (
+            <MaterialCommunityIcons
+              name='bell-circle'
+              size={28}
+              color='black'
+            />
+          )
+        }}
+      />
       <View style={[styles.container, { backgroundColor: colors.background }]}>
         <View
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: 40,
+            marginTop: 15,
           }}
         >
           <Image
@@ -156,16 +176,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 10,
-    paddingRight: 0,
-    marginLeft: 10,
-    marginRight: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 29,
   },
 
   iconView: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    width: 70,
+    width: 60,
   },
 })
 

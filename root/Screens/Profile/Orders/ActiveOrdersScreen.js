@@ -5,6 +5,8 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 
 import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader'
+import SvgImport from '../../../Components/SvgImport'
+import DollarIcon from '../../../../assets/Svgs/DollarIcon'
 
 const ActiveOrdersScreen = () => {
   const navigation = useNavigation()
@@ -55,7 +57,8 @@ const ActiveOrdersScreen = () => {
               alignItems: 'center',
             }}
           >
-            <FontAwesome5 name='bitcoin' color='#FAD461' size={16} />
+            <SvgImport svg={DollarIcon} />
+            {/* <FontAwesome5 name='bitcoin' color='#FAD461' size={16} /> */}
             &nbsp; &nbsp;
             <MyText style={{ fontSize: 14, fontWeight: '600' }}>$50</MyText>
           </MyText>
@@ -121,19 +124,19 @@ const styles = StyleSheet.create({
     paddingLeft: 13,
     paddingBottom: 14,
     paddingRight: 17,
-    borderWidth: 1,
-    borderColor: 'lightgray',
+    // borderWidth: 1,
+    // borderColor: 'lightgray',
     borderRadius: 10,
     flexDirection: 'row',
     marginBottom: 9,
 
-    // backgroundColor: 'white',
-    // shadowColor: '#000000',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 8,
-    // },
-    // elevation: 2,
+    backgroundColor: 'white',
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    elevation: 10,
   },
   heading: {
     fontWeight: '700',

@@ -9,8 +9,9 @@ import {
 
 import MyText from '../../../Components/Text'
 import Context from '../../../Context/Context'
-import { FontAwesome } from '@expo/vector-icons'
+import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import ReactNativeModal from 'react-native-modal'
+import CustomHeader from '../../../Components/CustomHeader2'
 
 const ChangePasswordScreen = () => {
   const {
@@ -20,24 +21,28 @@ const ChangePasswordScreen = () => {
   const [isModalVisible, setModalVisible] = useState(false)
 
   return (
-    <ScrollView>
-      <View
-        style={[
-          styles.container,
-          {
-            backgroundColor: colors.background,
-            paddingTop: 40,
-            height: 1000,
-          },
-        ]}
-      >
+    <ScrollView style={{ backgroundColor: '#ffffff' }}>
+      <CustomHeader
+        Title='Change Password'
+        style={{}}
+        icon={() => {
+          return (
+            <MaterialCommunityIcons
+              name='bell-circle'
+              size={28}
+              color='black'
+            />
+          )
+        }}
+      />
+      <View style={[styles.container]}>
         <View
           style={{
             paddingBottom: 10,
             marginHorizontal: 20,
             borderBottomColor: '#eee',
             borderBottomWidth: StyleSheet.hairlineWidth,
-            marginTop: 60,
+            marginTop: 20,
           }}
         >
           <MyText

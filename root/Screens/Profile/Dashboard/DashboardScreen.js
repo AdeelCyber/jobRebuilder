@@ -14,7 +14,8 @@ import Icon from '@expo/vector-icons/FontAwesome'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 
 import { useNavigation } from '@react-navigation/native'
-import CustomHeader from '../../../Components/CustomHeader'
+import CustomHeader from '../../../Components/CustomHeader2'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 const DashboardScreen = () => {
   const navigation = useNavigation()
@@ -97,14 +98,26 @@ const DashboardScreen = () => {
   )
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: '#ffffff' }}>
+      <CustomHeader
+        Title='Dashboard'
+        style={{ elevation: 0 }}
+        icon={() => {
+          return (
+            <MaterialCommunityIcons
+              name='bell-circle'
+              size={28}
+              color='black'
+            />
+          )
+        }}
+      />
       <View
         style={[
           styles.container,
           {
             backgroundColor: colors.background,
             paddingTop: 40,
-            height: 1000,
             padding: 23,
           },
         ]}
@@ -175,20 +188,7 @@ const DashboardScreen = () => {
               navigation.navigate('JobRequests')
             }}
           >
-            <View
-              style={{
-                borderColor: 'lightgray',
-                borderWidth: 1,
-                borderRadius: 8,
-                paddingTop: 24,
-                paddingLeft: 15,
-                paddingBottom: 19,
-                paddingRight: 15,
-                marginRight: 20,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
+            <View style={styles.card}>
               <Icon name='group' size={37} />
               <MyText
                 style={{
@@ -223,15 +223,16 @@ const DashboardScreen = () => {
             }}
           >
             <View
-              style={{
-                borderColor: 'lightgray',
-                borderWidth: 1,
-                borderRadius: 8,
-                paddingTop: 24,
-                paddingLeft: 35,
-                paddingBottom: 19,
-                paddingRight: 30,
-              }}
+              style={[
+                styles.card,
+                {
+                  borderRadius: 8,
+                  paddingTop: 24,
+                  paddingLeft: 35,
+                  paddingBottom: 19,
+                  paddingRight: 30,
+                },
+              ]}
             >
               <Icon name='shopping-bag' size={37} />
               <MyText
@@ -306,11 +307,34 @@ const styles = StyleSheet.create({
     paddingLeft: 13,
     paddingBottom: 14,
     paddingRight: 17,
-    borderWidth: 1,
-    borderColor: 'lightgray',
     borderRadius: 10,
     flexDirection: 'row',
     marginBottom: 9,
+    backgroundColor: 'white',
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    elevation: 10,
+  },
+
+  card: {
+    borderRadius: 8,
+    paddingTop: 24,
+    paddingLeft: 15,
+    paddingBottom: 19,
+    paddingRight: 15,
+    marginRight: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    elevation: 25,
   },
 })
 

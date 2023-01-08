@@ -16,7 +16,7 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import { Entypo } from '@expo/vector-icons'
 
 import { useNavigation } from '@react-navigation/native'
-import CustomHeader from '../../../Components/CustomHeader'
+import CustomHeader from '../../../Components/CustomHeader2'
 import ReactNativeModal from 'react-native-modal'
 
 const ActiveOrderDetailScreen = () => {
@@ -29,14 +29,19 @@ const ActiveOrderDetailScreen = () => {
   } = useContext(Context)
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: '#ffffff' }}>
+      <CustomHeader
+        Title='Manage Jobs'
+        style={{}}
+        icon={() => {
+          return <Entypo name='dots-three-vertical' size={20} color='black' />
+        }}
+      />
       <View
         style={[
           styles.container,
           {
-            backgroundColor: colors.background,
             paddingTop: 40,
-            height: 1000,
             padding: 23,
           },
         ]}
@@ -246,7 +251,13 @@ const ActiveOrderDetailScreen = () => {
           </MyText>
         </TouchableOpacity>
 
-        <ReactNativeModal transparent isVisible={isModalVisible}>
+        <ReactNativeModal
+          transparent
+          isVisible={isModalVisible}
+          onBackdropPress={() => {
+            setModalVisible(!isModalVisible)
+          }}
+        >
           <View
             style={{
               backgroundColor: 'white',
@@ -268,19 +279,19 @@ const ActiveOrderDetailScreen = () => {
                   width: '95%',
                   fontWeight: '600',
                   fontSize: 16,
-                  textAlign: 'center',
+                  // textAlign: 'center',
                 }}
               >
                 Cancellation Reason
               </MyText>
-              <Icon
+              {/* <Icon
                 name='close'
                 size={20}
                 style={{ marginRight: 15 }}
                 onPress={() => {
                   setModalVisible(!isModalVisible)
                 }}
-              />
+              /> */}
             </View>
 
             <View

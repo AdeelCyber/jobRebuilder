@@ -14,11 +14,19 @@ import SvgImport from "../../Components/SvgImport";
 import PayPalSvg from "../../../assets/Svgs/PayPal";
 import MasterCard from "../../../assets/Svgs/MasterCard";
 
+<<<<<<< HEAD
 import { Dropdown } from "react-native-element-dropdown";
 import countryList from "react-select-country-list";
 import ReactNativeModal from "react-native-modal";
 import { Button } from "react-native-paper";
 import CustomHeader from "../../Components/CustomHeader2";
+=======
+import { Dropdown } from 'react-native-element-dropdown'
+import countryList from 'react-select-country-list'
+import ReactNativeModal from 'react-native-modal'
+import CustomHeader from '../../Components/CustomHeader2'
+import { Feather } from '@expo/vector-icons'
+>>>>>>> b0ae823b98e55890bfc6504a62865dd0af890dad
 
 const PaymentMethodScreen = () => {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -30,6 +38,7 @@ const PaymentMethodScreen = () => {
   } = useContext(Context);
 
   return (
+<<<<<<< HEAD
     <ScrollView>
       <View style={[styles.container, { backgroundColor: colors.background }]}>
         <CustomHeader style={{ borderRadius: 0 }} />
@@ -45,6 +54,17 @@ const PaymentMethodScreen = () => {
             styles.shadow,
           ]}
         ></View>
+=======
+    <ScrollView style={{ backgroundColor: '#ffffff' }}>
+      <CustomHeader
+        Title='Payment Method'
+        style={{}}
+        icon={() => {
+          return <Feather name='info' size={20} color='black' />
+        }}
+      />
+      <View style={[styles.container, { paddingTop: 17 }]}>
+>>>>>>> b0ae823b98e55890bfc6504a62865dd0af890dad
         <View
           style={{
             paddingBottom: 10,
@@ -78,10 +98,17 @@ const PaymentMethodScreen = () => {
             style={{
               borderWidth: 1,
               width: 172,
+<<<<<<< HEAD
               borderColor: "#ECE7E7",
               height: 70,
               justifyContent: "center",
               alignItems: "center",
+=======
+              borderColor: '#ECE7E7',
+              height: 50,
+              justifyContent: 'center',
+              alignItems: 'center',
+>>>>>>> b0ae823b98e55890bfc6504a62865dd0af890dad
               borderRadius: 5,
             }}
           >
@@ -92,9 +119,15 @@ const PaymentMethodScreen = () => {
               borderWidth: 1,
               borderColor: "#ECE7E7",
               width: 172,
+<<<<<<< HEAD
               height: 70,
               justifyContent: "center",
               alignItems: "center",
+=======
+              height: 50,
+              justifyContent: 'center',
+              alignItems: 'center',
+>>>>>>> b0ae823b98e55890bfc6504a62865dd0af890dad
               borderRadius: 5,
               backgroundColor: "white",
             }}
@@ -290,7 +323,14 @@ const PaymentMethodScreen = () => {
                 </MyText>
               </View>
               <View style={{ marginHorizontal: 15 }}>
+<<<<<<< HEAD
                 <SvgImport svg={MasterCard} style={{ width: "100%" }} />
+=======
+                <SvgImport
+                  svg={MasterCard}
+                  style={{ width: '100%', marginBottom: 19 }}
+                />
+>>>>>>> b0ae823b98e55890bfc6504a62865dd0af890dad
                 <MyText style={{ fontSize: 11 }}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
                   venenatissit amet risus a bibendum. Integer a nibh feugiat,
@@ -298,7 +338,14 @@ const PaymentMethodScreen = () => {
                 </MyText>
               </View>
               <View style={{ marginHorizontal: 15 }}>
+<<<<<<< HEAD
                 <SvgImport svg={PayPalSvg} style={{ width: "100%" }} />
+=======
+                <SvgImport
+                  svg={PayPalSvg}
+                  style={{ width: '100%', marginBottom: 10 }}
+                />
+>>>>>>> b0ae823b98e55890bfc6504a62865dd0af890dad
                 <MyText style={{ fontSize: 11 }}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
                   venenatissit amet risus a bibendum. Integer a nibh feugiat,
@@ -306,7 +353,14 @@ const PaymentMethodScreen = () => {
                 </MyText>
               </View>
               <View style={{ marginHorizontal: 15 }}>
+<<<<<<< HEAD
                 <SvgImport svg={MasterCard} style={{ width: "100%" }} />
+=======
+                <SvgImport
+                  svg={MasterCard}
+                  style={{ width: '100%', marginBottom: 19 }}
+                />
+>>>>>>> b0ae823b98e55890bfc6504a62865dd0af890dad
                 <MyText style={{ fontSize: 11 }}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
                   venenatissit amet risus a bibendum. Integer a nibh feugiat,
@@ -326,7 +380,10 @@ const PaymentMethodScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+<<<<<<< HEAD
     backgroundColor: "#fff",
+=======
+>>>>>>> b0ae823b98e55890bfc6504a62865dd0af890dad
   },
   dropdown: {
     height: 55,

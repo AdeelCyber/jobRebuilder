@@ -14,7 +14,8 @@ import Icon from '@expo/vector-icons/FontAwesome'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 
 import { useNavigation } from '@react-navigation/native'
-import CustomHeader from '../../../Components/CustomHeader'
+import CustomHeader from '../../../Components/CustomHeader2'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 const AmountSpentScreen = () => {
   const navigation = useNavigation()
@@ -92,14 +93,26 @@ const AmountSpentScreen = () => {
   )
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: '#ffffff' }}>
+      <CustomHeader
+        Title='Expenses'
+        style={{ elevation: 0 }}
+        icon={() => {
+          return (
+            <MaterialCommunityIcons
+              name='bell-circle'
+              size={28}
+              color='black'
+            />
+          )
+        }}
+      />
       <View
         style={[
           styles.container,
           {
             backgroundColor: colors.background,
             paddingTop: 40,
-            height: 1000,
             padding: 23,
           },
         ]}
@@ -125,11 +138,16 @@ const styles = StyleSheet.create({
     paddingLeft: 13,
     paddingBottom: 14,
     paddingRight: 17,
-    borderWidth: 1,
-    borderColor: 'lightgray',
     borderRadius: 10,
     flexDirection: 'row',
     marginBottom: 9,
+    backgroundColor: 'white',
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    elevation: 10,
   },
 })
 

@@ -14,7 +14,8 @@ import Icon from '@expo/vector-icons/FontAwesome'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 
 import { useNavigation } from '@react-navigation/native'
-import CustomHeader from '../../../Components/CustomHeader'
+import CustomHeader from '../../../Components/CustomHeader2'
+import { Entypo } from '@expo/vector-icons'
 
 const CancelledOrdersScreen = () => {
   const navigation = useNavigation()
@@ -23,7 +24,12 @@ const CancelledOrdersScreen = () => {
   } = useContext(Context)
 
   const OrderItem = () => (
-    <View style={styles.orderItem}>
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate('CancelledOrderDetail')
+      }}
+      style={styles.orderItem}
+    >
       <View
         style={{
           flexDirection: 'row',
@@ -142,18 +148,25 @@ const CancelledOrdersScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: '#ffffff' }}>
+      <CustomHeader
+        Title='Cancelled Orders'
+        style={{
+          elevation: 0,
+        }}
+        icon={() => {
+          return <Entypo name='dots-three-vertical' size={20} color='black' />
+        }}
+      />
       <View
         style={[
           styles.container,
           {
-            backgroundColor: colors.background,
             paddingTop: 40,
-            height: 1000,
             padding: 23,
           },
         ]}
@@ -179,10 +192,15 @@ const styles = StyleSheet.create({
     paddingTop: 13,
     paddingLeft: 13,
     paddingRight: 17,
-    borderWidth: 1,
-    borderColor: 'lightgray',
     borderRadius: 10,
     marginBottom: 9,
+    backgroundColor: 'white',
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    elevation: 10,
   },
 
   cancelledBadge: {

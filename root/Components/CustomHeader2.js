@@ -35,6 +35,7 @@ const CustomHeader = ({
           paddingRight: 19,
         },
         styles.shadow,
+
         props.style,
       ]}
     >
