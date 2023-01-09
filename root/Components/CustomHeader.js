@@ -25,6 +25,7 @@ const CustomHeader = ({
 
         padding: 6,
         justifyContent: "space-between",
+        paddingHorizontal: 13,
       }}
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>

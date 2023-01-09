@@ -131,12 +131,12 @@ const styles = StyleSheet.create({
     marginBottom: 9,
 
     backgroundColor: 'white',
-    shadowColor: '#000000',
+    shadowColor: '#878787',
     shadowOffset: {
       width: 0,
       height: 6,
     },
-    elevation: 10,
+    elevation: 15,
   },
   heading: {
     fontWeight: '700',

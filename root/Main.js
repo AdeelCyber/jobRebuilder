@@ -58,6 +58,8 @@ import AddNewTask from "./Screens/campaignHomeScreen/AddNewTask";
 import TeamWarnings from "./Screens/campaignHomeScreen/TeamWarnings";
 import CampaignManagement from "./Screens/campaignHomeScreen/CampaignManagement";
 import ManagingCampaign from "./Screens/campaignHomeScreen/ManagingCampaign";
+import Warnings from "./Screens/campaignHomeScreen/Warnings";
+import CampaignHome from "./Screens/campaignHomeScreen/CampaignHome";
 
 //Navigation out
 
@@ -69,10 +71,11 @@ const Tab = createMaterialBottomTabNavigator();
 const MyStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="ManagingCampaign"
+      initialRouteName="CampaignHome"
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Home2" component={Home} />
+      <Stack.Screen name="CampaignHome" component={CampaignHome} />
       <Stack.Screen name="CampaignMenu" component={CampaignMenu} />
       <Stack.Screen name="OverView" component={OverView} />
       <Stack.Screen name="PartnerShipTerms" component={PartnerShipTerms} />
@@ -89,7 +92,7 @@ const MyStack = () => {
       <Stack.Screen name="TodoTaskView" component={TodoTaskView} />
       <Stack.Screen name="AddNewTask" component={AddNewTask} />
       <Stack.Screen name="TeamWarnings" component={TeamWarnings} />
-      <Stack.Screen name="Warnings" component={TeamWarnings} />
+      <Stack.Screen name="Warnings" component={Warnings} />
       <Stack.Screen name="CampaignManagement" component={CampaignManagement} />
       <Stack.Screen name="ManagingCampaign" component={ManagingCampaign} />
 
