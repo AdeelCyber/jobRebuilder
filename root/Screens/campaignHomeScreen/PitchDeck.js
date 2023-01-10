@@ -23,7 +23,7 @@ import CircularProgress from "react-native-circular-progress-indicator";
 import DynamicButton from "../../Components/DynamicButton";
 import pdf from "../../../assets/Svgs/pdf";
 
-const PitchDeck = () => {
+const PitchDeck = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
@@ -49,7 +49,7 @@ const PitchDeck = () => {
       >
         <View>
           {/* header */}
-          <CustomHeader2 />
+          <CustomHeader2 nav={navigation} />
           {/* header out */}
           {/* card in */}
           <CampaignCard

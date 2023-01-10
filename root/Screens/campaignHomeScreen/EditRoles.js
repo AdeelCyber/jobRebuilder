@@ -17,7 +17,7 @@ import MyText from "../../Components/Text";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DynamicButton from "../../Components/DynamicButton";
 
-const EditRoles = () => {
+const EditRoles = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
@@ -51,6 +51,7 @@ const EditRoles = () => {
             );
           }}
           Title="Team Roles"
+          nav={navigation}
         />
         {/* header out */}
         {/* Inputs In */}

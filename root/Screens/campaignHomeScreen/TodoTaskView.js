@@ -134,11 +134,12 @@ const TodoTaskView = () => {
               text="Files Attached"
               style={{
                 backgroundColor: "#E8E8E8",
-                width: "40%",
+                width: "43%",
                 paddingVertical: 17,
                 alignSelf: "flex-start",
                 marginTop: 30,
-                paddingHorizontal: 27,
+                paddingHorizontal: 25,
+                paddingRight: 30,
               }}
               textStyle={{ color: "#232323", fontSize: 14 }}
               handlePress={handlePress}

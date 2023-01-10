@@ -18,7 +18,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DynamicButton from "../../Components/DynamicButton";
 import questionMark from "../../../assets/Svgs/QuestionMark";
 
-const AddRoles = () => {
+const AddRoles = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
@@ -56,6 +56,7 @@ const AddRoles = () => {
           }}
           Title="Add Roles"
           style={{ elevation: 0 }}
+          nav={navigation}
         />
         {/* header out */}
         {/* heading */}

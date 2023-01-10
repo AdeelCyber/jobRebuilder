@@ -15,7 +15,7 @@ import Buildings from "../../../assets/img/Buildings.png";
 
 import CampaignPopular from "../../Components/CampaignPopular";
 
-const CampaignManagement = () => {
+const CampaignManagement = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
@@ -60,7 +60,11 @@ const CampaignManagement = () => {
         backgroundColor: colors.white,
       }}
     >
-      <CustomHeader2 Title="Campaign Management" style={{ elevation: 0 }} />
+      <CustomHeader2
+        Title="Campaign Management"
+        style={{ elevation: 0 }}
+        nav={navigation}
+      />
       <FlatList
         data={popularCards}
         showsHorizontalScrollIndicator={false}

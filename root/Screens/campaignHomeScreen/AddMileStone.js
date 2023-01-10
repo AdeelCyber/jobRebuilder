@@ -19,7 +19,7 @@ import DynamicButton from "../../Components/DynamicButton";
 import calender from "../../../assets/Svgs/Calender";
 import questionMark from "../../../assets/Svgs/QuestionMark";
 
-const AddMileStone = () => {
+const AddMileStone = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
@@ -59,6 +59,7 @@ const AddMileStone = () => {
           }}
           Title="Add Milestone"
           style={{ elevation: 0 }}
+          nav={navigation}
         />
         {/* header out */}
         {/* heading */}

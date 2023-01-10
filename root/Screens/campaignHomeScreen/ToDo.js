@@ -27,7 +27,7 @@ import HorizontalCalendar from "../../Components/HorizontalCalendar";
 import TodoListItem from "../../Components/TodoListItem";
 import Buttons from "../../Components/Buttons";
 
-const Todo = () => {
+const Todo = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
@@ -64,6 +64,7 @@ const Todo = () => {
           icon={() => <FontAwesome name="calendar" size={24} color="black" />}
           Title="January"
           style={{ elevation: 0 }}
+          nav={navigation}
         />
         {/* header out */}
         <View

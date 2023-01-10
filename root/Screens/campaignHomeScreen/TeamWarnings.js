@@ -25,7 +25,7 @@ import TeamMember from "../../Components/TeamMember";
 import TeamMemberWarning from "../../Components/TeamMemberWarning";
 import WarningHistoryComp from "../../Components/WarningHistory";
 
-const TeamWarnings = () => {
+const TeamWarnings = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
@@ -81,7 +81,11 @@ const TeamWarnings = () => {
         backgroundColor: colors.white,
       }}
     >
-      <CustomHeader2 Title="Warnings" style={{ elevation: 0 }} />
+      <CustomHeader2
+        Title="Warnings"
+        style={{ elevation: 0 }}
+        nav={navigation}
+      />
       {/* main View */}
       <View style={{ flex: 1 }}>
         {/* Toggle */}

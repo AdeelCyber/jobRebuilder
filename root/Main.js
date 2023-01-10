@@ -74,7 +74,6 @@ const MyStack = () => {
       initialRouteName="CampaignHome"
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name="Home2" component={Home} />
       <Stack.Screen name="CampaignHome" component={CampaignHome} />
       <Stack.Screen name="CampaignMenu" component={CampaignMenu} />
       <Stack.Screen name="OverView" component={OverView} />

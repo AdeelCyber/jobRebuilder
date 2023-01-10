@@ -137,7 +137,7 @@ function MileStoneComponent({ para, ...props }) {
   );
 }
 
-const MileStone = () => {
+const MileStone = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
@@ -175,7 +175,7 @@ const MileStone = () => {
       }}
     >
       {/* header */}
-      <CustomHeader2 />
+      <CustomHeader2 nav={navigation} />
       {/* header out */}
       {/* card in */}
       <CampaignCard

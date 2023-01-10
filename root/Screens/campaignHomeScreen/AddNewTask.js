@@ -23,7 +23,7 @@ import magnifine from "../../../assets/Svgs/GreyMagnifine";
 import { SearchBar } from "react-native-paper";
 import TeamMember from "../../Components/TeamMember";
 
-const AddNewTask = () => {
+const AddNewTask = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
@@ -90,6 +90,7 @@ const AddNewTask = () => {
           }}
           Title="Add New Task"
           style={{ elevation: 0 }}
+          nav={navigation}
         />
         {/* header out */}
         {/* heading */}

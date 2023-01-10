@@ -201,7 +201,7 @@ const CampaignHome = ({ navigation, routes }) => {
       }}
     >
       {/* header */}
-      <CustomHeader />
+      <CustomHeader nav={navigation} />
       {/* header out */}
 
       {/*Seacrch bar and setting icon in  */}

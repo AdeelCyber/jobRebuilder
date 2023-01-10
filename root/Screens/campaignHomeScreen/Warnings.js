@@ -26,7 +26,7 @@ import TeamMember from "../../Components/TeamMember";
 import TeamMemberWarning from "../../Components/TeamMemberWarning";
 import WarningHistoryComp from "../../Components/WarningHistory";
 
-const Warnings = () => {
+const Warnings = (navgation) => {
   const {
     theme: { colors },
   } = useContext(Context);
@@ -42,7 +42,11 @@ const Warnings = () => {
   const [input, setinput] = useState("");
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
-      <CustomHeader2 Title="Warnings" style={{ elevation: 0 }} />
+      <CustomHeader2
+        Title="Warnings"
+        style={{ elevation: 0 }}
+        nav={navigation}
+      />
       <View
         style={{
           paddingHorizontal: 23,

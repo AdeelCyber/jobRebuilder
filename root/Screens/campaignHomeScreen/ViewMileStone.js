@@ -23,7 +23,7 @@ import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const ViewMileStone = () => {
+const ViewMileStone = ({ navigation }) => {
   // slider hooks in
   const [range, setrange] = useState("50%");
   const [sliding, setsliding] = useState("Inactive");
@@ -61,6 +61,7 @@ const ViewMileStone = () => {
           }}
           Title={currentMileStone.Title}
           style={{ elevation: 0 }}
+          nav={navigation}
         />
         {/* header out */}
         {/* Inputs In */}

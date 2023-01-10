@@ -23,7 +23,7 @@ import CircularProgress from "react-native-circular-progress-indicator";
 import DynamicButton from "../../Components/DynamicButton";
 import TeamItem from "../../Components/TeamItem";
 
-const Team = () => {
+const Team = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
@@ -75,6 +75,7 @@ const Team = () => {
       <CustomHeader2
         icon={() => <Feather name="menu" size={24} color={colors.black} />}
         Title="Team"
+        nav={navigation}
       />
       {/* header out */}
       <View

@@ -18,7 +18,7 @@ import logo from "../../../assets/Svgs/MotoMobileLogo";
 import Thumbnail from "../../../assets/img/Thumbnail.png";
 import LittleNav from "../../Components/LittleNav";
 import TickPara from "../../Components/TickPara";
-const PartnerShipTerms = () => {
+const PartnerShipTerms = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
@@ -35,7 +35,7 @@ const PartnerShipTerms = () => {
       }}
     >
       {/* header */}
-      <CustomHeader2 />
+      <CustomHeader2 nav={navigation} />
       {/* header out */}
       {/* card in */}
       <CampaignCard
@@ -57,11 +57,20 @@ const PartnerShipTerms = () => {
             paddingHorizontal: 23,
           }}
         >
-          <Text style={{ fontSize: 24, fontWeight: "700" }}>Details</Text>
+          <MyText
+            style={{
+              fontSize: 24,
+              fontWeight: "700",
+              marginTop: 15,
+              marginBottom: 10,
+            }}
+          >
+            Details
+          </MyText>
         </View>
         <View>
           {PartnerShip.map((item) => (
-            <TickPara para={item} />
+            <TickPara para={item} style={{ paddingHorizontal: 23 }} />
           ))}
         </View>
       </View>

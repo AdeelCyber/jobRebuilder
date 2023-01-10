@@ -142,7 +142,7 @@ function TodoComponent({ Title, desc, ...props }) {
   );
 }
 
-const ManagingCampaign = () => {
+const ManagingCampaign = ({ navigation }) => {
   // members array
   const TeamWarning = [
     {
@@ -203,7 +203,7 @@ const ManagingCampaign = () => {
         backgroundColor: colors.white,
       }}
     >
-      <CustomHeader Title="Beyond" style={{ elevation: 0 }} />
+      <CustomHeader Title="Beyond" style={{ elevation: 0 }} nav={navigation} />
       <View style={{ marginTop: 10 }}>
         <FlatList
           horizontal

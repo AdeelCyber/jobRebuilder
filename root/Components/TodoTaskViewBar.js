@@ -26,7 +26,6 @@ const TodoTaskViewBar = ({ Title, ...props }) => {
           justifyContent: "space-between",
           borderWidth: 0.2,
 
-          paddingHorizontal: 8,
           paddingVertical: 14,
           borderRadius: 4,
           marginVertical: 8,

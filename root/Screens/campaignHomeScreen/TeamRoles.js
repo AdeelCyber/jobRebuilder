@@ -20,7 +20,7 @@ import LittleNav from "../../Components/LittleNav";
 import TickPara from "../../Components/TickPara";
 import RolesDropDown from "../../Components/RolesDropDown";
 import Buttons from "../../Components/Buttons";
-const TeamRoles = () => {
+const TeamRoles = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
@@ -46,7 +46,7 @@ const TeamRoles = () => {
       }}
     >
       {/* header */}
-      <CustomHeader2 style={{ elevation: 0 }} />
+      <CustomHeader2 style={{ elevation: 0 }} nav={navigation} />
       {/* header out */}
       {/* card in */}
       <CampaignCard

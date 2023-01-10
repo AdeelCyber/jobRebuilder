@@ -23,7 +23,7 @@ import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const EditMileStone = () => {
+const EditMileStone = ({ navigation }) => {
   // slider hooks in
   const [range, setrange] = useState("50%");
   const [sliding, setsliding] = useState("Inactive");
@@ -61,6 +61,7 @@ const EditMileStone = () => {
           }}
           Title="Team Roles"
           style={{ elevation: 0 }}
+          nav={navigation}
         />
         {/* header out */}
         {/* Inputs In */}

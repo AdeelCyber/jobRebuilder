@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 import React, { useContext } from "react";
 import Context from "../Context/Context";
@@ -9,11 +9,15 @@ import { Entypo } from "@expo/vector-icons";
 const CustomHeader = ({
   icon = () => <MaterialIcons name="message" size={24} color="black" />,
   Title = "Moto Mobiles",
+
   ...props
 }) => {
   const {
     theme: { colors },
   } = useContext(Context);
+  const handleNav = () => {
+    props.nav.goBack();
+  };
   return (
     <View
       style={[
@@ -39,9 +43,12 @@ const CustomHeader = ({
         props.style,
       ]}
     >
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <Pressable
+        style={{ flexDirection: "row", alignItems: "center" }}
+        onPress={handleNav}
+      >
         <Entypo name="chevron-left" size={22} color="black" />
-      </View>
+      </Pressable>
       {/* Text View in */}
       <View>
         <MyText style={{ fontWeight: "700", fontSize: 16 }}>{Title}</MyText>
