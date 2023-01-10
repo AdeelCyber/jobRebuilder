@@ -6,7 +6,7 @@ import {
   Pressable,
   Dimensions,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Context from "../Context/Context";
 import MyText from "./Text";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -15,17 +15,26 @@ const BottomPopup = (props) => {
   const {
     theme: { colors },
   } = useContext(Context);
-  const [close, setclose] = React.useState(true);
+  const [open, setopen] = React.useState(props.show);
+
+  useEffect(() => {
+    setopen(props.show);
+  }, [props.show, open]);
+
   const handleit = (msg) => {
     alert(msg);
+    setopen(props.show);
   };
   return (
     // modal in
     <Modal
-      animationType="fade"
+      animationType="slide"
       transparent={true}
-      visible={close}
-      onRequestClose={() => setclose(false)}
+      visible={open}
+      onRequestClose={() => {
+        setopen(false);
+        props.setshow((currents) => ({ ...currents, modal1: false }));
+      }}
     >
       {/* dark shade in */}
       <View
@@ -38,7 +47,10 @@ const BottomPopup = (props) => {
         {/* for canceling on press in dark shade */}
         <Pressable
           style={{ flex: 1, width: "100%" }}
-          onPress={() => setclose(false)}
+          onPress={() => {
+            setopen(false);
+            props.setshow((currents) => ({ ...currents, modal1: false }));
+          }}
         ></Pressable>
         {/* modal bottom component in */}
         <View

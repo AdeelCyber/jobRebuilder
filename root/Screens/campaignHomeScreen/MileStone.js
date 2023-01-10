@@ -7,7 +7,7 @@ import {
   Pressable,
 } from "react-native";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Context from "../../Context/Context";
 import CustomHeader2 from "../../Components/CustomHeader2";
 import { Searchbar } from "react-native-paper";
@@ -145,6 +145,8 @@ const MileStone = ({ navigation }) => {
     alert(text);
   }
   let popupRef = React.useRef();
+  const [modal, setModal] = useState({ modal1: false });
+
   const [MileStones, setMileStone] = useState([
     {
       para: " Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo,",
@@ -183,6 +185,7 @@ const MileStone = ({ navigation }) => {
         niche={"Mobile Making and selling company."}
         Logo={logo}
         Thumbnail={Thumbnail}
+        modal={setModal}
       />
       {/* card out */}
       {/* Little nav in */}
@@ -210,7 +213,7 @@ const MileStone = ({ navigation }) => {
           pass={handlePress}
         />
       </View>
-      <BottomPopup />
+      <BottomPopup show={modal.modal1} setshow={setModal} />
     </ScrollView>
   );
 };

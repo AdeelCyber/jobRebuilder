@@ -37,9 +37,13 @@ const CampaignCard = ({ ...props }) => {
             </MyText>
           </View>
         </View>
-        <View>
+        <Pressable
+          onPress={() =>
+            props.modal((currents) => ({ ...currents, modal1: true }))
+          }
+        >
           <Entypo name="share" size={24} color={colors.secondary} />
-        </View>
+        </Pressable>
       </View>
       {/* card header out */}
       {/* video in */}
