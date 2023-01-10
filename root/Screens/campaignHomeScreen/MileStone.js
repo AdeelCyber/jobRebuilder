@@ -22,6 +22,7 @@ import { Feather } from "@expo/vector-icons";
 import CircularProgress from "react-native-circular-progress-indicator";
 import Buttons from "../../Components/Buttons";
 import BottomPopup from "../../Components/BottomPopup";
+import BottomPopup2 from "../../Components/BottomPopup2";
 
 // component
 function MileStoneComponent({ para, ...props }) {
@@ -88,7 +89,13 @@ function MileStoneComponent({ para, ...props }) {
           >
             {props.item.Title}
           </MyText>
-          <Feather name="more-horizontal" size={24} color="#A1A1A1" />
+          <Pressable
+            onPress={() =>
+              props.modal((currents) => ({ ...currents, modal2: true }))
+            }
+          >
+            <Feather name="more-horizontal" size={24} color="#A1A1A1" />
+          </Pressable>
         </View>
         {/* head off */}
         {/* lorem in */}
@@ -145,7 +152,7 @@ const MileStone = ({ navigation }) => {
     alert(text);
   }
   let popupRef = React.useRef();
-  const [modal, setModal] = useState({ modal1: false });
+  const [modal, setModal] = useState({ modal1: false, modal2: false });
 
   const [MileStones, setMileStone] = useState([
     {
@@ -194,7 +201,11 @@ const MileStone = ({ navigation }) => {
       {/* mile Stones in */}
       <View style={{ paddingHorizontal: 12, marginTop: 10 }}>
         {MileStones.map((item) => (
-          <MileStoneComponent item={item} style={{ marginVertical: 8 }} />
+          <MileStoneComponent
+            item={item}
+            style={{ marginVertical: 8 }}
+            modal={setModal}
+          />
         ))}
       </View>
       {/* mile Stones out */}
@@ -214,6 +225,7 @@ const MileStone = ({ navigation }) => {
         />
       </View>
       <BottomPopup show={modal.modal1} setshow={setModal} />
+      <BottomPopup2 show={modal.modal2} setshow={setModal} />
     </ScrollView>
   );
 };
