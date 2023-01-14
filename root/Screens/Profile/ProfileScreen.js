@@ -139,6 +139,9 @@ const ProfileScreen = () => {
         >
           <TouchableOpacity
             labelStyle={{ color: '#fff' }}
+            onPress={() => {
+              navigation.navigate('ChangeProfile')
+            }}
             style={{
               backgroundColor: colors.secondary,
               borderRadius: 4,
