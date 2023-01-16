@@ -1,23 +1,25 @@
 import { StyleSheet, Text, View, FlatList, ScrollView } from 'react-native'
 
 import React, { useContext, useState } from 'react'
-import Context from '../../Context/Context'
-import CustomHeader from '../../Components/CustomHeader'
+import Context from '../../../Context/Context'
+import CustomHeader from '../../../Components/CustomHeader'
 import { Searchbar } from 'react-native-paper'
-import SvgImport from '../../Components/SvgImport'
-import SettingIcon from '../../../assets/Svgs/SettingIcon'
-import GraduationHat from '../../../assets/Svgs/GraduationHat'
-import MyText from '../../Components/Text'
-import HomeCategories from '../../Components/HomeCategories'
-import HomePopular from '../../Components/HomePopular'
-import Buildings from '../../../assets/img/Buildings.png'
-import Logo from '../../../assets/Svgs/Logo'
-import HeartIcon from '../../../assets/Svgs/HeartIcon'
-import AIBrainIcon from '../../../assets/Svgs/AIBrainIcon'
-import SoftwareCompanyIcon from '../../../assets/Svgs/SoftwareCompanyIcon'
-import ConstructionIcon from '../../../assets/Svgs/ConstructionIcon'
+import SvgImport from '../../../Components/SvgImport'
+import SettingIcon from '../../../../assets/Svgs/SettingIcon'
+import GraduationHat from '../../../../assets/Svgs/GraduationHat'
+import MyText from '../../../Components/Text'
+import HomeCategories from '../../../Components/HomeCategories'
+import HomePopular from '../../../Components/HomePopular'
+import Buildings from '../../../../assets/img/Buildings.png'
+import Logo from '../../../../assets/Svgs/Logo'
+import HeartIcon from '../../../../assets/Svgs/HeartIcon'
+import AIBrainIcon from '../../../../assets/Svgs/AIBrainIcon'
+import SoftwareCompanyIcon from '../../../../assets/Svgs/SoftwareCompanyIcon'
+import ConstructionIcon from '../../../../assets/Svgs/ConstructionIcon'
+import Category1 from '../../../Components/Category1'
+import Posts from '../../../Components/Posts'
 
-const ExploreScreen = ({ navigation, routes }) => {
+const ExploreFreelancerScreen = ({ navigation, routes }) => {
   //categories hook
   const [catgeories, setCategories] = useState([
     { icon: ConstructionIcon, text: 'Construction' },
@@ -88,17 +90,31 @@ const ExploreScreen = ({ navigation, routes }) => {
           placeholder='Search'
           onChangeText={onChangeSearch}
           value={searchQuery}
-          style={{ width: '80%', color: colors.placeHolder, borderRadius: 20 }}
+          style={{
+            width: '80%',
+            backgroundColor: 'white',
+            color: colors.placeHolder,
+            fontSize: 10,
+            borderRadius: 6,
+            shadowColor: '#878787',
+            shadowOffset: {
+              width: 0,
+              height: 6,
+            },
+            elevation: 15,
+          }}
         />
         <View
           style={{
-            backgroundColor: colors.secondary,
             justifyContent: 'center',
             alignContent: 'center',
-            borderRadius: 15,
-            height: 42,
-            width: 48,
+            borderRadius: 6,
+            backgroundColor: 'white',
+            height: 48,
+            width: 50,
             marginLeft: 10,
+            borderWidth: 1,
+            borderColor: 'lightgray',
           }}
         >
           <SvgImport svg={SettingIcon} style={{ alignSelf: 'center' }} />
@@ -107,23 +123,33 @@ const ExploreScreen = ({ navigation, routes }) => {
       </View>
       {/* Categories In */}
       <View style={{ marginTop: 10 }}>
-        <MyText style={{ fontSize: 24, fontWeight: '700', paddingLeft: 10 }}>
+        <MyText
+          style={{
+            fontSize: 24,
+            fontWeight: '700',
+            paddingLeft: 10,
+            marginBottom: 16,
+          }}
+        >
           Categories
         </MyText>
-        <View style={{ width: '100%' }}>
+        <View
+          style={{
+            width: '100%',
+            marginLeft: 10,
+          }}
+        >
           <FlatList
             horizontal
             data={catgeories}
             showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => (
-              <HomeCategories svg={item.icon} title={item.text} style={{}} />
-            )}
+            renderItem={({ item, index }) => <Category1 />}
           />
         </View>
       </View>
       {/* Categories Out */}
       {/* popular In */}
-      <View style={{ marginTop: '8%', paddingLeft: 10 }}>
+      <View style={{ marginTop: '2%', paddingLeft: 10 }}>
         <View
           style={{
             flexDirection: 'row',
@@ -132,7 +158,7 @@ const ExploreScreen = ({ navigation, routes }) => {
             paddingRight: 4,
           }}
         >
-          <Text style={{ fontSize: 24, fontWeight: '700' }}>Recents</Text>
+          <Text style={{ fontSize: 24, fontWeight: '700' }}>Popular Posts</Text>
           <MyText
             style={{ fontWeight: '500', fontSize: 10, color: colors.lighttext }}
           >
@@ -145,20 +171,7 @@ const ExploreScreen = ({ navigation, routes }) => {
             horizontal
             data={popularCards}
             showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => (
-              <HomePopular
-                Src={item.src}
-                title={item.title}
-                Logo={Logo}
-                raisedFunds={item.raisedFunds}
-                minInv={item.minInv}
-                ShareHolders={item.ShareHolders}
-                style={{
-                  marginLeft: index != 0 ? 20 : 0,
-                  width: 200,
-                }}
-              />
-            )}
+            renderItem={({ item, index }) => <Posts />}
           />
         </View>
       </View>
@@ -209,7 +222,7 @@ const ExploreScreen = ({ navigation, routes }) => {
   )
 }
 
-export default ExploreScreen
+export default ExploreFreelancerScreen
 
 const styles = StyleSheet.create({
   // container : {

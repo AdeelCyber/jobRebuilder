@@ -72,6 +72,7 @@ import WarningsScreen from './Screens/Profile/Freelancer/WarningsScreen'
 import WarningReasonDetailScreen from './Screens/Profile/Freelancer/WarningReasonDetailScreen'
 import AppliedJobsScreen from './Screens/Profile/Freelancer/AppliedJobsScreen'
 import PaymentAccountsScreen from './Screens/Profile/PaymentAccountsScreen'
+import ExploreFreelancerScreen from './Screens/Profile/Freelancer/ExploreFreelancerScreen'
 
 //Navigation out
 
@@ -83,7 +84,7 @@ const Tab = createMaterialBottomTabNavigator()
 const MyStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName='PaymentAccounts'
+      initialRouteName='FreelancerProfile'
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name='CampaignHome' component={CampaignHome} />
@@ -171,6 +172,10 @@ const MyStack = () => {
       <Stack.Screen
         name='EarningsRecords'
         component={FreelancerEarningRecordScreen}
+      />
+      <Stack.Screen
+        name='ExploreFreelancers'
+        component={ExploreFreelancerScreen}
       />
     </Stack.Navigator>
   )

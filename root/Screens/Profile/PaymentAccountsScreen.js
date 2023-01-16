@@ -1,24 +1,13 @@
 import React, { useContext, useMemo, useState } from 'react'
-import {
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import MyText from '../../Components/Text'
 import Context from '../../Context/Context'
-import Icon from '@expo/vector-icons/FontAwesome'
 
 import SvgImport from '../../Components/SvgImport'
-import PayPalSvg from '../../../assets/Svgs/PayPal'
 import MasterCard from '../../../assets/Svgs/MasterCard'
 
 import CustomHeader from '../../Components/CustomHeader2'
 import { Feather } from '@expo/vector-icons'
-import ArrowRightIcon from '../../../assets/Svgs/ArrowRightIcon'
-import TrashIcon from '../../../assets/Svgs/TrashIcon'
 import BinIcon from '../../../assets/Svgs/BinIcon'
 
 const PaymentAccountsScreen = () => {
@@ -39,54 +28,48 @@ const PaymentAccountsScreen = () => {
         <MyText style={styles.heading}>Comment/Message*</MyText>
 
         <View style={{ marginTop: 10, backgroundColor: '#FFFFFF' }}>
-          <TouchableOpacity
-            onPress={() => {
-              //   navigation.navigate(profile.navigate)
-            }}
-          >
-            <View style={styles.listItemView}>
-              <View
-                style={{
-                  backgroundColor: '#C38BFF',
-                  borderRadius: 5,
-                  marginRight: 20,
-                  padding: 7,
-                  height: 62,
-                  width: 67,
-                  justifyContent: 'center',
-                  alignItems: 'center',
+          <View style={styles.listItemView}>
+            <View
+              style={{
+                backgroundColor: '#C38BFF',
+                borderRadius: 5,
+                marginRight: 20,
+                padding: 7,
+                height: 62,
+                width: 67,
+                justifyContent: 'center',
+                alignItems: 'center',
 
-                  borderTopRightRadius: 50,
-                  borderBottomRightRadius: 60,
+                borderTopRightRadius: 50,
+                borderBottomRightRadius: 60,
+              }}
+            >
+              <SvgImport svg={MasterCard} />
+            </View>
+
+            <View style={{ flex: 1 }}>
+              <MyText
+                style={{
+                  fontWeight: '600',
+                  fontSize: 15,
                 }}
               >
-                <SvgImport svg={MasterCard} />
-              </View>
-
-              <View style={{ flex: 1 }}>
-                <MyText
-                  style={{
-                    fontWeight: '600',
-                    fontSize: 15,
-                  }}
-                >
-                  Master - credit
-                </MyText>
-                <MyText
-                  style={{
-                    fontWeight: '600',
-                    fontSize: 15,
-                  }}
-                >
-                  **** 5464
-                </MyText>
-              </View>
-              <View style={styles.iconView}>
-                <SvgImport svg={BinIcon} />
-                {/* <Icon style={{ fontWeight: 0 }} name='arrow-right' size={15} /> */}
-              </View>
+                Master - credit
+              </MyText>
+              <MyText
+                style={{
+                  fontWeight: '600',
+                  fontSize: 15,
+                }}
+              >
+                **** 5464
+              </MyText>
             </View>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.iconView}>
+              <SvgImport svg={BinIcon} />
+              {/* <Icon style={{ fontWeight: 0 }} name='arrow-right' size={15} /> */}
+            </TouchableOpacity>
+          </View>
         </View>
 
         <TouchableOpacity
