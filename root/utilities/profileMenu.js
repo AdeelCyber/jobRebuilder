@@ -84,7 +84,7 @@ export const profileMenu2 = [
     id: 5,
     title: 'Manage Jobs',
     icon: 'cube',
-    navigate: 'Manage Jobs',
+    navigate: 'ManageJobs',
   },
   {
     id: 6,
@@ -108,7 +108,7 @@ export const profileMenu2 = [
     id: 9,
     title: 'Warnings',
     icon: 'compass',
-    navigate: 'Warnings',
+    navigate: 'FreelancerWarnings',
   },
   {
     id: 10,

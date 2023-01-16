@@ -65,6 +65,13 @@ import FreelancerProfileScreen from './Screens/Profile/FreelancerProfileScreen'
 import FreelancerDashboardScreen from './Screens/Profile/Freelancer/FreelancerDashboardScreen'
 import FreelancerEarningsScreen from './Screens/Profile/Freelancer/FreelancerEarningScreen'
 import FreelancerEarningRecordScreen from './Screens/Profile/Freelancer/FreelancerEarningRecordScreen'
+import ManageJobsScreen from './Screens/Profile/Freelancer/ManageJobsScreen'
+import DeliverProjectScreen from './Screens/Profile/Freelancer/DeliverProjectScreen'
+// import AppliedJobsScreen from './Screens/Profile/Freelancer/WarningsScreen'
+import WarningsScreen from './Screens/Profile/Freelancer/WarningsScreen'
+import WarningReasonDetailScreen from './Screens/Profile/Freelancer/WarningReasonDetailScreen'
+import AppliedJobsScreen from './Screens/Profile/Freelancer/AppliedJobsScreen'
+import PaymentAccountsScreen from './Screens/Profile/PaymentAccountsScreen'
 
 //Navigation out
 
@@ -76,7 +83,7 @@ const Tab = createMaterialBottomTabNavigator()
 const MyStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName='FreelancerProfile'
+      initialRouteName='PaymentAccounts'
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name='CampaignHome' component={CampaignHome} />
@@ -141,6 +148,16 @@ const MyStack = () => {
       <Stack.Screen name='DeleteAccount' component={DeleteAccountScreen} />
       <Stack.Screen name='MyOrders' component={OrdersScreen} />
       <Stack.Screen name='Explore' component={ExploreScreen} />
+      <Stack.Screen name='ManageJobs' component={ManageJobsScreen} />
+      <Stack.Screen name='DeliverProject' component={DeliverProjectScreen} />
+      <Stack.Screen name='AppliedJobs' component={AppliedJobsScreen} />
+      <Stack.Screen name='FreelancerWarnings' component={WarningsScreen} />
+      <Stack.Screen name='PaymentAccounts' component={PaymentAccountsScreen} />
+
+      <Stack.Screen
+        name='WarningDetail'
+        component={WarningReasonDetailScreen}
+      />
 
       <Stack.Screen
         name='FreelancerProfile'
