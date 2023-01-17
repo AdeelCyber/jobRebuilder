@@ -18,6 +18,7 @@ import SoftwareCompanyIcon from '../../../../assets/Svgs/SoftwareCompanyIcon'
 import ConstructionIcon from '../../../../assets/Svgs/ConstructionIcon'
 import Category1 from '../../../Components/Category1'
 import Posts from '../../../Components/Posts'
+import RateComp from '../../../Components/RateComp'
 
 const ExploreFreelancerScreen = ({ navigation, routes }) => {
   //categories hook
@@ -27,6 +28,49 @@ const ExploreFreelancerScreen = ({ navigation, routes }) => {
     { icon: SoftwareCompanyIcon, text: 'Software Company' },
     { icon: AIBrainIcon, text: 'Ai Tech' },
     { icon: HeartIcon, text: 'Liked' },
+  ])
+
+  const [RateData, setRateData] = useState([
+    {
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
+      Image:
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
+    },
+    {
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
+      Image:
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
+    },
+    {
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
+      Image:
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
+    },
+    {
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
+      Image:
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
+    },
+    {
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
+      Image:
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
+    },
   ])
   //Popular hook
   const [popularCards, setPopularCards] = useState([
@@ -186,7 +230,9 @@ const ExploreFreelancerScreen = ({ navigation, routes }) => {
             paddingRight: 4,
           }}
         >
-          <MyText style={{ fontSize: 24, fontWeight: '700' }}>Popular</MyText>
+          <MyText style={{ fontSize: 24, fontWeight: '700' }}>
+            Most Popular
+          </MyText>
           <MyText
             style={{ fontWeight: '500', fontSize: 10, color: colors.lighttext }}
           >
@@ -195,25 +241,17 @@ const ExploreFreelancerScreen = ({ navigation, routes }) => {
         </View>
 
         <View style={{ width: '100%', marginTop: 10 }}>
-          <FlatList
-            horizontal
-            data={popularCards}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => (
-              <HomePopular
-                Src={item.src}
-                title={item.title}
-                Logo={Logo}
-                raisedFunds={item.raisedFunds}
-                minInv={item.minInv}
-                ShareHolders={item.ShareHolders}
-                style={{
-                  marginLeft: index != 0 ? 20 : 0,
-                  width: 200,
-                }}
-              />
-            )}
-          />
+          {RateData.map((item, index) => (
+            <RateComp
+              key={index}
+              name={item.name}
+              Price={item.Price}
+              designation={item.designation}
+              Rating={item.Rating}
+              Image={item.Image}
+              style={{ marginVertical: 11 }}
+            />
+          ))}
         </View>
       </View>
 
