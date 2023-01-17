@@ -134,32 +134,34 @@ const ExploreFreelancerScreen = ({ navigation, routes }) => {
           placeholder='Search'
           onChangeText={onChangeSearch}
           value={searchQuery}
-          style={{
-            width: '80%',
-            backgroundColor: 'white',
-            color: colors.placeHolder,
-            fontSize: 10,
-            borderRadius: 6,
-            shadowColor: '#878787',
-            shadowOffset: {
-              width: 0,
-              height: 6,
+          style={[
+            {
+              width: '80%',
+              backgroundColor: 'white',
+              color: colors.placeHolder,
+              fontSize: 10,
+              borderRadius: 6,
+
+              elevation: 20,
             },
-            elevation: 15,
-          }}
+            styles.shadow,
+          ]}
         />
         <View
-          style={{
-            justifyContent: 'center',
-            alignContent: 'center',
-            borderRadius: 6,
-            backgroundColor: 'white',
-            height: 48,
-            width: 50,
-            marginLeft: 10,
-            borderWidth: 1,
-            borderColor: 'lightgray',
-          }}
+          style={[
+            {
+              backgroundColor: colors.white,
+              justifyContent: 'center',
+              alignContent: 'center',
+              borderRadius: 6,
+              height: 52,
+              width: 52,
+              marginLeft: 10,
+
+              elevation: 10,
+            },
+            styles.shadow,
+          ]}
         >
           <SvgImport svg={SettingIcon} style={{ alignSelf: 'center' }} />
         </View>
@@ -266,4 +268,15 @@ const styles = StyleSheet.create({
   // container : {
   //     flex:1,
   // }
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 10,
+  },
 })
