@@ -9,10 +9,10 @@ import Signup from "./Screens/Signup";
 import Offset from "./GlobalStyles/Offset";
 
 //screens
-import Home from "./Screens/campaignHomeScreen/Home";
+import CampaignHome from "./Screens/campaignHomeScreen/CampaignHome";
 import SettingScreen from "./Screens/Profile/Settings/SettingScreen";
 import ProfileScreen from "./Screens/Profile/ProfileScreen";
-import JobRequestScreen from "./Screens/Profile/JobRequestScreen";
+import JobRequestScreen from "./Screens/Profile/Job/JobRequestScreen";
 import PaymentMethodScreen from "./Screens/Profile/PaymentMethodScreen";
 import ChangeEmailScreen from "./Screens/Profile/Settings/ChangeEmailScreen";
 import ChangePhoneNumberScreen from "./Screens/Profile/Settings/ChangePhoneNumberScreen";
@@ -31,6 +31,23 @@ import MileStone from "./Screens/campaignHomeScreen/MileStone";
 import PitchDeck from "./Screens/campaignHomeScreen/PitchDeck";
 import Team from "./Screens/campaignHomeScreen/Team";
 import Todo from "./Screens/campaignHomeScreen/ToDo";
+import StartScreen from "./Screens/StartScreens/StartScreen";
+import Login from "./Screens/StartScreens/Login";
+import CreateAccount from "./Screens/StartScreens/Createaccount";
+import Message from "./Screens/Chat/Message";
+import MessageBox from "./Screens/Chat/MessageBox";
+import CreateGroup from "./Screens/Chat/CreateGroup";
+import CreatingGroup from "./Screens/Chat/CreatingGroup";
+import CreatingGroup1 from "./Screens/Chat/CreatingGroup1";
+import GroupChat from "./Screens/Chat/GroupChat";
+import BuildingStartupScreen1 from "./Screens/BuildingStartup/BuildingStartupScreen1";
+import Progress from "./Screens/CreatingProfile/Progress";
+import HomeService from "./Screens/HomeProfile/HomeService";
+import EditService from "./Screens/HomeProfile/EditService";
+import Portfolio from "./Screens/HomeProfile/Portfolio";
+import ViewPortfolio from "./Screens/HomeProfile/ViewPortfolio";
+import EditProfile from "./Screens/HomeProfile/EditProfile";
+import CustomOffer from "./Screens/Chat/CustomOffer";
 //screens out
 
 //Navigation
@@ -81,6 +98,30 @@ const MyStack = () => {
       <Stack.Screen name="PaymentMethod" component={PaymentMethodScreen} />
       <Stack.Screen name="ChangeEmail" component={ChangeEmailScreen} />
       <Stack.Screen name="AddFinancialDetail" component={AddFinancialScreen} />
+      <Stack.Screen name="StartScreen" component={StartScreen} />
+      <Stack.Screen name="LoginScreen" component={Login} />
+      <Stack.Screen name="CreateAccount" component={CreateAccount} />
+
+      <Stack.Screen name="Message" component={Message} />
+      <Stack.Screen name="MessageBox" component={MessageBox} />
+      <Stack.Screen name="CreateGroup" component={CreateGroup} />
+      <Stack.Screen name="CreatingGroup" component={CreatingGroup} />
+      <Stack.Screen name="CreatingGroup1" component={CreatingGroup1} />
+      <Stack.Screen name="GroupChat" component={GroupChat} />
+      <Stack.Screen name="CustomOffer" component={CustomOffer} />
+
+      <Stack.Screen
+        name="BuildingStartupScreen1"
+        component={BuildingStartupScreen1}
+      />
+
+      <Stack.Screen name="ProgressScreen" component={Progress} />
+
+      <Stack.Screen name="HomeService" component={HomeService} />
+      <Stack.Screen name="EditService" component={EditService} />
+      <Stack.Screen name="Portfolio" component={Portfolio} />
+      <Stack.Screen name="ViewPortfolio" component={ViewPortfolio} />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
 
       <Stack.Screen
         name="ActiveOrderDetail"
