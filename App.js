@@ -6,15 +6,17 @@ import { theme } from "./root/utils";
 import Main from "./root/Main";
 import { useFonts } from "expo-font";
 import ContextWrapper from "./root/Context/ContextWrapper";
-
+import { CartProvider } from "./root/Context/CartProvider";
 export default function App() {
   const {
     theme: { colors },
   } = useContext(Context);
   return (
-    <ContextWrapper>
-      <Main />
-    </ContextWrapper>
+    <CartProvider>
+      <ContextWrapper>
+        <Main />
+      </ContextWrapper>
+    </CartProvider>
   );
 }
 
