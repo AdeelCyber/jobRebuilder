@@ -4,11 +4,11 @@ import React, { useContext } from "react";
 import Context from "../Context/Context";
 import MyText from "./Text";
 import { FontAwesome } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign,Entypo,MaterialCommunityIcons } from "@expo/vector-icons";
 
-const CustomHeader3 = ({
-  icon = () => <FontAwesome name="pencil-square-o" size={24} color="black" />,
-  Title = "Messages",
+const CustomHeader10 = ({
+  icon1 = () => <MaterialCommunityIcons name="bell-circle" size={30} color="black" />,
+  Title = "Adding Portfolio",
 }) => {
   const {
     theme: { colors },
@@ -34,19 +34,20 @@ const CustomHeader3 = ({
       ]}
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <AntDesign name="search1" size={18} color="black" />
+      <Entypo name="chevron-left" size={24} color="black" />
       </View>
       {/* Text View in */}
       <View>
         <MyText style={{ fontWeight: "700", fontSize: 16 }}>{Title}</MyText>
       </View>
 
-      <View>{icon()}</View>
+      <View>{icon1()}</View>
+
     </View>
   );
 };
 
-export default CustomHeader3;
+export default CustomHeader10;
 
 const styles = StyleSheet.create({
   shadow: {

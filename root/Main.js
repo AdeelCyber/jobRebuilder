@@ -27,18 +27,34 @@ import TeamRoles from "./Screens/campaignHomeScreen/TeamRoles";
 import EditRoles from "./Screens/campaignHomeScreen/EditRoles";
 import AddRoles from "./Screens/campaignHomeScreen/AddRole";
 import AddMileStone from "./Screens/campaignHomeScreen/AddMileStone";
+import MileStone from "./Screens/campaignHomeScreen/MileStone";
+import PitchDeck from "./Screens/campaignHomeScreen/PitchDeck";
+import Team from "./Screens/campaignHomeScreen/Team";
+import Todo from "./Screens/campaignHomeScreen/ToDo";
+import StartScreen from "./Screens/StartScreens/StartScreen";
+import Login from "./Screens/StartScreens/Login";
+import CreateAccount from "./Screens/StartScreens/Createaccount";
+import Message from "./Screens/Chat/Message";
+import MessageBox from "./Screens/Chat/MessageBox";
 //screens out
 
 //Navigation
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import MileStone from "./Screens/campaignHomeScreen/MileStone";
-import StartScreen from "./Screens/StartScreens/StartScreen";
-import Login from "./Screens/StartScreens/Login";
-import CreateAccount from "./Screens/StartScreens/Createaccount";
-import Message from "./Screens/Chat/Message";
-import MessageBox from "./Screens/Chat/MessageBox";
+import CreateGroup from "./Screens/Chat/CreateGroup";
+import CreatingGroup from "./Screens/Chat/CreatingGroup";
+import CreatingGroup1 from "./Screens/Chat/CreatingGroup1";
+import GroupChat from "./Screens/Chat/GroupChat";
+import BuildingStartupScreen1 from "./Screens/BuildingStartup/BuildingStartupScreen1";
+import Progress from "./Screens/CreatingProfile/Progress";
+import HomeService from "./Screens/HomeProfile/HomeService";
+import EditService from "./Screens/HomeProfile/EditService";
+import Portfolio from "./Screens/HomeProfile/Portfolio";
+import ViewPortfolio from "./Screens/HomeProfile/ViewPortfolio";
+import EditProfile from "./Screens/HomeProfile/EditProfile";
+import CustomOffer from "./Screens/Chat/CustomOffer";
+
 
 //Navigation out
 
@@ -50,7 +66,7 @@ const Tab = createMaterialBottomTabNavigator();
 const MyStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Message"
+      initialRouteName="HomeService"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={Home} />
@@ -62,6 +78,9 @@ const MyStack = () => {
       <Stack.Screen name="AddRoles" component={AddRoles} />
       <Stack.Screen name="MileStone" component={MileStone} />
       <Stack.Screen name="AddMileStone" component={AddMileStone} />
+      <Stack.Screen name="PitchDeck" component={PitchDeck} />
+      <Stack.Screen name="Team" component={Team} />
+      <Stack.Screen name="Todo" component={Todo} />
 
       <Stack.Screen name="SignIn" component={SignIn} />
       <Stack.Screen name="SignUp" component={Signup} />
@@ -79,6 +98,23 @@ const MyStack = () => {
 
       <Stack.Screen name="Message" component={Message} />
       <Stack.Screen name="MessageBox" component={MessageBox} />
+      <Stack.Screen name="CreateGroup" component={CreateGroup} />
+      <Stack.Screen name="CreatingGroup" component={CreatingGroup} />
+      <Stack.Screen name="CreatingGroup1" component={CreatingGroup1} />
+      <Stack.Screen name="GroupChat" component={GroupChat} />
+      <Stack.Screen name="CustomOffer" component={CustomOffer} />
+
+      <Stack.Screen name="BuildingStartupScreen1" component={BuildingStartupScreen1} />
+
+      <Stack.Screen name="ProgressScreen" component={Progress} />
+
+      <Stack.Screen name="HomeService" component={HomeService} />
+      <Stack.Screen name="EditService" component={EditService} />
+      <Stack.Screen name="Portfolio" component={Portfolio} />
+      <Stack.Screen name="ViewPortfolio" component={ViewPortfolio} />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
+
+
 
 
 

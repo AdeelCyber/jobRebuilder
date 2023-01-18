@@ -4,11 +4,11 @@ import React, { useContext } from "react";
 import Context from "../Context/Context";
 import MyText from "./Text";
 import { FontAwesome } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign,Entypo } from "@expo/vector-icons";
 
-const CustomHeader3 = ({
-  icon = () => <FontAwesome name="pencil-square-o" size={24} color="black" />,
-  Title = "Messages",
+const CustomHeader5 = ({
+  icon1 = () => <AntDesign name="search1" size={24} color="black" />,
+  Title = "Creating Group",
 }) => {
   const {
     theme: { colors },
@@ -34,19 +34,20 @@ const CustomHeader3 = ({
       ]}
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <AntDesign name="search1" size={18} color="black" />
+      <AntDesign name="arrowleft" size={24} color="black" />
       </View>
       {/* Text View in */}
       <View>
         <MyText style={{ fontWeight: "700", fontSize: 16 }}>{Title}</MyText>
       </View>
 
-      <View>{icon()}</View>
+      <View>{icon1()}</View>
+
     </View>
   );
 };
 
-export default CustomHeader3;
+export default CustomHeader5;
 
 const styles = StyleSheet.create({
   shadow: {

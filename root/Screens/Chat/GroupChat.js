@@ -7,10 +7,9 @@ import Context from "../../Context/Context";
 import { Entypo, AntDesign } from "@expo/vector-icons";
 import MyText from "../../Components/Text";
 import CustomHeader3 from '../../Components/CustomHeader3';
-import { useNavigation } from '@react-navigation/native';
+import { GroupChats } from '../../Components/GroupChats';
 
-const MessageBox = ({ route }) => {
-    const navigation = useNavigation()
+const GroupChat = ({ route }) => {
     const [messages, setMessages] = useState([]);
     const { userName, userImg } = route.params;
     const icon = () => <Entypo name="dots-three-vertical" size={24} color="black" />,
@@ -147,7 +146,6 @@ const MessageBox = ({ route }) => {
                 }}
                 renderBubble={renderBubble}
                 alwaysShowSend
-                renderAvatar={null}
                 renderSend={renderSend}
                 scrollToBottom
                 scrollToBottomComponent={scrollToBottomComponent}
@@ -158,10 +156,9 @@ const MessageBox = ({ route }) => {
                 shadowRadius: 2,
                 elevation: 3,
             }}>
-                <View style={{flexDirection:'row'}}>
                 <Entypo
                     name="attachment"
-                    style={{ marginTop:10, marginLeft:20}}
+                    style={{ margin:10, marginLeft:20}}
                     size={15}
                     color='#23232380'
                 />
@@ -173,33 +170,13 @@ const MessageBox = ({ route }) => {
                     }}>
                     Attach Files
                 </MyText>
-                </View>
-
-                <View style={{flexDirection:'row'}}>
-                <AntDesign
-                    name="pluscircleo"
-                    style={{ marginTop:10, marginLeft:20}}
-                    size={15}
-                    color='#23232380'
-                    onPress={()=>{navigation.navigate("CustomOffer")}}
-                />
-                <MyText
-                    style={{
-                        color: '#23232380',
-                        fontSize: 11,
-                        margin:10
-                    }}>
-                    Create Order
-                </MyText>
-                </View>
-                
             </View>
 
         </View>
     );
 };
 
-export default MessageBox;
+export default GroupChat;
 
 const styles = StyleSheet.create({
     container: {

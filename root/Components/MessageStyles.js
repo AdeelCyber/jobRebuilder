@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 export const Container = styled.View`
   flex: 1;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
   align-items: center;
   background-color: #ffffff;
 `;
@@ -83,7 +83,7 @@ export const PostTime = styled.Text`
   color: #23232380;
   margin-top: 2px;
   
-  margin-left: 230px;
+  margin-left: 15px;
 
 
 
@@ -92,7 +92,7 @@ export const PostTime = styled.Text`
 export const MessageText = styled.Text`
   font-size: 13px;
   color: #23232380;
-  margin-right: 17px;
+  margin-right: 66px;
 
 
   
