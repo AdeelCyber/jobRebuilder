@@ -17,7 +17,7 @@ import MyText from "../../Components/Text";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DynamicButton from "../../Components/DynamicButton";
 
-const EditRoles = () => {
+const EditRoles = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
@@ -51,6 +51,7 @@ const EditRoles = () => {
             );
           }}
           Title="Team Roles"
+          nav={navigation}
         />
         {/* header out */}
         {/* Inputs In */}
@@ -59,6 +60,7 @@ const EditRoles = () => {
             width: "100%",
             justifyContent: "center",
             alignItems: "center",
+            marginTop: 15,
           }}
         >
           <TextInput
@@ -73,6 +75,8 @@ const EditRoles = () => {
               width: "94%",
               fontWeight: "500",
               fontSize: 16,
+              borderRadius: 5,
+              paddingHorizontal: 14,
             }}
             onChangeText={(got) => {
               {
@@ -91,7 +95,9 @@ const EditRoles = () => {
               color: colors.lighttext,
               padding: 8,
               width: "94%",
-              marginTop: 20,
+              marginTop: 7,
+              borderRadius: 5,
+              paddingLeft: 14,
             }}
             onChangeText={(got) => {
               {

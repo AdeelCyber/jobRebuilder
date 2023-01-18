@@ -24,15 +24,29 @@ import DynamicButton from "../../Components/DynamicButton";
 import TeamItem from "../../Components/TeamItem";
 import { FontAwesome } from "@expo/vector-icons";
 import HorizontalCalendar from "../../Components/HorizontalCalendar";
+import TodoListItem from "../../Components/TodoListItem";
+import Buttons from "../../Components/Buttons";
 
-const Todo = () => {
+const Todo = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
   function handlePress(text) {
     alert(text);
   }
+
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [Roles, setRoles] = useState([
+    {
+      Title: "Design Front end",
+    },
+    {
+      Title: "Design Backend",
+    },
+    {
+      Title: "Design Schema",
+    },
+  ]);
 
   return (
     // main container
@@ -40,31 +54,96 @@ const Todo = () => {
       style={{
         flex: 1,
         backgroundColor: colors.white,
+        justifyContent: "space-between",
+        paddingBottom: 20,
       }}
     >
-      {/* header */}
-      <CustomHeader2
-        icon={() => <FontAwesome name="calendar" size={24} color="black" />}
-        Title="January"
-      />
-      {/* header out */}
-      <View style={{ width: "100%", marginTop: 20 }}>
-        <HorizontalCalendar
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
+      <View style={{ flex: 1 }}>
+        {/* header */}
+        <CustomHeader2
+          icon={() => <FontAwesome name="calendar" size={24} color="black" />}
+          Title="January"
+          style={{ elevation: 0 }}
+          nav={navigation}
         />
+        {/* header out */}
+        <View
+          style={{
+            width: "100%",
+            marginTop: 28,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <HorizontalCalendar
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+          />
+          <View
+            style={{
+              borderTopWidth: 1,
+              borderColor: "#00000014",
+              marginBottom: 5,
+              width: "94%",
+            }}
+          ></View>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingHorizontal: 15,
+            marginVertical: 13,
+          }}
+        >
+          <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            {Roles.length} Tasks Today
+          </MyText>
+        </View>
+        {/* Todo Item in */}
+        {/* <ScrollView style={{}}>
+          {Roles.map((item) => (
+            <TodoListItem
+              Title={item.Title}
+              style={{
+                marginHorizontal: 23,
+                elevation: 5,
+                shadowColor: "#0000003B",
+                marginVertical: 10,
+                borderWidth: 0.2,
+              }}
+            />
+          ))}
+        </ScrollView> */}
+
+        <FlatList
+          data={Roles}
+          keyExtractor={(item) => item.Title}
+          contentContainerStyle={{ flexGrow: 1 }}
+          renderItem={({ item }) => (
+            <TodoListItem
+              Title={item.Title}
+              style={{ marginHorizontal: 23, marginVertical: 10 }}
+            />
+          )}
+        />
+
+        {/* Todo item out */}
       </View>
       <View
         style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
+          justifyContent: "center",
           alignItems: "center",
-          paddingHorizontal: 23,
+          marginTop: 10,
         }}
       >
-        <MyText style={{ fontSize: 24, fontWeight: "700" }}>
-          {} Tasks Today
-        </MyText>
+        <Buttons
+          color={colors.text}
+          text=" + Add new Task"
+          style={{ width: "50%", alignSelf: "center" }}
+          pass={handlePress}
+        />
       </View>
     </View>
   );

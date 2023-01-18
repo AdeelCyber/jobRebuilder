@@ -13,13 +13,19 @@ const TickPara = ({ para, ...props }) => {
   return (
     <View style={{ alignItems: "center" }}>
       <View
-        style={{ paddingHorizontal: 23, flexDirection: "row", ...props.style }}
+        style={{
+          paddingHorizontal: 23,
+
+          flexDirection: "row",
+          width: "100%",
+          ...props.style,
+        }}
       >
         <View
           style={{
             alignItems: "center",
             justifyContent: "center",
-            marginRight: 7,
+            marginRight: 13,
           }}
         >
           <SvgImport svg={tick} />
@@ -31,6 +37,7 @@ const TickPara = ({ para, ...props }) => {
               fontWeight: "400",
               fontSize: 11,
               lineHeight: 14.32,
+              textAlign: "left",
             }}
           >
             {para}
@@ -40,8 +47,8 @@ const TickPara = ({ para, ...props }) => {
       <View
         style={{
           width: "90%",
-          borderWidth: 0.8,
-          marginTop: 15,
+          borderBottomWidth: 0.8,
+          marginVertical: 17,
           borderColor: "#C9CBCB9C",
         }}
       ></View>

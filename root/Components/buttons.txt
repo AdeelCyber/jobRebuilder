@@ -1,46 +1,123 @@
-import { StyleSheet, Text, View, Pressable } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import React from "react";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-const Buttons = ({ color, arrow, text }) => {
+import React, { useContext } from "react";
+import Context from "../Context/Context";
+import MyText from "./Text";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import SvgImport from "./SvgImport";
+import { Entypo } from "@expo/vector-icons";
+import Team from "../../assets/Svgs/TeamIcon";
+import todo from "../../assets/Svgs/TodoIcon";
+// import Video from "react-native-video";
+const CampaignCard = ({ ...props }) => {
+  const {
+    theme: { colors },
+  } = useContext(Context);
   return (
-    <Pressable
-      style={{
-        backgroundColor: color,
-        width: "85%",
-        height: 57,
-        borderRadius: 15,
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 10,
-        position: "relative",
-      }}
-    >
-      <Text
-        style={{
-          color: "white",
-          fontWeight: "400",
-          fontSize: 15,
-          alignSelf: "center",
-        }}
-      >
-        {text}
-      </Text>
+    <View>
+      {/* card header in */}
       <View
         style={{
-          position: "absolute",
-          right: 10,
-          display: arrow ? "flex" : "none",
+          paddingHorizontal: 23,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
-        <AntDesign name="arrowright" size={20} color="white" />
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <SvgImport svg={props.Logo} style={{ width: "100%" }} />
+          <View style={{ marginLeft: 8 }}>
+            <MyText
+              style={{ color: colors.text, fontSize: 12, fontWeight: "700" }}
+            >
+              {props.title}
+            </MyText>
+            <MyText style={{ color: colors.lighttext, fontSize: 10 }}>
+              {props.niche}
+            </MyText>
+          </View>
+        </View>
+        <View>
+          <Entypo name="share" size={24} color={colors.secondary} />
+        </View>
       </View>
-    </Pressable>
+      {/* card header out */}
+      {/* video in */}
+      <View
+        style={{
+          width: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+          paddingHorizontal: 23,
+        }}
+      >
+        {/* <Video
+          source={{ uri: "https://www.youtube.com/watch?v=mpSmBuco6I0" }}
+          style={{ width: "100%", height: "30%" }}
+        /> */}
+
+        <Image source={props.Thumbnail} style={{}} />
+
+        {/* Buttons View in */}
+        <View
+          style={{
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "space-between",
+          }}
+        >
+          <Pressable
+            style={{
+              backgroundColor: colors.secondary,
+              justifyContent: "center",
+              alignItems: "center",
+              paddingHorizontal: 50,
+              paddingVertical: 10,
+              flexDirection: "row",
+              borderRadius: 5,
+            }}
+          >
+            <SvgImport svg={Team} />
+            <MyText
+              style={{
+                color: colors.white,
+                fontSize: 16,
+                fontWeight: "500",
+                marginLeft: 10,
+              }}
+            >
+              Team
+            </MyText>
+          </Pressable>
+          <Pressable
+            style={{
+              backgroundColor: colors.white,
+              justifyContent: "center",
+              alignItems: "center",
+              paddingHorizontal: 50,
+              paddingVertical: 10,
+              flexDirection: "row",
+              borderRadius: 5,
+              borderWidth: 1,
+            }}
+          >
+            <SvgImport svg={todo} />
+            <MyText
+              style={{
+                fontSize: 16,
+                fontWeight: "500",
+                marginLeft: 10,
+              }}
+            >
+              To do
+            </MyText>
+          </Pressable>
+        </View>
+      </View>
+    </View>
   );
 };
 
-export default Buttons;
+export default CampaignCard;
 
 const styles = StyleSheet.create({});

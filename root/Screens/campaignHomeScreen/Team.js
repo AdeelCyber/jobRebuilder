@@ -23,7 +23,7 @@ import CircularProgress from "react-native-circular-progress-indicator";
 import DynamicButton from "../../Components/DynamicButton";
 import TeamItem from "../../Components/TeamItem";
 
-const Team = () => {
+const Team = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
@@ -31,12 +31,36 @@ const Team = () => {
     alert(text);
   }
   const menu = [
-    { image: "https://bit.ly/kent-c-dodds", text: "Mike Dean" },
-    { image: "https://bit.ly/kent-c-dodds", text: "Mike Dean" },
-    { image: "https://bit.ly/kent-c-dodds", text: "Mike Dean" },
-    { image: "https://bit.ly/kent-c-dodds", text: "Mike Dean" },
-    { image: "https://bit.ly/kent-c-dodds", text: "Mike Dean" },
-    { image: "https://bit.ly/kent-c-dodds", text: "Mike Dean" },
+    {
+      image: "https://bit.ly/kent-c-dodds",
+      text: "Mike Dean",
+      designation: "Ceo",
+    },
+    {
+      image: "https://bit.ly/kent-c-dodds",
+      text: "Mike Dean",
+      designation: "Ceo",
+    },
+    {
+      image: "https://bit.ly/kent-c-dodds",
+      text: "Mike Dean",
+      designation: "Designer",
+    },
+    {
+      image: "https://bit.ly/kent-c-dodds",
+      text: "Mike Dean",
+      designation: "Designer",
+    },
+    {
+      image: "https://bit.ly/kent-c-dodds",
+      text: "Mike Dean",
+      designation: "Ceo",
+    },
+    {
+      image: "https://bit.ly/kent-c-dodds",
+      text: "Mike Dean",
+      designation: "Ceo",
+    },
   ];
 
   return (
@@ -51,6 +75,7 @@ const Team = () => {
       <CustomHeader2
         icon={() => <Feather name="menu" size={24} color={colors.black} />}
         Title="Team"
+        nav={navigation}
       />
       {/* header out */}
       <View
@@ -61,7 +86,7 @@ const Team = () => {
           justifyContent: "center",
         }}
       >
-        {menu.map(({ image, text }, index) => (
+        {menu.map(({ image, text, designation }, index) => (
           <TeamItem
             key={text}
             style={{
@@ -74,6 +99,7 @@ const Team = () => {
             handleClick={handlePress}
             image={image}
             text={text}
+            designation={designation}
           />
         ))}
       </View>

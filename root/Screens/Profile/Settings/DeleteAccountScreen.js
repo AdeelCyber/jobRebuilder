@@ -9,8 +9,9 @@ import {
 
 import MyText from '../../../Components/Text'
 import Context from '../../../Context/Context'
-import { FontAwesome } from '@expo/vector-icons'
+import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import ReactNativeModal from 'react-native-modal'
+import CustomHeader from '../../../Components/CustomHeader2'
 
 const DeleteAccountScreen = () => {
   const {
@@ -20,33 +21,38 @@ const DeleteAccountScreen = () => {
   const [isModalVisible, setModalVisible] = useState(false)
 
   return (
-    <ScrollView>
-      <View
-        style={[
-          styles.container,
-          {
-            backgroundColor: colors.background,
-            paddingTop: 40,
-            height: 1000,
-          },
-        ]}
-      >
+    <ScrollView style={{ backgroundColor: '#ffffff' }}>
+      <CustomHeader
+        Title='Delete Account'
+        style={{}}
+        icon={() => {
+          return (
+            <MaterialCommunityIcons
+              name='bell-circle'
+              size={28}
+              color='black'
+            />
+          )
+        }}
+      />
+      <View style={[styles.container]}>
         <View
           style={{
             paddingBottom: 10,
             marginHorizontal: 20,
             borderBottomColor: '#eee',
             borderBottomWidth: StyleSheet.hairlineWidth,
-            marginTop: 60,
+            marginTop: 20,
           }}
         >
           <MyText
             style={{
-              fontWeight: '600',
+              fontWeight: '700',
               lineHeight: 30,
               color: colors.text,
               textAlign: 'left',
               marginTop: 20,
+              fontSize: 16,
             }}
           >
             Enter Password
@@ -72,9 +78,8 @@ const DeleteAccountScreen = () => {
           labelStyle={{ color: '#fff' }}
           style={{
             marginHorizontal: 18,
-            backgroundColor: '#34b7f1',
+            backgroundColor: colors.secondary,
             borderRadius: 10,
-            width: '90%',
             justifyContent: 'center',
             alignItems: 'center',
             padding: 15,
@@ -88,6 +93,7 @@ const DeleteAccountScreen = () => {
           <MyText
             style={{
               color: 'white',
+              fontSize: 14,
             }}
           >
             Delete Account
@@ -137,6 +143,7 @@ const DeleteAccountScreen = () => {
                   <MyText
                     style={{
                       color: colors.secondaryText,
+                      fontSize: 16,
                     }}
                   >
                     Cancel
@@ -162,6 +169,7 @@ const DeleteAccountScreen = () => {
                   <MyText
                     style={{
                       color: 'white',
+                      fontSize: 16,
                     }}
                   >
                     Confirm
@@ -201,38 +209,6 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 26,
     color: '#424242',
-  },
-  listItem: {
-    padding: 15,
-    backgroundColor: '#f8f8f8',
-    borderBottomWidth: 1,
-    borderColor: '#eee',
-  },
-  listItemView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 10,
-    paddingRight: 0,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  listItemText: {
-    fontSize: 18,
-  },
-  checkedItemText: {
-    fontSize: 18,
-    textDecorationLine: 'line-through',
-    color: 'green',
-  },
-  iconView: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    width: 70,
-  },
-  editItemInput: {
-    padding: 0,
-    fontSize: 18,
   },
 })
 

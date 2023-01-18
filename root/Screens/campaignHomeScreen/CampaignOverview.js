@@ -18,7 +18,7 @@ import logo from "../../../assets/Svgs/MotoMobileLogo";
 import Thumbnail from "../../../assets/img/Thumbnail.png";
 import LittleNav from "../../Components/LittleNav";
 import TickPara from "../../Components/TickPara";
-const OverView = () => {
+const OverView = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
@@ -35,7 +35,7 @@ const OverView = () => {
       }}
     >
       {/* header */}
-      <CustomHeader2 />
+      <CustomHeader2 nav={navigation} />
       {/* header out */}
       {/* card in */}
       <CampaignCard
@@ -55,6 +55,8 @@ const OverView = () => {
             justifyContent: "space-between",
             alignItems: "center",
             paddingHorizontal: 23,
+            marginTop: 15,
+            marginBottom: 25,
           }}
         >
           <MyText style={{ fontSize: 24, fontWeight: "700" }}>

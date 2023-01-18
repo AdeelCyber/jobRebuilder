@@ -14,7 +14,7 @@ const CampaignCard = ({ ...props }) => {
     theme: { colors },
   } = useContext(Context);
   return (
-    <View>
+    <View style={{ marginTop: 10 }}>
       {/* card header in */}
       <View
         style={{
@@ -37,9 +37,13 @@ const CampaignCard = ({ ...props }) => {
             </MyText>
           </View>
         </View>
-        <View>
+        <Pressable
+          onPress={() =>
+            props.modal((currents) => ({ ...currents, modal1: true }))
+          }
+        >
           <Entypo name="share" size={24} color={colors.secondary} />
-        </View>
+        </Pressable>
       </View>
       {/* card header out */}
       {/* video in */}

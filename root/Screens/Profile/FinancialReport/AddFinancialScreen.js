@@ -3,7 +3,6 @@ import {
   ScrollView,
   StyleSheet,
   View,
-  Switch,
   TouchableOpacity,
   TextInput,
 } from 'react-native'
@@ -12,8 +11,6 @@ import Context from '../../../Context/Context'
 import Icon from '@expo/vector-icons/FontAwesome'
 import { useNavigation } from '@react-navigation/native'
 
-import { BarChart } from 'react-native-chart-kit'
-import { Dimensions } from 'react-native'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 
 const AddFinancialScreen = () => {
@@ -21,15 +18,15 @@ const AddFinancialScreen = () => {
   const {
     theme: { colors },
   } = useContext(Context)
+
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <View
         style={[
           styles.container,
           {
             backgroundColor: colors.background,
             paddingTop: 40,
-            height: 1000,
           },
         ]}
       >
@@ -41,17 +38,7 @@ const AddFinancialScreen = () => {
             borderBottomWidth: StyleSheet.hairlineWidth,
           }}
         >
-          <MyText
-            style={{
-              fontWeight: '600',
-              lineHeight: 30,
-              color: colors.text,
-              textAlign: 'left',
-              marginTop: 20,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
+          <MyText style={[styles.heading, { color: colors.text }]}>
             Enter Financial Details
           </MyText>
         </View>
@@ -140,23 +127,11 @@ const AddFinancialScreen = () => {
           />
         </View>
 
-        <TouchableOpacity
-          labelStyle={{ color: '#fff' }}
-          style={{
-            marginHorizontal: 18,
-            backgroundColor: '#8489FC',
-            borderRadius: 10,
-            width: '90%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: 15,
-            marginTop: 15,
-            marginBottom: 40,
-          }}
-        >
+        <TouchableOpacity labelStyle={{ color: '#fff' }} style={styles.btn}>
           <MyText
             style={{
               color: 'white',
+              fontSize: 14,
             }}
           >
             Update
@@ -171,29 +146,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  listItem: {
-    padding: 15,
-    backgroundColor: '#f8f8f8',
-    borderBottomWidth: 1,
-    borderColor: '#eee',
-  },
-  listItemView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 10,
-    paddingRight: 0,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  listItemText: {
-    fontSize: 18,
-  },
-  checkedItemText: {
-    fontSize: 18,
-    textDecorationLine: 'line-through',
-    color: 'green',
-  },
+
   iconView: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -224,6 +177,26 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     padding: 20,
     color: '#424242',
+  },
+  btn: {
+    marginHorizontal: 18,
+    backgroundColor: '#8489FC',
+    borderRadius: 10,
+    width: '90%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 15,
+    marginTop: 15,
+    marginBottom: 40,
+  },
+  heading: {
+    fontWeight: '600',
+    lineHeight: 30,
+    textAlign: 'left',
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 16,
   },
 })
 

@@ -17,10 +17,14 @@ import CampaignCard from "../../Components/CampaignCard";
 import logo from "../../../assets/Svgs/MotoMobileLogo";
 import Thumbnail from "../../../assets/img/Thumbnail.png";
 import LittleNav from "../../Components/LittleNav";
-const CampaignMenu = () => {
+
+const CampaignMenu = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
+
+  const [handlePress, setHandlePress] = useState("");
+
   return (
     // main container
     <ScrollView
@@ -30,7 +34,7 @@ const CampaignMenu = () => {
       }}
     >
       {/* header */}
-      <CustomHeader2 />
+      <CustomHeader2 nav={navigation} />
       {/* header out */}
       {/* card in */}
       <CampaignCard
@@ -41,15 +45,20 @@ const CampaignMenu = () => {
       />
       {/* card out */}
       {/* Little nav in */}
-      <LittleNav style={{ marginTop: 10 }} title={"Milestone"} chevron={true} />
+      <LittleNav
+        style={{ marginTop: 10 }}
+        title={"Milestones"}
+        chevron={true}
+      />
       {/* Little nav out */}
       <View>
         {/* 1 */}
         <Pressable
+          onPress={() => navigation.navigate("OverView")}
           style={{
             backgroundColor: colors.listback,
             paddingVertical: 15,
-            paddingHorizontal: 6,
+            paddingHorizontal: 18,
           }}
         >
           <MyText
@@ -60,10 +69,11 @@ const CampaignMenu = () => {
         </Pressable>
         {/* 2 */}
         <Pressable
+          onPress={() => navigation.navigate("TeamRoles")}
           style={{
             backgroundColor: colors.listback,
             paddingVertical: 15,
-            paddingHorizontal: 6,
+            paddingHorizontal: 18,
           }}
         >
           <MyText
@@ -74,10 +84,11 @@ const CampaignMenu = () => {
         </Pressable>
         {/* 3 */}
         <Pressable
+          onPress={() => navigation.navigate("PartnerShipTerms")}
           style={{
             backgroundColor: colors.listback,
             paddingVertical: 15,
-            paddingHorizontal: 6,
+            paddingHorizontal: 18,
           }}
         >
           <MyText
@@ -88,13 +99,18 @@ const CampaignMenu = () => {
         </Pressable>
       </View>
       {/* Little nav in */}
-      <LittleNav title={"Milestone"} hamburger={false} />
+      <LittleNav
+        title={"Milestones"}
+        hamburger={false}
+        style={{ paddingHorizontal: 12 }}
+      />
       {/* Little nav out */}
       <Pressable
+        onPress={() => navigation.navigate("PitchDeck")}
         style={{
           backgroundColor: colors.listback,
           paddingVertical: 15,
-          paddingHorizontal: 6,
+          paddingHorizontal: 18,
         }}
       >
         <MyText

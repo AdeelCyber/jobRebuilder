@@ -25,12 +25,13 @@ const CustomHeader = ({
 
         padding: 6,
         justifyContent: "space-between",
+        paddingHorizontal: 13,
       }}
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Image
           source={{ uri: imageSource }}
-          style={{ width: 30, height: 30, borderRadius: 20 }}
+          style={{ width: 30, height: 30, borderRadius: 20, marginRight: 8 }}
         />
         <View>
           <MyText style={{ color: colors.lighttext, fontSize: 10 }}>

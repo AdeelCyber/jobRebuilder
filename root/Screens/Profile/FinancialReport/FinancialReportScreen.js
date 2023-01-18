@@ -13,10 +13,14 @@ import { useNavigation } from '@react-navigation/native'
 
 import { BarChart } from 'react-native-chart-kit'
 import { Dimensions } from 'react-native'
+import { saleItemsData } from '../../../utilities/profileMenu'
+
+import CustomHeader from '../../../Components/CustomHeader'
 
 const FinancialReportScreen = () => {
   const navigation = useNavigation()
-  const [appNotification, setAppNotification] = useState(false)
+
+  const [saleItems, setSaleItems] = useState(saleItemsData)
 
   const {
     theme: { colors },
@@ -63,14 +67,13 @@ const FinancialReportScreen = () => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <View
         style={[
           styles.container,
           {
             backgroundColor: colors.background,
             paddingTop: 40,
-            height: 1000,
           },
         ]}
       >
@@ -91,6 +94,7 @@ const FinancialReportScreen = () => {
               marginTop: 20,
               justifyContent: 'center',
               alignItems: 'center',
+              fontSize: 16,
             }}
           >
             Financial Report &nbsp;&nbsp;&nbsp;
@@ -115,12 +119,15 @@ const FinancialReportScreen = () => {
             flexWrap: 'wrap',
           }}
         >
-          <SaleItem price='5404.00' title='Gross Sales' />
-          <SaleItem price='35033' title='Net Sales' />
-          <SaleItem price='5404.00' title='Gross Profit' />
-          <SaleItem price='25' title='Net Profit' />
-          <SaleItem price='540.00' title='Prior Interest Earning' />
-          <SaleItem price='3500' title='Taxes' />
+          {saleItems.map((saleItem, index) => {
+            return (
+              <SaleItem
+                key={index}
+                price={saleItem.price}
+                title={saleItem.title}
+              />
+            )
+          })}
         </View>
 
         <View
@@ -140,6 +147,7 @@ const FinancialReportScreen = () => {
               marginTop: 20,
               justifyContent: 'center',
               alignItems: 'center',
+              fontSize: 16,
             }}
           >
             Graphical Details
@@ -205,38 +213,6 @@ const FinancialReportScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  listItem: {
-    padding: 15,
-    backgroundColor: '#f8f8f8',
-    borderBottomWidth: 1,
-    borderColor: '#eee',
-  },
-  listItemView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 10,
-    paddingRight: 0,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  listItemText: {
-    fontSize: 18,
-  },
-  checkedItemText: {
-    fontSize: 18,
-    textDecorationLine: 'line-through',
-    color: 'green',
-  },
-  iconView: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    width: 70,
-  },
-  editItemInput: {
-    padding: 0,
-    fontSize: 18,
   },
 })
 

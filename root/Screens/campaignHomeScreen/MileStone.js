@@ -7,7 +7,7 @@ import {
   Pressable,
 } from "react-native";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Context from "../../Context/Context";
 import CustomHeader2 from "../../Components/CustomHeader2";
 import { Searchbar } from "react-native-paper";
@@ -21,6 +21,8 @@ import TickPara from "../../Components/TickPara";
 import { Feather } from "@expo/vector-icons";
 import CircularProgress from "react-native-circular-progress-indicator";
 import Buttons from "../../Components/Buttons";
+import BottomPopup from "../../Components/BottomPopup";
+import BottomPopup2 from "../../Components/BottomPopup2";
 
 // component
 function MileStoneComponent({ para, ...props }) {
@@ -87,7 +89,13 @@ function MileStoneComponent({ para, ...props }) {
           >
             {props.item.Title}
           </MyText>
-          <Feather name="more-horizontal" size={24} color="black" />
+          <Pressable
+            onPress={() =>
+              props.modal((currents) => ({ ...currents, modal2: true }))
+            }
+          >
+            <Feather name="more-horizontal" size={24} color="#A1A1A1" />
+          </Pressable>
         </View>
         {/* head off */}
         {/* lorem in */}
@@ -106,16 +114,27 @@ function MileStoneComponent({ para, ...props }) {
         {/* lorem off */}
         {/* date in */}
         <View style={{ alignSelf: "flex-end", paddingHorizontal: 5 }}>
-          <MyText
+          <View
             style={{
-              color: colors.Datee,
-              fontWeight: "400",
-              fontSize: 12,
-              lineHeight: 20,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            Due:{props.item.Date}
-          </MyText>
+            <View style={{ marginRight: 4 }}>
+              <Feather name="calendar" size={15} color="#969696" />
+            </View>
+            <MyText
+              style={{
+                color: colors.Datee,
+                fontWeight: "400",
+                fontSize: 12,
+                lineHeight: 20,
+              }}
+            >
+              Due:{props.item.Date}
+            </MyText>
+          </View>
         </View>
         {/* date off */}
       </View>
@@ -125,13 +144,16 @@ function MileStoneComponent({ para, ...props }) {
   );
 }
 
-const MileStone = () => {
+const MileStone = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
   function handlePress(text) {
     alert(text);
   }
+  let popupRef = React.useRef();
+  const [modal, setModal] = useState({ modal1: false, modal2: false });
+
   const [MileStones, setMileStone] = useState([
     {
       para: " Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo,",
@@ -162,7 +184,7 @@ const MileStone = () => {
       }}
     >
       {/* header */}
-      <CustomHeader2 />
+      <CustomHeader2 nav={navigation} />
       {/* header out */}
       {/* card in */}
       <CampaignCard
@@ -170,6 +192,7 @@ const MileStone = () => {
         niche={"Mobile Making and selling company."}
         Logo={logo}
         Thumbnail={Thumbnail}
+        modal={setModal}
       />
       {/* card out */}
       {/* Little nav in */}
@@ -178,7 +201,11 @@ const MileStone = () => {
       {/* mile Stones in */}
       <View style={{ paddingHorizontal: 12, marginTop: 10 }}>
         {MileStones.map((item) => (
-          <MileStoneComponent item={item} style={{ marginVertical: 8 }} />
+          <MileStoneComponent
+            item={item}
+            style={{ marginVertical: 8 }}
+            modal={setModal}
+          />
         ))}
       </View>
       {/* mile Stones out */}
@@ -197,6 +224,8 @@ const MileStone = () => {
           pass={handlePress}
         />
       </View>
+      <BottomPopup show={modal.modal1} setshow={setModal} />
+      <BottomPopup2 show={modal.modal2} setshow={setModal} />
     </ScrollView>
   );
 };

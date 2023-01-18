@@ -11,6 +11,12 @@ import Context from '../../../Context/Context'
 
 import Icon from '@expo/vector-icons/FontAwesome'
 import { useNavigation } from '@react-navigation/native'
+import SvgImport from '../../../Components/SvgImport'
+
+import PasswordChangeIcon from '../../../../assets/Svgs/PasswordChangeIcon'
+import ArrowRightIcon from '../../../../assets/Svgs/ArrowRightIcon'
+import CustomHeader from '../../../Components/CustomHeader2'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 const SettingScreen = () => {
   const navigation = useNavigation()
@@ -18,9 +24,10 @@ const SettingScreen = () => {
 
   const ListItem = ({ title, icon, isToggle, navigate }) => (
     <TouchableOpacity
+      disabled={isToggle}
       style={{ marginTop: 10 }}
       onPress={() => {
-        navigation.navigate(navigate)
+        if (!isToggle) navigation.navigate(navigate)
       }}
     >
       <View style={styles.listItemView}>
@@ -35,19 +42,18 @@ const SettingScreen = () => {
             alignItems: 'center',
           }}
         >
-          <Icon
-            name={icon}
-            size={24}
-            style={{}}
-            color={'black'}
-            onPress={() => {}}
-          />
+          {title === 'Change Password' ? (
+            <SvgImport svg={PasswordChangeIcon} />
+          ) : (
+            <Icon name={icon} size={24} color={'black'} />
+          )}
         </View>
 
         <View style={{ flex: 1, flexDirection: 'row' }}>
           <MyText
             style={{
               fontWeight: '500',
+              fontSize: 15,
             }}
           >
             {title}
@@ -56,7 +62,7 @@ const SettingScreen = () => {
 
         <View style={styles.iconView}>
           {!isToggle ? (
-            <Icon style={{ fontWeight: 0 }} name='arrow-right' size={15} />
+            <SvgImport svg={ArrowRightIcon} />
           ) : (
             <Switch
               trackColor={{ false: '#000', true: '#000' }}
@@ -78,14 +84,25 @@ const SettingScreen = () => {
   } = useContext(Context)
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: '#ffffff' }}>
+      <CustomHeader
+        Title='Settings'
+        style={{}}
+        icon={() => {
+          return (
+            <MaterialCommunityIcons
+              name='bell-circle'
+              size={28}
+              color='black'
+            />
+          )
+        }}
+      />
       <View
         style={[
           styles.container,
           {
-            backgroundColor: colors.background,
-            paddingTop: 40,
-            height: 1000,
+            paddingTop: 17,
           },
         ]}
       >
@@ -104,6 +121,8 @@ const SettingScreen = () => {
               color: colors.text,
               textAlign: 'left',
               marginTop: 20,
+              fontSize: 16,
+              marginLeft: 8,
             }}
           >
             Contact Details
@@ -111,7 +130,7 @@ const SettingScreen = () => {
         </View>
         <ListItem
           title='Email Address'
-          icon='home'
+          icon='envelope'
           isToggle={false}
           navigate='ChangeEmail'
         />
@@ -137,6 +156,8 @@ const SettingScreen = () => {
               color: colors.text,
               textAlign: 'left',
               marginTop: 20,
+              fontSize: 16,
+              marginLeft: 8,
             }}
           >
             Security Details
@@ -164,6 +185,8 @@ const SettingScreen = () => {
               color: colors.text,
               textAlign: 'left',
               marginTop: 20,
+              fontSize: 16,
+              marginLeft: 8,
             }}
           >
             App Settings
@@ -186,6 +209,8 @@ const SettingScreen = () => {
               color: colors.text,
               textAlign: 'left',
               marginTop: 20,
+              fontSize: 16,
+              marginLeft: 8,
             }}
           >
             Account
@@ -206,37 +231,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  listItem: {
-    padding: 15,
-    backgroundColor: '#f8f8f8',
-    borderBottomWidth: 1,
-    borderColor: '#eee',
-  },
+
   listItemView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 10,
     paddingRight: 0,
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 15,
   },
-  listItemText: {
-    fontSize: 18,
-  },
-  checkedItemText: {
-    fontSize: 18,
-    textDecorationLine: 'line-through',
-    color: 'green',
-  },
+
   iconView: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     width: 70,
-  },
-  editItemInput: {
-    padding: 0,
-    fontSize: 18,
   },
 })
 
