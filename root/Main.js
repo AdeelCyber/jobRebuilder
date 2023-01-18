@@ -48,6 +48,7 @@ import Portfolio from "./Screens/HomeProfile/Portfolio";
 import ViewPortfolio from "./Screens/HomeProfile/ViewPortfolio";
 import EditProfile from "./Screens/HomeProfile/EditProfile";
 import CustomOffer from "./Screens/Chat/CustomOffer";
+
 //screens out
 
 //Navigation
@@ -65,7 +66,7 @@ const Tab = createMaterialBottomTabNavigator();
 const MyStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Todo"
+      initialRouteName="SignIn"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="CampaignHome" component={CampaignHome} />
