@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-community/async-storage'
 import axios from '../../../http/axiosSet'
 
 export const getOrders = async () => {
