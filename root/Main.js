@@ -48,6 +48,32 @@ import Portfolio from "./Screens/HomeProfile/Portfolio";
 import ViewPortfolio from "./Screens/HomeProfile/ViewPortfolio";
 import EditProfile from "./Screens/HomeProfile/EditProfile";
 import CustomOffer from "./Screens/Chat/CustomOffer";
+
+//screens out
+
+//Navigation
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import DashboardScreen from "./Screens/Profile/Dashboard/DashboardScreen";
+import ActiveOrderDetailScreen from "./Screens/Profile/Orders/ActiveOrderDetailScreen";
+import CancelledOrdersScreen from "./Screens/Profile/Orders/CancelledOrdersScreen";
+import CompletedOrderDetailScreen from "./Screens/Profile/Orders/CompletedOrderDetailScreen";
+import CancelledOrderDetailScreen from "./Screens/Profile/Orders/CancelledOrderDetailScreen";
+import PendingOrderDetailScreen from "./Screens/Profile/Orders/PendingOrderDetailScreen";
+import OrdersScreen from "./Screens/Profile/Orders/OrdersScreen";
+import ExploreScreen from "./Screens/Profile/ExploreScreen";
+import ManageJobsScreen from "./Screens/Profile/Freelancer/ManageJobsScreen";
+import DeliverProjectScreen from "./Screens/Profile/Freelancer/DeliverProjectScreen";
+import AppliedJobsScreen from "./Screens/Profile/Freelancer/AppliedJobsScreen";
+import WarningsScreen from "./Screens/Profile/Freelancer/WarningsScreen";
+import PaymentAccountsScreen from "./Screens/Profile/PaymentAccountsScreen";
+import WarningReasonDetailScreen from "./Screens/Profile/Freelancer/WarningReasonDetailScreen";
+import FreelancerProfileScreen from "./Screens/Profile/FreelancerProfileScreen";
+import FreelancerDashboardScreen from "./Screens/Profile/Freelancer/FreelancerDashboardScreen";
+import FreelancerEarningsScreen from "./Screens/Profile/Freelancer/FreelancerEarningScreen";
+import FreelancerEarningRecordScreen from "./Screens/Profile/Freelancer/FreelancerEarningRecordScreen";
+import ExploreFreelancerScreen from "./Screens/Profile/Freelancer/ExploreFreelancerScreen";
 import ViewMileStone from "./Screens/campaignHomeScreen/ViewMileStone";
 import EditMileStone from "./Screens/campaignHomeScreen/EditMileStone";
 import TodoTaskView from "./Screens/campaignHomeScreen/TodoTaskView";
@@ -56,13 +82,6 @@ import TeamWarnings from "./Screens/campaignHomeScreen/TeamWarnings";
 import Warnings from "./Screens/campaignHomeScreen/Warnings";
 import CampaignManagement from "./Screens/campaignHomeScreen/CampaignManagement";
 import ManagingCampaign from "./Screens/campaignHomeScreen/ManagingCampaign";
-
-//screens out
-
-//Navigation
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
 
 //Navigation out
 
@@ -74,7 +93,7 @@ const Tab = createMaterialBottomTabNavigator();
 const MyStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="CampaignHome"
+      initialRouteName="Profile"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="CampaignHome" component={CampaignHome} />
@@ -97,6 +116,7 @@ const MyStack = () => {
       <Stack.Screen name="Warnings" component={Warnings} />
       <Stack.Screen name="CampaignManagement" component={CampaignManagement} />
       <Stack.Screen name="ManagingCampaign" component={ManagingCampaign} />
+
       <Stack.Screen name="SignIn" component={SignIn} />
       <Stack.Screen name="SignUp" component={Signup} />
       <Stack.Screen name="Settings" component={SettingScreen} />
@@ -109,6 +129,7 @@ const MyStack = () => {
       <Stack.Screen name="StartScreen" component={StartScreen} />
       <Stack.Screen name="LoginScreen" component={Login} />
       <Stack.Screen name="CreateAccount" component={CreateAccount} />
+
       <Stack.Screen name="Message" component={Message} />
       <Stack.Screen name="MessageBox" component={MessageBox} />
       <Stack.Screen name="CreateGroup" component={CreateGroup} />
@@ -116,47 +137,56 @@ const MyStack = () => {
       <Stack.Screen name="CreatingGroup1" component={CreatingGroup1} />
       <Stack.Screen name="GroupChat" component={GroupChat} />
       <Stack.Screen name="CustomOffer" component={CustomOffer} />
+
       <Stack.Screen
         name="BuildingStartupScreen1"
         component={BuildingStartupScreen1}
       />
+
       <Stack.Screen name="ProgressScreen" component={Progress} />
+
       <Stack.Screen name="HomeService" component={HomeService} />
       <Stack.Screen name="EditService" component={EditService} />
       <Stack.Screen name="Portfolio" component={Portfolio} />
       <Stack.Screen name="ViewPortfolio" component={ViewPortfolio} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
-      {/* <Stack.Screen
+
+      <Stack.Screen
         name="ActiveOrderDetail"
         component={ActiveOrderDetailScreen}
       />
-      <Stack.Screen name="Cancelled" component={CancelledOrdersScreen} /> */}
-      {/* <Stack.Screen
+      <Stack.Screen name="CancelledOrders" component={CancelledOrdersScreen} />
+      <Stack.Screen
         name="CompletedOrderDetail"
         component={CompletedOrderDetailScreen}
-      /> */}
+      />
       <Stack.Screen
         name="ChangePhoneNumber"
         component={ChangePhoneNumberScreen}
       />
-      {/* <Stack.Screen
+
+      <Stack.Screen
         name="CancelledOrderDetail"
         component={CancelledOrderDetailScreen}
       />
       <Stack.Screen
         name="PendingOrderDetail"
         component={PendingOrderDetailScreen}
-      /> */}
+      />
+
       <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
       <Stack.Screen name="DeleteAccount" component={DeleteAccountScreen} />
-      {/* <Stack.Screen name="MyOrders" component={OrdersScreen} />
+      <Stack.Screen name="Dashboard" component={DashboardScreen} />
+
+      <Stack.Screen name="MyOrders" component={OrdersScreen} />
       <Stack.Screen name="Explore" component={ExploreScreen} />
       <Stack.Screen name="ManageJobs" component={ManageJobsScreen} />
       <Stack.Screen name="DeliverProject" component={DeliverProjectScreen} />
       <Stack.Screen name="AppliedJobs" component={AppliedJobsScreen} />
       <Stack.Screen name="FreelancerWarnings" component={WarningsScreen} />
-      <Stack.Screen name="PaymentAccounts" component={PaymentAccountsScreen} /> */}
-      {/* <Stack.Screen
+      <Stack.Screen name="PaymentAccounts" component={PaymentAccountsScreen} />
+
+      <Stack.Screen
         name="WarningDetail"
         component={WarningReasonDetailScreen}
       />
@@ -177,7 +207,7 @@ const MyStack = () => {
       <Stack.Screen
         name="ExploreFreelancers"
         component={ExploreFreelancerScreen}
-      /> */}
+      />
     </Stack.Navigator>
   );
 };
