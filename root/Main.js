@@ -71,7 +71,7 @@ const Tab = createMaterialBottomTabNavigator();
 const MyStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="MileStone"
+      initialRouteName="TeamRoles"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="CampaignHome" component={CampaignHome} />

@@ -20,12 +20,14 @@ import LittleNav from "../../Components/LittleNav";
 import TickPara from "../../Components/TickPara";
 import RolesDropDown from "../../Components/RolesDropDown";
 import Buttons from "../../Components/Buttons";
+import BottomPopup from "../../Components/BottomPopup";
 const TeamRoles = ({ navigation }) => {
+  const [modal, setModal] = useState({ modal1: false, modal2: false });
   const {
     theme: { colors },
   } = useContext(Context);
   function handlePress(text) {
-    alert(text);
+    navigation.navigate("AddRoles");
   }
   const [Roles, setRoles] = useState([
     {
@@ -54,6 +56,7 @@ const TeamRoles = ({ navigation }) => {
         niche={"Mobile Making and selling company."}
         Logo={logo}
         Thumbnail={Thumbnail}
+        modal={setModal}
       />
       {/* card out */}
       {/* Little nav in */}
@@ -74,7 +77,11 @@ const TeamRoles = ({ navigation }) => {
         </View>
         <View style={{ paddingHorizontal: 23 }}>
           {Roles.map((item) => (
-            <RolesDropDown Title={item.Title} desc={item.desc} />
+            <RolesDropDown
+              Title={item.Title}
+              desc={item.desc}
+              nav={navigation}
+            />
           ))}
         </View>
       </View>
@@ -90,11 +97,12 @@ const TeamRoles = ({ navigation }) => {
       >
         <Buttons
           color={colors.text}
-          text=" + Add new Item"
+          text="+ Add new Item"
           style={{ width: "50%", alignSelf: "center" }}
           pass={handlePress}
         />
       </View>
+      <BottomPopup show={modal.modal1} setshow={setModal} />
     </ScrollView>
   );
 };

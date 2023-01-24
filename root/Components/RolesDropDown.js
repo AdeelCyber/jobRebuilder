@@ -85,9 +85,9 @@ const RolesDropDown = ({ Title, desc, ...props }) => {
               alignItems: "center",
             }}
           >
-            <View style={{ marginRight: 10 }}>
+            <Pressable style={{ marginRight: 10 }}>
               <AntDesign name="delete" size={24} color="black" />
-            </View>
+            </Pressable>
             <View
               style={{
                 justifyContent: "center",
@@ -98,9 +98,14 @@ const RolesDropDown = ({ Title, desc, ...props }) => {
                 borderColor: "#DEDEDE",
               }}
             ></View>
-            <View style={{ marginLeft: 10 }}>
+            <Pressable
+              style={{ marginLeft: 10 }}
+              onPress={() => {
+                props.nav.navigate("EditRoles");
+              }}
+            >
               <MaterialIcons name="edit" size={24} color="black" />
-            </View>
+            </Pressable>
           </View>
         </View>
       )}

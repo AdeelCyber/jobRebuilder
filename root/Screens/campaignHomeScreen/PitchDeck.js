@@ -22,8 +22,10 @@ import { Feather } from "@expo/vector-icons";
 import CircularProgress from "react-native-circular-progress-indicator";
 import DynamicButton from "../../Components/DynamicButton";
 import pdf from "../../../assets/Svgs/pdf";
+import BottomPopup from "../../Components/BottomPopup";
 
 const PitchDeck = ({ navigation }) => {
+  const [modal, setModal] = useState({ modal1: false, modal2: false });
   const {
     theme: { colors },
   } = useContext(Context);
@@ -57,6 +59,7 @@ const PitchDeck = ({ navigation }) => {
             niche={"Mobile Making and selling company."}
             Logo={logo}
             Thumbnail={Thumbnail}
+            modal={setModal}
           />
           {/* card out */}
           {/* Little nav in */}
@@ -117,6 +120,7 @@ const PitchDeck = ({ navigation }) => {
       </View>
 
       {/* Buttons out */}
+      <BottomPopup show={modal.modal1} setshow={setModal} />
     </View>
   );
 };

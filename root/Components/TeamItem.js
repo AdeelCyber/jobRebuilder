@@ -12,8 +12,8 @@ const TeamItem = (props) => {
   const {
     theme: { colors },
   } = useContext(Context);
-  const handleClick = () => {
-    props.handleClick(props.text);
+  const handleClick = (paso) => {
+    props.handleClick(paso);
   };
 
   const [open, setopen] = React.useState(false);
@@ -58,7 +58,9 @@ const TeamItem = (props) => {
           }}
         >
           <Pressable
-            onPress={handleClick}
+            onPress={() => {
+              handleClick("Send Warning");
+            }}
             style={{
               flexDirection: "row",
               padding: 5,
@@ -79,7 +81,9 @@ const TeamItem = (props) => {
             </MyText>
           </Pressable>
           <Pressable
-            onPress={handleClick}
+            onPress={() => {
+              handleClick("View Profile");
+            }}
             style={{
               flexDirection: "row",
               padding: 5,
@@ -100,7 +104,9 @@ const TeamItem = (props) => {
             </MyText>
           </Pressable>
           <Pressable
-            onPress={handleClick}
+            onPress={() => {
+              handleClick("Remove");
+            }}
             style={{
               flexDirection: "row",
               padding: 5,
@@ -121,7 +127,9 @@ const TeamItem = (props) => {
             </MyText>
           </Pressable>
           <Pressable
-            onPress={handleClick}
+            onPress={() => {
+              handleClick("Copy Profile Url");
+            }}
             style={{
               flexDirection: "row",
               padding: 5,
