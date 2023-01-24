@@ -16,8 +16,11 @@ const palette = {
   Bluish: "#8489FC",
   greish: "#F8F8F8",
   littlegrey: "#232323BF",
+  pink: "#ba55d3",
+  text2:'#ACA9A9',
   lightback: "#EEEEEE",
   black: "#000000",
+  red: "#FF0A0A"
 };
 
 export const theme = {
@@ -34,6 +37,8 @@ export const theme = {
     iconGray: palette.iconGray,
     placeHolder: palette.LightishGray,
     black: palette.black,
+    Bluish: palette.Bluish,
+    red : palette.red,
 
     listback: palette.greish,
     heighlight: palette.littlegrey,

@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 
 import Context from '../../Context/Context'
-import { profileMenu } from '../../utilities/profileMenu'
+import { profileMenu2 } from '../../utilities/profileMenu'
 import Icon from '@expo/vector-icons/FontAwesome'
 import MyText from '../../Components/Text'
 import { useNavigation } from '@react-navigation/native'
@@ -25,8 +25,11 @@ import CompassIcon from '../../../assets/Svgs/CompassIcon'
 import ArrowRightIcon from '../../../assets/Svgs/ArrowRightIcon'
 import CustomHeader from '../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import EarningIcon from '../../../assets/Svgs/EarningIcon'
+import WarningIcon from '../../../assets/Svgs/WarningIcon'
+import ExploreIcon from '../../../assets/Svgs/ExploreIcon'
 
-const ProfileScreen = () => {
+const FreelancerProfileScreen = () => {
   const navigation = useNavigation()
   const {
     theme: { colors },
@@ -36,10 +39,13 @@ const ProfileScreen = () => {
     <SvgImport svg={HomeIcon} />,
     <SvgImport svg={SettingIcon2} />,
     <SvgImport svg={PaymentCardIcon} />,
-    <SvgImport svg={CubeIcon} />,
+    <SvgImport svg={EarningIcon} />,
     <SvgImport svg={BagIcon} />,
+    <SvgImport svg={CubeIcon} />,
     <SvgImport svg={CrossIcon} />,
-    <SvgImport svg={CompassIcon} />,
+    <SvgImport svg={BagIcon} />,
+    <SvgImport svg={WarningIcon} />,
+    <SvgImport svg={ExploreIcon} />,
     <SvgImport svg={LogoutIcon} />,
   ]
 
@@ -128,13 +134,23 @@ const ProfileScreen = () => {
           >
             Shaheer Ahmed
           </MyText>
+          <MyText
+            style={{
+              color: 'rgba(35, 35, 35, 0.5);',
+              textAlign: 'center',
+              marginTop: 9,
+              fontSize: 14,
+            }}
+          >
+            Graphic Designer
+          </MyText>
         </View>
 
         <View
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: 20,
+            marginTop: 10,
           }}
         >
           <TouchableOpacity
@@ -162,7 +178,7 @@ const ProfileScreen = () => {
             </MyText>
           </TouchableOpacity>
         </View>
-        {profileMenu.map((profile, index) => {
+        {profileMenu2.map((profile, index) => {
           return <ListItem key={profile.id} index={index} profile={profile} />
         })}
       </View>
@@ -191,4 +207,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ProfileScreen
+export default FreelancerProfileScreen

@@ -9,7 +9,17 @@ import Signup from "./Screens/Signup";
 import Offset from "./GlobalStyles/Offset";
 
 //screens
-import Home from "./Screens/Profile/ExploreScreen";
+import CampaignHome from "./Screens/campaignHomeScreen/CampaignHome";
+import SettingScreen from "./Screens/Profile/Settings/SettingScreen";
+import ProfileScreen from "./Screens/Profile/ProfileScreen";
+import JobRequestScreen from "./Screens/Profile/Job/JobRequestScreen";
+import PaymentMethodScreen from "./Screens/Profile/PaymentMethodScreen";
+import ChangeEmailScreen from "./Screens/Profile/Settings/ChangeEmailScreen";
+import ChangePhoneNumberScreen from "./Screens/Profile/Settings/ChangePhoneNumberScreen";
+import ChangePasswordScreen from "./Screens/Profile/Settings/ChangePasswordScreen";
+import DeleteAccountScreen from "./Screens/Profile/Settings/DeleteAccountScreen";
+import FinancialReportScreen from "./Screens/Profile/FinancialReport/FinancialReportScreen";
+import AddFinancialScreen from "./Screens/Profile/FinancialReport/AddFinancialScreen";
 import CampaignMenu from "./Screens/campaignHomeScreen/CampaignMenu";
 import OverView from "./Screens/campaignHomeScreen/CampaignOverview";
 import PartnerShipTerms from "./Screens/campaignHomeScreen/PartnerShipTerms";
@@ -21,25 +31,23 @@ import MileStone from "./Screens/campaignHomeScreen/MileStone";
 import PitchDeck from "./Screens/campaignHomeScreen/PitchDeck";
 import Team from "./Screens/campaignHomeScreen/Team";
 import Todo from "./Screens/campaignHomeScreen/ToDo";
-
-import SettingScreen from "./Screens/Profile/Settings/SettingScreen";
-import ProfileScreen from "./Screens/Profile/ProfileScreen";
-import JobRequestScreen from "./Screens/Profile/Job/JobRequestScreen";
-import PaymentMethodScreen from "./Screens/Profile/PaymentMethodScreen";
-import ChangeEmailScreen from "./Screens/Profile/Settings/ChangeEmailScreen";
-import ChangePhoneNumberScreen from "./Screens/Profile/Settings/ChangePhoneNumberScreen";
-import ChangePasswordScreen from "./Screens/Profile/Settings/ChangePasswordScreen";
-import DeleteAccountScreen from "./Screens/Profile/Settings/DeleteAccountScreen";
-import FinancialReportScreen from "./Screens/Profile/FinancialReport/FinancialReportScreen";
-import AddFinancialScreen from "./Screens/Profile/FinancialReport/AddFinancialScreen";
-import DashboardScreen from "./Screens/Profile/Dashboard/DashboardScreen";
-import AmountSpentScreen from "./Screens/Profile/Dashboard/AmountSpentScreen";
-import JobDetailScreen from "./Screens/Profile/Job/JobDetailScreen";
-import ActiveOrderDetailScreen from "./Screens/Profile/Orders/ActiveOrderDetailScreen";
-import CancelledOrdersScreen from "./Screens/Profile/Orders/CancelledOrdersScreen";
-import CancelledOrderDetailScreen from "./Screens/Profile/Orders/CancelledOrderDetailScreen";
-import OrdersScreen from "./Screens/Profile/Orders/OrdersScreen";
-import CompletedOrderDetailScreen from "./Screens/Profile/Orders/CompletedOrderDetailScreen";
+import StartScreen from "./Screens/StartScreens/StartScreen";
+import Login from "./Screens/StartScreens/Login";
+import CreateAccount from "./Screens/StartScreens/Createaccount";
+import Message from "./Screens/Chat/Message";
+import MessageBox from "./Screens/Chat/MessageBox";
+import CreateGroup from "./Screens/Chat/CreateGroup";
+import CreatingGroup from "./Screens/Chat/CreatingGroup";
+import CreatingGroup1 from "./Screens/Chat/CreatingGroup1";
+import GroupChat from "./Screens/Chat/GroupChat";
+import BuildingStartupScreen1 from "./Screens/BuildingStartup/BuildingStartupScreen1";
+import Progress from "./Screens/CreatingProfile/Progress";
+import HomeService from "./Screens/HomeProfile/HomeService";
+import EditService from "./Screens/HomeProfile/EditService";
+import Portfolio from "./Screens/HomeProfile/Portfolio";
+import ViewPortfolio from "./Screens/HomeProfile/ViewPortfolio";
+import EditProfile from "./Screens/HomeProfile/EditProfile";
+import CustomOffer from "./Screens/Chat/CustomOffer";
 
 //screens out
 
@@ -47,19 +55,6 @@ import CompletedOrderDetailScreen from "./Screens/Profile/Orders/CompletedOrderD
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-
-import PinkAback from "./Components/PinkAback";
-import ExploreScreen from "./Screens/Profile/ExploreScreen";
-import PendingOrderDetailScreen from "./Screens/Profile/Orders/PendingOrderDetailScreen";
-import ViewMileStone from "./Screens/campaignHomeScreen/ViewMileStone";
-import EditMileStone from "./Screens/campaignHomeScreen/EditMileStone";
-import TodoTaskView from "./Screens/campaignHomeScreen/TodoTaskView";
-import AddNewTask from "./Screens/campaignHomeScreen/AddNewTask";
-import TeamWarnings from "./Screens/campaignHomeScreen/TeamWarnings";
-import CampaignManagement from "./Screens/campaignHomeScreen/CampaignManagement";
-import ManagingCampaign from "./Screens/campaignHomeScreen/ManagingCampaign";
-import Warnings from "./Screens/campaignHomeScreen/Warnings";
-import CampaignHome from "./Screens/campaignHomeScreen/CampaignHome";
 
 //Navigation out
 
@@ -71,7 +66,7 @@ const Tab = createMaterialBottomTabNavigator();
 const MyStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="TeamRoles"
+      initialRouteName="StartScreen"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="CampaignHome" component={CampaignHome} />
@@ -86,18 +81,17 @@ const MyStack = () => {
       <Stack.Screen name="PitchDeck" component={PitchDeck} />
       <Stack.Screen name="Team" component={Team} />
       <Stack.Screen name="Todo" component={Todo} />
-      <Stack.Screen name="ViewMileStone" component={ViewMileStone} />
+      {/* <Stack.Screen name="ViewMileStone" component={ViewMileStone} />
       <Stack.Screen name="EditMileStone" component={EditMileStone} />
       <Stack.Screen name="TodoTaskView" component={TodoTaskView} />
       <Stack.Screen name="AddNewTask" component={AddNewTask} />
       <Stack.Screen name="TeamWarnings" component={TeamWarnings} />
       <Stack.Screen name="Warnings" component={Warnings} />
       <Stack.Screen name="CampaignManagement" component={CampaignManagement} />
-      <Stack.Screen name="ManagingCampaign" component={ManagingCampaign} />
+      <Stack.Screen name="ManagingCampaign" component={ManagingCampaign} /> */}
 
       <Stack.Screen name="SignIn" component={SignIn} />
       <Stack.Screen name="SignUp" component={Signup} />
-      <Stack.Screen name="Dashboard" component={DashboardScreen} />
       <Stack.Screen name="Settings" component={SettingScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="JobRequests" component={JobRequestScreen} />
@@ -105,35 +99,86 @@ const MyStack = () => {
       <Stack.Screen name="PaymentMethod" component={PaymentMethodScreen} />
       <Stack.Screen name="ChangeEmail" component={ChangeEmailScreen} />
       <Stack.Screen name="AddFinancialDetail" component={AddFinancialScreen} />
-      <Stack.Screen name="AmountSpent" component={AmountSpentScreen} />
-      <Stack.Screen name="JobDetails" component={JobDetailScreen} />
+      <Stack.Screen name="StartScreen" component={StartScreen} />
+      <Stack.Screen name="LoginScreen" component={Login} />
+      <Stack.Screen name="CreateAccount" component={CreateAccount} />
+
+      <Stack.Screen name="Message" component={Message} />
+      <Stack.Screen name="MessageBox" component={MessageBox} />
+      <Stack.Screen name="CreateGroup" component={CreateGroup} />
+      <Stack.Screen name="CreatingGroup" component={CreatingGroup} />
+      <Stack.Screen name="CreatingGroup1" component={CreatingGroup1} />
+      <Stack.Screen name="GroupChat" component={GroupChat} />
+      <Stack.Screen name="CustomOffer" component={CustomOffer} />
+
       <Stack.Screen
+        name="BuildingStartupScreen1"
+        component={BuildingStartupScreen1}
+      />
+
+      <Stack.Screen name="ProgressScreen" component={Progress} />
+
+      <Stack.Screen name="HomeService" component={HomeService} />
+      <Stack.Screen name="EditService" component={EditService} />
+      <Stack.Screen name="Portfolio" component={Portfolio} />
+      <Stack.Screen name="ViewPortfolio" component={ViewPortfolio} />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
+
+      {/* <Stack.Screen
         name="ActiveOrderDetail"
         component={ActiveOrderDetailScreen}
       />
-      <Stack.Screen name="CancelledOrders" component={CancelledOrdersScreen} />
-      <Stack.Screen
+      <Stack.Screen name="CancelledOrders" component={CancelledOrdersScreen} /> */}
+      {/* <Stack.Screen
         name="CompletedOrderDetail"
         component={CompletedOrderDetailScreen}
-      />
+      /> */}
       <Stack.Screen
         name="ChangePhoneNumber"
         component={ChangePhoneNumberScreen}
       />
 
-      <Stack.Screen
+      {/* <Stack.Screen
         name="CancelledOrderDetail"
         component={CancelledOrderDetailScreen}
       />
       <Stack.Screen
         name="PendingOrderDetail"
         component={PendingOrderDetailScreen}
-      />
+      /> */}
 
       <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
       <Stack.Screen name="DeleteAccount" component={DeleteAccountScreen} />
-      <Stack.Screen name="MyOrders" component={OrdersScreen} />
+      {/* <Stack.Screen name="MyOrders" component={OrdersScreen} />
       <Stack.Screen name="Explore" component={ExploreScreen} />
+      <Stack.Screen name="ManageJobs" component={ManageJobsScreen} />
+      <Stack.Screen name="DeliverProject" component={DeliverProjectScreen} />
+      <Stack.Screen name="AppliedJobs" component={AppliedJobsScreen} />
+      <Stack.Screen name="FreelancerWarnings" component={WarningsScreen} />
+      <Stack.Screen name="PaymentAccounts" component={PaymentAccountsScreen} /> */}
+
+      {/* <Stack.Screen
+        name="WarningDetail"
+        component={WarningReasonDetailScreen}
+      />
+
+      <Stack.Screen
+        name="FreelancerProfile"
+        component={FreelancerProfileScreen}
+      />
+      <Stack.Screen
+        name="FreelancerDashboard"
+        component={FreelancerDashboardScreen}
+      />
+      <Stack.Screen name="Earnings" component={FreelancerEarningsScreen} />
+      <Stack.Screen
+        name="EarningsRecords"
+        component={FreelancerEarningRecordScreen}
+      />
+      <Stack.Screen
+        name="ExploreFreelancers"
+        component={ExploreFreelancerScreen}
+      /> */}
     </Stack.Navigator>
   );
 };
