@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, FlatList, ScrollView } from "react-native";
+import axios from "../../http/axiosSet";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Context from "../../Context/Context";
 import CustomHeader from "../../Components/CustomHeader";
 import { Searchbar } from "react-native-paper";
@@ -43,6 +44,15 @@ function CategoriesComp({ text, ...props }) {
 }
 
 const CampaignHome = ({ navigation, routes }) => {
+  // Api call
+  useEffect(async () => {
+    try {
+      const res = await axios.get("/campaigns");
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
   //categories hook
   const [catgeories, setCategories] = useState([
     "UI/UX Design",

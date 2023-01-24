@@ -130,7 +130,7 @@ const MyStack = () => {
         name="ActiveOrderDetail"
         component={ActiveOrderDetailScreen}
       />
-      <Stack.Screen name="CancelledOrders" component={CancelledOrdersScreen} /> */}
+      <Stack.Screen name="Cancelled" component={CancelledOrdersScreen} /> */}
       {/* <Stack.Screen
         name="CompletedOrderDetail"
         component={CompletedOrderDetailScreen}
