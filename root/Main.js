@@ -48,6 +48,14 @@ import Portfolio from "./Screens/HomeProfile/Portfolio";
 import ViewPortfolio from "./Screens/HomeProfile/ViewPortfolio";
 import EditProfile from "./Screens/HomeProfile/EditProfile";
 import CustomOffer from "./Screens/Chat/CustomOffer";
+import ViewMileStone from "./Screens/campaignHomeScreen/ViewMileStone";
+import EditMileStone from "./Screens/campaignHomeScreen/EditMileStone";
+import TodoTaskView from "./Screens/campaignHomeScreen/TodoTaskView";
+import AddNewTask from "./Screens/campaignHomeScreen/AddNewTask";
+import TeamWarnings from "./Screens/campaignHomeScreen/TeamWarnings";
+import Warnings from "./Screens/campaignHomeScreen/Warnings";
+import CampaignManagement from "./Screens/campaignHomeScreen/CampaignManagement";
+import ManagingCampaign from "./Screens/campaignHomeScreen/ManagingCampaign";
 
 //screens out
 
@@ -66,7 +74,7 @@ const Tab = createMaterialBottomTabNavigator();
 const MyStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="StartScreen"
+      initialRouteName="CampaignHome"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="CampaignHome" component={CampaignHome} />
@@ -81,15 +89,14 @@ const MyStack = () => {
       <Stack.Screen name="PitchDeck" component={PitchDeck} />
       <Stack.Screen name="Team" component={Team} />
       <Stack.Screen name="Todo" component={Todo} />
-      {/* <Stack.Screen name="ViewMileStone" component={ViewMileStone} />
+      <Stack.Screen name="ViewMileStone" component={ViewMileStone} />
       <Stack.Screen name="EditMileStone" component={EditMileStone} />
       <Stack.Screen name="TodoTaskView" component={TodoTaskView} />
       <Stack.Screen name="AddNewTask" component={AddNewTask} />
       <Stack.Screen name="TeamWarnings" component={TeamWarnings} />
       <Stack.Screen name="Warnings" component={Warnings} />
       <Stack.Screen name="CampaignManagement" component={CampaignManagement} />
-      <Stack.Screen name="ManagingCampaign" component={ManagingCampaign} /> */}
-
+      <Stack.Screen name="ManagingCampaign" component={ManagingCampaign} />
       <Stack.Screen name="SignIn" component={SignIn} />
       <Stack.Screen name="SignUp" component={Signup} />
       <Stack.Screen name="Settings" component={SettingScreen} />
@@ -102,7 +109,6 @@ const MyStack = () => {
       <Stack.Screen name="StartScreen" component={StartScreen} />
       <Stack.Screen name="LoginScreen" component={Login} />
       <Stack.Screen name="CreateAccount" component={CreateAccount} />
-
       <Stack.Screen name="Message" component={Message} />
       <Stack.Screen name="MessageBox" component={MessageBox} />
       <Stack.Screen name="CreateGroup" component={CreateGroup} />
@@ -110,20 +116,16 @@ const MyStack = () => {
       <Stack.Screen name="CreatingGroup1" component={CreatingGroup1} />
       <Stack.Screen name="GroupChat" component={GroupChat} />
       <Stack.Screen name="CustomOffer" component={CustomOffer} />
-
       <Stack.Screen
         name="BuildingStartupScreen1"
         component={BuildingStartupScreen1}
       />
-
       <Stack.Screen name="ProgressScreen" component={Progress} />
-
       <Stack.Screen name="HomeService" component={HomeService} />
       <Stack.Screen name="EditService" component={EditService} />
       <Stack.Screen name="Portfolio" component={Portfolio} />
       <Stack.Screen name="ViewPortfolio" component={ViewPortfolio} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
-
       {/* <Stack.Screen
         name="ActiveOrderDetail"
         component={ActiveOrderDetailScreen}
@@ -137,7 +139,6 @@ const MyStack = () => {
         name="ChangePhoneNumber"
         component={ChangePhoneNumberScreen}
       />
-
       {/* <Stack.Screen
         name="CancelledOrderDetail"
         component={CancelledOrderDetailScreen}
@@ -146,7 +147,6 @@ const MyStack = () => {
         name="PendingOrderDetail"
         component={PendingOrderDetailScreen}
       /> */}
-
       <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
       <Stack.Screen name="DeleteAccount" component={DeleteAccountScreen} />
       {/* <Stack.Screen name="MyOrders" component={OrdersScreen} />
@@ -156,7 +156,6 @@ const MyStack = () => {
       <Stack.Screen name="AppliedJobs" component={AppliedJobsScreen} />
       <Stack.Screen name="FreelancerWarnings" component={WarningsScreen} />
       <Stack.Screen name="PaymentAccounts" component={PaymentAccountsScreen} /> */}
-
       {/* <Stack.Screen
         name="WarningDetail"
         component={WarningReasonDetailScreen}
