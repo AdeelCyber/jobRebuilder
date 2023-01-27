@@ -7,6 +7,7 @@ import Main from "./root/Main";
 import { useFonts } from "expo-font";
 import ContextWrapper from "./root/Context/ContextWrapper";
 import { CartProvider } from "./root/Context/CartProvider";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 export default function App() {
   const {
     theme: { colors },
@@ -15,6 +16,7 @@ export default function App() {
     <CartProvider>
       <ContextWrapper>
         <Main />
+        <Toast refs={(refs) => Toast.setRef(refs)} />
       </ContextWrapper>
     </CartProvider>
   );

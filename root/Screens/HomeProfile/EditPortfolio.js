@@ -13,7 +13,6 @@ import {
 
 import Context from "../../Context/Context";
 import MyText from "../../Components/Text";
-import CustomHeader10 from "../../Components/CustomHeader10";
 import Icon from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
@@ -22,27 +21,18 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
+import CustomHeader12 from "../../Components/CustomHeader12";
 import CartProvider from "../../Context/CartProvider";
 
-const Portfolio = () => {
+const EditPortfolio = ({ route }) => {
   const {
     theme: { colors },
   } = useContext(Context);
   const navigation = useNavigation();
-  const [projname, setprojname] = useState();
-  const [projdesc, setprojdesc] = useState();
-  const [attachments, setattachments] = useState([
-    {
-      id: 1,
-      image:
-        "https://cloudfront-us-east-2.images.arcpublishing.com/reuters/O6SXYTO4WFPLJPIHA4VD4ABLAU.jpg",
-    },
-    {
-      id: 2,
-      image:
-        "https://cloudfront-us-east-2.images.arcpublishing.com/reuters/O6SXYTO4WFPLJPIHA4VD4ABLAU.jpg",
-    },
-  ]);
+  const { portfolio } = route.params;
+
+  const [projname, setprojname] = useState(portfolio.title);
+  const [projdesc, setprojdesc] = useState(portfolio.description);
   const { accessToken } = useContext(CartProvider);
   const [images, setimages] = useState();
 
@@ -61,13 +51,13 @@ const Portfolio = () => {
     }
   };
 
-  const portfoliosend = () => {
-    console.log(projname);
+  const portfolioedit = () => {
     var img = [];
     for (var i in images) {
       img[i] = images[i].uri;
     }
-    console.log(img);
+
+    var imgg = img.concat(portfolio.attachments);
 
     const config = {
       headers: {
@@ -77,13 +67,14 @@ const Portfolio = () => {
     };
 
     axios
-      .post(
-        "https://stepdev.up.railway.app/freelancer/profile/portfolio",
+      .put(
+        "https://stepdev.up.railway.app/freelancer/profile/portfolio/update",
         {
+          portfolioId: portfolio._id,
           title: projname,
           description: projdesc,
 
-          attachments: img,
+          attachments: imgg,
         },
         config
       )
@@ -98,7 +89,7 @@ const Portfolio = () => {
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
       <View style={[styles.container]}>
-        <CustomHeader10 />
+        <CustomHeader12 />
         <MyText style={[styles.header, { margin: 30 }]}>
           Portfolio Details
         </MyText>
@@ -107,6 +98,7 @@ const Portfolio = () => {
             <TextInput
               style={styles.inputStyle}
               onChangeText={(projname) => setprojname(projname)}
+              value={projname}
               placeholder="Project Name"
               placeholderTextColor="#ACA9A9"
               underlineColorAndroid="#f000"
@@ -117,6 +109,7 @@ const Portfolio = () => {
               style={styles.inputStyle2}
               onChangeText={(projdesc) => setprojdesc(projdesc)}
               placeholder="Description"
+              value={projdesc}
               placeholderTextColor="#ACA9A9"
               underlineColorAndroid="#f000"
               multiline={true}
@@ -125,6 +118,36 @@ const Portfolio = () => {
           </View>
         </View>
         <MyText style={[styles.header, { margin: 30 }]}>Add Attachments</MyText>
+        {portfolio && (
+          <FlatList
+            data={portfolio.attachments}
+            style={{ alignSelf: "flex-start", marginLeft: 30, marginRight: 30 }}
+            numColumns={2}
+            columnWrapperStyle={{ flexWrap: "wrap" }}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View
+                style={{
+                  height: 140,
+                  width: 160,
+                  shadowOffset: { width: 0, height: 1 },
+                  shadowOpacity: 1,
+                  shadowRadius: 1,
+                  elevation: 7,
+                  margin: 3,
+                  shadowColor: colors.Bluish,
+                }}
+              >
+                <Image
+                  source={{ uri: item }}
+                  resizeMode="contain"
+                  style={{ height: 139, width: 160, borderRadius: 10 }}
+                />
+              </View>
+            )}
+          />
+        )}
         {images && (
           <FlatList
             data={images}
@@ -216,7 +239,7 @@ const Portfolio = () => {
             marginBottom: 10,
           }}
           onPress={() => {
-            portfoliosend();
+            portfolioedit();
           }}
         >
           <MyText
@@ -226,7 +249,7 @@ const Portfolio = () => {
               fontWeight: "500",
             }}
           >
-            Publish
+            Edit
           </MyText>
         </Pressable>
       </View>
@@ -303,4 +326,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Portfolio;
+export default EditPortfolio;

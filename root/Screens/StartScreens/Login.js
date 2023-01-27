@@ -21,6 +21,7 @@ import { useTogglePasswordVisibility } from "../../Components/useTogglePasswordV
 import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
 
 const Login = () => {
   const {
@@ -29,37 +30,45 @@ const Login = () => {
   const navigation = useNavigation();
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
-  const [accessToken, setaccessToken] = useState();
+  const { accessToken, setaccessToken } = useContext(CartProvider);
   const [refreshToken, setrefreshToken] = useState();
   const { userdetails, setuserdetails } = useContext(CartProvider);
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
 
   const login = async () => {
-    console.log("hello");
-
-    axios
-      .post("https://stepdev.up.railway.app/auth/login", {
-        email: email,
-        password: password,
-      })
-      .then(function (response) {
-        // console.log(response.data.user);
-        setaccessToken(response.data.accessToken);
-        setrefreshToken(response.data.refreshToken);
-        setuserdetails(response.data.user);
-        store();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-  const store = async () => {
     try {
-      await AsyncStorage.setItem("@accessToken", accessToken);
-      await AsyncStorage.setItem("@refreshToken", refreshToken);
+      const response = await axios.post(
+        "https://stepdev.up.railway.app/auth/login",
+        {
+          email: email,
+          password: password,
+        }
+      );
 
-      console.log("done");
+      if (response.status == 200) {
+        setuserdetails(response.data.user);
+        setaccessToken(response.data.accessToken);
+        try {
+          await AsyncStorage.setItem("@accessToken", response.data.accessToken);
+          await AsyncStorage.setItem(
+            "@refreshToken",
+            response.data.refreshToken
+          );
+
+          console.log("done");
+        } catch (error) {
+          console.log(error);
+        }
+
+        Toast.show({
+          topOffset: 60,
+          type: "success",
+          text1: "You're Successfully Logged In",
+          text2: ".",
+        });
+        navigation.navigate("CreateGroup");
+      }
     } catch (error) {
       console.log(error);
     }

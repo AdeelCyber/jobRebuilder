@@ -55,6 +55,7 @@ import CustomOffer from "./Screens/Chat/CustomOffer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+import EditPortfolio from "./Screens/HomeProfile/EditPortfolio";
 
 //Navigation out
 
@@ -123,6 +124,7 @@ const MyStack = () => {
       <Stack.Screen name="Portfolio" component={Portfolio} />
       <Stack.Screen name="ViewPortfolio" component={ViewPortfolio} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
+      <Stack.Screen name="EditPortfolio" component={EditPortfolio} />
 
       {/* <Stack.Screen
         name="ActiveOrderDetail"
