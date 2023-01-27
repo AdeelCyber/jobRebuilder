@@ -18,6 +18,7 @@ import logo from "../../../assets/Svgs/MotoMobileLogo";
 import Thumbnail from "../../../assets/img/Thumbnail.png";
 import LittleNav from "../../Components/LittleNav";
 import TickPara from "../../Components/TickPara";
+import BottomPopup from "../../Components/BottomPopup";
 const OverView = ({ navigation }) => {
   const {
     theme: { colors },
@@ -26,6 +27,7 @@ const OverView = ({ navigation }) => {
     " Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.",
     " Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.",
   ]);
+  const [modal, setModal] = useState({ modal1: false, modal2: false });
   return (
     // main container
     <ScrollView
@@ -43,6 +45,7 @@ const OverView = ({ navigation }) => {
         niche={"Mobile Making and selling company."}
         Logo={logo}
         Thumbnail={Thumbnail}
+        modal={setModal}
       />
       {/* card out */}
       {/* Little nav in */}
@@ -69,6 +72,7 @@ const OverView = ({ navigation }) => {
           ))}
         </View>
       </View>
+      <BottomPopup show={modal.modal1} setshow={setModal} />
     </ScrollView>
   );
 };

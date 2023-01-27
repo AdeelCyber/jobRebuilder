@@ -26,7 +26,7 @@ import TeamMember from "../../Components/TeamMember";
 import TeamMemberWarning from "../../Components/TeamMemberWarning";
 import WarningHistoryComp from "../../Components/WarningHistory";
 
-const Warnings = (navgation) => {
+const Warnings = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);

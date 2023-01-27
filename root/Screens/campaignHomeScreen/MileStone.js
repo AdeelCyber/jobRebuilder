@@ -149,7 +149,7 @@ const MileStone = ({ navigation }) => {
     theme: { colors },
   } = useContext(Context);
   function handlePress(text) {
-    alert(text);
+    navigation.navigate("AddMileStone");
   }
   let popupRef = React.useRef();
   const [modal, setModal] = useState({ modal1: false, modal2: false });
@@ -225,7 +225,7 @@ const MileStone = ({ navigation }) => {
         />
       </View>
       <BottomPopup show={modal.modal1} setshow={setModal} />
-      <BottomPopup2 show={modal.modal2} setshow={setModal} />
+      <BottomPopup2 show={modal.modal2} setshow={setModal} nav={navigation} />
     </ScrollView>
   );
 };

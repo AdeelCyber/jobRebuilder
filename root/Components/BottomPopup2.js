@@ -26,7 +26,13 @@ const BottomPopup2 = (props) => {
   }, [props.show, open]);
 
   const handleit = (msg) => {
-    alert(msg);
+    if (msg == "Edit") {
+      props.nav.navigate("EditMileStone");
+    } else if (msg == "View") {
+      props.nav.navigate("AddMileStone");
+    } else if (msg == "Delete") {
+      console.log("delete");
+    }
     setopen(props.show);
   };
   return (

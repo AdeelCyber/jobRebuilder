@@ -17,6 +17,7 @@ import CampaignCard from "../../Components/CampaignCard";
 import logo from "../../../assets/Svgs/MotoMobileLogo";
 import Thumbnail from "../../../assets/img/Thumbnail.png";
 import LittleNav from "../../Components/LittleNav";
+import BottomPopup from "../../Components/BottomPopup";
 
 const CampaignMenu = ({ navigation }) => {
   const {
@@ -24,6 +25,7 @@ const CampaignMenu = ({ navigation }) => {
   } = useContext(Context);
 
   const [handlePress, setHandlePress] = useState("");
+  const [modal, setModal] = useState({ modal1: false, modal2: false });
 
   return (
     // main container
@@ -42,6 +44,7 @@ const CampaignMenu = ({ navigation }) => {
         niche={"Mobile Making and selling company."}
         Logo={logo}
         Thumbnail={Thumbnail}
+        modal={setModal}
       />
       {/* card out */}
       {/* Little nav in */}
@@ -119,6 +122,7 @@ const CampaignMenu = ({ navigation }) => {
           Pitch deck
         </MyText>
       </Pressable>
+      <BottomPopup show={modal.modal1} setshow={setModal} />
     </ScrollView>
   );
 };
