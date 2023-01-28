@@ -1,7 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import MyText from '../../../Components/Text'
 import Context from '../../../Context/Context'
-
 import {
   ScrollView,
   StyleSheet,
@@ -13,16 +12,36 @@ import {
 import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { getWarnings } from '../services/warningServices'
 
 const WarningsScreen = () => {
   const navigation = useNavigation()
+
+  const [warnings, setWarnings] = useState([])
+
+  useEffect(() => {
+    // fetchWarnings()
+  }, [])
+
+  const fetchWarnings = async () => {
+    const resp = await getWarnings()
+    if (resp.status === 200) {
+    } else if (resp.status === 404) {
+    } else if (resp.status === 401) {
+    }
+  }
 
   const {
     theme: { colors },
   } = useContext(Context)
 
-  const RequestBox = () => (
-    <View style={styles.requestBox}>
+  const RequestBox = (props) => (
+    <TouchableOpacity
+      style={styles.requestBox}
+      onPress={() => {
+        navigation.navigate('WarningDetail', { warningId: props._id })
+      }}
+    >
       <View style={{ display: 'flex', flexDirection: 'row' }}>
         <Image
           style={{ height: 50, width: 50, borderRadius: 50 }}
@@ -137,7 +156,7 @@ const WarningsScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 
   return (

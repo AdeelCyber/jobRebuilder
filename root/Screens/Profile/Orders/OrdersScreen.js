@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { ScrollView, StyleSheet, View, TouchableOpacity } from 'react-native'
 import MyText from '../../../Components/Text'
 import Context from '../../../Context/Context'
