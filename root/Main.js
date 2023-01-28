@@ -55,9 +55,7 @@ import CustomOffer from "./Screens/Chat/CustomOffer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-<<<<<<< HEAD
 import EditPortfolio from "./Screens/HomeProfile/EditPortfolio";
-=======
 import DashboardScreen from "./Screens/Profile/Dashboard/DashboardScreen";
 import ActiveOrderDetailScreen from "./Screens/Profile/Orders/ActiveOrderDetailScreen";
 import CancelledOrdersScreen from "./Screens/Profile/Orders/CancelledOrdersScreen";
@@ -85,7 +83,6 @@ import TeamWarnings from "./Screens/campaignHomeScreen/TeamWarnings";
 import Warnings from "./Screens/campaignHomeScreen/Warnings";
 import CampaignManagement from "./Screens/campaignHomeScreen/CampaignManagement";
 import ManagingCampaign from "./Screens/campaignHomeScreen/ManagingCampaign";
->>>>>>> 645d98340ed52b3241f4a761cc41db86ec4e6990
 
 //Navigation out
 
