@@ -32,6 +32,7 @@ const PendingOrderDetailScreen = () => {
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader
         Title='Manage Jobs'
+        nav={navigation}
         style={{}}
         icon={() => {
           return <Entypo name='dots-three-vertical' size={20} color='black' />

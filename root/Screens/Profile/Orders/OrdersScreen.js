@@ -53,6 +53,7 @@ const OrdersScreen = () => {
       <ScrollView style={{ backgroundColor: '#ffffff' }}>
         <CustomHeader
           Title='My Orders'
+          nav={navigation}
           style={{
             elevation: 0,
           }}

@@ -186,6 +186,7 @@ const JobRequestScreen = () => {
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader
         Title='Job Requests'
+        nav={navigation}
         style={{ elevation: 0 }}
         icon={() => {
           return (

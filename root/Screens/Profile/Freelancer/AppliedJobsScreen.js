@@ -191,6 +191,7 @@ const AppliedJobsScreen = () => {
             />
           )
         }}
+        nav={navigation}
       />
       <View
         style={[

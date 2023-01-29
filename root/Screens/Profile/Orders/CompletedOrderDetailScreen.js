@@ -95,6 +95,7 @@ const CompletedOrderDetailScreen = () => {
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader
+        nav={navigation}
         Title='My Orders'
         style={{}}
         icon={() => {

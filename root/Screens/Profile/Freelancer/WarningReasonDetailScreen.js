@@ -40,6 +40,7 @@ const WarningReasonDetailScreen = ({ route }) => {
       <CustomHeader
         Title='Warnings'
         style={{ elevation: 0 }}
+        nav={navigation}
         icon={() => {
           return (
             <MaterialCommunityIcons

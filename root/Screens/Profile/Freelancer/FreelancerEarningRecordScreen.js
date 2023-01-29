@@ -91,6 +91,7 @@ const FreelancerEarningRecordScreen = () => {
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader
+        nav={navigation}
         Title='Earnings Record'
         style={{ marginBottom: 10 }}
         icon={() => {

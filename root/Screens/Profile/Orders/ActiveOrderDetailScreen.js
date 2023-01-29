@@ -31,6 +31,7 @@ const ActiveOrderDetailScreen = () => {
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader
+        nav={navigation}
         Title='Manage Jobs'
         style={{}}
         icon={() => {
