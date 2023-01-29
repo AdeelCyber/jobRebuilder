@@ -22,10 +22,11 @@ const WarningReasonDetailScreen = ({ route }) => {
     fetchWarning()
   }, [])
 
-  const { warningId } = route.params
+  const { warningId, startupId } = route.params
   const fetchWarning = async () => {
-    const resp = await getSpecificWarning(warningId)
+    const resp = await getSpecificWarning(startupId, warningId)
     if (resp.status === 200) {
+      setWarning(resp.data.data)
     } else if (resp.status === 404) {
     } else if (resp.status === 401) {
     }
