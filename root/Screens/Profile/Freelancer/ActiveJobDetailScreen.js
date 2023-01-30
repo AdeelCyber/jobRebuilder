@@ -18,10 +18,10 @@ import ReactNativeModal from 'react-native-modal'
 import * as DocumentPicker from 'expo-document-picker'
 import { cancelOneTimeOrder, uploadFileServer } from '../services/orderServices'
 
-const ActiveOrderDetailScreen = ({ route }) => {
+const ActiveJobDetailScreen = ({ route }) => {
   const navigation = useNavigation()
 
-  const { orderId } = route.params
+  //   const { orderId } = route.params
   const [isModalVisible, setModalVisible] = useState(false)
   const [file, setFile] = useState(null)
   const [fileNameFromServer, setFileNameFromServer] = useState('')
@@ -266,6 +266,9 @@ const ActiveOrderDetailScreen = ({ route }) => {
         <TouchableOpacity
           labelStyle={{ color: '#fff' }}
           style={[styles.btn, { backgroundColor: colors.secondary }]}
+          onPress={() => {
+            navigation.navigate('DeliverProject', { orderId: 'orderId' })
+          }}
         >
           <MyText
             style={{
@@ -273,7 +276,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
               fontSize: 14,
             }}
           >
-            Message
+            Deliver
           </MyText>
         </TouchableOpacity>
 
@@ -421,4 +424,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ActiveOrderDetailScreen
+export default ActiveJobDetailScreen

@@ -18,15 +18,27 @@ import { Entypo } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import ReactNativeModal from 'react-native-modal'
+import { cancelOneTimeOrder } from '../services/orderServices'
 
-const PendingOrderDetailScreen = () => {
+const PendingOrderDetailScreen = ({ route }) => {
   const navigation = useNavigation()
 
   const [isModalVisible, setModalVisible] = useState(false)
-
+  const [reason, setReason] = useState('')
+  const { orderId } = route.params
   const {
     theme: { colors },
   } = useContext(Context)
+
+  const cancelOrder = async () => {
+    const resp = await cancelOneTimeOrder(orderId, reason)
+    if (resp.status === 200) {
+      setModalVisible(!isModalVisible)
+      navigation.navigate('MyOrders')
+    } else if (resp.status === 401) {
+    } else if (resp.status === 400) {
+    }
+  }
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
@@ -312,6 +324,9 @@ const PendingOrderDetailScreen = () => {
                   paddingLeft: 15,
                   marginLeft: 4,
                 }}
+                onChangeText={(e) => {
+                  setReason(e)
+                }}
                 scrollEnabled={true}
               />
             </View>
@@ -320,7 +335,7 @@ const PendingOrderDetailScreen = () => {
               labelStyle={{ color: '#fff' }}
               style={[styles.btn, { backgroundColor: '#FF0A0A' }]}
               onPress={() => {
-                setModalVisible(!isModalVisible)
+                cancelOrder()
               }}
             >
               <MyText

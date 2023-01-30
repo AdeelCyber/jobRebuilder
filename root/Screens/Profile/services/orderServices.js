@@ -5,7 +5,7 @@ export const getOrders = async () => {
   try {
     const token = await AsyncStorage.getItem('@accessToken')
     const config = {
-      header: {
+      headers: {
         Authorization: `Bearer ${token}`,
       },
     }
@@ -20,7 +20,7 @@ export const getOrderCategoryWise = async (category) => {
   try {
     const token = await AsyncStorage.getItem('@accessToken')
     const config = {
-      header: {
+      headers: {
         Authorization: `Bearer ${token}`,
       },
       data: {
@@ -38,7 +38,7 @@ export const getSingleOrder = async (orderId) => {
   try {
     const token = await AsyncStorage.getItem('@accessToken')
     const config = {
-      header: {
+      headers: {
         Authorization: `Bearer ${token}`,
       },
       data: {
@@ -56,7 +56,7 @@ export const deliverOneTimeOrder = async (orderId, comment, attachments) => {
   try {
     const token = await AsyncStorage.getItem('@accessToken')
     const config = {
-      header: {
+      headers: {
         Authorization: `Bearer ${token}`,
       },
       data: {
@@ -72,18 +72,36 @@ export const deliverOneTimeOrder = async (orderId, comment, attachments) => {
   }
 }
 
-export const cancelOneTimeOrder = async (orderId) => {
+export const cancelOneTimeOrder = async (orderId, reason) => {
   try {
     const token = await AsyncStorage.getItem('@accessToken')
     const config = {
-      header: {
+      headers: {
         Authorization: `Bearer ${token}`,
       },
       data: {
         orderId,
+        reason,
       },
     }
     const resp = await axios.put('/orders/oneTime/cancel', config)
+    return resp
+  } catch (error) {
+    return error.response
+  }
+}
+
+export const uploadFileServer = async (formData) => {
+  try {
+    const token = await AsyncStorage.getItem('@accessToken')
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+    console.log('Start')
+    const resp = await axios.post('/media/uploadfile', formData, config)
+    console.log('Resp', resp)
     return resp
   } catch (error) {
     return error.response

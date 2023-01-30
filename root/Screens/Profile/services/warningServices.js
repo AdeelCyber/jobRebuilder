@@ -5,7 +5,7 @@ export const getWarnings = async () => {
   try {
     const token = await AsyncStorage.getItem('@accessToken')
     const config = {
-      header: {
+      headers: {
         Authorization: `Bearer ${token}`,
       },
     }
@@ -20,7 +20,7 @@ export const getSpecificWarning = async (startupId, warningId) => {
   try {
     const token = await AsyncStorage.getItem('@accessToken')
     const config = {
-      header: {
+      headers: {
         Authorization: `Bearer ${token}`,
       },
       data: {
