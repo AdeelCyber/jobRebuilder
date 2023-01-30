@@ -6,7 +6,6 @@ import {
   ScrollView,
   Pressable,
   TextInput,
-  Image,
 } from "react-native";
 
 import React, { useContext, useState } from "react";
@@ -19,23 +18,21 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DynamicButton from "../../Components/DynamicButton";
 import TodoListItem from "../../Components/TodoListItem";
 import MileStoneViewBar from "../../Components/MileStoneViewBar";
-import TodoTaskViewBar from "../../Components/TodoTaskViewBar";
 import Slider from "@react-native-community/slider";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const TodoTaskView2 = () => {
+const ViewMileStone2 = ({ navigation }) => {
   // slider hooks in
   const [range, setrange] = useState("50%");
   const [sliding, setsliding] = useState("Inactive");
   const {
     theme: { colors },
   } = useContext(Context);
-  const [currentTask, setcurrentTask] = useState({
-    Title: "Design Ui for step ev",
+  const [currentMileStone, setcurrentMileStone] = useState({
+    Title: "MileStone 1",
     desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis. orem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis. orem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.  ",
-    day: "Monday",
   });
   function handlePress(text) {
     alert(text);
@@ -62,92 +59,107 @@ const TodoTaskView2 = () => {
               />
             );
           }}
-          Title={currentTask.day + "'s Task"}
+          Title={currentMileStone.Title}
           style={{ elevation: 0 }}
+          nav={navigation}
         />
         {/* header out */}
         {/* Inputs In */}
-        <View>
-          <View
+        <View
+          style={{
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {/* Title in */}
+          <MileStoneViewBar
+            Title={currentMileStone.Title}
+            style={{ borderWidth: 0, elevation: 0, paddingHorizontal: 14 }}
+          />
+          {/* title out */}
+          <MyText
             style={{
-              width: "100%",
-              justifyContent: "center",
-              alignItems: "center",
+              color: colors.lighttext,
+              paddingHorizontal: 8,
+              fontSize: 13,
+
+              marginTop: 0,
               paddingHorizontal: 14,
             }}
           >
-            {/* Title in */}
-            <TodoTaskViewBar
-              Title={currentTask.Title}
-              style={{ borderWidth: 0, elevation: 0 }}
-            />
-            {/* title out */}
-            <MyText
-              style={{
-                color: colors.lighttext,
-                fontSize: 13,
+            {currentMileStone.desc}
+          </MyText>
+          <MyText
+            style={{
+              color: colors.text,
+              paddingHorizontal: 14,
+              fontSize: 16,
+              fontWeight: "500",
 
-                marginTop: 0,
-              }}
-            >
-              {currentTask.desc}
-            </MyText>
-            {/* Avatars View In */}
-            <View
-              style={{
-                flexDirection: "row",
-                width: "100%",
-                paddingTop: 15,
-              }}
-            >
-              <Image
-                source={{ uri: "https://bit.ly/kent-c-dodds" }}
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20,
-                  marginRight: 8,
-                }}
-              />
-              <Image
-                source={{ uri: "https://bit.ly/kent-c-dodds" }}
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20,
-                  marginRight: 8,
-                }}
-              />
-              <Image
-                source={{ uri: "https://bit.ly/kent-c-dodds" }}
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20,
-                  marginRight: 8,
-                }}
-              />
-            </View>
-            {/* Avatars View out */}
-            {/* Attach Button View in */}
-            <DynamicButton
-              text="Files Attached"
-              style={{
-                backgroundColor: "#E8E8E8",
-                width: "43%",
-                paddingVertical: 17,
-                alignSelf: "flex-start",
-                marginTop: 30,
-                paddingHorizontal: 25,
-                paddingRight: 30,
-              }}
-              textStyle={{ color: "#232323", fontSize: 14 }}
-              handlePress={handlePress}
-              logo={true}
+              marginTop: 15,
+              alignSelf: "flex-start",
+            }}
+          >
+            Progress
+          </MyText>
+          {/* slider view in */}
+          <View
+            style={{
+              alignSelf: "flex-start",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Slider
+              style={{ height: 40, width: 250, marginLeft: 0 }}
+              minimumTrackTintColor={colors.secondary}
+              minimumValue={0.1}
+              maximumValue={1}
+              maximumTrackTintColor={"#D9D9D9"}
+              thumbTintColor={colors.secondary}
+              value={0.5}
+              onValueChange={(value) => setrange(parseInt(value * 100) + "%")}
             />
+            <MyText
+              style={{ marginRight: 12, fontWeight: "500", fontSize: 16 }}
+            >
+              {range}
+            </MyText>
+          </View>
+          {/* slider view out */}
+          <MyText
+            style={{
+              color: colors.text,
+              paddingHorizontal: 14,
+              fontSize: 16,
+              fontWeight: "500",
+
+              marginTop: 15,
+              alignSelf: "flex-start",
+            }}
+          >
+            Due Date
+          </MyText>
+          <View
+            style={{
+              marginLeft: 8,
+              backgroundColor: colors.secondary,
+              alignSelf: "flex-start",
+              borderRadius: 5,
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingVertical: 5,
+              paddingHorizontal: 14,
+            }}
+          >
+            <Feather name="calendar" size={24} color="white" />
+            <MyText style={{ color: colors.white, fontSize: 13 }}>
+              Aug 9th, 2022
+            </MyText>
           </View>
         </View>
-
         {/* Inputs Out */}
       </View>
       {/* Buttons View In */}
@@ -210,6 +222,6 @@ const TodoTaskView2 = () => {
   );
 };
 
-export default TodoTaskView2;
+export default ViewMileStone2;
 
 const styles = StyleSheet.create({});

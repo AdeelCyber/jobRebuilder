@@ -37,6 +37,8 @@ const Login = () => {
 
   const login = async () => {
     console.log("hello");
+    console.log(email);
+    console.log(password);
 
     axios
       .post("https://stepdev.up.railway.app/auth/login", {

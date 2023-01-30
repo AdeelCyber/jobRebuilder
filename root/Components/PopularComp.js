@@ -84,7 +84,11 @@ const PopularComp = (props) => {
               {props.Rating}
             </MyText>
           </View>
-          <AntDesign name="arrowright" size={20} color="black" />
+          <Pressable
+            onPress={() => props.nav.navigate("CampaignMenu", { id: props.id })}
+          >
+            <AntDesign name="arrowright" size={20} color="black" />
+          </Pressable>
         </View>
       </View>
     </View>
