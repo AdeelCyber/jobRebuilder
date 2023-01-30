@@ -24,6 +24,7 @@ const FreelancerEarningsScreen = () => {
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader
+        nav={navigation}
         Title='Earnings'
         style={{ marginBottom: 10 }}
         icon={() => {

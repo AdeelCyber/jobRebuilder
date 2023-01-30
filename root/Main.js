@@ -55,6 +55,7 @@ import CustomOffer from "./Screens/Chat/CustomOffer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+import EditPortfolio from "./Screens/HomeProfile/EditPortfolio";
 import DashboardScreen from "./Screens/Profile/Dashboard/DashboardScreen";
 import ActiveOrderDetailScreen from "./Screens/Profile/Orders/ActiveOrderDetailScreen";
 import CancelledOrdersScreen from "./Screens/Profile/Orders/CancelledOrdersScreen";
@@ -150,6 +151,7 @@ const MyStack = () => {
       <Stack.Screen name="Portfolio" component={Portfolio} />
       <Stack.Screen name="ViewPortfolio" component={ViewPortfolio} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
+      <Stack.Screen name="EditPortfolio" component={EditPortfolio} />
 
       <Stack.Screen
         name="ActiveOrderDetail"
@@ -216,6 +218,52 @@ const MyStack = () => {
 const MyBottomTabs = () => {
   return <Tab.Navigator></Tab.Navigator>;
 };
+
+// function TabNavigator() {
+//   return (
+//     <Tab.Navigator
+//       initialRouteName='Home'
+//       activeColor='#f0edf6'
+//       inactiveColor='#3e2465'
+//       barStyle={{ backgroundColor: '#222222' }}
+//       screenOptions={({ route }) => ({
+//         tabBarIcon: ({ focused, size, color }) => {
+//           let iconName
+//           if (route.name === 'CampaignHome') {
+//             iconName = 'th-large'
+//             size = focused ? 23 : 22
+//             color = focused ? '#C38BFF' : '#AFAFAF'
+//           } else if (route.name === 'HomeService') {
+//             iconName = 'home'
+//             size = focused ? 23 : 22
+//             color = focused ? '#C38BFF' : '#AFAFAF'
+//           } else if (route.name === 'GroupChat') {
+//             iconName = 'comment-dots'
+//             size = focused ? 23 : 22
+//             color = focused ? '#C38BFF' : '#AFAFAF'
+//           } else if (route.name === 'Profile') {
+//             iconName = 'user-circle'
+//             size = focused ? 23 : 22
+//             color = focused ? '#C38BFF' : '#AFAFAF'
+//           } else if (route.name === 'graph') {
+//             iconName = 'wallet'
+//             size = focused ? 23 : 22
+//             color = focused ? '#C38BFF' : '#AFAFAF'
+//           }
+
+//           return <FontAwesome5 name={iconName} size={size} color={color} />
+//         },
+//         tabBarLabel: false,
+//       })}
+//     >
+//       <Tab.Screen name='Profile' component={ProfileScreen} />
+//       <Tab.Screen name='GroupChat' component={GroupChat} />
+//       <Tab.Screen name='CampaignHome' component={CampaignHome} />
+//       <Tab.Screen name='HomeService' component={HomeService} />
+//       {/* <Tab.Screen name='PI' component={ProfileEntry} /> */}
+//     </Tab.Navigator>
+//   )
+// }
 
 const Main = () => {
   const {

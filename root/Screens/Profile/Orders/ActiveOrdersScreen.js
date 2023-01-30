@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, TouchableOpacity, Image } from 'react-native'
 import MyText from '../../../Components/Text'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
@@ -7,9 +7,22 @@ import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader'
 import SvgImport from '../../../Components/SvgImport'
 import DollarIcon from '../../../../assets/Svgs/DollarIcon'
+import { getOrderCategoryWise } from '../services/orderServices'
 
 const ActiveOrdersScreen = () => {
   const navigation = useNavigation()
+
+  const [orders, setOrders] = useState([])
+  useEffect(() => {}, [])
+
+  const fetchOrder = async () => {
+    const resp = await getOrderCategoryWise('Active')
+
+    if (resp.status === 200) {
+    } else if (resp.status === 404) {
+    } else if (resp.status === 401) {
+    }
+  }
 
   const OrderItem = () => (
     <TouchableOpacity

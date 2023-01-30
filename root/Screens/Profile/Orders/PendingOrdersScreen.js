@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   ScrollView,
   StyleSheet,
@@ -12,9 +12,22 @@ import Icon from '@expo/vector-icons/FontAwesome'
 
 import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader'
+import { getOrderCategoryWise } from '../services/orderServices'
 
 const PendingOrdersScreen = () => {
   const navigation = useNavigation()
+
+  const [orders, setOrders] = useState([])
+  useEffect(() => {}, [])
+
+  const fetchOrder = async () => {
+    const resp = await getOrderCategoryWise('Active')
+
+    if (resp.status === 200) {
+    } else if (resp.status === 404) {
+    } else if (resp.status === 401) {
+    }
+  }
 
   const {
     theme: { colors },

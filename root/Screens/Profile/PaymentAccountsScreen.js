@@ -9,15 +9,18 @@ import MasterCard from '../../../assets/Svgs/MasterCard'
 import CustomHeader from '../../Components/CustomHeader2'
 import { Feather } from '@expo/vector-icons'
 import BinIcon from '../../../assets/Svgs/BinIcon'
+import { useNavigation } from '@react-navigation/native'
 
 const PaymentAccountsScreen = () => {
   const {
     theme: { colors },
   } = useContext(Context)
+  const navigation = useNavigation()
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader
+        nav={navigation}
         Title='Payment Method'
         style={{}}
         icon={() => {

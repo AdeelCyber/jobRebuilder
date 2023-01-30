@@ -1,7 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import MyText from '../../../Components/Text'
 import Context from '../../../Context/Context'
-
 import {
   ScrollView,
   StyleSheet,
@@ -13,21 +12,39 @@ import {
 import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { getWarnings } from '../services/warningServices'
 
 const WarningsScreen = () => {
   const navigation = useNavigation()
+
+  const [warnings, setWarnings] = useState([])
+  const [totalWarnings, setTotalWarnings] = useState([])
+
+  useEffect(() => {
+    fetchWarnings()
+  }, [])
+
+  const fetchWarnings = async () => {
+    const resp = await getWarnings()
+    if (resp.status === 200) {
+      setWarnings(resp.data.data[0].warnings)
+      setTotalWarnings(resp.data.data[0].warningsCount[0])
+    } else if (resp.status === 404) {
+    } else if (resp.status === 401) {
+    }
+  }
 
   const {
     theme: { colors },
   } = useContext(Context)
 
-  const RequestBox = () => (
+  const RequestBox = (props) => (
     <View style={styles.requestBox}>
       <View style={{ display: 'flex', flexDirection: 'row' }}>
         <Image
           style={{ height: 50, width: 50, borderRadius: 50 }}
           source={{
-            uri: 'https://img.freepik.com/premium-photo/portrait-handsome-anime-boy-avatar-computer-graphic-background-2d-illustration_67092-2000.jpg?w=2000',
+            uri: props.logo,
           }}
         />
 
@@ -40,7 +57,7 @@ const WarningsScreen = () => {
               justifyContent: 'space-between',
             }}
           >
-            <MyText style={{ fontSize: 15 }}>Moto Mobiles</MyText>
+            <MyText style={{ fontSize: 15 }}>{props.name}</MyText>
             <TouchableOpacity
               labelStyle={{ color: '#fff' }}
               style={{
@@ -60,7 +77,7 @@ const WarningsScreen = () => {
                   fontSize: 10,
                 }}
               >
-                2 Warnings
+                {totalWarnings} Warnings
               </MyText>
             </TouchableOpacity>
           </View>
@@ -72,7 +89,7 @@ const WarningsScreen = () => {
               marginBottom: 4,
             }}
           >
-            Mobile Making & Selling Company.
+            {props.category}
           </MyText>
         </View>
       </View>
@@ -88,14 +105,23 @@ const WarningsScreen = () => {
       >
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <MyText style={{ marginBottom: 11 }}>Warned On</MyText>
-          <MyText>Aug 20,2022</MyText>
+          <MyText>
+            {props.warning.createdAt.toLocaleDateString('default', {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+            })}
+          </MyText>
         </View>
 
         <View style={{ flexDirection: 'row' }}>
           <TouchableOpacity
             labelStyle={{ color: '#fff' }}
             onPress={() => {
-              navigation.navigate('WarningDetail')
+              navigation.navigate('WarningDetail', {
+                startupId: props.startupId,
+                warningId: props.warningId._id,
+              })
             }}
             style={{
               backgroundColor: '#DBDBDB',
@@ -145,6 +171,7 @@ const WarningsScreen = () => {
       <CustomHeader
         Title='Warnings'
         style={{ elevation: 0 }}
+        nav={navigation}
         icon={() => {
           return (
             <MaterialCommunityIcons
@@ -166,10 +193,18 @@ const WarningsScreen = () => {
           },
         ]}
       >
-        <RequestBox />
-        <RequestBox />
-        <RequestBox />
-        <RequestBox />
+        {warnings?.map((warning, index) => {
+          return (
+            <RequestBox
+              key={index}
+              warning={{ ...warning.warnings }}
+              logo={warning.logo}
+              name={warning.name}
+              category={warning.category}
+              startupId={warning.startupId}
+            />
+          )
+        })}
       </View>
     </ScrollView>
   )

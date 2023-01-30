@@ -106,6 +106,7 @@ const AmountSpentScreen = () => {
             />
           )
         }}
+        nav={navigation}
       />
       <View
         style={[

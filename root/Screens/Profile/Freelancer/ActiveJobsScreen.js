@@ -14,7 +14,7 @@ const ActiveJobsScreen = () => {
   const OrderItem = () => (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate('ActiveOrderDetail')
+        navigation.navigate('ActiveJobDetail')
       }}
       style={[styles.orderItem]}
     >

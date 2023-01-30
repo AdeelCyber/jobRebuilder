@@ -90,6 +90,7 @@ const ProfileScreen = () => {
       <CustomHeader
         Title=''
         style={{ elevation: 0 }}
+        nav={navigation}
         icon={() => {
           return (
             <MaterialCommunityIcons

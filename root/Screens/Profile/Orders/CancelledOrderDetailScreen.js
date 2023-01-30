@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState } from 'react'
 import {
   ScrollView,
   StyleSheet,
@@ -7,32 +7,32 @@ import {
   TouchableOpacity,
   Text,
   Image,
-} from "react-native";
-import MyText from "../../../Components/Text";
-import Context from "../../../Context/Context";
-import Icon from "@expo/vector-icons/FontAwesome";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import { Entypo } from "@expo/vector-icons";
+} from 'react-native'
+import MyText from '../../../Components/Text'
+import Context from '../../../Context/Context'
+import Icon from '@expo/vector-icons/FontAwesome'
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
+import { Entypo } from '@expo/vector-icons'
 
-import { useNavigation } from "@react-navigation/native";
-import CustomHeader from "../../../Components/CustomHeader2";
+import { useNavigation } from '@react-navigation/native'
+import CustomHeader from '../../../Components/CustomHeader2'
 
 const CancelledOrderDetailScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation()
 
   const {
     theme: { colors },
-  } = useContext(Context);
+  } = useContext(Context)
 
   return (
-    <ScrollView style={{ backgroundColor: "#ffffff" }}>
+    <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader
-        Title="Cancelled Orders"
+        Title='Cancelled Orders'
         style={{
           elevation: 0,
         }}
         icon={() => {
-          return <Entypo name="dots-three-vertical" size={20} color="black" />;
+          return <Entypo name='dots-three-vertical' size={20} color='black' />
         }}
         nav={navigation}
       />
@@ -51,14 +51,14 @@ const CancelledOrderDetailScreen = () => {
             paddingBottom: 14,
             paddingRight: 17,
             borderRadius: 10,
-            flexDirection: "row",
+            flexDirection: 'row',
             marginBottom: 47,
           }}
         >
           <View>
             <Image
               source={{
-                uri: "https://banner2.cleanpng.com/20180625/req/kisspng-computer-icons-avatar-business-computer-software-user-avatar-5b3097fcae25c3.3909949015299112927133.jpg",
+                uri: 'https://banner2.cleanpng.com/20180625/req/kisspng-computer-icons-avatar-business-computer-software-user-avatar-5b3097fcae25c3.3909949015299112927133.jpg',
               }}
               style={{ width: 40, height: 40 }}
             />
@@ -67,21 +67,21 @@ const CancelledOrderDetailScreen = () => {
             style={{
               marginLeft: 11,
               flex: 1,
-              flexDirection: "row",
-              justifyContent: "space-between",
+              flexDirection: 'row',
+              justifyContent: 'space-between',
             }}
           >
             <View>
               <MyText
-                style={{ fontSize: 15, fontWeight: "500", marginBottom: 2 }}
+                style={{ fontSize: 15, fontWeight: '500', marginBottom: 2 }}
               >
                 Phil Jones
               </MyText>
               <MyText
                 style={{
                   fontSize: 12,
-                  fontWeight: "500",
-                  color: "rgba(35, 35, 35, 0.5)",
+                  fontWeight: '500',
+                  color: 'rgba(35, 35, 35, 0.5)',
                 }}
               >
                 phil@gmail.com
@@ -91,14 +91,14 @@ const CancelledOrderDetailScreen = () => {
               <MyText
                 style={{
                   marginBottom: 3,
-                  textAlign: "right",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  textAlign: 'right',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
-                <FontAwesome5 name="bitcoin" color="#FAD461" size={21} />
+                <FontAwesome5 name='bitcoin' color='#FAD461' size={21} />
                 &nbsp; &nbsp;
-                <MyText style={{ fontSize: 18, fontWeight: "600" }}>$50</MyText>
+                <MyText style={{ fontSize: 18, fontWeight: '600' }}>$50</MyText>
               </MyText>
             </View>
           </View>
@@ -110,9 +110,9 @@ const CancelledOrderDetailScreen = () => {
           <View
             style={{
               paddingBottom: 10,
-              borderBottomColor: "#eee",
-              flexDirection: "row",
-              justifyContent: "space-between",
+              borderBottomColor: '#eee',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
             }}
           >
             <MyText style={styles.heading}>Title</MyText>
@@ -127,7 +127,7 @@ const CancelledOrderDetailScreen = () => {
           <View
             style={{
               paddingBottom: 10,
-              borderBottomColor: "#eee",
+              borderBottomColor: '#eee',
             }}
           >
             <MyText style={styles.heading}>Description</MyText>
@@ -144,7 +144,7 @@ const CancelledOrderDetailScreen = () => {
           <View
             style={{
               paddingBottom: 10,
-              borderBottomColor: "#eee",
+              borderBottomColor: '#eee',
             }}
           >
             <MyText style={styles.heading}>Reason Of Cancellation</MyText>
@@ -159,14 +159,14 @@ const CancelledOrderDetailScreen = () => {
 
         <View
           style={{
-            flexDirection: "row",
+            flexDirection: 'row',
           }}
         >
           <View style={{ marginRight: 35 }}>
             <View
               style={{
                 paddingBottom: 10,
-                borderBottomColor: "#eee",
+                borderBottomColor: '#eee',
               }}
             >
               <MyText style={styles.heading}>Due Date</MyText>
@@ -177,7 +177,7 @@ const CancelledOrderDetailScreen = () => {
             <View
               style={{
                 paddingBottom: 10,
-                borderBottomColor: "#eee",
+                borderBottomColor: '#eee',
               }}
             >
               <MyText style={styles.heading}>Cancelled On</MyText>
@@ -187,16 +187,16 @@ const CancelledOrderDetailScreen = () => {
         </View>
 
         <TouchableOpacity
-          labelStyle={{ color: "#fff" }}
+          labelStyle={{ color: '#fff' }}
           style={{
-            backgroundColor: "#E8E8E8",
+            backgroundColor: '#E8E8E8',
             borderRadius: 4,
-            justifyContent: "center",
-            width: "43%",
-            alignItems: "center",
+            justifyContent: 'center',
+            width: '43%',
+            alignItems: 'center',
           }}
           onPress={() => {
-            navigation.navigate("ManageJobs");
+            navigation.navigate('ManageJobs')
           }}
         >
           <MyText
@@ -206,35 +206,35 @@ const CancelledOrderDetailScreen = () => {
               padding: 14,
             }}
           >
-            <Entypo name="attachment" size={14} /> &nbsp;&nbsp; Attachment
+            <Entypo name='attachment' size={14} /> &nbsp;&nbsp; Attachment
           </MyText>
         </TouchableOpacity>
       </View>
     </ScrollView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   heading: {
-    fontWeight: "600",
+    fontWeight: '600',
     lineHeight: 30,
-    color: "#232323",
-    textAlign: "left",
+    color: '#232323',
+    textAlign: 'left',
     marginTop: 0,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     fontSize: 16,
   },
   description: {
     fontSize: 14,
-    color: "gray",
-    fontWeight: "400",
+    color: 'gray',
+    fontWeight: '400',
     lineHeight: 18,
     marginBottom: 25,
   },
-});
+})
 
-export default CancelledOrderDetailScreen;
+export default CancelledOrderDetailScreen

@@ -12,11 +12,13 @@ import Context from '../../../Context/Context'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import ReactNativeModal from 'react-native-modal'
 import CustomHeader from '../../../Components/CustomHeader2'
+import { useNavigation } from '@react-navigation/native'
 
 const DeleteAccountScreen = () => {
   const {
     theme: { colors },
   } = useContext(Context)
+  const navigation = useNavigation()
 
   const [isModalVisible, setModalVisible] = useState(false)
 
@@ -25,6 +27,7 @@ const DeleteAccountScreen = () => {
       <CustomHeader
         Title='Delete Account'
         style={{}}
+        nav={navigation}
         icon={() => {
           return (
             <MaterialCommunityIcons

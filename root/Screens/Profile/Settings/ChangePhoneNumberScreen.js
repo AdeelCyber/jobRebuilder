@@ -11,16 +11,19 @@ import MyText from '../../../Components/Text'
 import Context from '../../../Context/Context'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import CustomHeader from '../../../Components/CustomHeader2'
+import { useNavigation } from '@react-navigation/native'
 
 const ChangePhoneNumberScreen = () => {
   const {
     theme: { colors },
   } = useContext(Context)
+  const navigation = useNavigation()
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader
         Title='Settings'
+        nav={navigation}
         style={{}}
         icon={() => {
           return (

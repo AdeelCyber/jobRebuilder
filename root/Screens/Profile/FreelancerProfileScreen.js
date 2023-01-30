@@ -95,6 +95,7 @@ const FreelancerProfileScreen = () => {
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader
         Title=''
+        nav={navigation}
         style={{ elevation: 0 }}
         icon={() => {
           return (
