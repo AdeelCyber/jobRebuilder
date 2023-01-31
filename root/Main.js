@@ -94,30 +94,34 @@ const Tab = createMaterialBottomTabNavigator()
 // All stack Pages goes here
 const MyStack = () => {
   return (
-    <Stack.Navigator
-      initialRouteName='Profile'
-      screenOptions={{ headerShown: false }}
-    >
-      <Stack.Screen name='CampaignHome' component={CampaignHome} />
-      <Stack.Screen name='CampaignMenu' component={CampaignMenu} />
-      <Stack.Screen name='OverView' component={OverView} />
-      <Stack.Screen name='PartnerShipTerms' component={PartnerShipTerms} />
-      <Stack.Screen name='TeamRoles' component={TeamRoles} />
-      <Stack.Screen name='EditRoles' component={EditRoles} />
-      <Stack.Screen name='AddRoles' component={AddRoles} />
-      <Stack.Screen name='MileStone' component={MileStone} />
-      <Stack.Screen name='AddMileStone' component={AddMileStone} />
-      <Stack.Screen name='PitchDeck' component={PitchDeck} />
-      <Stack.Screen name='Team' component={Team} />
-      <Stack.Screen name='Todo' component={Todo} />
-      <Stack.Screen name='ViewMileStone' component={ViewMileStone} />
-      <Stack.Screen name='EditMileStone' component={EditMileStone} />
-      <Stack.Screen name='TodoTaskView' component={TodoTaskView} />
-      <Stack.Screen name='AddNewTask' component={AddNewTask} />
-      <Stack.Screen name='TeamWarnings' component={TeamWarnings} />
-      <Stack.Screen name='Warnings' component={Warnings} />
-      <Stack.Screen name='CampaignManagement' component={CampaignManagement} />
-      <Stack.Screen name='ManagingCampaign' component={ManagingCampaign} />
+    <>
+      <Stack.Navigator
+        initialRouteName='FreelancerProfile'
+        screenOptions={{ headerShown: false }}
+      >
+        <Stack.Screen name='CampaignHome' component={CampaignHome} />
+        <Stack.Screen name='CampaignMenu' component={CampaignMenu} />
+        <Stack.Screen name='OverView' component={OverView} />
+        <Stack.Screen name='PartnerShipTerms' component={PartnerShipTerms} />
+        <Stack.Screen name='TeamRoles' component={TeamRoles} />
+        <Stack.Screen name='EditRoles' component={EditRoles} />
+        <Stack.Screen name='AddRoles' component={AddRoles} />
+        <Stack.Screen name='MileStone' component={MileStone} />
+        <Stack.Screen name='AddMileStone' component={AddMileStone} />
+        <Stack.Screen name='PitchDeck' component={PitchDeck} />
+        <Stack.Screen name='Team' component={Team} />
+        <Stack.Screen name='Todo' component={Todo} />
+        <Stack.Screen name='ViewMileStone' component={ViewMileStone} />
+        <Stack.Screen name='EditMileStone' component={EditMileStone} />
+        <Stack.Screen name='TodoTaskView' component={TodoTaskView} />
+        <Stack.Screen name='AddNewTask' component={AddNewTask} />
+        <Stack.Screen name='TeamWarnings' component={TeamWarnings} />
+        <Stack.Screen name='Warnings' component={Warnings} />
+        <Stack.Screen
+          name='CampaignManagement'
+          component={CampaignManagement}
+        />
+        <Stack.Screen name='ManagingCampaign' component={ManagingCampaign} />
 
       <Stack.Screen name='SignIn' component={SignIn} />
       <Stack.Screen name='SignUp' component={Signup} />
@@ -211,60 +215,23 @@ const MyStack = () => {
         name='ExploreFreelancers'
         component={ExploreFreelancerScreen}
       />
-    </Stack.Navigator>
+    </Stack.Navigator>        
+    </>
   )
 }
 
 // All bottom tabs pages goes here
 const MyBottomTabs = () => {
-  return <Tab.Navigator></Tab.Navigator>
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name='HomeService' component={HomeService} />
+      <Tab.Screen name='GroupChat' component={GroupChat} />
+      <Tab.Screen name='Dashboard' component={DashboardScreen} />
+      <Tab.Screen name='CampaignHome' component={CampaignHome} />
+      <Tab.Screen name='Profile' component={ProfileScreen} />
+    </Tab.Navigator>
+  )
 }
-
-// function TabNavigator() {
-//   return (
-//     <Tab.Navigator
-//       initialRouteName='Home'
-//       activeColor='#f0edf6'
-//       inactiveColor='#3e2465'
-//       barStyle={{ backgroundColor: '#222222' }}
-//       screenOptions={({ route }) => ({
-//         tabBarIcon: ({ focused, size, color }) => {
-//           let iconName
-//           if (route.name === 'CampaignHome') {
-//             iconName = 'th-large'
-//             size = focused ? 23 : 22
-//             color = focused ? '#C38BFF' : '#AFAFAF'
-//           } else if (route.name === 'HomeService') {
-//             iconName = 'home'
-//             size = focused ? 23 : 22
-//             color = focused ? '#C38BFF' : '#AFAFAF'
-//           } else if (route.name === 'GroupChat') {
-//             iconName = 'comment-dots'
-//             size = focused ? 23 : 22
-//             color = focused ? '#C38BFF' : '#AFAFAF'
-//           } else if (route.name === 'Profile') {
-//             iconName = 'user-circle'
-//             size = focused ? 23 : 22
-//             color = focused ? '#C38BFF' : '#AFAFAF'
-//           } else if (route.name === 'graph') {
-//             iconName = 'wallet'
-//             size = focused ? 23 : 22
-//             color = focused ? '#C38BFF' : '#AFAFAF'
-//           }
-
-//           return <FontAwesome5 name={iconName} size={size} color={color} />
-//         },
-//         tabBarLabel: false,
-//       })}
-//     >
-//       <Tab.Screen name='Profile' component={ProfileScreen} />
-//       <Tab.Screen name='GroupChat' component={GroupChat} />
-//       <Tab.Screen name='CampaignHome' component={CampaignHome} />
-//       <Tab.Screen name='HomeService' component={HomeService} />
-//       {/* <Tab.Screen name='PI' component={ProfileEntry} /> */}
-//     </Tab.Navigator>
-//   )
-// }
 
 const Main = () => {
   const {
