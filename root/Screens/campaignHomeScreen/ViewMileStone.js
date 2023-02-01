@@ -23,9 +23,10 @@ import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const ViewMileStone = ({ navigation }) => {
+const ViewMileStone = ({ navigation, route }) => {
+  const [data, setData] = useState(route.params.data);
   // slider hooks in
-  const [range, setrange] = useState("50%");
+  const [range, setrange] = useState(data.progress);
   const [sliding, setsliding] = useState("Inactive");
   const {
     theme: { colors },
@@ -59,7 +60,7 @@ const ViewMileStone = ({ navigation }) => {
               />
             );
           }}
-          Title={currentMileStone.Title}
+          Title={data.title}
           style={{ elevation: 0 }}
           nav={navigation}
         />
@@ -74,7 +75,7 @@ const ViewMileStone = ({ navigation }) => {
         >
           {/* Title in */}
           <MileStoneViewBar
-            Title={currentMileStone.Title}
+            Title={data.title}
             style={{ borderWidth: 0, elevation: 0, paddingHorizontal: 14 }}
           />
           {/* title out */}
@@ -88,7 +89,7 @@ const ViewMileStone = ({ navigation }) => {
               paddingHorizontal: 14,
             }}
           >
-            {currentMileStone.desc}
+            {data.description}
           </MyText>
           <MyText
             style={{
@@ -118,7 +119,7 @@ const ViewMileStone = ({ navigation }) => {
               maximumValue={1}
               maximumTrackTintColor={"#D9D9D9"}
               thumbTintColor={colors.secondary}
-              value={0.5}
+              value={data.progress / 100}
               onValueChange={(value) => setrange(parseInt(value * 100) + "%")}
             />
             <MyText
@@ -152,11 +153,14 @@ const ViewMileStone = ({ navigation }) => {
               alignItems: "center",
               paddingVertical: 5,
               paddingHorizontal: 14,
+              marginTop: 10,
             }}
           >
             <Feather name="calendar" size={24} color="white" />
-            <MyText style={{ color: colors.white, fontSize: 13 }}>
-              Aug 9th, 2022
+            <MyText
+              style={{ color: colors.white, fontSize: 13, marginLeft: 7 }}
+            >
+              {data.dueDate.substring(0, 10)}
             </MyText>
           </View>
         </View>

@@ -90,9 +90,11 @@ function MileStoneComponent({ para, ...props }) {
             {props.item.title}
           </MyText>
           <Pressable
-            onPress={() =>
-              props.modal((currents) => ({ ...currents, modal2: true }))
-            }
+            onPress={() => {
+              props.modal((currents) => ({ ...currents, modal2: true }));
+
+              props.data(props.item);
+            }}
           >
             <Feather name="more-horizontal" size={24} color="#A1A1A1" />
           </Pressable>
@@ -155,6 +157,8 @@ const MileStone = ({ navigation, route }) => {
   let popupRef = React.useRef();
   const [modal, setModal] = useState({ modal1: false, modal2: false });
 
+  const [CurrentMileStone, setCurrentMileStone] = useState({});
+
   const [MileStones, setMileStone] = useState(
     data.startup.milestones
 
@@ -190,6 +194,7 @@ const MileStone = ({ navigation, route }) => {
             item={item}
             style={{ marginVertical: 8 }}
             modal={setModal}
+            data={setCurrentMileStone}
           />
         ))}
       </View>
@@ -210,7 +215,12 @@ const MileStone = ({ navigation, route }) => {
         />
       </View>
       <BottomPopup show={modal.modal1} setshow={setModal} />
-      <BottomPopup2 show={modal.modal2} setshow={setModal} nav={navigation} />
+      <BottomPopup2
+        show={modal.modal2}
+        setshow={setModal}
+        nav={navigation}
+        data={CurrentMileStone}
+      />
     </ScrollView>
   );
 };
