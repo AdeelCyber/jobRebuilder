@@ -1,3 +1,4 @@
+import * as DocumentPicker from "expo-document-picker";
 export const upload = async () => {
   try {
     const result = await DocumentPicker.getDocumentAsync({});
