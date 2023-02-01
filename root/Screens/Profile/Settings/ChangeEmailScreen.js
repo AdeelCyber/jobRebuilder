@@ -12,12 +12,25 @@ import Context from '../../../Context/Context'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { useNavigation } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { modifyEmail } from '../services/settingsServices'
 
 const ChangeEmailScreen = () => {
   const {
     theme: { colors },
   } = useContext(Context)
   const navigation = useNavigation()
+
+  const [email, setEmail] = useState(async () => {
+    await AsyncStorage.getItem('@email')
+  })
+
+  const updateEmail = async () => {
+    const resp = await modifyEmail(email)
+    if (resp.status === 200) {
+      navigation.navigate('Settings')
+    }
+  }
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
@@ -54,6 +67,10 @@ const ChangeEmailScreen = () => {
             style={styles.input}
             placeholder='Email Address'
             underlineColorAndroid='transparent'
+            value={email}
+            onChangeText={(e) => {
+              setEmail(e)
+            }}
           />
           <FontAwesome
             style={styles.searchIcon}
@@ -65,6 +82,7 @@ const ChangeEmailScreen = () => {
 
         <TouchableOpacity
           labelStyle={{ color: '#fff' }}
+          onPress={updateEmail}
           style={[styles.btn, { backgroundColor: colors.secondary }]}
         >
           <MyText

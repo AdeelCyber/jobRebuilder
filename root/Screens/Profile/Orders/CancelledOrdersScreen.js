@@ -25,21 +25,24 @@ const CancelledOrdersScreen = () => {
   } = useContext(Context)
 
   const [orders, setOrders] = useState([])
-  useEffect(() => {}, [])
+  useEffect(() => {
+    fetchOrder()
+  }, [])
 
   const fetchOrder = async () => {
     const resp = await getOrderCategoryWise('Cancelled')
 
     if (resp.status === 200) {
+      setOrders(resp.data.data)
     } else if (resp.status === 404) {
     } else if (resp.status === 401) {
     }
   }
 
-  const OrderItem = () => (
+  const OrderItem = ({ order }) => (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate('CancelledOrderDetail')
+        navigation.navigate('CancelledOrderDetail', { orderId: order._id })
       }}
       style={styles.orderItem}
     >
@@ -51,7 +54,7 @@ const CancelledOrdersScreen = () => {
         <View>
           <Image
             source={{
-              uri: 'https://banner2.cleanpng.com/20180625/req/kisspng-computer-icons-avatar-business-computer-software-user-avatar-5b3097fcae25c3.3909949015299112927133.jpg',
+              uri: order.employer.avatar,
             }}
             style={{ width: 36, height: 36 }}
           />
@@ -68,7 +71,7 @@ const CancelledOrdersScreen = () => {
             <MyText
               style={{ fontSize: 13, fontWeight: '500', marginBottom: 2 }}
             >
-              Phil Jones
+              {order.employer.name}
             </MyText>
             <MyText
               style={{
@@ -77,7 +80,7 @@ const CancelledOrdersScreen = () => {
                 color: 'rgba(35, 35, 35, 0.5)',
               }}
             >
-              Logo Designing
+              {order.jobTitle}
             </MyText>
           </View>
           <View>
@@ -89,7 +92,9 @@ const CancelledOrdersScreen = () => {
                 alignItems: 'center',
               }}
             >
-              <MyText style={{ fontSize: 15, fontWeight: '600' }}>$50</MyText>
+              <MyText style={{ fontSize: 15, fontWeight: '600' }}>
+                ${order.totalPrice}
+              </MyText>
             </MyText>
             <MyText
               style={{
@@ -127,7 +132,14 @@ const CancelledOrdersScreen = () => {
                 Due Date
               </MyText>
             </View>
-            <MyText style={{ color: 'gray' }}>25 Dec 2022</MyText>
+            <MyText style={{ color: 'gray' }}>
+              {' '}
+              {order.createdAt.toLocaleDateString('default', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </MyText>
           </View>
           <View>
             <View
@@ -136,10 +148,17 @@ const CancelledOrdersScreen = () => {
               }}
             >
               <MyText style={{ marginBottom: 3, fontWeight: '500' }}>
-                Delivered On
+                Cancelled On
               </MyText>
             </View>
-            <MyText style={{ color: 'gray' }}>23 Dec 2022</MyText>
+            <MyText style={{ color: 'gray' }}>
+              {' '}
+              {order.deliveryTime.toLocaleDateString('default', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </MyText>
           </View>
         </View>
 
@@ -188,9 +207,9 @@ const CancelledOrdersScreen = () => {
         <View>
           {/* Heading */}
 
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
+          {orders?.map((order) => {
+            return <OrderItem key={order._id} order={order} />
+          })}
         </View>
       </View>
     </ScrollView>
