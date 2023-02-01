@@ -13,28 +13,31 @@ const ActiveOrdersScreen = () => {
   const navigation = useNavigation()
 
   const [orders, setOrders] = useState([])
-  useEffect(() => {}, [])
+  useEffect(() => {
+    fetchOrder()
+  }, [])
 
   const fetchOrder = async () => {
     const resp = await getOrderCategoryWise('Active')
 
     if (resp.status === 200) {
+      fetchOrder(resp.data.data)
     } else if (resp.status === 404) {
     } else if (resp.status === 401) {
     }
   }
 
-  const OrderItem = () => (
+  const OrderItem = ({ order }) => (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate('ActiveOrderDetail')
+        navigation.navigate('ActiveOrderDetail', { orderId: order._id })
       }}
       style={[styles.orderItem]}
     >
       <View>
         <Image
           source={{
-            uri: 'https://banner2.cleanpng.com/20180625/req/kisspng-computer-icons-avatar-business-computer-software-user-avatar-5b3097fcae25c3.3909949015299112927133.jpg',
+            uri: order.employer.avatar,
           }}
           style={{ width: 36, height: 36 }}
         />
@@ -49,7 +52,7 @@ const ActiveOrdersScreen = () => {
       >
         <View>
           <MyText style={{ fontSize: 13, fontWeight: '500', marginBottom: 2 }}>
-            Phil Jones
+            {order.employer.name}
           </MyText>
           <MyText
             style={{
@@ -58,7 +61,7 @@ const ActiveOrdersScreen = () => {
               color: 'rgba(35, 35, 35, 0.5)',
             }}
           >
-            Logo Designing
+            {order.jobTitle}
           </MyText>
         </View>
         <View>
@@ -73,7 +76,9 @@ const ActiveOrdersScreen = () => {
             <SvgImport svg={DollarIcon} />
             {/* <FontAwesome5 name='bitcoin' color='#FAD461' size={16} /> */}
             &nbsp; &nbsp;
-            <MyText style={{ fontSize: 14, fontWeight: '600' }}>$50</MyText>
+            <MyText style={{ fontSize: 14, fontWeight: '600' }}>
+              ${order.totalPrice}
+            </MyText>
           </MyText>
           <MyText
             style={{
@@ -90,7 +95,10 @@ const ActiveOrdersScreen = () => {
               }}
             >
               {' '}
-              2
+              {Math.ceil(
+                (new Date(order.deliveryTime) - new Date()) /
+                  (1000 * 60 * 60 * 24)
+              )}
             </MyText>{' '}
             days
           </MyText>
@@ -109,20 +117,18 @@ const ActiveOrdersScreen = () => {
       >
         <MyText style={styles.heading}>Due in next few days</MyText>
       </View>
-      <OrderItem />
-      <OrderItem />
+      {orders?.map((order) => {
+        return <OrderItem key={order._id} order={order} />
+      })}
+      {/* <OrderItem /> */}
       <View
         style={{
           paddingBottom: 10,
           borderBottomColor: '#eee',
         }}
       >
-        <MyText style={styles.heading}>Due this month</MyText>
+        {/* <MyText style={styles.heading}>Due this month</MyText> */}
       </View>
-      <OrderItem />
-      <OrderItem />
-      <OrderItem />
-      <OrderItem />
     </View>
   )
 }
