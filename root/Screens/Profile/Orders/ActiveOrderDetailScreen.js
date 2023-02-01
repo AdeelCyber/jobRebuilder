@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   ScrollView,
   StyleSheet,
@@ -16,7 +16,11 @@ import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import ReactNativeModal from 'react-native-modal'
 import * as DocumentPicker from 'expo-document-picker'
-import { cancelOneTimeOrder, uploadFileServer } from '../services/orderServices'
+import {
+  cancelOneTimeOrder,
+  getSingleOrder,
+  uploadFileServer,
+} from '../services/orderServices'
 import { upload } from '../../../Components/DownloadUpload'
 
 const ActiveOrderDetailScreen = ({ route }) => {
@@ -27,6 +31,9 @@ const ActiveOrderDetailScreen = ({ route }) => {
   const [file, setFile] = useState(null)
   const [fileNameFromServer, setFileNameFromServer] = useState('')
   const [reason, setReason] = useState('')
+  const [order, setOrder] = useState({})
+  const [deliveryDate, setDeliveryDate] = useState('')
+
   // hello
   const {
     theme: { colors },
@@ -43,6 +50,29 @@ const ActiveOrderDetailScreen = ({ route }) => {
     }
   }
 
+  useEffect(() => {
+    fetchOrder()
+  }, [])
+
+  const fetchOrder = async () => {
+    const resp = await getSingleOrder(orderId)
+
+    if (resp.status === 200) {
+      setOrder(resp.data.data)
+      const str = new Date(resp.data.data.deliveryTime)
+
+      const currentDate = new Date()
+      const diffTime = str - currentDate
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+      const diffHours = Math.ceil(diffTime / (1000 * 60 * 60)) % 24
+
+      const arrayTime = `${diffDays}${diffHours}`.split('').map(Number)
+      setDeliveryDate(arrayTime)
+    } else if (resp.status === 401) {
+    } else if (resp.status === 400) {
+    }
+  }
+
   const cancelOrder = async () => {
     const resp = await cancelOneTimeOrder(orderId, reason)
     if (resp.status === 200) {
@@ -52,6 +82,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
     } else if (resp.status === 400) {
     }
   }
+
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader
@@ -84,7 +115,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
           <View>
             <Image
               source={{
-                uri: 'https://banner2.cleanpng.com/20180625/req/kisspng-computer-icons-avatar-business-computer-software-user-avatar-5b3097fcae25c3.3909949015299112927133.jpg',
+                uri: order.employer.avatar,
               }}
               style={{ width: 40, height: 40 }}
             />
@@ -101,7 +132,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
               <MyText
                 style={{ fontSize: 15, fontWeight: '500', marginBottom: 2 }}
               >
-                Phil Jones
+                {order.employer.name}
               </MyText>
               <MyText
                 style={{
@@ -110,7 +141,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
                   color: 'rgba(35, 35, 35, 0.5)',
                 }}
               >
-                phil@gmail.com
+                {order.employer.email}
               </MyText>
             </View>
             <View>
@@ -124,7 +155,9 @@ const ActiveOrderDetailScreen = ({ route }) => {
               >
                 <FontAwesome5 name='bitcoin' color='#FAD461' size={21} />
                 &nbsp; &nbsp;
-                <MyText style={{ fontSize: 18, fontWeight: '600' }}>$50</MyText>
+                <MyText style={{ fontSize: 18, fontWeight: '600' }}>
+                  ${order.totalPrice}
+                </MyText>
               </MyText>
             </View>
           </View>
@@ -144,7 +177,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
             <MyText style={styles.heading}>Title</MyText>
             <MyText style={styles.description}>One time job</MyText>
           </View>
-          <MyText style={styles.description}>Make me a logo</MyText>
+          <MyText style={styles.description}>{order.jobTitle}</MyText>
         </View>
 
         {/* Description */}
@@ -158,10 +191,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
           >
             <MyText style={styles.heading}>Description</MyText>
           </View>
-          <MyText style={styles.description}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-            venenatis sit amet risus a bibendum.
-          </MyText>
+          <MyText style={styles.description}>{order.description}</MyText>
         </View>
 
         {/* Delivery Time */}
@@ -176,7 +206,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
             <MyText style={styles.heading}>Delivery Time</MyText>
           </View>
           <View style={{ flexDirection: 'row' }}>
-            {[0, 2, 2, 1].map((element, index) => {
+            {deliveryDate?.map((element, index) => {
               return (
                 <React.Fragment key={index}>
                   <View

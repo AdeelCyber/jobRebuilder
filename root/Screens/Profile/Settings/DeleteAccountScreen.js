@@ -13,6 +13,7 @@ import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import ReactNativeModal from 'react-native-modal'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { useNavigation } from '@react-navigation/native'
+import { deleteAccount } from '../services/settingsServices'
 
 const DeleteAccountScreen = () => {
   const {
@@ -21,6 +22,13 @@ const DeleteAccountScreen = () => {
   const navigation = useNavigation()
 
   const [isModalVisible, setModalVisible] = useState(false)
+
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+
+  const accountDelete = async () => {
+    const resp = await deleteAccount(password, confirmPassword)
+  }
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
@@ -66,6 +74,9 @@ const DeleteAccountScreen = () => {
             style={styles.input}
             placeholder='Password'
             underlineColorAndroid='transparent'
+            onChangeText={(e) => {
+              setPassword(e)
+            }}
           />
         </View>
 
@@ -74,6 +85,9 @@ const DeleteAccountScreen = () => {
             style={styles.input}
             placeholder='Confirm Password'
             underlineColorAndroid='transparent'
+            onChangeText={(e) => {
+              setConfirmPassword(e)
+            }}
           />
         </View>
 
@@ -166,7 +180,7 @@ const DeleteAccountScreen = () => {
                     width: 100,
                   }}
                   onPress={() => {
-                    setModalVisible(!isModalVisible)
+                    deleteAccount()
                   }}
                 >
                   <MyText

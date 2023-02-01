@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   ScrollView,
   StyleSheet,
@@ -16,9 +16,27 @@ import { Entypo } from '@expo/vector-icons'
 
 import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
+import { getSingleOrder } from '../services/orderServices'
 
-const CancelledOrderDetailScreen = () => {
+const CancelledOrderDetailScreen = ({ route }) => {
   const navigation = useNavigation()
+  const [order, setOrder] = useState({})
+
+  const { orderId } = route.params
+
+  useEffect(() => {
+    fetchOrder()
+  }, [])
+
+  const fetchOrder = async () => {
+    const resp = await getSingleOrder(orderId)
+
+    if (resp.status === 200) {
+      setOrder(resp.data.data)
+    } else if (resp.status === 401) {
+    } else if (resp.status === 400) {
+    }
+  }
 
   const {
     theme: { colors },
