@@ -1,5 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import ChatIcon from '../../assets/Svgs/ChatIcon'
 import HomeIcon from '../../assets/Svgs/HomeIcon'
@@ -7,6 +8,7 @@ import ListIcon from '../../assets/Svgs/ListIcon'
 import PersonIcon from '../../assets/Svgs/PersonIcon'
 import PolygonIcon from '../../assets/Svgs/PolygonIcon'
 import RectangleIcon from '../../assets/Svgs/RectangleIcon'
+// import { CartProvider } from '../Context/CartProvider'
 import SvgImport from './SvgImport'
 import MyText from './Text'
 
@@ -31,10 +33,23 @@ const Tab = ({ title, selected, onSelect, index, selectedFun }) => {
     </View>
   )
 }
-const TabBar = () => {
+const TabBar = (props) => {
   const navigation = useNavigation()
 
   const [selectedTab, setSelectedTab] = useState(0)
+  const [isToken, setIsToken] = useState(false)
+
+  useEffect(() => {
+    getToken()
+  })
+
+  const getToken = async () => {
+    const token = await AsyncStorage.getItem('@accessToken')
+    console.log(token)
+    if (token) {
+      setIsToken(true)
+    }
+  }
 
   const goToPage = (index) => {
     if (index === 0) {
@@ -49,7 +64,7 @@ const TabBar = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { display: isToken ? 'flex' : 'none' }]}>
       <TouchableOpacity
         onPress={() => {
           setSelectedTab(0)
