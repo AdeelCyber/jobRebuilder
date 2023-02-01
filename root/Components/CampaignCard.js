@@ -80,6 +80,9 @@ const CampaignCard = ({ ...props }) => {
               flexDirection: "row",
               borderRadius: 5,
             }}
+            onPress={() => {
+              props.navigation.navigate("Team", { data: props.data });
+            }}
           >
             <SvgImport svg={Team} />
             <MyText

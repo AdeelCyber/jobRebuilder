@@ -5,7 +5,7 @@ export const upload = async () => {
     if (result.cancelled) {
       throw new Error("File not selected");
     }
-    setFile(result);
+
     const formData = new FormData();
     formData.append("file", {
       uri: result.uri,

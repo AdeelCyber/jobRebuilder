@@ -27,7 +27,10 @@ import TeamItem from "../../Components/TeamItem";
 import ReactNativeModal from "react-native-modal";
 import RoundQuestionMark from "../../../assets/Svgs/RoundQuestionMark";
 
-const Team = ({ navigation }) => {
+const Team = ({ navigation, route }) => {
+  const [data, setData] = useState(route.params.data);
+  const [personData, setPersonData] = useState({});
+
   const {
     theme: { colors },
   } = useContext(Context);
@@ -38,38 +41,7 @@ const Team = ({ navigation }) => {
       setModalVisible(true);
     }
   }
-  const menu = [
-    {
-      image: "https://bit.ly/kent-c-dodds",
-      text: "Mike Dean",
-      designation: "Ceo",
-    },
-    {
-      image: "https://bit.ly/kent-c-dodds",
-      text: "Mike Dean",
-      designation: "Ceo",
-    },
-    {
-      image: "https://bit.ly/kent-c-dodds",
-      text: "Mike Dean",
-      designation: "Designer",
-    },
-    {
-      image: "https://bit.ly/kent-c-dodds",
-      text: "Mike Dean",
-      designation: "Designer",
-    },
-    {
-      image: "https://bit.ly/kent-c-dodds",
-      text: "Mike Dean",
-      designation: "Ceo",
-    },
-    {
-      image: "https://bit.ly/kent-c-dodds",
-      text: "Mike Dean",
-      designation: "Ceo",
-    },
-  ];
+  const [menu, setmenu] = useState(data.startup.members);
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModalSecondVisible, setModalSecondVisible] = useState(false);
@@ -97,9 +69,9 @@ const Team = ({ navigation }) => {
           justifyContent: "center",
         }}
       >
-        {menu.map(({ image, text, designation }, index) => (
+        {menu.map(({ member, position, designation }, index) => (
           <TeamItem
-            key={text}
+            key={position}
             style={{
               marginVertical: 10,
               width: "45%",
@@ -108,14 +80,19 @@ const Team = ({ navigation }) => {
               marginRight: index % 2 === 0 ? 11 : 0,
             }}
             handleClick={handlePress}
-            image={image}
-            text={text}
-            designation={designation}
+            image={member.avatar}
+            text={member.name}
+            designation={position}
+            personData={setPersonData}
           />
         ))}
       </View>
       {/* modal in */}
-      <ReactNativeModal transparent isVisible={isModalVisible}>
+      <ReactNativeModal
+        transparent
+        isVisible={isModalVisible}
+        onBackButtonPress={() => setModalVisible(false)}
+      >
         <View
           style={{
             backgroundColor: "white",
@@ -187,7 +164,11 @@ const Team = ({ navigation }) => {
       </ReactNativeModal>
       {/* modal out */}
       {/* modal 2 in */}
-      <ReactNativeModal transparent isVisible={isModalSecondVisible}>
+      <ReactNativeModal
+        transparent
+        isVisible={isModalSecondVisible}
+        onBackButtonPress={() => setModalSecondVisible(false)}
+      >
         <View
           style={{
             backgroundColor: "white",
@@ -203,7 +184,7 @@ const Team = ({ navigation }) => {
             </View>
             <View style={{ marginVertical: 15, marginTop: 10 }}>
               <Image
-                source={{ uri: "https://bit.ly/kent-c-dodds" }}
+                source={{ uri: personData.image }}
                 style={{
                   width: 124,
                   height: 124,
@@ -222,7 +203,8 @@ const Team = ({ navigation }) => {
               <MyText
                 style={{ textAlign: "center", fontWeight: "500", fontSize: 20 }}
               >
-                Micale{"\n"}
+                {personData.name}
+                {"\n"}
                 <MyText
                   style={{
                     textAlign: "center",
@@ -231,7 +213,7 @@ const Team = ({ navigation }) => {
                     color: colors.lighttext,
                   }}
                 >
-                  Designer
+                  {personData.designation}
                 </MyText>
               </MyText>
             </View>

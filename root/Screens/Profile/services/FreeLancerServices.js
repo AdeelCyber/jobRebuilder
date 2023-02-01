@@ -27,7 +27,7 @@ export const getStartupDetails = async () => {
     };
     const resp = await axios.post(
       "/startup/getStarupbyId",
-      { startupid: "63c472daa119a436b059bb72" },
+      { startupid: "63d82eef251166001f1dceb4" },
       config
     );
     return resp;
@@ -47,7 +47,7 @@ export const Role = async () => {
     };
     const resp = await axios.post(
       "/startup/getstartupRoles",
-      { startupid: "63c472daa119a436b059bb72" },
+      { startupid: "63d82eef251166001f1dceb4" },
       config
     );
     return resp;

@@ -24,6 +24,7 @@ import BottomPopup from "../../Components/BottomPopup";
 import { Role } from "../Profile/services/FreeLancerServices";
 const TeamRoles = ({ navigation, route }) => {
   const [modal, setModal] = useState({ modal1: false, modal2: false });
+  const [data, setData] = useState(route.params.data);
 
   const {
     theme: { colors },
@@ -73,6 +74,8 @@ const TeamRoles = ({ navigation, route }) => {
         Logo={logo}
         Thumbnail={Thumbnail}
         modal={setModal}
+        data={data}
+        navigation={navigation}
       />
       {/* card out */}
       {/* Little nav in */}

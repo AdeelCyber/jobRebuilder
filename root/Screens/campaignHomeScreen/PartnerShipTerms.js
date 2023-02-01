@@ -46,6 +46,8 @@ const PartnerShipTerms = ({ navigation, route }) => {
         Logo={logo}
         Thumbnail={Thumbnail}
         modal={setModal}
+        data={data}
+        navigation={navigation}
       />
       {/* card out */}
       {/* Little nav in */}
