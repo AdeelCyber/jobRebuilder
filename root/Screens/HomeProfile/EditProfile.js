@@ -17,12 +17,10 @@ import CustomHeader8 from "../../Components/CustomHeader8";
 import Icon from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
-import DropDownPicker from "react-native-dropdown-picker";
 import * as ImagePicker from "expo-image-picker";
 import CartProvider from "../../Context/CartProvider";
-import axios from "axios";
-
-import UserInfo from "../../Components/UserInfo";
+import Toast from "react-native-toast-message";
+import { editProfile } from "../Profile/services/ProfileServices";
 const EditProfile = ({ route }) => {
   const {
     theme: { colors },
@@ -36,7 +34,7 @@ const EditProfile = ({ route }) => {
 
   const [language, setlanguage] = useState(userinfo.about.language);
   const [work, setwork] = useState(userinfo.about.responseTime);
-  const [about, setabout] = useState();
+  const [about, setabout] = useState(userinfo.about.aboutMe);
   const [image, setimage] = useState(userinfo.userInfo.avatar);
   const { accessToken } = useContext(CartProvider);
 
@@ -56,35 +54,26 @@ const EditProfile = ({ route }) => {
       setimage(result.assets[0].uri);
     }
   };
-  const profileedit = () => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `bearer ${accessToken}`,
-      },
-    };
-
-    axios
-      .put(
-        "https://stepdev.up.railway.app/freelancer/profile/aboutMe/update",
-        {
-          name: name,
-          jobTitle: job,
-          city: city,
-          country: country,
-          language: language,
-          hoursPerWeek: work,
-          hourlyRate: work,
-          aboutMe: about,
-        },
-        config
-      )
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log("error", err);
+  const profileedit = async () => {
+    const res = await editProfile(
+      accessToken,
+      name,
+      job,
+      city,
+      country,
+      language,
+      work,
+      about
+    );
+    if (res.status == 200) {
+      Toast.show({
+        topOffset: 60,
+        type: "success",
+        text1: "Upated Successfully",
+        text2: ".",
       });
+      navigation.navigate("HomeService");
+    }
   };
 
   return (

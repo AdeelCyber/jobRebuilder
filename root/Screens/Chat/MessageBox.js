@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useCallback, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+  useRef,
+} from "react";
 import {
   View,
   ScrollView,
@@ -6,188 +12,92 @@ import {
   Button,
   StyleSheet,
   Image,
+  TextInput,
   ActivityIndicator,
+  FlatList,
 } from "react-native";
-import { Bubble, GiftedChat, Send } from "react-native-gifted-chat";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Context from "../../Context/Context";
 import { Entypo, AntDesign } from "@expo/vector-icons";
 import MyText from "../../Components/Text";
-import CustomHeader3 from "../../Components/CustomHeader3";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
-const MessageBox = ({ route }) => {
+import moment from "moment";
+import { sendMessagess } from "../Profile/services/MessageServices";
+import { set } from "react-native-reanimated";
+const MessageBox = ({
+  route,
+  messages,
+  setMessages,
+  id,
+  userImg,
+  userName,
+}) => {
   const navigation = useNavigation();
-  const { accessToken } = useContext(CartProvider);
+  const { accessToken, socket } = useContext(CartProvider);
   const {
     theme: { colors },
   } = useContext(Context);
 
-  const [getcondition, setcondition] = useState(true);
+  const [message, setMessage] = useState("");
+  const [msg, setmsg] = useState(messages);
+  const sendMessage = async (message) => {
+    //console.log(getusers);
 
-  const [messages, setMessages] = useState([]);
-  const { id, userImg, userName } = route.params;
-  const [convo, setconvo] = useState();
-  useEffect(() => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `bearer ${accessToken}`,
-      },
-    };
-
-    axios
-      .post(
-        "https://stepdev.up.railway.app/chat/getMessages",
-        {
-          receiverid: id,
+    const res = await sendMessagess(accessToken, id, message);
+    console.log(res.status);
+    if (res.status == 200) {
+      socket.emit("private message", {
+        to: id,
+        content: {
+          msgcontent: message,
+          messageType: "text",
         },
-
-        config
-      )
-      .then((res) => {
-        console.log(res.data.messages);
-        for (var i in convo) {
-          console.log(convo[i].message.message);
-        }
-        setconvo(res.data.messages);
-        for (var i in convo) {
-          if (convo[i]?.display === "left") {
-            setMessages([
-              ...messages,
-              {
-                _id: convo[i].message._id,
-                text: convo[i].message.message,
-                createdAt: new Date(),
-                user: {
-                  _id: 2,
-                },
-              },
-            ]);
-          } else {
-            setMessages([
-              ...messages,
-              {
-                _id: convo[i].messages._id,
-                text: convo[i].messages.message,
-                createdAt: new Date(),
-                user: {
-                  _id: 1,
-                },
-              },
-            ]);
-          }
-        }
-        setcondition(false);
-      })
-      .catch((err) => {
-        console.log("error", err);
       });
-  }, [getcondition]);
-
+    }
+    //console.log(res.data);
+  };
   const icon = () => (
       <Entypo name="dots-three-vertical" size={24} color="black" />
     ),
     Title = userName;
 
-  useEffect(() => {}, [messages]);
+  // useEffect(() => {
+  //   console.log(messages);
+  socket.on("private message", (data) => {
+    const { content, from } = data;
+    // console.log(content);
+    //console.log(from);
 
-  const onSend = useCallback((messages = []) => {
-    setMessages((previousMessages) =>
-      GiftedChat.append(previousMessages, messages)
+    let obj = {
+      createdAt: Date.now(),
+      text: content.msgcontent,
+      user: {
+        _id: "other",
+      },
+    };
+    console.log(msg.length);
+    console.log(msg);
+
+    //console.log(obj);
+    setmsg([...msg, obj]);
+    console.log(
+      "--------------------------------------------------------------------------------"
     );
-  }, []);
+    console.log(msg);
 
-  const renderSend = (props) => {
-    return (
-      <Send {...props}>
-        <View style={{ flexDirection: "row" }}>
-          <MaterialCommunityIcons
-            name="camera"
-            style={{ marginTop: 5, marginRight: 5 }}
-            size={25}
-            color="#23232380"
-          />
-
-          <MaterialCommunityIcons
-            name="send-circle"
-            style={{ marginBottom: 5, marginRight: 5 }}
-            size={32}
-            color={colors.Bluish}
-          />
-        </View>
-      </Send>
-    );
-  };
-
-  const renderBubble = (props) => {
-    return (
-      <Bubble
-        {...props}
-        wrapperStyle={{
-          right: {
-            backgroundColor: colors.Bluish,
-          },
-          left: {
-            backgroundColor: "#FFF2F2",
-          },
-        }}
-        textStyle={{
-          right: {
-            color: "#fff",
-          },
-          left: {
-            color: colors.text,
-          },
-        }}
-      />
-    );
-  };
-
-  const scrollToBottomComponent = () => {
-    return <FontAwesome name="angle-double-down" size={22} color="#333" />;
-  };
-  if (getcondition) {
-    return (
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          paddingTop: 30,
-        }}
-      >
-        <ActivityIndicator animating={true} color={colors.Bluish} />
-
-        <MyText>Loading..</MyText>
-      </View>
-    );
-  }
+    //let tempmsg = [...messages.current];
+    //console.log(tempmsg);
+    // tempmsg.push(obj);
+    // messages.current = tempmsg;
+    // console.log(messages.current);
+  });
+  // }, []);
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <View
-        style={[
-          {
-            display: "flex",
-            flexDirection: "row",
-            width: "100%",
-            backgroundColor: colors.white,
-            padding: 6,
-            paddingVertical: 10,
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginTop: 5,
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 1.5,
-            shadowRadius: 2,
-            elevation: 3,
-            borderRadius: 10,
-          },
-          styles.shadow,
-        ]}
-      >
+      <View style={[styles.header, styles.shadow]}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <AntDesign name="arrowleft" size={24} color="black" />
         </View>
@@ -223,19 +133,132 @@ const MessageBox = ({ route }) => {
 
         <View>{icon()}</View>
       </View>
-      <GiftedChat
-        messages={messages}
-        onSend={(messages) => onSend(messages)}
-        user={{
-          _id: 1,
-        }}
-        renderBubble={renderBubble}
-        alwaysShowSend
-        renderAvatar={null}
-        renderSend={renderSend}
-        scrollToBottom
-        scrollToBottomComponent={scrollToBottomComponent}
+
+      <FlatList
+        data={msg}
+        keyExtractor={(item) => item._id}
+        renderItem={({ item }) => (
+          <View>
+            {item.user._id == "other" ? (
+              <View>
+                <View
+                  style={{
+                    height: 43,
+                    flexDirection: "row",
+                    alignSelf: "flex-start",
+                    backgroundColor: "#ecf0f1",
+                    padding: 8,
+                    marginTop: 10,
+                    marginLeft: 18,
+                    borderRadius: 10,
+                    backgroundColor: "#FFF2F2",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 11,
+                      fontWeight: "400",
+                    }}
+                  >
+                    {item.text}
+                  </Text>
+                </View>
+                <Text
+                  style={{
+                    marginLeft: 20,
+                    margin: 7,
+                    fontSize: 8,
+                    fontWeight: "400",
+                    color: "#23232380",
+                  }}
+                >
+                  {moment(item.createdAt).format("h:mm a")}
+                </Text>
+              </View>
+            ) : (
+              <View>
+                <View
+                  style={{
+                    height: 43,
+                    flexDirection: "row",
+                    alignSelf: "flex-end",
+                    backgroundColor: "#ecf0f1",
+                    padding: 8,
+                    marginTop: 10,
+                    marginRight: 18,
+                    borderRadius: 10,
+                    backgroundColor: colors.Bluish,
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: colors.white,
+                      fontSize: 11,
+                      fontWeight: "400",
+                    }}
+                  >
+                    {item.text}
+                  </Text>
+                </View>
+                <Text
+                  style={{
+                    marginRight: 20,
+                    margin: 7,
+                    fontSize: 8,
+                    alignSelf: "flex-end",
+                    fontWeight: "400",
+                    color: "#23232380",
+                  }}
+                >
+                  {moment(item.createdAt).format("h:mm a")}
+                </Text>
+              </View>
+            )}
+          </View>
+        )}
       />
+
+      <View style={{ height: 50, borderWidth: 0.3, borderColor: "#23232380" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            elevation: 5,
+          }}
+        >
+          <MaterialCommunityIcons
+            name="camera"
+            style={{ margin: 14, marginRight: 5 }}
+            size={25}
+            color="#23232380"
+          />
+          <TextInput
+            style={{ marginRight: 170, fontSize: 11, fontWeight: "400" }}
+            placeholder="Type Message here"
+            placeholderTextColor="#23232380"
+            onChangeText={(message) => setMessage(message)}
+            value={message}
+          />
+          <MaterialCommunityIcons
+            name="send-circle"
+            style={{ margin: 10, marginRight: 5 }}
+            size={32}
+            color={colors.Bluish}
+            onPress={() => {
+              var obj = {};
+              (obj["createdAt"] = Date.now()),
+                (obj["text"] = message),
+                (obj["user"] = {
+                  _id: "me",
+                });
+
+              setmsg([...msg, obj]);
+              sendMessage(message);
+            }}
+          />
+        </View>
+      </View>
+
       <View
         style={{
           flexDirection: "row",
@@ -293,5 +316,21 @@ export default MessageBox;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  header: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    backgroundColor: "white",
+    padding: 6,
+    paddingVertical: 10,
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 5,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1.5,
+    shadowRadius: 2,
+    elevation: 3,
+    borderRadius: 10,
   },
 });

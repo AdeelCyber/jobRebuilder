@@ -18,11 +18,11 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useTogglePasswordVisibility } from "../../Components/useTogglePasswordVisibility";
-import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
-
+import { io } from "socket.io-client";
+import { userLogin } from "../Profile/services/authenticationServices";
 const Login = () => {
   const {
     theme: { colors },
@@ -36,41 +36,31 @@ const Login = () => {
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
 
+  const { socket } = useContext(CartProvider);
+
   const login = async () => {
-    try {
-      const response = await axios.post(
-        "https://stepdev.up.railway.app/auth/login",
-        {
-          email: email,
-          password: password,
-        }
-      );
+    const response = await userLogin(email, password);
+    //console.log(response.data);
+    if (response.status == 200) {
+      setuserdetails(response.data.user);
+      setaccessToken(response.data.accessToken);
 
-      if (response.status == 200) {
-        setuserdetails(response.data.user);
-        setaccessToken(response.data.accessToken);
-        try {
-          await AsyncStorage.setItem("@accessToken", response.data.accessToken);
-          await AsyncStorage.setItem(
-            "@refreshToken",
-            response.data.refreshToken
-          );
+      try {
+        await AsyncStorage.setItem("@accessToken", response.data.accessToken);
+        await AsyncStorage.setItem("@refreshToken", response.data.refreshToken);
 
-          console.log("done");
-        } catch (error) {
-          console.log(error);
-        }
-
-        Toast.show({
-          topOffset: 60,
-          type: "success",
-          text1: "You're Successfully Logged In",
-          text2: ".",
-        });
-        navigation.navigate("CreateGroup");
+        console.log("done");
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+
+      Toast.show({
+        topOffset: 60,
+        type: "success",
+        text1: "You're Successfully Logged In",
+        text2: ".",
+      });
+      navigation.navigate("BuildingStartupScreen1");
     }
   };
 

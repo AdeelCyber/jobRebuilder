@@ -20,9 +20,16 @@ import { ScrollView } from "react-native-gesture-handler";
 import DropDownPicker from "react-native-dropdown-picker";
 import * as ImagePicker from "expo-image-picker";
 import Checkbox from "expo-checkbox";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
+import { step1startup } from "../Profile/services/startupServices";
+import { step2startup } from "../Profile/services/startupServices";
+import { step3startup } from "../Profile/services/startupServices";
+import { step4startup } from "../Profile/services/startupServices";
+import Toast from "react-native-toast-message";
+import { imageUpload } from "../Profile/services/fileServices";
+import mime from "mime";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const BuildingStartupScreen1 = ({ navigation }) => {
   const {
@@ -137,56 +144,75 @@ const BuildingStartupScreen1 = ({ navigation }) => {
         quality: 1,
         base64: true,
       });
-      console.log(result);
+      //console.log(result);
 
       if (!result.canceled) {
         setmedia(result.assets[0].uri);
         setmediatype(result.assets[0].type);
+
+        // console.log(file.uri)
+        //console.log(data);
       }
     };
 
-    const step1 = () => {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `bearer ${accessToken}`,
-        },
-      };
+    const step1 = async () => {
+      //const newImageUri = getmedia.split("file:/").join("");
+      // let base64Img = `data:image/jpg;base64,${getmedia}`;
+      // // console.log(newImageUri);
+      // // //console.log(getmediatype);
+      // let data = {
+      //   key: "file",
+      //   type: "image/jpeg",
+      //   src: base64Img,
+      // };
+      // fetch("https://api.cloudinary.com/v1_1/do9ljvlb4/image/upload", {
+      //   body: JSON.stringify(data),
+      //   headers: {
+      //     "content-type": "application/json",
+      //   },
+      //   method: "POST",
+      // })
+      //   .then(async (r) => {
+      //     let data = await r.json();
+      //     console.log("url", data);
+      //     // seturl(data.url);
+      //     //  console.log("url", data.url);
+      //   })
+      //   .catch((err) => console.log("error", err));
+      // const formData = new FormData();
+      // let data = {
+      //   name: "file",
+      //   type: "image/jpeg",
+      //   uri: JSON.stringify(getmedia),
+      // };
+      // formData.append("file", data);
 
-      axios
-        .post(
-          "https://stepdev.up.railway.app/startup/saveOnboarding",
-          {
-            formStep: "1",
-            businessName: businessName,
-            problemStatement: problemstatement,
-            impactStatement: impactstatement,
-            competition: competition,
-            story: story,
-            budget: budget,
-            category: value,
-            location: location,
-            promoMedia: {
-              mediatype: getmediatype,
-              url: getmedia,
-            },
-            logo: userimg,
-          },
-          config
-        )
-        .then((res) => {
-          console.log(res.data);
-          setstartupid(res.data.startUp._id);
-          Toast.show({
-            topOffset: 60,
-            type: "success",
-            text1: "Your Information is successfully saved",
-            text2: "Press Proceed to continue",
-          });
-        })
-        .catch((err) => {
-          console.log("error", err);
-        });
+      const img = await imageUpload(accessToken, getmedia);
+      console.log(img);
+      //   const res = await step1startup(
+      //     accessToken,
+      //     businessName,
+      //     problemstatement,
+      //     impactstatement,
+      //     competition,
+      //     story,
+      //     budget,
+      //     value,
+      //     location,
+      //     getmediatype,
+      //     getmedia,
+      //     userimg
+      //   );
+      //   //console.log(res.data.startUp._id);
+      //   if (res.status === 201) {
+      //     setstartupid(res.data.startUp._id);
+      //     Toast.show({
+      //       topOffset: 60,
+      //       type: "success",
+      //       text1: "Your Information is successfully saved",
+      //       text2: "Press Proceed to continue",
+      //     });
+      //   }
     };
     if (getScreen == false) {
       return (
@@ -922,18 +948,11 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     const [positionn, setposition] = useState();
     const [role, setrole] = useState();
     const [getusers, setusers] = useState([
-      //   {
-      //     id: 1,
-      //     name: "Michael",
-      //     role: "Designer",
-      //     img: require("../../../assets/img/user.png"),
-      //   },
-      //   {
-      //     id: 1,
-      //     name: "Michael",
-      //     role: "Designer",
-      //     img: require("../../../assets/img/user.png"),
-      //   },
+      {
+        member: "63babb1954b661431a0519b5",
+        position: "developer",
+        role: "developer",
+      },
     ]);
     const [showuser, setshowuser] = useState(false);
     const [image, setimage] = useState();
@@ -953,37 +972,18 @@ const BuildingStartupScreen1 = ({ navigation }) => {
       }
     };
 
-    const step2 = () => {
-      console.log("hello");
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `bearer ${accessToken}`,
-        },
-      };
-
-      axios
-        .post(
-          "https://stepdev.up.railway.app/startup/saveOnboarding",
-          {
-            startupid: startupid,
-            formStep: "2",
-            members: [
-              {
-                member: "63babb1954b661431a0519b5",
-                position: positionn,
-                role: role,
-              },
-            ],
-          },
-          config
-        )
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((err) => {
-          console.log("error", err);
+    const step2 = async () => {
+      const res = await step2startup(accessToken, startupid, getusers);
+      //console.log(res.status);
+      if (res.status === 201) {
+        setstartupid(res.data.startUp._id);
+        Toast.show({
+          topOffset: 60,
+          type: "success",
+          text1: "Your Information is successfully saved",
+          text2: "Press Proceed to continue",
         });
+      }
     };
     if (getScreen2 == false) {
       return (
@@ -1101,7 +1101,9 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                     alignItems: "center",
                     marginTop: 20,
                   }}
-                  onPress={() => {}}
+                  onPress={() => {
+                    step2();
+                  }}
                 >
                   <MyText
                     style={{
@@ -1239,6 +1241,14 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 marginTop: 20,
               }}
               onPress={() => {
+                setusers([
+                  ...getusers,
+                  {
+                    member: "63babb1954b661431a0519b5",
+                    position: positionn,
+                    role: role,
+                  },
+                ]);
                 setshowuser(true);
                 setScreen2(false);
                 //step2();
@@ -1281,31 +1291,24 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     const [getcheck2, setcheck2] = useState(false);
     const [getcheck3, setcheck3] = useState(false);
     const [partnershipTerms, setpartnershipTerms] = useState();
-    const step3 = () => {
-      console.log("hello");
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `bearer ${accessToken}`,
-        },
-      };
-
-      axios
-        .post(
-          "https://stepdev.up.railway.app/startup/saveOnboarding",
-          {
-            startupid: startupid,
-            formStep: "3",
-            partnershipTerms: partnershipTerms,
-          },
-          config
-        )
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((err) => {
-          console.log("error", err);
+    const [rolelist, setrolelist] = useState([
+      {
+        role: "designer",
+        rolesbrokendown: "jgj",
+        forrole: "hf",
+      },
+    ]);
+    const step3 = async () => {
+      const res = await step3startup(accessToken, startupid, partnershipTerms);
+      console.log(res.data);
+      if (res.status === 201) {
+        Toast.show({
+          topOffset: 60,
+          type: "success",
+          text1: "Your Information is successfully saved",
+          text2: "Press Proceed to continue",
         });
+      }
     };
     if (teamroleScreen == true) {
       return (
@@ -1448,6 +1451,11 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 marginTop: 20,
               }}
               onPress={() => {
+                var obj = {};
+                obj["role"] = roles;
+                obj["rolesbrokendown"] = rolesbrokendown;
+                obj["forrole"] = value2;
+                setrolelist([...rolelist, obj]);
                 setTermScreen(false);
                 setteamroleScreen(false);
                 setrolescreen(true);
@@ -1495,68 +1503,34 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               { backgroundColor: colors.background, margin: 30 },
             ]}
           >
-            <View style={styles.SectionStyle3}>
-              <Checkbox
-                style={{ margin: 14 }}
-                value={getcheck}
-                onValueChange={setcheck}
-                color={getcheck ? colors.Bluish : undefined}
-              />
-              <MyText
-                style={{
-                  fontSize: 14,
-                  fontWeight: "500",
-                  color: colors.text,
-                  ustifyContent: "center",
-                  alignItems: "center",
-                  marginLeft: 10,
-                }}
-              >
-                Graphic Designer
-              </MyText>
-            </View>
-
-            <View style={styles.SectionStyle3}>
-              <Checkbox
-                style={{ margin: 14 }}
-                value={getcheck2}
-                onValueChange={setcheck2}
-                color={getcheck2 ? colors.Bluish : undefined}
-              />
-              <MyText
-                style={{
-                  fontSize: 14,
-                  fontWeight: "500",
-                  color: colors.text,
-                  ustifyContent: "center",
-                  alignItems: "center",
-                  marginLeft: 10,
-                }}
-              >
-                Project Manager
-              </MyText>
-            </View>
-
-            <View style={styles.SectionStyle3}>
-              <Checkbox
-                style={{ margin: 14 }}
-                value={getcheck3}
-                onValueChange={setcheck3}
-                color={getcheck3 ? colors.Bluish : undefined}
-              />
-              <MyText
-                style={{
-                  fontSize: 14,
-                  fontWeight: "500",
-                  color: colors.text,
-                  ustifyContent: "center",
-                  alignItems: "center",
-                  marginLeft: 10,
-                }}
-              >
-                Content Writers
-              </MyText>
-            </View>
+            <FlatList
+              data={rolelist}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View style={{ flex: 1 }}>
+                  <View style={styles.SectionStyle3}>
+                    <Checkbox
+                      style={{ margin: 14 }}
+                      value={getcheck}
+                      onValueChange={setcheck}
+                      color={getcheck ? colors.Bluish : undefined}
+                    />
+                    <MyText
+                      style={{
+                        fontSize: 14,
+                        fontWeight: "500",
+                        color: colors.text,
+                        ustifyContent: "center",
+                        alignItems: "center",
+                        marginLeft: 10,
+                      }}
+                    >
+                      {item.role}
+                    </MyText>
+                  </View>
+                </View>
+              )}
+            />
 
             <Pressable
               style={{
@@ -1569,7 +1543,11 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 alignItems: "center",
                 marginTop: 20,
               }}
-              onPress={() => {}}
+              onPress={() => {
+                setteamroleScreen(true);
+                setrolescreen(false);
+                setTermScreen(false);
+              }}
             >
               <MyText
                 style={{
@@ -1735,42 +1713,38 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     const [milestonetitle, setmilestonetitle] = useState();
     const [description, setDescription] = useState();
     const [duedate, setduedate] = useState();
-    const [milestonelist, setmilestonelist] = useState([
-      {
-        title: null,
-        description: null,
-        date: null,
-      },
-    ]);
-    const step4 = () => {
-      console.log("hello");
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `bearer ${accessToken}`,
-        },
-      };
-
-      axios
-        .post(
-          "https://stepdev.up.railway.app/startup/saveOnboarding",
-          {
-            startupid: startupid,
-            formStep: "4",
-            milestones: {
-              title: milestonetitle,
-              description: description,
-              dueDate: duedate,
-            },
-          },
-          config
-        )
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((err) => {
-          console.log("error", err);
+    const [milestonelist, setmilestonelist] = useState([]);
+    const step4 = async () => {
+      const res = await step4startup(accessToken, startupid, milestonelist);
+      //console.log(res.status);
+      if (res.status === 201) {
+        Toast.show({
+          topOffset: 60,
+          type: "success",
+          text1: "Your Information is successfully saved",
+          text2: "Press Proceed to continue",
         });
+      }
+      //   axios
+      //     .post(
+      //       "https://stepdev.up.railway.app/startup/saveOnboarding",
+      //       {
+      //         startupid: startupid,
+      //         formStep: "4",
+      //         milestones: {
+      //           title: milestonetitle,
+      //           description: description,
+      //           dueDate: duedate,
+      //         },
+      //       },
+      //       config
+      //     )
+      //     .then((res) => {
+      //       console.log(res.data);
+      //     })
+      //     .catch((err) => {
+      //       console.log("error", err);
+      //     });
     };
 
     if (milestone == false) {
@@ -2003,7 +1977,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 var obj = {};
                 obj["title"] = milestonetitle;
                 obj["description"] = description;
-                obj["date"] = duedate;
+                obj["dueDate"] = duedate;
 
                 setmilestonelist([...milestonelist, obj]);
                 setmilestone(false);
@@ -2284,7 +2258,7 @@ const styles = StyleSheet.create({
   SectionStyle3: {
     backgroundColor: "#EEEEEE",
     height: 50,
-    width: "100%",
+    width: 327,
     borderRadius: 10,
     alignSelf: "flex-start",
     alignItems: "center",

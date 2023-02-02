@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -30,16 +30,33 @@ import { Messages } from "../../Components/Msg";
 import MyText from "../../Components/Text";
 import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
+import { io } from "socket.io-client";
+
 import moment from "moment";
 const Message = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
-  const { accessToken } = useContext(CartProvider);
+  const { accessToken, socket, setsocket } = useContext(CartProvider);
+
   const [getcondition, setcondition] = useState(true);
   const [chat, setchat] = useState();
+  const startsocket = useCallback(
+    (accessToken) => {
+      setsocket(
+        io("https://stepdev.up.railway.app", {
+          autoConnect: false,
+          extraHeaders: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+      );
+    },
+    [socket]
+  );
 
   useEffect(() => {
+    startsocket(accessToken);
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -54,7 +71,7 @@ const Message = ({ navigation }) => {
         config
       )
       .then((res) => {
-        console.log(res.data.chats);
+        //console.log(res.data);
         setchat(res.data.chats);
 
         setcondition(false);
@@ -83,95 +100,104 @@ const Message = ({ navigation }) => {
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <CustomHeader3 />
+      {chat ? (
+        <Container>
+          <FlatList
+            data={chat}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  borderBottomWidth: 1,
+                  borderColor: "#9DD0FF66",
+                  marginBottom: 10,
+                }}
+                onPress={() =>
+                  navigation.navigate("MessagesBox", {
+                    id: item.chatid,
+                    userImg: item.chatavatar,
+                    userName: item.chatname,
+                  })
+                }
+              >
+                <View style={{ flexDirection: "row" }}>
+                  <Image
+                    style={{
+                      height: 51,
+                      width: 51,
+                      borderRadius: 50,
+                      alignItems: "center",
+                    }}
+                    source={{ uri: item.chatavatar }}
+                  />
+                  <View
+                    style={{
+                      height: 15,
+                      width: 15,
+                      borderRadius: 50,
+                      marginLeft: 40,
 
-      <Container>
-        <FlatList
-          data={chat}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                borderBottomWidth: 1,
-                borderColor: "#9DD0FF66",
-                marginBottom: 10,
-              }}
-              onPress={() =>
-                navigation.navigate("MessageBox", {
-                  id: item.chatid,
-                  userImg: item.chatavatar,
-                  userName: item.chatname,
-                })
-              }
-            >
-              <View style={{ flexDirection: "row" }}>
-                <Image
-                  style={{
-                    height: 51,
-                    width: 51,
-                    borderRadius: 50,
-                    alignItems: "center",
-                  }}
-                  source={{ uri: item.chatavatar }}
-                />
+                      backgroundColor: colors.red,
+                      alignSelf: "flex-end",
+                      position: "absolute",
+                      bottom: 19,
+                    }}
+                  ></View>
+                </View>
                 <View
                   style={{
-                    height: 15,
-                    width: 15,
-                    borderRadius: 50,
-                    marginLeft: 40,
-
-                    backgroundColor: colors.red,
-                    alignSelf: "flex-end",
-                    position: "absolute",
-                    bottom: 19,
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+                    margin: 10,
+                    width: 210,
+                    height: 50,
+                    marginRight: 40,
                   }}
-                ></View>
-              </View>
-              <View
-                style={{
-                  flexDirection: "column",
-                  justifyContent: "flex-start",
-                  margin: 10,
-                  width: 210,
-                  height: 50,
-                  marginRight: 40,
-                }}
-              >
-                <MyText style={{ fontWeight: "700", fontSize: 14 }}>
-                  {item.chatname}
-                </MyText>
-                <Text
-                  style={{
-                    fontWeight: "400",
-                    fontSize: 13,
-                    color: "#23232380",
-                  }}
-                  numberOfLines={2}
                 >
-                  {item.lastMessage.sender.name
-                    ? item.lastMessage.sender.name +
-                      ": " +
-                      item.lastMessage.message.message
-                    : item.lastMessage.message.message}
-                </Text>
-              </View>
-              <View
-                style={{ flexDirection: "column", justifyContent: "center" }}
-              >
-                <Msgs style={{ marginLeft: 20, marginBottom: 5 }}>2</Msgs>
+                  <MyText style={{ fontWeight: "700", fontSize: 14 }}>
+                    {item.chatname}
+                  </MyText>
+                  <Text
+                    style={{
+                      fontWeight: "400",
+                      fontSize: 13,
+                      color: "#23232380",
+                    }}
+                    numberOfLines={2}
+                  >
+                    {item.lastMessage?.sender.name
+                      ? item.lastMessage?.sender.name +
+                        ": " +
+                        item.lastMessage?.message.message
+                      : item.lastMessage?.message.message}
+                  </Text>
+                </View>
+                <View
+                  style={{ flexDirection: "column", justifyContent: "center" }}
+                >
+                  <Msgs style={{ marginLeft: 20, marginBottom: 5 }}>2</Msgs>
 
-                <MyText
-                  style={{ fontWeight: "500", fontSize: 9, color: "#23232380" }}
-                >
-                  {moment(item.date).format("h:mm a")}
-                </MyText>
-              </View>
-            </TouchableOpacity>
-          )}
-        />
-      </Container>
+                  <MyText
+                    style={{
+                      fontWeight: "500",
+                      fontSize: 9,
+                      color: "#23232380",
+                    }}
+                  >
+                    {moment(item.date).format("h:mm a")}
+                  </MyText>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+        </Container>
+      ) : (
+        <View>
+          <Text> No chats here</Text>
+        </View>
+      )}
     </View>
   );
 };

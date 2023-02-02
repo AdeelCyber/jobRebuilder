@@ -12,7 +12,7 @@
     "@expo/vector-icons": "^13.0.0",
     "@expo/webpack-config": "^0.17.2",
     "@react-native-async-storage/async-storage": "~1.17.3",
-    "@react-native-community/async-storage": "^1.12.1",
+    "@react-native-community/datetimepicker": "^6.7.3",
     "@react-native-community/slider": "^4.4.1",
     "@react-navigation/material-bottom-tabs": "^6.2.10",
     "@react-navigation/material-top-tabs": "^6.5.1",
@@ -21,13 +21,11 @@
     "axios": "^1.2.3",
     "expo": "^47.0.0",
     "expo-checkbox": "~2.2.2",
+    "expo-file-system": "^15.1.1",
     "expo-image-picker": "~14.0.2",
-<<<<<<< HEAD
-    "expo-status-bar": "~1.4.0",
-    "moment": "^2.29.4",
-=======
     "expo-status-bar": "~1.4.2",
->>>>>>> 645d98340ed52b3241f4a761cc41db86ec4e6990
+    "mime": "^3.0.0",
+    "moment": "^2.29.4",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
@@ -46,15 +44,13 @@
     "react-native-screens": "~3.18.0",
     "react-native-star-rating-widget": "^1.6.0",
     "react-native-svg": "13.4.0",
-<<<<<<< HEAD
+    "react-native-swipe-gestures": "^1.0.5",
     "react-native-swiper": "^1.6.0",
     "react-native-toast-message": "^2.1.5",
-=======
-    "react-native-swipe-gestures": "^1.0.5",
->>>>>>> 645d98340ed52b3241f4a761cc41db86ec4e6990
     "react-native-video": "^5.2.1",
     "react-native-web": "~0.18.7",
     "react-select-country-list": "^2.2.3",
+    "socket.io-client": "^4.5.4",
     "styled-components": "^5.3.6"
   },
   "devDependencies": {

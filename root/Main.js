@@ -55,9 +55,7 @@ import CustomOffer from "./Screens/Chat/CustomOffer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-<<<<<<< HEAD
 import EditPortfolio from "./Screens/HomeProfile/EditPortfolio";
-=======
 import DashboardScreen from "./Screens/Profile/Dashboard/DashboardScreen";
 import ActiveOrderDetailScreen from "./Screens/Profile/Orders/ActiveOrderDetailScreen";
 import CancelledOrdersScreen from "./Screens/Profile/Orders/CancelledOrdersScreen";
@@ -85,7 +83,7 @@ import TeamWarnings from "./Screens/campaignHomeScreen/TeamWarnings";
 import Warnings from "./Screens/campaignHomeScreen/Warnings";
 import CampaignManagement from "./Screens/campaignHomeScreen/CampaignManagement";
 import ManagingCampaign from "./Screens/campaignHomeScreen/ManagingCampaign";
->>>>>>> 645d98340ed52b3241f4a761cc41db86ec4e6990
+import MessagesBox from "./Screens/Chat/MessagesBox";
 
 //Navigation out
 
@@ -97,7 +95,7 @@ const Tab = createMaterialBottomTabNavigator();
 const MyStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Profile"
+      initialRouteName="StartScreen"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="CampaignHome" component={CampaignHome} />
@@ -136,6 +134,8 @@ const MyStack = () => {
 
       <Stack.Screen name="Message" component={Message} />
       <Stack.Screen name="MessageBox" component={MessageBox} />
+      <Stack.Screen name="MessagesBox" component={MessagesBox} />
+
       <Stack.Screen name="CreateGroup" component={CreateGroup} />
       <Stack.Screen name="CreatingGroup" component={CreatingGroup} />
       <Stack.Screen name="CreatingGroup1" component={CreatingGroup1} />

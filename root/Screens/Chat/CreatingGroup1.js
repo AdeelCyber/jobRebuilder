@@ -86,6 +86,7 @@ const CreatingGroup1 = ({ navigation }) => {
         {
           groupName: grouptitle,
           members: r,
+          avatar: "jbbv",
         },
         config
       )

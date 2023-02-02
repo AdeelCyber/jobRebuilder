@@ -24,6 +24,8 @@ import CustomHeader9 from "../../Components/CustomHeader9";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
+import { editServices } from "../Profile/services/ProfileServices";
+import Toast from "react-native-toast-message";
 
 const EditService = () => {
   const {
@@ -57,62 +59,16 @@ const EditService = () => {
 
     setskillsofuser(r);
   };
-  const edit = (n) => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `bearer ${accessToken}`,
-      },
-    };
-
-    if (n == "description") {
-      axios
-        .put(
-          "https://stepdev.up.railway.app/freelancer/profile/services",
-          {
-            description: userdesc,
-          },
-          config
-        )
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((err) => {
-          console.log("error", err);
-        });
-    }
-    if (n == "rates") {
-      axios
-        .put(
-          "https://stepdev.up.railway.app/freelancer/profile/services",
-          {
-            hourlyRate: value,
-          },
-          config
-        )
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((err) => {
-          console.log("error", err);
-        });
-    }
-    if (n == "skills") {
-      axios
-        .put(
-          "https://stepdev.up.railway.app/freelancer/profile/services",
-          {
-            skills: skillsofuser,
-          },
-          config
-        )
-        .then((res) => {
-          console.log(res.data);
-        })
-
-        .catch((err) => {
-          console.log("error", err);
-        });
+  const edit = async (n) => {
+    const res = await editServices(accessToken, userdesc, value, skillsofuser);
+    // console.log(res.data);
+    if (res.status == 201) {
+      Toast.show({
+        topOffset: 60,
+        type: "success",
+        text1: "Updated Successfully",
+        text2: ".",
+      });
     }
   };
 

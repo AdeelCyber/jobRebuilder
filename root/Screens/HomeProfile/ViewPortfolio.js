@@ -23,6 +23,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import Swiper from "react-native-swiper";
 import CartProvider from "../../Context/CartProvider";
+import { deletePortfolio } from "../Profile/services/ProfileServices";
+import Toast from "react-native-toast-message";
 
 const ViewPortfolio = ({ route }) => {
   const {
@@ -32,30 +34,21 @@ const ViewPortfolio = ({ route }) => {
   const { accessToken } = useContext(CartProvider);
 
   const { portfolio } = route.params;
-  const deleteportfolio = () => {
-    console.log(portfolio._id);
+  const deleteportfolio = async () => {
     console.log(accessToken);
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `bearer ${accessToken}`,
-      },
-    };
+    const portfolioId = portfolio._id;
+    console.log(portfolioId);
 
-    axios
-      .delete(
-        "https://stepdev.up.railway.app/freelancer/profile/portfolio/delete",
-        {
-          portfolioId: portfolio._id,
-        },
-        config
-      )
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log("error", err);
+    const res = await deletePortfolio(accessToken, portfolioId);
+    if (res.status == 200) {
+      Toast.show({
+        topOffset: 60,
+        type: "success",
+        text1: "Deleted Successfully",
+        text2: ".",
       });
+      navigation.navigate("HomeService");
+    }
   };
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>

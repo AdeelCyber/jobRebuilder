@@ -27,6 +27,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import UserInfo from "../../Components/UserInfo";
 import CartProvider from "../../Context/CartProvider";
+import { getProfile } from "../Profile/services/ProfileServices";
+import moment from "moment";
 const HomeService = ({ route }) => {
   const {
     theme: { colors },
@@ -51,29 +53,14 @@ const HomeService = ({ route }) => {
   const [userreviews, setuserreviews] = useState([]);
 
   const { accessToken } = useContext(CartProvider);
-
+  const getUser = async () => {
+    const res = await getProfile(accessToken);
+    console.log(res.data.data);
+    setuserinfo(res.data.data);
+    setcondition(false);
+  };
   useEffect(() => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `bearer ${accessToken}`,
-      },
-    };
-
-    axios
-      .get(
-        "https://stepdev.up.railway.app/freelancer/profile",
-
-        config
-      )
-      .then((res) => {
-        console.log(res.data.data.userInfo);
-        setuserinfo(res.data.data);
-        setcondition(false);
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
+    getUser();
   }, [getcondition]);
 
   useEffect(() => {
@@ -358,7 +345,7 @@ const HomeService = ({ route }) => {
                     marginRight: 30,
                   }}
                 >
-                  {userinfo.services.hourlyRate}$
+                  {userinfo?.services.hourlyRate}$
                 </MyText>
               </View>
               {userinfo && (
@@ -371,7 +358,7 @@ const HomeService = ({ route }) => {
                     textAlign: "justify",
                   }}
                 >
-                  {userinfo.services.description}
+                  {userinfo?.services.description}
                 </MyText>
               )}
             </View>
@@ -414,7 +401,7 @@ const HomeService = ({ route }) => {
               ]}
             >
               <FlatList
-                data={userinfo.services.skills}
+                data={userinfo?.services.skills}
                 keyExtractor={(item) => item.id}
                 numColumns={3}
                 renderItem={({ item }) => (
@@ -653,7 +640,9 @@ const HomeService = ({ route }) => {
                 <View style={{ flexDirection: "column", marginTop: 5 }}>
                   <MyText style={styles.heading}>Joined Date</MyText>
                   <MyText style={styles.content}>
-                    {userinfo.about.joinedData}
+                    {moment(userinfo.about.joinedData).format(
+                      "MMMM Do YYYY, h:mm:ss a"
+                    )}
                   </MyText>
                 </View>
               </View>

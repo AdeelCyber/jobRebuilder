@@ -74,7 +74,12 @@ const UserInfo = () => {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: colors.background, marginTop: 20 },
+      ]}
+    >
       <View
         style={{
           marginBottom: 20,
@@ -82,6 +87,9 @@ const UserInfo = () => {
           paddingBottom: 40,
           borderBottomWidth: 1,
           borderColor: "#23232380",
+          width: 340,
+          height: 140,
+          marginTop: 17,
         }}
       >
         <Image

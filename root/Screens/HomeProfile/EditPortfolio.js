@@ -13,16 +13,12 @@ import {
 
 import Context from "../../Context/Context";
 import MyText from "../../Components/Text";
-import Icon from "@expo/vector-icons/FontAwesome";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
-import Entypo from "@expo/vector-icons/Entypo";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import CustomHeader12 from "../../Components/CustomHeader12";
 import CartProvider from "../../Context/CartProvider";
+import { editPortfolio } from "../Profile/services/ProfileServices";
+import Toast from "react-native-toast-message";
 
 const EditPortfolio = ({ route }) => {
   const {
@@ -51,39 +47,56 @@ const EditPortfolio = ({ route }) => {
     }
   };
 
-  const portfolioedit = () => {
+  const portfolioedit = async () => {
     var img = [];
     for (var i in images) {
       img[i] = images[i].uri;
     }
 
     var imgg = img.concat(portfolio.attachments);
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `bearer ${accessToken}`,
-      },
-    };
-
-    axios
-      .put(
-        "https://stepdev.up.railway.app/freelancer/profile/portfolio/update",
-        {
-          portfolioId: portfolio._id,
-          title: projname,
-          description: projdesc,
-
-          attachments: imgg,
-        },
-        config
-      )
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log("error", err);
+    var portfolioid = portfolio._id;
+    const res = await editPortfolio(
+      accessToken,
+      portfolioid,
+      projname,
+      projdesc,
+      imgg
+    );
+    if (res.status == 200) {
+      Toast.show({
+        topOffset: 60,
+        type: "success",
+        text1: "Published Successfully",
+        text2: ".",
       });
+      navigation.navigate("HomeService");
+    }
+
+    // const config = {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: `bearer ${accessToken}`,
+    //   },
+    // };
+
+    // axios
+    //   .put(
+    //     "https://stepdev.up.railway.app/freelancer/profile/portfolio/update",
+    //     {
+    //       portfolioId: portfolio._id,
+    //       title: projname,
+    //       description: projdesc,
+
+    //       attachments: imgg,
+    //     },
+    //     config
+    //   )
+    //   .then((res) => {
+    //     console.log(res.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log("error", err);
+    //   });
   };
 
   return (
