@@ -11,16 +11,31 @@ import MyText from '../../../Components/Text'
 import Context from '../../../Context/Context'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import CustomHeader from '../../../Components/CustomHeader2'
+import { useNavigation } from '@react-navigation/native'
+import { modifyPhoneNumber } from '../services/settingsServices'
 
 const ChangePhoneNumberScreen = () => {
   const {
     theme: { colors },
   } = useContext(Context)
+  const navigation = useNavigation()
+
+  const [phoneNumber, setPhoneNumber] = useState(async () => {
+    await AsyncStorage.getItem('@phoneNumber')
+  })
+
+  const changePhoneNumber = async () => {
+    const resp = await modifyPhoneNumber(phoneNumber)
+    if (resp.status === 200) {
+      console.log('Phone number updated')
+    }
+  }
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader
         Title='Settings'
+        nav={navigation}
         style={{}}
         icon={() => {
           return (
@@ -60,6 +75,10 @@ const ChangePhoneNumberScreen = () => {
             style={styles.input}
             placeholder='Phone Number'
             underlineColorAndroid='transparent'
+            value={phoneNumber}
+            onChangeText={(e) => {
+              setPhoneNumber(e)
+            }}
           />
           <FontAwesome
             style={styles.searchIcon}
@@ -70,6 +89,7 @@ const ChangePhoneNumberScreen = () => {
         </View>
 
         <TouchableOpacity
+          onPress={changePhoneNumber}
           labelStyle={{ color: '#fff' }}
           style={{
             marginHorizontal: 18,

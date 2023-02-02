@@ -1,11 +1,11 @@
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from '../../../http/axiosSet'
 
 export const getWarnings = async () => {
   try {
     const token = await AsyncStorage.getItem('@accessToken')
     const config = {
-      header: {
+      headers: {
         Authorization: `Bearer ${token}`,
       },
     }
@@ -20,7 +20,7 @@ export const getSpecificWarning = async (startupId, warningId) => {
   try {
     const token = await AsyncStorage.getItem('@accessToken')
     const config = {
-      header: {
+      headers: {
         Authorization: `Bearer ${token}`,
       },
       data: {

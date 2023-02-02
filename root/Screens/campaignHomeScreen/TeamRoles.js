@@ -7,7 +7,7 @@ import {
   Pressable,
 } from "react-native";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Context from "../../Context/Context";
 import CustomHeader2 from "../../Components/CustomHeader2";
 import { Searchbar } from "react-native-paper";
@@ -21,8 +21,11 @@ import TickPara from "../../Components/TickPara";
 import RolesDropDown from "../../Components/RolesDropDown";
 import Buttons from "../../Components/Buttons";
 import BottomPopup from "../../Components/BottomPopup";
-const TeamRoles = ({ navigation }) => {
+import { Role } from "../Profile/services/FreeLancerServices";
+const TeamRoles = ({ navigation, route }) => {
   const [modal, setModal] = useState({ modal1: false, modal2: false });
+  const [data, setData] = useState(route.params.data);
+
   const {
     theme: { colors },
   } = useContext(Context);
@@ -39,6 +42,20 @@ const TeamRoles = ({ navigation }) => {
       desc: " Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.",
     },
   ]);
+  // Api call
+  useEffect(() => {
+    const getFreelancersData = async () => {
+      const resp = await Role();
+
+      console.log(resp.data);
+      if (resp.data.status === "OK") {
+        console.log(resp.data.projectRoles[0].roles);
+        setRoles(resp.data.projectRoles[0].roles);
+      }
+    };
+
+    getFreelancersData();
+  }, []);
   return (
     // main container
     <ScrollView
@@ -57,6 +74,8 @@ const TeamRoles = ({ navigation }) => {
         Logo={logo}
         Thumbnail={Thumbnail}
         modal={setModal}
+        data={data}
+        navigation={navigation}
       />
       {/* card out */}
       {/* Little nav in */}
@@ -78,8 +97,8 @@ const TeamRoles = ({ navigation }) => {
         <View style={{ paddingHorizontal: 23 }}>
           {Roles.map((item) => (
             <RolesDropDown
-              Title={item.Title}
-              desc={item.desc}
+              Title={item.title}
+              desc={item.description}
               nav={navigation}
             />
           ))}

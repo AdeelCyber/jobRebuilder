@@ -12,19 +12,37 @@ import Context from '../../../Context/Context'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import ReactNativeModal from 'react-native-modal'
 import CustomHeader from '../../../Components/CustomHeader2'
+import { useNavigation } from '@react-navigation/native'
+import { changePassword } from '../services/settingsServices'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const ChangePasswordScreen = () => {
   const {
     theme: { colors },
   } = useContext(Context)
+  const navigation = useNavigation()
 
   const [isModalVisible, setModalVisible] = useState(false)
+
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [email, setEmail] = useState(async () => {
+    await AsyncStorage.getItem('@email')
+  })
+
+  const modifyPassword = async () => {
+    const resp = await changePassword(password, confirmPassword)
+    if (resp.status === 200) {
+      console.log('changed')
+    }
+  }
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader
         Title='Change Password'
         style={{}}
+        nav={navigation}
         icon={() => {
           return (
             <MaterialCommunityIcons
@@ -63,6 +81,9 @@ const ChangePasswordScreen = () => {
             style={styles.input}
             placeholder='Old Password'
             underlineColorAndroid='transparent'
+            onChangeText={(e) => {
+              setPassword(e)
+            }}
           />
         </View>
 
@@ -71,6 +92,9 @@ const ChangePasswordScreen = () => {
             style={styles.input}
             placeholder='New Password'
             underlineColorAndroid='transparent'
+            onChangeText={(e) => {
+              setConfirmPassword(e)
+            }}
           />
         </View>
 
@@ -87,7 +111,7 @@ const ChangePasswordScreen = () => {
             marginBottom: 40,
           }}
           onPress={() => {
-            setModalVisible(!isModalVisible)
+            modifyPassword()
           }}
         >
           <MyText
@@ -121,7 +145,7 @@ const ChangePasswordScreen = () => {
                 }}
               >
                 A confirmation mail has been sent on your email
-                huzayfah@gmail.com verify please
+                {email} verify please
               </MyText>
 
               <TouchableOpacity

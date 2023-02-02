@@ -52,6 +52,7 @@ const ManageJobsScreen = () => {
     >
       <ScrollView style={{ backgroundColor: '#ffffff' }}>
         <CustomHeader
+          nav={navigation}
           Title='Manage Jobs'
           style={{
             elevation: 0,

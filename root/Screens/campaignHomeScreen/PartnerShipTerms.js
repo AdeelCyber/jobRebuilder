@@ -19,13 +19,13 @@ import Thumbnail from "../../../assets/img/Thumbnail.png";
 import LittleNav from "../../Components/LittleNav";
 import TickPara from "../../Components/TickPara";
 import BottomPopup from "../../Components/BottomPopup";
-const PartnerShipTerms = ({ navigation }) => {
+const PartnerShipTerms = ({ navigation, route }) => {
+  const [data, setData] = useState(route.params.data);
   const {
     theme: { colors },
   } = useContext(Context);
   const [PartnerShip, setPartnerShip] = useState([
-    " Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.",
-    " Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.",
+    data.startup.partnershipTerms,
   ]);
   const [modal, setModal] = useState({ modal1: false, modal2: false });
   return (
@@ -46,6 +46,8 @@ const PartnerShipTerms = ({ navigation }) => {
         Logo={logo}
         Thumbnail={Thumbnail}
         modal={setModal}
+        data={data}
+        navigation={navigation}
       />
       {/* card out */}
       {/* Little nav in */}

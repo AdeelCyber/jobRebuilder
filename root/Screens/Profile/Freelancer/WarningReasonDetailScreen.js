@@ -1,7 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import MyText from '../../../Components/Text'
 import Context from '../../../Context/Context'
-
 import {
   ScrollView,
   StyleSheet,
@@ -13,9 +12,25 @@ import {
 import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { getSpecificWarning } from '../services/warningServices'
 
-const WarningReasonDetailScreen = () => {
+const WarningReasonDetailScreen = ({ route }) => {
   const navigation = useNavigation()
+  const [warning, setWarning] = useState({})
+
+  useEffect(() => {
+    fetchWarning()
+  }, [])
+
+  const { warningId, startupId } = route.params
+  const fetchWarning = async () => {
+    const resp = await getSpecificWarning(startupId, warningId)
+    if (resp.status === 200) {
+      setWarning(resp.data.data)
+    } else if (resp.status === 404) {
+    } else if (resp.status === 401) {
+    }
+  }
 
   const {
     theme: { colors },
@@ -26,6 +41,7 @@ const WarningReasonDetailScreen = () => {
       <CustomHeader
         Title='Warnings'
         style={{ elevation: 0 }}
+        nav={navigation}
         icon={() => {
           return (
             <MaterialCommunityIcons

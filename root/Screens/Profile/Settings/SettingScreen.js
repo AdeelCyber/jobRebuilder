@@ -88,6 +88,7 @@ const SettingScreen = () => {
       <CustomHeader
         Title='Settings'
         style={{}}
+        nav={navigation}
         icon={() => {
           return (
             <MaterialCommunityIcons

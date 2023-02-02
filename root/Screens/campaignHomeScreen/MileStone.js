@@ -30,7 +30,7 @@ function MileStoneComponent({ para, ...props }) {
     theme: { colors },
   } = useContext(Context);
 
-  const [progress, setprogress] = useState(props.item.Progress);
+  const [progress, setprogress] = useState(props.item.progress);
   const [color, setColor] = useState("#8489FC");
   return (
     <View
@@ -87,12 +87,14 @@ function MileStoneComponent({ para, ...props }) {
               lineHeight: 20,
             }}
           >
-            {props.item.Title}
+            {props.item.title}
           </MyText>
           <Pressable
-            onPress={() =>
-              props.modal((currents) => ({ ...currents, modal2: true }))
-            }
+            onPress={() => {
+              props.modal((currents) => ({ ...currents, modal2: true }));
+
+              props.data(props.item);
+            }}
           >
             <Feather name="more-horizontal" size={24} color="#A1A1A1" />
           </Pressable>
@@ -108,7 +110,7 @@ function MileStoneComponent({ para, ...props }) {
               lineHeight: 20,
             }}
           >
-            {props.item.para}
+            {props.item.description}
           </MyText>
         </View>
         {/* lorem off */}
@@ -132,7 +134,7 @@ function MileStoneComponent({ para, ...props }) {
                 lineHeight: 20,
               }}
             >
-              Due:{props.item.Date}
+              Due : {props.item.dueDate.substring(0, 10)}
             </MyText>
           </View>
         </View>
@@ -144,7 +146,8 @@ function MileStoneComponent({ para, ...props }) {
   );
 }
 
-const MileStone = ({ navigation }) => {
+const MileStone = ({ navigation, route }) => {
+  const [data, setData] = useState(route.params.data);
   const {
     theme: { colors },
   } = useContext(Context);
@@ -154,27 +157,13 @@ const MileStone = ({ navigation }) => {
   let popupRef = React.useRef();
   const [modal, setModal] = useState({ modal1: false, modal2: false });
 
-  const [MileStones, setMileStone] = useState([
-    {
-      para: " Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo,",
-      Title: "MileStone",
-      Progress: 10,
-      Date: "20 Jan,2022",
-    },
-    {
-      para: " Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo,",
-      Title: "MileStone",
-      Progress: 100,
-      Date: "20 Jan,2022",
-    },
-    {
-      para: " Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo,",
-      Title: "MileStone",
-      Progress: 10,
-      Date: "20 Jan,2022",
-    },
+  const [CurrentMileStone, setCurrentMileStone] = useState({});
+
+  const [MileStones, setMileStone] = useState(
+    data.startup.milestones
+
     // " Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo,",
-  ]);
+  );
   return (
     // main container
     <ScrollView
@@ -205,6 +194,7 @@ const MileStone = ({ navigation }) => {
             item={item}
             style={{ marginVertical: 8 }}
             modal={setModal}
+            data={setCurrentMileStone}
           />
         ))}
       </View>
@@ -225,7 +215,12 @@ const MileStone = ({ navigation }) => {
         />
       </View>
       <BottomPopup show={modal.modal1} setshow={setModal} />
-      <BottomPopup2 show={modal.modal2} setshow={setModal} nav={navigation} />
+      <BottomPopup2
+        show={modal.modal2}
+        setshow={setModal}
+        nav={navigation}
+        data={CurrentMileStone}
+      />
     </ScrollView>
   );
 };

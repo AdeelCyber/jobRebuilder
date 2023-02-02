@@ -5,6 +5,7 @@ import {
   FlatList,
   ScrollView,
   Pressable,
+  PermissionsAndroid,
 } from "react-native";
 
 import React, { useContext, useState } from "react";
@@ -23,16 +24,38 @@ import CircularProgress from "react-native-circular-progress-indicator";
 import DynamicButton from "../../Components/DynamicButton";
 import pdf from "../../../assets/Svgs/pdf";
 import BottomPopup from "../../Components/BottomPopup";
+import { upload } from "../../Components/DownloadUpload";
+import { uploadFileServer } from "../Profile/services/orderServices";
 
 const PitchDeck = ({ navigation }) => {
   const [modal, setModal] = useState({ modal1: false, modal2: false });
   const {
     theme: { colors },
   } = useContext(Context);
+
+  const [MileStones, setMileStone] = useState("");
+
+  // lets upload the file
+  const [fileNameFromServer, setFileNameFromServer] = useState("");
+
+  const uploadFile = async () => {
+    const formData = upload();
+    if (!formData) {
+      return;
+    }
+    const resp = await uploadFileServer(formData);
+    if (resp.status === 200) {
+      setFileNameFromServer(resp.data.filename);
+    }
+  };
+
+  // action on buttons
   function handlePress(text) {
     alert(text);
+    if (text === "Upload New") {
+      uploadFile();
+    }
   }
-  const [MileStones, setMileStone] = useState("");
   return (
     // main container
     <View
@@ -77,7 +100,7 @@ const PitchDeck = ({ navigation }) => {
                 borderRadius: 10,
                 flexDirection: "row",
               }}
-              onPress={() => handlePress("download")}
+              onPress={() => checkPermission()}
             >
               <SvgImport svg={pdf} />
               <MyText
@@ -111,7 +134,7 @@ const PitchDeck = ({ navigation }) => {
           />
           <DynamicButton
             handlePress={handlePress}
-            text={"Updload New"}
+            text={"Upload New"}
             color={colors.text}
             textStyle={{ color: colors.white }}
             style={{ width: "48%", borderRadius: 15 }}

@@ -14,13 +14,45 @@ import CustomHeader from '../../../Components/CustomHeader2'
 import { Entypo } from '@expo/vector-icons'
 import SvgImport from '../../../Components/SvgImport'
 import UploadIcon from '../../../../assets/Svgs/UploadIcon'
+import * as DocumentPicker from 'expo-document-picker'
+import { uploadFileServer } from '../services/orderServices'
 
-const DeliverProjectScreen = () => {
+const DeliverProjectScreen = ({ route }) => {
   const navigation = useNavigation()
+  const [comment, setComment] = useState('')
+  const [file, setFile] = useState(null)
+  const [fileNameFromServer, setFileNameFromServer] = useState('')
 
   const {
     theme: { colors },
   } = useContext(Context)
+
+  const uploadFile = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({})
+      if (result.cancelled) {
+        throw new Error('File not selected')
+      }
+      setFile(result)
+      const formData = new FormData()
+      formData.append('file', {
+        uri: result.uri,
+        name: result.name,
+        type: result.type,
+      })
+      if (result.type !== 'success') {
+        return
+      }
+
+      const resp = await uploadFileServer(formData)
+      // console.log(resp.data.filename)
+      if (resp.status === 200) {
+        setFileNameFromServer(resp.data.filename)
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
@@ -51,7 +83,11 @@ const DeliverProjectScreen = () => {
         <MyText style={{ color: 'gray' }}>
           Upload your project files here, so the client can review.
         </MyText>
-        <TouchableOpacity labelStyle={{ color: '#fff' }} style={styles.btn}>
+        <TouchableOpacity
+          labelStyle={{ color: '#fff' }}
+          style={styles.btn}
+          onPress={uploadFile}
+        >
           <MyText
             style={{
               fontSize: 17,
@@ -62,7 +98,9 @@ const DeliverProjectScreen = () => {
             <SvgImport style={{ marginLeft: 2 }} svg={UploadIcon} /> Upload File
           </MyText>
         </TouchableOpacity>
-
+        <MyText style={{ fontSize: 15, color: colors.lighttext }}>
+          {file?.name}
+        </MyText>
         <TouchableOpacity
           labelStyle={{ color: '#fff' }}
           style={[

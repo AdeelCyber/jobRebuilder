@@ -12,11 +12,13 @@ import Context from '../../Context/Context'
 
 import CustomHeader from '../../Components/CustomHeader2'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 
 const ChangeProfileScreen = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context)
+  const navigation = useNavigation()
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>

@@ -23,10 +23,9 @@ import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const ViewMileStone = ({ navigation, route }) => {
-  const [data, setData] = useState(route.params.data);
+const ViewMileStone2 = ({ navigation }) => {
   // slider hooks in
-  const [range, setrange] = useState(data.progress);
+  const [range, setrange] = useState("50%");
   const [sliding, setsliding] = useState("Inactive");
   const {
     theme: { colors },
@@ -60,7 +59,7 @@ const ViewMileStone = ({ navigation, route }) => {
               />
             );
           }}
-          Title={data.title}
+          Title={currentMileStone.Title}
           style={{ elevation: 0 }}
           nav={navigation}
         />
@@ -75,7 +74,7 @@ const ViewMileStone = ({ navigation, route }) => {
         >
           {/* Title in */}
           <MileStoneViewBar
-            Title={data.title}
+            Title={currentMileStone.Title}
             style={{ borderWidth: 0, elevation: 0, paddingHorizontal: 14 }}
           />
           {/* title out */}
@@ -89,7 +88,7 @@ const ViewMileStone = ({ navigation, route }) => {
               paddingHorizontal: 14,
             }}
           >
-            {data.description}
+            {currentMileStone.desc}
           </MyText>
           <MyText
             style={{
@@ -119,7 +118,7 @@ const ViewMileStone = ({ navigation, route }) => {
               maximumValue={1}
               maximumTrackTintColor={"#D9D9D9"}
               thumbTintColor={colors.secondary}
-              value={data.progress / 100}
+              value={0.5}
               onValueChange={(value) => setrange(parseInt(value * 100) + "%")}
             />
             <MyText
@@ -153,14 +152,11 @@ const ViewMileStone = ({ navigation, route }) => {
               alignItems: "center",
               paddingVertical: 5,
               paddingHorizontal: 14,
-              marginTop: 10,
             }}
           >
             <Feather name="calendar" size={24} color="white" />
-            <MyText
-              style={{ color: colors.white, fontSize: 13, marginLeft: 7 }}
-            >
-              {data.dueDate.substring(0, 10)}
+            <MyText style={{ color: colors.white, fontSize: 13 }}>
+              Aug 9th, 2022
             </MyText>
           </View>
         </View>
@@ -226,6 +222,6 @@ const ViewMileStone = ({ navigation, route }) => {
   );
 };
 
-export default ViewMileStone;
+export default ViewMileStone2;
 
 const styles = StyleSheet.create({});

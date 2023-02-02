@@ -111,6 +111,7 @@ const DashboardScreen = () => {
             />
           )
         }}
+        nav={navigation}
       />
       <View
         style={[

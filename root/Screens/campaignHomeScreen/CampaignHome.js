@@ -12,6 +12,7 @@ import MyText from "../../Components/Text";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import PopularComp from "../../Components/PopularComp";
 import RateComp from "../../Components/RateComp";
+import { getFreelancers } from "../Profile/services/FreeLancerServices";
 
 function CategoriesComp({ text, ...props }) {
   const [selected, setselected] = useState(false);
@@ -44,15 +45,6 @@ function CategoriesComp({ text, ...props }) {
 }
 
 const CampaignHome = ({ navigation, routes }) => {
-  // Api call
-  useEffect(async () => {
-    try {
-      const res = await axios.get("/campaigns");
-      console.log(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
   //categories hook
   const [catgeories, setCategories] = useState([
     "UI/UX Design",
@@ -198,6 +190,20 @@ const CampaignHome = ({ navigation, routes }) => {
   ]);
 
   const [searchQuery, setSearchQuery] = React.useState(""); //searchbar query hook
+  // Api call
+  useEffect(() => {
+    const getFreelancersData = async () => {
+      const resp = await getFreelancers();
+      // console.log(resp.data);
+      if (resp.data.status === "OK") {
+        setPopularData(resp.data.data);
+        setRateData(resp.data.data);
+        setEquityData(resp.data.data);
+      }
+    };
+
+    getFreelancersData();
+  }, []);
 
   const onChangeSearch = (query) => setSearchQuery(query);
   const {
@@ -293,10 +299,12 @@ const CampaignHome = ({ navigation, routes }) => {
           renderItem={({ item, index }) => (
             <PopularComp
               name={item.name}
-              Price={item.Price}
-              designation={item.designation}
-              Rating={item.Rating}
-              Image={item.Image}
+              Price={item.hourlyRate}
+              designation={item.jobTitle}
+              Rating={item.rating}
+              Image={item.avatar}
+              id={item._id}
+              nav={navigation}
               style={{
                 marginLeft: index == 0 ? 13 : 9,
                 marginVertical: 15,
@@ -327,10 +335,10 @@ const CampaignHome = ({ navigation, routes }) => {
         {RateData.map((item, index) => (
           <RateComp
             name={item.name}
-            Price={item.Price}
-            designation={item.designation}
-            Rating={item.Rating}
-            Image={item.Image}
+            Price={item.hourlyRate}
+            designation={item.jobTitle}
+            Rating={item.rating}
+            Image={item.avatar}
             style={{ marginVertical: 11 }}
           />
         ))}
@@ -344,10 +352,10 @@ const CampaignHome = ({ navigation, routes }) => {
         {EquityData.map((item, index) => (
           <RateComp
             name={item.name}
-            Price={item.Price}
-            designation={item.designation}
-            Rating={item.Rating}
-            Image={item.Image}
+            Price={item.hourlyRate}
+            designation={item.jobTitle}
+            Rating={item.rating}
+            Image={item.avatar}
             style={{ marginVertical: 11 }}
           />
         ))}

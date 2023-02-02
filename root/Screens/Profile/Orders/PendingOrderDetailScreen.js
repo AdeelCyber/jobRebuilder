@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   ScrollView,
   StyleSheet,
@@ -18,20 +18,49 @@ import { Entypo } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import ReactNativeModal from 'react-native-modal'
+import { cancelOneTimeOrder, getSingleOrder } from '../services/orderServices'
 
-const PendingOrderDetailScreen = () => {
+const PendingOrderDetailScreen = ({ route }) => {
   const navigation = useNavigation()
 
   const [isModalVisible, setModalVisible] = useState(false)
+  const [reason, setReason] = useState('')
+  const [order, setOrder] = useState({})
 
+  const { orderId } = route.params
   const {
     theme: { colors },
   } = useContext(Context)
+
+  const cancelOrder = async () => {
+    const resp = await cancelOneTimeOrder(orderId, reason)
+    if (resp.status === 200) {
+      setModalVisible(!isModalVisible)
+      navigation.navigate('MyOrders')
+    } else if (resp.status === 401) {
+    } else if (resp.status === 400) {
+    }
+  }
+
+  useEffect(() => {
+    fetchOrder()
+  }, [])
+
+  const fetchOrder = async () => {
+    const resp = await getSingleOrder(orderId)
+
+    if (resp.status === 200) {
+      setOrder(resp.data.data)
+    } else if (resp.status === 401) {
+    } else if (resp.status === 400) {
+    }
+  }
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader
         Title='Manage Jobs'
+        nav={navigation}
         style={{}}
         icon={() => {
           return <Entypo name='dots-three-vertical' size={20} color='black' />
@@ -59,7 +88,7 @@ const PendingOrderDetailScreen = () => {
           <View>
             <Image
               source={{
-                uri: 'https://banner2.cleanpng.com/20180625/req/kisspng-computer-icons-avatar-business-computer-software-user-avatar-5b3097fcae25c3.3909949015299112927133.jpg',
+                uri: order.employer.avatar,
               }}
               style={{ width: 40, height: 40 }}
             />
@@ -76,7 +105,7 @@ const PendingOrderDetailScreen = () => {
               <MyText
                 style={{ fontSize: 15, fontWeight: '500', marginBottom: 2 }}
               >
-                Phil Jones
+                {order.employer.name}
               </MyText>
               <MyText
                 style={{
@@ -85,7 +114,7 @@ const PendingOrderDetailScreen = () => {
                   color: 'rgba(35, 35, 35, 0.5)',
                 }}
               >
-                phil@gmail.com
+                {order.employer.email}
               </MyText>
             </View>
             <View>
@@ -99,7 +128,9 @@ const PendingOrderDetailScreen = () => {
               >
                 <FontAwesome5 name='bitcoin' color='#FAD461' size={21} />
                 &nbsp; &nbsp;
-                <MyText style={{ fontSize: 18, fontWeight: '600' }}>$50</MyText>
+                <MyText style={{ fontSize: 18, fontWeight: '600' }}>
+                  ${order.totalPrice}
+                </MyText>
               </MyText>
             </View>
           </View>
@@ -119,7 +150,7 @@ const PendingOrderDetailScreen = () => {
             <MyText style={styles.heading}>Title</MyText>
             <MyText style={styles.description}>One time job</MyText>
           </View>
-          <MyText style={styles.description}>Make me a logo</MyText>
+          <MyText style={styles.description}>{order.jobTitle}</MyText>
         </View>
 
         {/* Description */}
@@ -133,10 +164,19 @@ const PendingOrderDetailScreen = () => {
           >
             <MyText style={styles.heading}>Description</MyText>
           </View>
-          <MyText style={styles.description}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-            venenatis sit amet risus a bibendum.
-          </MyText>
+          <MyText style={styles.description}>{order.description}</MyText>
+        </View>
+
+        <View>
+          <View
+            style={{
+              paddingBottom: 10,
+              borderBottomColor: '#eee',
+            }}
+          >
+            <MyText style={styles.heading}>Message/Comment</MyText>
+          </View>
+          <MyText style={styles.description}>{order.delivery.comment}</MyText>
         </View>
 
         {/* Delivery Time */}
@@ -155,7 +195,13 @@ const PendingOrderDetailScreen = () => {
             >
               <MyText style={styles.heading}>Due Date</MyText>
             </View>
-            <MyText style={styles.description}>25 Dec 2022</MyText>
+            <MyText style={styles.description}>
+              {order.deliveryTime.toLocaleDateString('default', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </MyText>
           </View>
           <View>
             <View
@@ -166,7 +212,13 @@ const PendingOrderDetailScreen = () => {
             >
               <MyText style={styles.heading}>Delivered On</MyText>
             </View>
-            <MyText style={styles.description}>23 Dec 2022</MyText>
+            <MyText style={styles.description}>
+              {order.delivery.date.toLocaleDateString('default', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </MyText>
           </View>
         </View>
 
@@ -311,6 +363,9 @@ const PendingOrderDetailScreen = () => {
                   paddingLeft: 15,
                   marginLeft: 4,
                 }}
+                onChangeText={(e) => {
+                  setReason(e)
+                }}
                 scrollEnabled={true}
               />
             </View>
@@ -319,7 +374,7 @@ const PendingOrderDetailScreen = () => {
               labelStyle={{ color: '#fff' }}
               style={[styles.btn, { backgroundColor: '#FF0A0A' }]}
               onPress={() => {
-                setModalVisible(!isModalVisible)
+                cancelOrder()
               }}
             >
               <MyText

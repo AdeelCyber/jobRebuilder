@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   ScrollView,
   StyleSheet,
@@ -16,6 +16,7 @@ import { Entypo } from '@expo/vector-icons'
 
 import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
+import { getSingleOrder } from '../services/orderServices'
 
 const CompletedOrderDetailScreen = () => {
   const navigation = useNavigation()
@@ -24,7 +25,25 @@ const CompletedOrderDetailScreen = () => {
     theme: { colors },
   } = useContext(Context)
 
-  const Review = () => (
+  const [order, setOrder] = useState({})
+
+  const { orderId } = route.params
+
+  useEffect(() => {
+    fetchOrder()
+  }, [])
+
+  const fetchOrder = async () => {
+    const resp = await getSingleOrder(orderId)
+
+    if (resp.status === 200) {
+      setOrder(resp.data.data)
+    } else if (resp.status === 401) {
+    } else if (resp.status === 400) {
+    }
+  }
+
+  const Review = ({ avatar, email, name, rating, date, comment }) => (
     <View style={{ marginBottom: 15 }}>
       <View
         style={{
@@ -38,7 +57,7 @@ const CompletedOrderDetailScreen = () => {
         <View>
           <Image
             source={{
-              uri: 'https://banner2.cleanpng.com/20180625/req/kisspng-computer-icons-avatar-business-computer-software-user-avatar-5b3097fcae25c3.3909949015299112927133.jpg',
+              uri: avatar,
             }}
             style={{ width: 40, height: 40 }}
           />
@@ -55,16 +74,16 @@ const CompletedOrderDetailScreen = () => {
             <MyText
               style={{ fontSize: 15, fontWeight: '500', marginBottom: 2 }}
             >
-              Phil Jones
+              {name}
             </MyText>
             <View style={{ flexDirection: 'row' }}>
-              {[1, 2, 3, 4, 5].map((element) => {
+              {[...Array(rating).keys()].map((element) => {
                 return (
                   <Icon
                     style={{ marginRight: 2.2 }}
                     name='star'
                     key={element}
-                    color='#FFB33E'
+                    color={element + 1 <= rating ? '#FFB33E' : '#eeeeee'}
                   />
                 )
               })}
@@ -80,21 +99,20 @@ const CompletedOrderDetailScreen = () => {
                 color: 'rgba(35, 35, 35, 0.35)',
               }}
             >
-              4 days ago
+              {Math.round((new Date() - new Date(date)) / 1000 / 60 / 60 / 24)}{' '}
+              days ago
             </MyText>
           </View>
         </View>
       </View>
-      <MyText style={{ color: 'rgba(35, 35, 35, 0.49)' }}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vene
-        natis sit amet risus a. More
-      </MyText>
+      <MyText style={{ color: 'rgba(35, 35, 35, 0.49)' }}>{comment}</MyText>
     </View>
   )
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader
+        nav={navigation}
         Title='My Orders'
         style={{}}
         icon={() => {
@@ -123,7 +141,7 @@ const CompletedOrderDetailScreen = () => {
           <View>
             <Image
               source={{
-                uri: 'https://banner2.cleanpng.com/20180625/req/kisspng-computer-icons-avatar-business-computer-software-user-avatar-5b3097fcae25c3.3909949015299112927133.jpg',
+                uri: order.employer.avatar,
               }}
               style={{ width: 40, height: 40 }}
             />
@@ -140,7 +158,7 @@ const CompletedOrderDetailScreen = () => {
               <MyText
                 style={{ fontSize: 15, fontWeight: '500', marginBottom: 2 }}
               >
-                Phil Jones
+                {order.employer.name}
               </MyText>
               <MyText
                 style={{
@@ -149,7 +167,7 @@ const CompletedOrderDetailScreen = () => {
                   color: 'rgba(35, 35, 35, 0.5)',
                 }}
               >
-                phil@gmail.com
+                {order.employer.email}
               </MyText>
             </View>
             <View>
@@ -163,7 +181,9 @@ const CompletedOrderDetailScreen = () => {
               >
                 <FontAwesome5 name='bitcoin' color='#FAD461' size={21} />
                 &nbsp; &nbsp;
-                <MyText style={{ fontSize: 18, fontWeight: '600' }}>$50</MyText>
+                <MyText style={{ fontSize: 18, fontWeight: '600' }}>
+                  ${order.totalPrice}
+                </MyText>
               </MyText>
             </View>
           </View>
@@ -183,7 +203,7 @@ const CompletedOrderDetailScreen = () => {
             <MyText style={styles.heading}>Title</MyText>
             <MyText style={styles.description}>One time job</MyText>
           </View>
-          <MyText style={styles.description}>Make me a logo</MyText>
+          <MyText style={styles.description}>{order.jobTitle}</MyText>
         </View>
 
         {/* Description */}
@@ -197,10 +217,7 @@ const CompletedOrderDetailScreen = () => {
           >
             <MyText style={styles.heading}>Description</MyText>
           </View>
-          <MyText style={styles.description}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-            venenatis sit amet risus a bibendum.
-          </MyText>
+          <MyText style={styles.description}>{order.description}</MyText>
         </View>
 
         {/* Cancelled Reason */}
@@ -212,12 +229,9 @@ const CompletedOrderDetailScreen = () => {
               borderBottomColor: '#eee',
             }}
           >
-            <MyText style={styles.heading}>Reason Of Cancellation</MyText>
+            <MyText style={styles.heading}>Message/Comment</MyText>
           </View>
-          <MyText style={styles.description}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-            venenatis sit amet risus a bibendum.
-          </MyText>
+          <MyText style={styles.description}>{order.delivery.comment}</MyText>
         </View>
 
         {/* Dates */}
@@ -236,7 +250,14 @@ const CompletedOrderDetailScreen = () => {
             >
               <MyText style={styles.heading}>Due Date</MyText>
             </View>
-            <MyText style={styles.description}>25 Dec 2022</MyText>
+            <MyText style={styles.description}>
+              {' '}
+              {order.deliveryTime.toLocaleDateString('default', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </MyText>
           </View>
           <View>
             <View
@@ -247,30 +268,42 @@ const CompletedOrderDetailScreen = () => {
             >
               <MyText style={styles.heading}>Delivered On</MyText>
             </View>
-            <MyText style={styles.description}>23 Dec 2022</MyText>
+            <MyText style={styles.description}>
+              {' '}
+              {order.delivery.date.toLocaleDateString('default', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </MyText>
           </View>
         </View>
 
-        <TouchableOpacity
-          labelStyle={{ color: '#fff' }}
-          style={{
-            backgroundColor: '#E8E8E8',
-            borderRadius: 4,
-            justifyContent: 'center',
-            width: '40%',
-            alignItems: 'center',
-          }}
-        >
-          <MyText
-            style={{
-              color: colors.text,
-              fontSize: 15,
-              padding: 14,
-            }}
-          >
-            <Entypo name='attachment' size={14} /> &nbsp;&nbsp; Attachment
-          </MyText>
-        </TouchableOpacity>
+        {order.delivery.attachments?.map((file, index) => {
+          return (
+            <TouchableOpacity
+              key={index}
+              labelStyle={{ color: '#fff' }}
+              style={{
+                backgroundColor: '#E8E8E8',
+                borderRadius: 4,
+                justifyContent: 'center',
+                width: '40%',
+                alignItems: 'center',
+              }}
+            >
+              <MyText
+                style={{
+                  color: colors.text,
+                  fontSize: 15,
+                  padding: 14,
+                }}
+              >
+                <Entypo name='attachment' size={14} /> &nbsp;&nbsp; {file}
+              </MyText>
+            </TouchableOpacity>
+          )
+        })}
 
         <View style={{ marginTop: 49 }}>
           <View
@@ -281,9 +314,14 @@ const CompletedOrderDetailScreen = () => {
           >
             <MyText style={styles.heading}>My Reviews</MyText>
           </View>
-          <Review />
-          <Review />
-          <Review />
+          <Review
+            avatar={order.review.avatar}
+            name={order.review.name}
+            rating={order.review.rating}
+            email={order.review.email}
+            date={order.review.date}
+            comment={order.review.comment}
+          />
         </View>
       </View>
     </ScrollView>

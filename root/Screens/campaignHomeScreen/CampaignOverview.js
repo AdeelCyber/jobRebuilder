@@ -19,15 +19,17 @@ import Thumbnail from "../../../assets/img/Thumbnail.png";
 import LittleNav from "../../Components/LittleNav";
 import TickPara from "../../Components/TickPara";
 import BottomPopup from "../../Components/BottomPopup";
-const OverView = ({ navigation }) => {
+const OverView = ({ navigation, route }) => {
   const {
     theme: { colors },
   } = useContext(Context);
-  const [HeighLights, setHeighLights] = useState([
-    " Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.",
-    " Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.",
-  ]);
+
   const [modal, setModal] = useState({ modal1: false, modal2: false });
+  const [data, setData] = useState(route.params.data);
+  const [HeighLights, setHeighLights] = useState([
+    data.startup.problemStatement,
+    data.startup.impactStatement,
+  ]);
   return (
     // main container
     <ScrollView
@@ -41,11 +43,13 @@ const OverView = ({ navigation }) => {
       {/* header out */}
       {/* card in */}
       <CampaignCard
-        title={"MotoMobiles"}
-        niche={"Mobile Making and selling company."}
+        title={data.startup.businessName}
+        niche={data.startup.category}
         Logo={logo}
         Thumbnail={Thumbnail}
         modal={setModal}
+        data={data}
+        navigation={navigation}
       />
       {/* card out */}
       {/* Little nav in */}

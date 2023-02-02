@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {
   ScrollView,
   StyleSheet,
@@ -16,61 +16,44 @@ import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import ReactNativeModal from 'react-native-modal'
 import * as DocumentPicker from 'expo-document-picker'
-import {
-  cancelOneTimeOrder,
-  getSingleOrder,
-  uploadFileServer,
-} from '../services/orderServices'
-import { upload } from '../../../Components/DownloadUpload'
-import { imageUpload } from '../../../Components/uploadNewFile'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { cancelOneTimeOrder, uploadFileServer } from '../services/orderServices'
 
-const ActiveOrderDetailScreen = ({ route }) => {
+const ActiveJobDetailScreen = ({ route }) => {
   const navigation = useNavigation()
 
-  const { orderId } = route.params
+  //   const { orderId } = route.params
   const [isModalVisible, setModalVisible] = useState(false)
   const [file, setFile] = useState(null)
   const [fileNameFromServer, setFileNameFromServer] = useState('')
   const [reason, setReason] = useState('')
-  const [order, setOrder] = useState({})
-  const [deliveryDate, setDeliveryDate] = useState('')
 
-  // hello
   const {
     theme: { colors },
   } = useContext(Context)
 
   const uploadFile = async () => {
-    const formData = upload()
-    if (!formData) {
-      return
-    }
-    const token = await AsyncStorage.getItem('@accessToken')
-    imageUpload(token, formData.uri)
-    setFileNameFromServer(formData.name)
-  }
+    try {
+      const result = await DocumentPicker.getDocumentAsync({})
+      if (result.cancelled) {
+        throw new Error('File not selected')
+      }
+      setFile(result)
+      const formData = new FormData()
+      formData.append('file', {
+        uri: result.uri,
+        name: result.name,
+        type: result.type,
+      })
+      if (result.type !== 'success') {
+        return
+      }
 
-  useEffect(() => {
-    fetchOrder()
-  }, [])
-
-  const fetchOrder = async () => {
-    const resp = await getSingleOrder(orderId)
-
-    if (resp.status === 200) {
-      setOrder(resp.data.data)
-      const str = new Date(resp.data.data.deliveryTime)
-
-      const currentDate = new Date()
-      const diffTime = str - currentDate
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-      const diffHours = Math.ceil(diffTime / (1000 * 60 * 60)) % 24
-
-      const arrayTime = `${diffDays}${diffHours}`.split('').map(Number)
-      setDeliveryDate(arrayTime)
-    } else if (resp.status === 401) {
-    } else if (resp.status === 400) {
+      const resp = await uploadFileServer(formData)
+      if (resp.status === 200) {
+        setFileNameFromServer(resp.data.filename)
+      }
+    } catch (error) {
+      console.log(error.message)
     }
   }
 
@@ -83,7 +66,6 @@ const ActiveOrderDetailScreen = ({ route }) => {
     } else if (resp.status === 400) {
     }
   }
-
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader
@@ -116,7 +98,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
           <View>
             <Image
               source={{
-                uri: order.employer.avatar,
+                uri: 'https://banner2.cleanpng.com/20180625/req/kisspng-computer-icons-avatar-business-computer-software-user-avatar-5b3097fcae25c3.3909949015299112927133.jpg',
               }}
               style={{ width: 40, height: 40 }}
             />
@@ -133,7 +115,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
               <MyText
                 style={{ fontSize: 15, fontWeight: '500', marginBottom: 2 }}
               >
-                {order.employer.name}
+                Phil Jones
               </MyText>
               <MyText
                 style={{
@@ -142,7 +124,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
                   color: 'rgba(35, 35, 35, 0.5)',
                 }}
               >
-                {order.employer.email}
+                phil@gmail.com
               </MyText>
             </View>
             <View>
@@ -156,9 +138,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
               >
                 <FontAwesome5 name='bitcoin' color='#FAD461' size={21} />
                 &nbsp; &nbsp;
-                <MyText style={{ fontSize: 18, fontWeight: '600' }}>
-                  ${order.totalPrice}
-                </MyText>
+                <MyText style={{ fontSize: 18, fontWeight: '600' }}>$50</MyText>
               </MyText>
             </View>
           </View>
@@ -178,7 +158,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
             <MyText style={styles.heading}>Title</MyText>
             <MyText style={styles.description}>One time job</MyText>
           </View>
-          <MyText style={styles.description}>{order.jobTitle}</MyText>
+          <MyText style={styles.description}>Make me a logo</MyText>
         </View>
 
         {/* Description */}
@@ -192,7 +172,10 @@ const ActiveOrderDetailScreen = ({ route }) => {
           >
             <MyText style={styles.heading}>Description</MyText>
           </View>
-          <MyText style={styles.description}>{order.description}</MyText>
+          <MyText style={styles.description}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
+            venenatis sit amet risus a bibendum.
+          </MyText>
         </View>
 
         {/* Delivery Time */}
@@ -207,7 +190,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
             <MyText style={styles.heading}>Delivery Time</MyText>
           </View>
           <View style={{ flexDirection: 'row' }}>
-            {deliveryDate?.map((element, index) => {
+            {[0, 2, 2, 1].map((element, index) => {
               return (
                 <React.Fragment key={index}>
                   <View
@@ -283,6 +266,9 @@ const ActiveOrderDetailScreen = ({ route }) => {
         <TouchableOpacity
           labelStyle={{ color: '#fff' }}
           style={[styles.btn, { backgroundColor: colors.secondary }]}
+          onPress={() => {
+            navigation.navigate('DeliverProject', { orderId: 'orderId' })
+          }}
         >
           <MyText
             style={{
@@ -290,7 +276,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
               fontSize: 14,
             }}
           >
-            Message
+            Deliver
           </MyText>
         </TouchableOpacity>
 
@@ -438,4 +424,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ActiveOrderDetailScreen
+export default ActiveJobDetailScreen
