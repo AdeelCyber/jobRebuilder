@@ -12,62 +12,27 @@ import {
 import { Container, Msgs } from "../../Components/MessageStyles";
 import Context from "../../Context/Context";
 import MyText from "../../Components/Text";
-import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
-import { io } from "socket.io-client";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import moment from "moment";
 import { getmembers } from "../Profile/services/startupServices";
-const Message = ({ navigation }) => {
+const NewMessage = ({ navigation, route }) => {
   const {
     theme: { colors },
   } = useContext(Context);
-  const { accessToken, socket, setsocket } = useContext(CartProvider);
-
+  const { accessToken } = useContext(CartProvider);
   const [getcondition, setcondition] = useState(true);
-  const [chat, setchat] = useState();
+  const [getmember, setmembers] = useState();
 
-  const startsocket = useCallback(
-    (accessToken) => {
-      setsocket(
-        io("https://stepdev.up.railway.app", {
-          autoConnect: false,
-          extraHeaders: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-      );
-    },
-    [socket]
-  );
-
+  const membershere = async () => {
+    const members = await getmembers(accessToken);
+    console.log(members.data);
+    setmembers(members.data.members);
+    setcondition(false);
+  };
   useEffect(() => {
-    startsocket(accessToken);
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `bearer ${accessToken}`,
-      },
-    };
-
-    axios
-      .get(
-        "https://stepdev.up.railway.app/chat/getChats",
-
-        config
-      )
-      .then((res) => {
-        console.log(res.data.chats);
-        setchat(res.data.chats);
-
-        setcondition(false);
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
+    membershere();
   }, [getcondition]);
-
   if (getcondition) {
     return (
       <View
@@ -91,27 +56,18 @@ const Message = ({ navigation }) => {
           <AntDesign name="search1" size={18} color="black" />
         </View>
         <View>
-          <MyText style={{ fontWeight: "700", fontSize: 16 }}>Messages</MyText>
+          <MyText style={{ fontWeight: "700", fontSize: 16 }}>Contacts</MyText>
         </View>
 
         <View>
-          <FontAwesome
-            name="pencil-square-o"
-            size={24}
-            color="black"
-            onPress={() => {
-              navigation.navigate("NewMessage");
-            }}
-          />
+          <FontAwesome name="pencil-square-o" size={24} color="black" />
         </View>
       </View>
-      {chat ? (
+      {getmember ? (
         <Container>
           <FlatList
-            data={chat}
-            extraData={chat}
-            refreshing={getcondition}
-            keyExtractor={(item) => item.id}
+            data={getmember}
+            keyExtractor={(item) => item._id}
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={{
@@ -123,11 +79,9 @@ const Message = ({ navigation }) => {
                 }}
                 onPress={() =>
                   navigation.navigate("MessagesBox", {
-                    id: item.chatid,
-                    userImg: item.chatavatar,
-                    userName: item.chatname,
-                    chatType: item.chatType,
-                    members: item.members,
+                    id: item._id,
+                    userImg: item.avatar,
+                    userName: item.name,
                   })
                 }
               >
@@ -139,7 +93,7 @@ const Message = ({ navigation }) => {
                       borderRadius: 50,
                       alignItems: "center",
                     }}
-                    source={{ uri: item.chatavatar }}
+                    source={{ uri: item.avatar }}
                   />
                   <View
                     style={{
@@ -166,37 +120,7 @@ const Message = ({ navigation }) => {
                   }}
                 >
                   <MyText style={{ fontWeight: "700", fontSize: 14 }}>
-                    {item.chatname}
-                  </MyText>
-                  <Text
-                    style={{
-                      fontWeight: "400",
-                      fontSize: 13,
-                      color: "#23232380",
-                    }}
-                    numberOfLines={2}
-                  >
-                    {/* {item.lastMessage?.sender.name
-                      ? item.lastMessage?.sender.name +
-                        ": " +
-                        item.lastMessage?.message.message
-                    : */}
-                    {item.lastMessage?.message.message}
-                  </Text>
-                </View>
-                <View
-                  style={{ flexDirection: "column", justifyContent: "center" }}
-                >
-                  <Msgs style={{ marginLeft: 20, marginBottom: 5 }}>2</Msgs>
-
-                  <MyText
-                    style={{
-                      fontWeight: "500",
-                      fontSize: 9,
-                      color: "#23232380",
-                    }}
-                  >
-                    {moment(item.date).format("h:mm a")}
+                    {item.name}
                   </MyText>
                 </View>
               </TouchableOpacity>
@@ -212,7 +136,7 @@ const Message = ({ navigation }) => {
   );
 };
 
-export default Message;
+export default NewMessage;
 
 const styles = StyleSheet.create({
   container: {

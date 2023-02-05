@@ -65,6 +65,7 @@ const EditProfile = ({ route }) => {
       work,
       about
     );
+    console.log(res.data);
     if (res.status == 200) {
       Toast.show({
         topOffset: 60,

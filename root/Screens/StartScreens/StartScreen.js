@@ -75,7 +75,8 @@ const StartScreen = () => {
                   color: "white",
                   fontSize: 10,
                   marginTop: 10,
-                  marginRight: 60,
+                  marginRight: 110,
+                  textAlign: "justify",
                 }}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.Etiam
@@ -163,7 +164,8 @@ const StartScreen = () => {
                 style={{
                   fontSize: 10,
                   marginTop: 10,
-                  marginRight: 60,
+                  marginRight: 110,
+                  textAlign: "justify",
                 }}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.Etiam
@@ -245,7 +247,8 @@ const StartScreen = () => {
                   color: "white",
                   fontSize: 10,
                   marginTop: 10,
-                  marginRight: 60,
+                  marginRight: 110,
+                  textAlign: "justify",
                 }}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.Etiam

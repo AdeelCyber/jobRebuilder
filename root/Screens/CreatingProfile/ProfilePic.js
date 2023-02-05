@@ -18,6 +18,7 @@ import * as ImagePicker from "expo-image-picker";
 import Toast from "react-native-toast-message";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { imageUpload } from "../Profile/services/fileServices";
 
 const ProfilePic = () => {
   const {
@@ -25,6 +26,8 @@ const ProfilePic = () => {
   } = useContext(Context);
   const navigation = useNavigation();
   const [image, setimage] = useState();
+  const [imagetosend, setimagetosend] = useState();
+
   const pickImg = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -35,13 +38,15 @@ const ProfilePic = () => {
     console.log(result.assets);
 
     if (!result.canceled) {
+      const img = await imageUpload(result.assets[0].uri);
       setimage(result.assets[0].uri);
+      setimagetosend(JSON.parse(img.body));
     }
   };
 
   const saveData = async () => {
     try {
-      await AsyncStorage.setItem("@image", image);
+      await AsyncStorage.setItem("@image", imagetosend.filename);
 
       console.log("done");
       Toast.show({

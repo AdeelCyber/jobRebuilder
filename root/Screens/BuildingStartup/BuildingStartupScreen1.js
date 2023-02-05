@@ -9,6 +9,7 @@ import {
   Pressable,
   Image,
   Modal,
+  ActivityIndicator,
 } from "react-native";
 
 import Context from "../../Context/Context";
@@ -22,20 +23,28 @@ import * as ImagePicker from "expo-image-picker";
 import Checkbox from "expo-checkbox";
 import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
-import { step1startup } from "../Profile/services/startupServices";
+import {
+  addStartupRole,
+  getmembers,
+  publishStartup,
+  step1startup,
+  step5startup,
+} from "../Profile/services/startupServices";
 import { step2startup } from "../Profile/services/startupServices";
 import { step3startup } from "../Profile/services/startupServices";
 import { step4startup } from "../Profile/services/startupServices";
 import Toast from "react-native-toast-message";
-import { imageUpload } from "../Profile/services/fileServices";
+import { fileUpload, imageUpload } from "../Profile/services/fileServices";
 import mime from "mime";
 import DateTimePicker from "@react-native-community/datetimepicker";
-
+import * as DocumentPicker from "expo-document-picker";
+import { SelectList } from "react-native-dropdown-select-list";
 const BuildingStartupScreen1 = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
   const { accessToken } = useContext(CartProvider);
+  const [getcondition, setcondition] = useState(false);
 
   const progressStepsStyle = {
     activeStepIconBorderColor: colors.Bluish,
@@ -64,6 +73,21 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     marginRight: 233,
   };
   const [startupid, setstartupid] = useState();
+  if (getcondition) {
+    return (
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          paddingTop: 30,
+        }}
+      >
+        <ActivityIndicator animating={true} color={colors.Bluish} />
+
+        <MyText>Loading..</MyText>
+      </View>
+    );
+  }
 
   const Screen1 = () => {
     const [businessName, setbusinessName] = useState();
@@ -116,6 +140,11 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     const [userimg, setimg] = useState();
     const [getScreen, setScreen] = useState(false);
     const [getmedia, setmedia] = useState(false);
+    const [getdoc, setdoc] = useState();
+    const [getdocinfo, setdocinfo] = useState();
+    const [logo, setlogo] = useState();
+    const [mediatosend, setmediatosend] = useState();
+
     const [getmediatype, setmediatype] = useState(false);
     const [getmodalvisible1, setModalVisible1] = useState(false);
     const [getmodalvisible2, setModalVisible2] = useState(false);
@@ -128,12 +157,13 @@ const BuildingStartupScreen1 = ({ navigation }) => {
         allowsEditing: true,
         aspect: [10, 10],
         quality: 1,
-        base64: true,
       });
-      console.log(result);
+      // console.log(result);
 
       if (!result.canceled) {
         setimg(result.assets[0].uri);
+        const img = await imageUpload(result.assets[0].uri);
+        setlogo(JSON.parse(img.body));
       }
     };
     const pickMedia = async () => {
@@ -142,77 +172,60 @@ const BuildingStartupScreen1 = ({ navigation }) => {
         allowsEditing: true,
         aspect: [10, 10],
         quality: 1,
-        base64: true,
       });
       //console.log(result);
 
       if (!result.canceled) {
         setmedia(result.assets[0].uri);
         setmediatype(result.assets[0].type);
+        const img2 = await imageUpload(result.assets[0].uri);
+        setmediatosend(JSON.parse(img2.body));
 
         // console.log(file.uri)
         //console.log(data);
       }
     };
 
-    const step1 = async () => {
-      //const newImageUri = getmedia.split("file:/").join("");
-      // let base64Img = `data:image/jpg;base64,${getmedia}`;
-      // // console.log(newImageUri);
-      // // //console.log(getmediatype);
-      // let data = {
-      //   key: "file",
-      //   type: "image/jpeg",
-      //   src: base64Img,
-      // };
-      // fetch("https://api.cloudinary.com/v1_1/do9ljvlb4/image/upload", {
-      //   body: JSON.stringify(data),
-      //   headers: {
-      //     "content-type": "application/json",
-      //   },
-      //   method: "POST",
-      // })
-      //   .then(async (r) => {
-      //     let data = await r.json();
-      //     console.log("url", data);
-      //     // seturl(data.url);
-      //     //  console.log("url", data.url);
-      //   })
-      //   .catch((err) => console.log("error", err));
-      // const formData = new FormData();
-      // let data = {
-      //   name: "file",
-      //   type: "image/jpeg",
-      //   uri: JSON.stringify(getmedia),
-      // };
-      // formData.append("file", data);
+    const pickDocument = async () => {
+      let result = await DocumentPicker.getDocumentAsync({});
 
-      const img = await imageUpload(accessToken, getmedia);
-      console.log(img);
-      //   const res = await step1startup(
-      //     accessToken,
-      //     businessName,
-      //     problemstatement,
-      //     impactstatement,
-      //     competition,
-      //     story,
-      //     budget,
-      //     value,
-      //     location,
-      //     getmediatype,
-      //     getmedia,
-      //     userimg
-      //   );
-      //   //console.log(res.data.startUp._id);
-      //   if (res.status === 201) {
-      //     setstartupid(res.data.startUp._id);
-      //     Toast.show({
-      //       topOffset: 60,
-      //       type: "success",
-      //       text1: "Your Information is successfully saved",
-      //       text2: "Press Proceed to continue",
-      //     });
-      //   }
+      setdoc(result.uri);
+      const pdf = await fileUpload(result.uri);
+      setdocinfo(JSON.parse(pdf.body));
+    };
+
+    const step1 = async () => {
+      if (logo && mediatosend && getdocinfo) {
+        setcondition(true);
+
+        const res = await step1startup(
+          accessToken,
+          businessName,
+          problemstatement,
+          impactstatement,
+          competition,
+          story,
+          budget,
+          value,
+          location,
+          getmediatype,
+          mediatosend.filename,
+          logo.filename,
+          getdocinfo.filename
+        );
+        console.log(res.data);
+        setcondition(false);
+
+        if (res.status === 201) {
+          setstartupid(res.data.startUp._id);
+          Toast.show({
+            topOffset: 60,
+            type: "success",
+            text1: "Your Information is successfully saved",
+            text2: "Press Proceed to continue",
+          });
+        }
+      }
     };
     if (getScreen == false) {
       return (
@@ -572,7 +585,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   backgroundColor: "#EEEEEE",
                   borderTopRightRadius: 10,
                   borderBottomRightRadius: 10,
-                  paddingRight: 10,
+                  paddingRight: 8,
                   paddingTop: 10,
                 }}
                 onPress={() => {
@@ -600,7 +613,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   backgroundColor: "#EEEEEE",
                   borderTopRightRadius: 10,
                   borderBottomRightRadius: 10,
-                  paddingRight: 10,
+                  paddingRight: 8,
                   paddingTop: 10,
                 }}
                 onPress={() => {
@@ -626,7 +639,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   backgroundColor: "#EEEEEE",
                   borderTopRightRadius: 10,
                   borderBottomRightRadius: 10,
-                  paddingRight: 10,
+                  paddingRight: 8,
                   paddingTop: 10,
                 }}
                 onPress={() => {
@@ -652,7 +665,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   backgroundColor: "#EEEEEE",
                   borderTopRightRadius: 10,
                   borderBottomRightRadius: 10,
-                  paddingRight: 10,
+                  paddingRight: 8,
                   paddingTop: 10,
                 }}
                 onPress={() => {
@@ -710,50 +723,81 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             >
               Upload Business Plan
             </MyText>
-
-            <Pressable
-              style={{
-                backgroundColor: colors.white,
-                width: "100%",
-                height: 50,
-                borderRadius: 10,
-                borderWidth: 1,
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 20,
-              }}
-              onPress={() => {}}
-            >
-              <View style={{ flexDirection: "row" }}>
-                <MyText
+            {getdocinfo ? (
+              <View>
+                <Pressable
                   style={{
-                    fontSize: 14,
-                    margin: 9,
+                    backgroundColor: colors.white,
+                    width: 330,
+                    height: 50,
+                    borderRadius: 10,
+                    borderWidth: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: 20,
                   }}
+                  onPress={() => {}}
                 >
-                  Upload in .PDF
-                </MyText>
-
-                <MyText
-                  style={{
-                    fontSize: 11,
-                    margin: 9,
-                    color: "#2323235E",
-                  }}
-                >
-                  Select from storage
-                </MyText>
-                <Image
-                  source={require("../../../assets/img/pdf.png")}
-                  style={{
-                    height: 25,
-                    width: 25,
-                    alignSelf: "center",
-                    margin: 6,
-                  }}
-                />
+                  <MyText
+                    style={{
+                      fontSize: 14,
+                      margin: 9,
+                      alignSelf: "center",
+                    }}
+                  >
+                    Uploaded
+                  </MyText>
+                </Pressable>
               </View>
-            </Pressable>
+            ) : (
+              <View>
+                <Pressable
+                  style={{
+                    backgroundColor: colors.white,
+                    width: 330,
+                    height: 50,
+                    borderRadius: 10,
+                    borderWidth: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: 20,
+                  }}
+                  onPress={() => {
+                    pickDocument();
+                  }}
+                >
+                  <View style={{ flexDirection: "row" }}>
+                    <MyText
+                      style={{
+                        fontSize: 14,
+                        margin: 9,
+                      }}
+                    >
+                      Upload in .PDF
+                    </MyText>
+
+                    <MyText
+                      style={{
+                        fontSize: 11,
+                        margin: 9,
+                        color: "#2323235E",
+                      }}
+                    >
+                      Select from storage
+                    </MyText>
+                    <Image
+                      source={require("../../../assets/img/pdf.png")}
+                      style={{
+                        height: 25,
+                        width: 25,
+                        alignSelf: "center",
+                        margin: 6,
+                      }}
+                    />
+                  </View>
+                </Pressable>
+              </View>
+            )}
 
             <Pressable
               style={{
@@ -947,6 +991,8 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     const [search, setsearch] = useState();
     const [positionn, setposition] = useState();
     const [role, setrole] = useState();
+    const [selected, setSelected] = React.useState("");
+
     const [getusers, setusers] = useState([
       {
         member: "63babb1954b661431a0519b5",
@@ -954,8 +1000,18 @@ const BuildingStartupScreen1 = ({ navigation }) => {
         role: "developer",
       },
     ]);
+    const [getmember, setmembers] = useState();
     const [showuser, setshowuser] = useState(false);
     const [image, setimage] = useState();
+
+    const membershere = async () => {
+      const members = await getmembers(accessToken);
+      console.log(members.data);
+      setmembers(members.data);
+    };
+    useEffect(() => {
+      membershere();
+    }, []);
 
     const pickMedia = async () => {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -963,7 +1019,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
         allowsEditing: true,
         aspect: [10, 10],
         quality: 1,
-        base64: true,
       });
       console.log(result);
 
@@ -975,6 +1030,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     const step2 = async () => {
       const res = await step2startup(accessToken, startupid, getusers);
       //console.log(res.status);
+
       if (res.status === 201) {
         setstartupid(res.data.startUp._id);
         Toast.show({
@@ -1277,36 +1333,45 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     const [items2, setItems2] = useState([
       {
         label: "Looking for partner to join business",
-        value: "Looking for partner to join business",
+        value: "Equity",
       },
       {
         label: "Looking for freelancer to hire",
-        value: "Looking for freelancer to hire",
+        value: "Freelancer",
       },
     ]);
     const [rolescreen, setrolescreen] = useState(false);
     const [teamroleScreen, setteamroleScreen] = useState(true);
     const [termsScreen, setTermScreen] = useState(false);
     const [getcheck, setcheck] = useState(false);
-    const [getcheck2, setcheck2] = useState(false);
-    const [getcheck3, setcheck3] = useState(false);
+
     const [partnershipTerms, setpartnershipTerms] = useState();
-    const [rolelist, setrolelist] = useState([
-      {
-        role: "designer",
-        rolesbrokendown: "jgj",
-        forrole: "hf",
-      },
-    ]);
+    const [rolelist, setrolelist] = useState([]);
     const step3 = async () => {
       const res = await step3startup(accessToken, startupid, partnershipTerms);
       console.log(res.data);
+
       if (res.status === 201) {
         Toast.show({
           topOffset: 60,
           type: "success",
           text1: "Your Information is successfully saved",
           text2: "Press Proceed to continue",
+        });
+      }
+    };
+
+    const sendRole = async () => {
+      const res = await addStartupRole(accessToken, startupid, rolelist);
+      console.log(res.data);
+      console.log(res.status);
+
+      if (res.status === 201) {
+        Toast.show({
+          topOffset: 60,
+          type: "success",
+          text1: "Saved",
+          text2: "",
         });
       }
     };
@@ -1405,7 +1470,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   backgroundColor: "#EEEEEE",
                   borderTopRightRadius: 10,
                   borderBottomRightRadius: 10,
-                  paddingRight: 10,
+                  paddingRight: 8,
                   paddingTop: 10,
                 }}
                 onPress={() => {}}
@@ -1452,9 +1517,9 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               }}
               onPress={() => {
                 var obj = {};
-                obj["role"] = roles;
-                obj["rolesbrokendown"] = rolesbrokendown;
-                obj["forrole"] = value2;
+                obj["title"] = roles;
+                obj["description"] = rolesbrokendown;
+                obj["type"] = value2;
                 setrolelist([...rolelist, obj]);
                 setTermScreen(false);
                 setteamroleScreen(false);
@@ -1525,7 +1590,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                         marginLeft: 10,
                       }}
                     >
-                      {item.role}
+                      {item.title}
                     </MyText>
                   </View>
                 </View>
@@ -1568,6 +1633,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 marginTop: 20,
               }}
               onPress={() => {
+                sendRole();
                 setteamroleScreen(true);
                 setrolescreen(false);
                 setTermScreen(false);
@@ -1671,7 +1737,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   backgroundColor: "#EEEEEE",
                   borderTopRightRadius: 10,
                   borderBottomRightRadius: 10,
-                  paddingRight: 10,
+                  paddingRight: 8,
                   paddingTop: 10,
                 }}
                 onPress={() => {}}
@@ -1712,11 +1778,20 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     const [milestone, setmilestone] = useState(false);
     const [milestonetitle, setmilestonetitle] = useState();
     const [description, setDescription] = useState();
-    const [duedate, setduedate] = useState();
+    const [duedate, setduedate] = useState(new Date());
     const [milestonelist, setmilestonelist] = useState([]);
+    const [datePicker, setDatePicker] = useState(false);
+    // const [date, setDate] = useState(new Date());
+
+    const onDateSelected = (event, value) => {
+      setduedate(value);
+      setDatePicker(false);
+    };
+
     const step4 = async () => {
       const res = await step4startup(accessToken, startupid, milestonelist);
-      //console.log(res.status);
+      console.log(res.data);
+
       if (res.status === 201) {
         Toast.show({
           topOffset: 60,
@@ -1725,26 +1800,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
           text2: "Press Proceed to continue",
         });
       }
-      //   axios
-      //     .post(
-      //       "https://stepdev.up.railway.app/startup/saveOnboarding",
-      //       {
-      //         startupid: startupid,
-      //         formStep: "4",
-      //         milestones: {
-      //           title: milestonetitle,
-      //           description: description,
-      //           dueDate: duedate,
-      //         },
-      //       },
-      //       config
-      //     )
-      //     .then((res) => {
-      //       console.log(res.data);
-      //     })
-      //     .catch((err) => {
-      //       console.log("error", err);
-      //     });
     };
 
     if (milestone == false) {
@@ -1932,7 +1987,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   backgroundColor: "#EEEEEE",
                   borderTopRightRadius: 10,
                   borderBottomRightRadius: 10,
-                  paddingRight: 10,
+                  paddingRight: 8,
                   paddingTop: 10,
                 }}
                 onPress={() => {}}
@@ -1946,6 +2001,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 style={styles.inputStyle2}
                 onChangeText={(duedate) => setduedate(duedate)}
                 placeholder="Due Date"
+                value={duedate.toDateString()}
                 placeholderTextColor="#ACA9A9"
                 underlineColorAndroid="#f000"
               />
@@ -1954,14 +2010,26 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   backgroundColor: "#EEEEEE",
                   borderTopRightRadius: 10,
                   borderBottomRightRadius: 10,
-                  paddingRight: 10,
+                  paddingRight: 8,
                   paddingTop: 10,
                 }}
-                onPress={() => {}}
+                onPress={() => {
+                  setDatePicker(true);
+                }}
               >
                 <AntDesign name="calendar" size={20} color="#969696" />
               </Pressable>
             </View>
+            {datePicker && (
+              <DateTimePicker
+                value={duedate}
+                mode={"date"}
+                display={Platform.OS === "ios" ? "spinner" : "default"}
+                is24Hour={true}
+                onChange={onDateSelected}
+                style={styles.datePicker}
+              />
+            )}
 
             <Pressable
               style={{
@@ -1999,6 +2067,35 @@ const BuildingStartupScreen1 = ({ navigation }) => {
 
   const Screen5 = () => {
     const [getmodalvisible, setModalVisible] = React.useState(false);
+    const [pitch, setpitch] = useState();
+    const [pitchtosend, setpitchtosend] = useState();
+    const pickDocument = async () => {
+      let result = await DocumentPicker.getDocumentAsync({});
+
+      setpitch(result.uri);
+      const doc = await fileUpload(result.uri);
+      setpitchtosend(JSON.parse(doc.body));
+    };
+
+    const step5 = async () => {
+      if (pitchtosend) {
+        const res = await step5startup(
+          accessToken,
+          startupid,
+          pitchtosend.filename
+        );
+        console.log(res.data);
+
+        if (res.status === 201) {
+          Toast.show({
+            topOffset: 60,
+            type: "success",
+            text1: "Your Information is successfully saved",
+            text2: "Press Proceed to continue",
+          });
+        }
+      }
+    };
 
     return (
       <ScrollView>
@@ -2089,49 +2186,81 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             Upload Pitch Deck
           </MyText>
 
-          <Pressable
-            style={{
-              backgroundColor: colors.white,
-              width: "100%",
-              height: 50,
-              borderRadius: 10,
-              borderWidth: 1,
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 20,
-            }}
-            onPress={() => {}}
-          >
-            <View style={{ flexDirection: "row" }}>
-              <MyText
+          {pitchtosend ? (
+            <View>
+              <Pressable
                 style={{
-                  fontSize: 14,
-                  margin: 9,
+                  backgroundColor: colors.white,
+                  width: 330,
+                  height: 50,
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 20,
                 }}
+                onPress={() => {}}
               >
-                Upload in .PDF
-              </MyText>
-
-              <MyText
-                style={{
-                  fontSize: 11,
-                  margin: 9,
-                  color: "#2323235E",
-                }}
-              >
-                Select from storage
-              </MyText>
-              <Image
-                source={require("../../../assets/img/pdf.png")}
-                style={{
-                  height: 25,
-                  width: 25,
-                  alignSelf: "center",
-                  margin: 6,
-                }}
-              />
+                <MyText
+                  style={{
+                    fontSize: 14,
+                    margin: 9,
+                    alignSelf: "center",
+                  }}
+                >
+                  Uploaded
+                </MyText>
+              </Pressable>
             </View>
-          </Pressable>
+          ) : (
+            <View>
+              <Pressable
+                style={{
+                  backgroundColor: colors.white,
+                  width: 330,
+                  height: 50,
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 20,
+                }}
+                onPress={() => {
+                  pickDocument();
+                }}
+              >
+                <View style={{ flexDirection: "row" }}>
+                  <MyText
+                    style={{
+                      fontSize: 14,
+                      margin: 9,
+                    }}
+                  >
+                    Upload in .PDF
+                  </MyText>
+
+                  <MyText
+                    style={{
+                      fontSize: 11,
+                      margin: 9,
+                      color: "#2323235E",
+                    }}
+                  >
+                    Select from storage
+                  </MyText>
+                  <Image
+                    source={require("../../../assets/img/pdf.png")}
+                    style={{
+                      height: 25,
+                      width: 25,
+                      alignSelf: "center",
+                      margin: 6,
+                    }}
+                  />
+                </View>
+              </Pressable>
+            </View>
+          )}
 
           <Pressable
             style={{
@@ -2144,7 +2273,8 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               marginTop: 20,
             }}
             onPress={() => {
-              setModalVisible(true);
+              step5();
+              //setModalVisible(true);
             }}
           >
             <MyText
@@ -2158,6 +2288,20 @@ const BuildingStartupScreen1 = ({ navigation }) => {
         </View>
       </ScrollView>
     );
+  };
+
+  const publish = async () => {
+    const res = await publishStartup(accessToken, startupid);
+    console.log(res.data);
+
+    if (res.status === 201) {
+      Toast.show({
+        topOffset: 60,
+        type: "success",
+        text1: "Your Startup has been published",
+        text2: "",
+      });
+    }
   };
 
   return (
@@ -2207,6 +2351,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             nextBtnTextStyle={buttonTextStyle}
             nextBtnText="Finish"
             previousBtnDisabled={true}
+            onSubmit={publish}
           >
             <Screen5 />
           </ProgressStep>
@@ -2269,6 +2414,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  datePicker: {
+    justifyContent: "center",
+    alignItems: "flex-start",
+    width: 320,
+    height: 260,
+    display: "flex",
   },
   modalView: {
     margin: 20,

@@ -51,9 +51,9 @@ const Login = () => {
         await AsyncStorage.setItem("@accessToken", response.data.accessToken);
         await AsyncStorage.setItem("@refreshToken", response.data.refreshToken);
 
-        console.log("done");
+        //console.log("done");
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
 
       Toast.show({
@@ -62,7 +62,7 @@ const Login = () => {
         text1: "You're Successfully Logged In",
         text2: ".",
       });
-      navigation.navigate("BuildingStartupScreen1");
+      navigation.navigate("Message");
     }
   };
 

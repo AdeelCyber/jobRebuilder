@@ -11,8 +11,9 @@ export const step1startup = async (
   value,
   location,
   getmediatype,
-  getmedia,
-  userimg
+  mediatosend,
+  logo,
+  getdocinfo
 ) => {
   const config = {
     headers: {
@@ -35,9 +36,10 @@ export const step1startup = async (
         location: location,
         promoMedia: {
           mediatype: getmediatype,
-          url: getmedia,
+          url: mediatosend,
         },
-        logo: userimg,
+        logo: logo,
+        businessPlan: getdocinfo,
       },
       config
     );
@@ -99,7 +101,6 @@ export const step3startup = async (
 };
 
 export const step4startup = async (accessToken, startupid, milestonelist) => {
-  console.log(milestonelist);
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -116,6 +117,94 @@ export const step4startup = async (accessToken, startupid, milestonelist) => {
       },
       config
     );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const step5startup = async (accessToken, startupid, pitch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${accessToken}`,
+    },
+  };
+  try {
+    const resp = axios.post(
+      "/startup/saveOnboarding",
+      {
+        startupid: startupid,
+        formStep: "5",
+        pitchDeck: pitch,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const publishStartup = async (accessToken, startupid) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${accessToken}`,
+    },
+  };
+  try {
+    const resp = axios.post(
+      "/startup/publishStartup",
+      {
+        startupid: startupid,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const addStartupRole = async (accessToken, startupid, newRole) => {
+  console.log(newRole);
+  let finalObj = {};
+  for (let i = 0; i < newRole.length; i++) {
+    Object.assign(finalObj, newRole[i]);
+  }
+  console.log(finalObj);
+  console.log(startupid);
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${accessToken}`,
+    },
+  };
+  try {
+    const resp = axios.post(
+      "/startup/addProjectRole",
+      {
+        startupid: startupid,
+        newRole: finalObj,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const getmembers = async (accessToken) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${accessToken}`,
+    },
+  };
+  try {
+    const resp = axios.get("/startup/getallmembers", config);
     return resp;
   } catch (error) {
     return error.response;

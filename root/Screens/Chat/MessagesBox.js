@@ -25,7 +25,10 @@ import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import moment from "moment";
-import { getMessages } from "../Profile/services/MessageServices";
+import {
+  getMessages,
+  getMessagesGroup,
+} from "../Profile/services/MessageServices";
 import MessageBox from "./MessageBox";
 
 const MessagesBox = ({ route }) => {
@@ -38,37 +41,33 @@ const MessagesBox = ({ route }) => {
   const [message, setMessage] = useState([]);
   const [messages, setMessages] = useState([]);
   //const messages = useRef();
-  const [getusers, setusers] = useState([]);
 
-  const { id, userImg, userName } = route.params;
+  const { id, userImg, userName, chatType, members } =
+    route.params != undefined ? route.params : {};
 
   const getMsg = async () => {
-    const res = await getMessages(accessToken, id);
-    // console.log(res.data.messages);
-    setMessages(res.data.messages);
-    // messages.current = res.data.messages;
+    if (chatType === "group") {
+      const res = await getMessagesGroup(accessToken, id);
+      // console.log(res.data.messages);
+      setMessages(res.data.chat.messages);
+      console.log(res.data.chat.messages);
+      // messages.current = res.data.messages;
 
-    setcondition(false);
+      setcondition(false);
+    } else {
+      const res = await getMessages(accessToken, id);
+      // console.log(res.data.messages);
+      setMessages(res.data.messages);
+      console.log(res.data.messages);
+      // messages.current = res.data.messages;
+
+      setcondition(false);
+    }
   };
 
   useEffect(() => {
     getMsg();
   }, [getcondition]);
-  useEffect(() => {
-    socket.connect();
-    socket.on("connect", () => {
-      // console.log("Connected");
-    });
-    // to get session
-    socket.on("session", (session) => {
-      //  console.log(session);
-    });
-    // to get all users
-    socket.on("users", (users) => {
-      // console.log(users);
-      setusers(users);
-    });
-  }, []);
 
   // const sendMessage = async (message) => {
   //   //console.log(getusers);
@@ -102,6 +101,8 @@ const MessagesBox = ({ route }) => {
       id={id}
       userImg={userImg}
       userName={userName}
+      chatType={chatType}
+      members={members}
     />
   );
 };

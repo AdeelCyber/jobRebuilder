@@ -87,30 +87,33 @@ const UserInfo = () => {
           paddingBottom: 40,
           borderBottomWidth: 1,
           borderColor: "#23232380",
-          width: 340,
+          width: 346,
           height: 140,
           marginTop: 17,
         }}
       >
         <Image
           style={{ height: 78, width: 78, borderRadius: 50, margin: 10 }}
-          source={{ uri: userinfo.userInfo.avatar }}
+          source={{ uri: userinfo?.userInfo.avatar }}
         />
         <View style={{ flexDirection: "column" }}>
           <View
             style={{ flexDirection: "row", justifyContent: "space-evenly" }}
           >
-            <MyText style={{ fontSize: 20, fontWeight: "700", margin: 10 }}>
-              {userinfo.userInfo.name}
+            <MyText
+              style={{ fontSize: 20, fontWeight: "700", marginRight: 17 }}
+            >
+              {userinfo?.userInfo.name}
             </MyText>
             <View
               style={{
-                margin: 10,
+                marginLeft: 16,
                 height: 16,
                 width: 16,
                 borderRadius: 50,
                 padding: 1,
                 backgroundColor: colors.Bluish,
+                alignSelf: "flex-end",
               }}
             >
               <MaterialCommunityIcons
@@ -122,7 +125,7 @@ const UserInfo = () => {
             <MaterialCommunityIcons
               name="content-copy"
               size={25}
-              style={{ margin: 10 }}
+              style={{ marginLeft: 3, alignSelf: "flex-end" }}
               color={colors.Bluish}
             />
           </View>
@@ -132,20 +135,28 @@ const UserInfo = () => {
               fontWeight: "400",
               color: "#23232380",
               marginLeft: 10,
+              marginBottom: 6,
             }}
           >
-            {userinfo.about.jobTitle}
+            {userinfo?.about.jobTitle}
           </MyText>
           <View style={{ flexDirection: "row" }}>
-            <MyText style={{ fontSize: 12, fontWeight: "700", marginLeft: 10 }}>
-              ${userinfo.services.hourlyRate}/
+            <MyText
+              style={{
+                fontSize: 12,
+                fontWeight: "700",
+                marginLeft: 10,
+                marginBottom: 6,
+              }}
+            >
+              ${userinfo?.services.hourlyRate}/
             </MyText>
             <MyText
               style={{
                 fontSize: 12,
                 fontWeight: "500",
                 color: "#23232380",
-                marginRight: 10,
+                marginRight: 16,
               }}
             >
               Hr
@@ -157,9 +168,10 @@ const UserInfo = () => {
                 fontWeight: "400",
                 color: "#23232380",
                 marginLeft: 3,
+                marginBottom: 6,
               }}
             >
-              {userinfo.about.city}, {userinfo.about.country}
+              {userinfo?.about.city}, {userinfo?.about.country}
             </MyText>
           </View>
           <MyText
@@ -168,9 +180,10 @@ const UserInfo = () => {
               fontWeight: "400",
               marginLeft: 10,
               color: "#23232380",
+              marginBottom: 6,
             }}
           >
-            Availability : {userinfo.about.responseTime} Hrs/week
+            Availability : {userinfo?.about.responseTime} Hrs/week
           </MyText>
           <View style={{ flexDirection: "row" }}>
             <StarRating
