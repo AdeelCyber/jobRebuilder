@@ -19,6 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import DropDownPicker from "react-native-dropdown-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
 
 const PersonalInfo = () => {
   const {
@@ -38,8 +39,8 @@ const PersonalInfo = () => {
   const [open2, setOpen2] = useState(false);
   const [value2, setValue2] = useState(null);
   const [items2, setItems2] = useState([
-    { label: "Pakistan", value: "Category1" },
-    { label: "India", value: "Category2" },
+    { label: "Pakistan", value: "Pakistan" },
+    { label: "India", value: "India" },
   ]);
   const [open3, setOpen3] = useState(false);
   const [value3, setValue3] = useState(null);

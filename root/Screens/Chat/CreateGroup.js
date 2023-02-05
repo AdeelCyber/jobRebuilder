@@ -143,10 +143,11 @@ const CreateGroup = ({ navigation }) => {
                 marginBottom: 10,
               }}
               onPress={() =>
-                navigation.navigate("MessageBox", {
+                navigation.navigate("MessagesBox", {
                   id: item.chatid,
                   userImg: item.chatavatar,
                   userName: item.chatname,
+                  chatType: item.chatType,
                 })
               }
             >
@@ -195,11 +196,12 @@ const CreateGroup = ({ navigation }) => {
                   }}
                   numberOfLines={2}
                 >
-                  {item.lastMessage.sender.name
-                    ? item.lastMessage.sender.name +
-                      ": " +
-                      item.lastMessage.message.message
-                    : item.lastMessage.message.message}
+                  {/* {item.lastMessage?.sender.name
+                      ? item.lastMessage?.sender.name +
+                        ": " +
+                        item.lastMessage?.message.message
+                    : */}
+                  {item.lastMessage?.message.message}
                 </Text>
               </View>
               <View

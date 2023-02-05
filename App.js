@@ -12,6 +12,7 @@ export default function App() {
   const {
     theme: { colors },
   } = useContext(Context);
+
   return (
     <CartProvider>
       <ContextWrapper>

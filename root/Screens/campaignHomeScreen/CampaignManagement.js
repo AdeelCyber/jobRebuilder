@@ -65,7 +65,7 @@ const CampaignManagement = ({ navigation }) => {
       const resp = await getStartups();
       // console.log(resp.data);
       if (resp.data.status === "OK") {
-        console.log("done");
+        // console.log("done");
         setPopularCards(resp.data.startUps);
         // userDetails.setmilestone(resp.data.startUps);
       }

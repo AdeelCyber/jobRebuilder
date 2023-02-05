@@ -27,6 +27,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import UserInfo from "../../Components/UserInfo";
 import CartProvider from "../../Context/CartProvider";
+import { getProfile } from "../Profile/services/ProfileServices";
+import moment from "moment";
 const HomeService = ({ route }) => {
   const {
     theme: { colors },
@@ -51,55 +53,16 @@ const HomeService = ({ route }) => {
   const [userreviews, setuserreviews] = useState([]);
 
   const { accessToken } = useContext(CartProvider);
-
+  const getUser = async () => {
+    const res = await getProfile(accessToken);
+    console.log(res.data.data);
+    setuserinfo(res.data.data);
+    setcondition(false);
+  };
   useEffect(() => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `bearer ${accessToken}`,
-      },
-    };
-
-    axios
-      .get(
-        "https://stepdev.up.railway.app/freelancer/profile",
-
-        config
-      )
-      .then((res) => {
-        console.log(res.data.data.userInfo);
-        setuserinfo(res.data.data);
-        setcondition(false);
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
+    getUser();
   }, [getcondition]);
 
-  useEffect(() => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `bearer ${accessToken}`,
-      },
-    };
-
-    axios
-      .get(
-        "https://stepdev.up.railway.app/freelancer/all",
-
-        config
-      )
-      .then((res) => {
-        //console.log(res.data.data);
-        setuserreviews(res.data.data);
-        //setuserinfo(res.data.data);
-        setcondition(false);
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
-  }, [getcondition]);
   if (getcondition) {
     return (
       <View
@@ -358,7 +321,7 @@ const HomeService = ({ route }) => {
                     marginRight: 30,
                   }}
                 >
-                  {userinfo.services.hourlyRate}$
+                  {userinfo?.services.hourlyRate}$
                 </MyText>
               </View>
               {userinfo && (
@@ -371,7 +334,7 @@ const HomeService = ({ route }) => {
                     textAlign: "justify",
                   }}
                 >
-                  {userinfo.services.description}
+                  {userinfo?.services.description}
                 </MyText>
               )}
             </View>
@@ -414,7 +377,7 @@ const HomeService = ({ route }) => {
               ]}
             >
               <FlatList
-                data={userinfo.services.skills}
+                data={userinfo?.services.skills}
                 keyExtractor={(item) => item.id}
                 numColumns={3}
                 renderItem={({ item }) => (
@@ -453,7 +416,7 @@ const HomeService = ({ route }) => {
               }}
             >
               <FlatList
-                data={userinfo.portfolio}
+                data={userinfo?.portfolio}
                 keyExtractor={(item) => item.id}
                 numColumns={2}
                 columnWrapperStyle={{ flexWrap: "wrap" }}
@@ -520,7 +483,7 @@ const HomeService = ({ route }) => {
 
         {reviews && (
           <FlatList
-            data={userreviews}
+            data={userinfo?.ratingAndReviews}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <View
@@ -551,8 +514,7 @@ const HomeService = ({ route }) => {
                     </MyText>
                     <View style={{ flexDirection: "row" }}>
                       <StarRating
-                        rating={getRating}
-                        onChange={setRating}
+                        rating={item.rating}
                         starSize={14}
                         style={{
                           padding: 0,
@@ -568,7 +530,7 @@ const HomeService = ({ route }) => {
                           marginLeft: 50,
                         }}
                       >
-                        5.0
+                        {item.rating}
                       </MyText>
                       <MyText
                         style={{
@@ -578,7 +540,7 @@ const HomeService = ({ route }) => {
                           marginLeft: 150,
                         }}
                       >
-                        {item.time}
+                        {moment(item.time).format("h:mm a")}
                       </MyText>
                     </View>
                     <MyText
@@ -589,7 +551,7 @@ const HomeService = ({ route }) => {
                         marginRight: 90,
                       }}
                     >
-                      {item.rev}
+                      {item.review}
                     </MyText>
                   </View>
                 </View>
@@ -632,7 +594,7 @@ const HomeService = ({ route }) => {
                   />
                 </View>
               </View>
-              <MyText style={styles.content}>{userinfo.about.aboutMe}</MyText>
+              <MyText style={styles.content}>{userinfo?.about.aboutMe}</MyText>
             </View>
             <View
               style={[
@@ -653,7 +615,9 @@ const HomeService = ({ route }) => {
                 <View style={{ flexDirection: "column", marginTop: 5 }}>
                   <MyText style={styles.heading}>Joined Date</MyText>
                   <MyText style={styles.content}>
-                    {userinfo.about.joinedData}
+                    {moment(userinfo?.about.joinedData).format(
+                      "MMMM Do YYYY, h:mm:ss a"
+                    )}
                   </MyText>
                 </View>
               </View>
@@ -679,7 +643,7 @@ const HomeService = ({ route }) => {
                   <MyText style={styles.heading}>Last Active</MyText>
                   <MyText style={styles.content}>
                     {" "}
-                    {userinfo.about.lastActive} Mins Ago
+                    {userinfo?.about.lastActive} Mins Ago
                   </MyText>
                 </View>
               </View>
@@ -724,7 +688,7 @@ const HomeService = ({ route }) => {
                     </View>
                   </View>
                   <MyText style={styles.content}>
-                    {userinfo.about.language}
+                    {userinfo?.about.language}
                   </MyText>
                 </View>
               </View>
@@ -749,7 +713,7 @@ const HomeService = ({ route }) => {
                 <View style={{ flexDirection: "column", marginTop: 5 }}>
                   <MyText style={styles.heading}>Response Time</MyText>
                   <MyText style={styles.content}>
-                    {userinfo.about.responseTime} Mins Ago
+                    {userinfo?.about.responseTime} Mins Ago
                   </MyText>
                 </View>
               </View>
@@ -794,7 +758,7 @@ const HomeService = ({ route }) => {
                     </View>
                   </View>
                   <MyText style={styles.content}>
-                    {userinfo.about.responseTime} Hrs/Week
+                    {userinfo?.about.responseTime} Hrs/Week
                   </MyText>
                 </View>
               </View>
@@ -839,7 +803,7 @@ const HomeService = ({ route }) => {
                     </View>
                   </View>
                   <MyText style={styles.content}>
-                    Fixed Rate ({userinfo.userInfo.role})
+                    Fixed Rate ({userinfo?.userInfo.role})
                   </MyText>
                 </View>
               </View>

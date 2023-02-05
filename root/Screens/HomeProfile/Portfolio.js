@@ -14,15 +14,11 @@ import {
 import Context from "../../Context/Context";
 import MyText from "../../Components/Text";
 import CustomHeader10 from "../../Components/CustomHeader10";
-import Icon from "@expo/vector-icons/FontAwesome";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
-import Entypo from "@expo/vector-icons/Entypo";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import CartProvider from "../../Context/CartProvider";
+import { publishPortfolio } from "../Profile/services/ProfileServices";
+import Toast from "react-native-toast-message";
 
 const Portfolio = () => {
   const {
@@ -31,18 +27,7 @@ const Portfolio = () => {
   const navigation = useNavigation();
   const [projname, setprojname] = useState();
   const [projdesc, setprojdesc] = useState();
-  const [attachments, setattachments] = useState([
-    {
-      id: 1,
-      image:
-        "https://cloudfront-us-east-2.images.arcpublishing.com/reuters/O6SXYTO4WFPLJPIHA4VD4ABLAU.jpg",
-    },
-    {
-      id: 2,
-      image:
-        "https://cloudfront-us-east-2.images.arcpublishing.com/reuters/O6SXYTO4WFPLJPIHA4VD4ABLAU.jpg",
-    },
-  ]);
+
   const { accessToken } = useContext(CartProvider);
   const [images, setimages] = useState();
 
@@ -61,38 +46,23 @@ const Portfolio = () => {
     }
   };
 
-  const portfoliosend = () => {
+  const portfoliosend = async () => {
     console.log(projname);
     var img = [];
     for (var i in images) {
       img[i] = images[i].uri;
     }
     console.log(img);
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `bearer ${accessToken}`,
-      },
-    };
-
-    axios
-      .post(
-        "https://stepdev.up.railway.app/freelancer/profile/portfolio",
-        {
-          title: projname,
-          description: projdesc,
-
-          attachments: img,
-        },
-        config
-      )
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log("error", err);
+    const res = await publishPortfolio(accessToken, projname, projdesc, img);
+    if (res.status == 201) {
+      Toast.show({
+        topOffset: 60,
+        type: "success",
+        text1: "Published Successfully",
+        text2: ".",
       });
+      navigation.navigate("HomeService");
+    }
   };
 
   return (

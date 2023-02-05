@@ -21,6 +21,8 @@ import CustomHeader7 from "../../Components/CustomHeader7";
 import CartProvider from "../../Context/CartProvider";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
+import { setProfile } from "../Profile/services/ProfileServices";
 
 const Progress = () => {
   const {
@@ -56,83 +58,15 @@ const Progress = () => {
     marginRight: 233,
   };
   const retrieveData = async () => {
-    console.log("hi");
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `bearer ${accessToken}`,
-      },
-    };
-    try {
-      const name = await AsyncStorage.getItem("@name");
-      const email = await AsyncStorage.getItem("@email");
-      const gender = await AsyncStorage.getItem("@gender");
-      const country = await AsyncStorage.getItem("@country");
-      const city = await AsyncStorage.getItem("@city");
-      const language = await AsyncStorage.getItem("@language");
-      const skill = await AsyncStorage.getItem("@skills");
-      const workPreference = await AsyncStorage.getItem("@workPreference");
-      const availibilityPerWeek = await AsyncStorage.getItem(
-        "@availibilityPerWeek"
-      );
-      const jobTitle = await AsyncStorage.getItem("@jobTitle");
-      const hourlyRate = await AsyncStorage.getItem("@hourlyRate");
-      const description = await AsyncStorage.getItem("@description");
-      const image = await AsyncStorage.getItem("@image");
-      const skills = JSON.parse(skill);
-      console.log(skills);
-
-      if (
-        name !== null &&
-        email !== null &&
-        gender !== null &&
-        country !== null &&
-        city !== null &&
-        language !== null &&
-        skills !== null &&
-        workPreference !== null &&
-        availibilityPerWeek !== null &&
-        jobTitle !== null &&
-        hourlyRate !== null &&
-        description !== null &&
-        image !== null
-      ) {
-        // We have data!!
-
-        axios
-          .post(
-            "https://stepdev.up.railway.app/freelancer/onboarding",
-            {
-              gender: gender,
-              country: country,
-              city: city,
-              language: language,
-              skills: skills,
-              workPreference: workPreference,
-              availibilityPerWeek: availibilityPerWeek,
-              jobTitle: jobTitle,
-              hourlyRate: hourlyRate,
-              description: description,
-              image: image,
-            },
-            config
-          )
-          .then((res) => {
-            console.log(res.data);
-            Toast.show({
-              topOffset: 60,
-              type: "success",
-              text1: "Created successfully",
-            });
-          })
-          .catch((err) => {
-            console.log("error", err);
-          });
-      }
-    } catch (error) {
-      // Error retrieving data
-      console.log(error);
+    const res = await setProfile(accessToken);
+    if (res.status == 201) {
+      Toast.show({
+        topOffset: 60,
+        type: "success",
+        text1: "Created successfully",
+      });
     }
+    console.log(res.data);
   };
 
   return (

@@ -33,8 +33,10 @@ import MyText from "../../Components/Text";
 import { FontAwesome } from "@expo/vector-icons";
 import CustomHeader5 from "../../Components/CustomHeader5";
 import { title } from "process";
+import * as ImagePicker from "expo-image-picker";
+import Toast from "react-native-toast-message";
 
-const CreatingGroup1 = ({ navigation }) => {
+const CreatingGroup1 = ({ navigation, route }) => {
   const {
     theme: { colors },
   } = useContext(Context);
@@ -42,8 +44,22 @@ const CreatingGroup1 = ({ navigation }) => {
   const [image, setimage] = useState();
   const { accessToken } = useContext(CartProvider);
   const [getcondition, setcondition] = useState(true);
-  const [members, setmembers] = useState();
+  const { members } = route.params != undefined ? route.params : {};
+  const [media, setmedia] = useState();
+  const pickMedia = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [10, 10],
+      quality: 1,
+    });
+    //console.log(result);
 
+    if (!result.canceled) {
+      setimage("Uploaded");
+      setmedia(result.assets[0].uri);
+    }
+  };
   useEffect(() => {
     const config = {
       headers: {
@@ -85,20 +101,33 @@ const CreatingGroup1 = ({ navigation }) => {
         "https://stepdev.up.railway.app/chat/createChatGroup",
         {
           groupName: grouptitle,
-          members: r,
+          members: members,
+          avatar: media,
         },
         config
       )
       .then((res) => {
-        console.log(res.data);
+        console.log(res);
         // setchat(res.data.chats);
 
+        if (res.status == 201) {
+          Toast.show({
+            topOffset: 60,
+            type: "success",
+            text1: "Group Created",
+            text2: ".",
+          });
+          navigation.navigate("Message");
+        }
         setcondition(false);
       })
       .catch((err) => {
         console.log("error", err);
       });
   };
+  useEffect(() => {
+    console.log(members);
+  }, []);
 
   if (getcondition) {
     return (
@@ -153,6 +182,9 @@ const CreatingGroup1 = ({ navigation }) => {
               size={20}
               color={colors.Bluish}
               style={{ paddingTop: 18 }}
+              onPress={() => {
+                pickMedia();
+              }}
             />
             <TextInput
               style={styles.inputStyle}
@@ -168,7 +200,7 @@ const CreatingGroup1 = ({ navigation }) => {
           </MyText>
         </View>
         <FlatList
-          data={GroupChats}
+          data={members}
           keyExtractor={(item) => item.id}
           horizontal={true}
           style={{ alignSelf: "flex-start" }}
@@ -176,7 +208,9 @@ const CreatingGroup1 = ({ navigation }) => {
             <View style={{ marginRight: 5, marginLeft: 5 }}>
               <Image
                 style={{ width: 40, height: 40, borderRadius: 50 }}
-                source={item.userImg}
+                source={{
+                  uri: "https://www.shutterstock.com/image-vector/user-login-authenticate-icon-human-260nw-1365533969.jpg",
+                }}
               />
             </View>
           )}

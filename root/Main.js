@@ -1,13 +1,13 @@
 import { StyleSheet, Text, View, Image, SafeAreaView } from "react-native";
 // import SignIn from "./Screens/SignIn";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useCallback } from "react";
 import { StatusBar } from "expo-status-bar";
 import Context from "../root/Context/Context";
 import PinkButton from "./Components/PinkButton";
 import SignIn from "./Screens/SignIn";
 import Signup from "./Screens/Signup";
 import Offset from "./GlobalStyles/Offset";
-
+import initializeSocket from "./hooks/sockethook";
 //screens
 import CampaignHome from "./Screens/campaignHomeScreen/CampaignHome";
 import SettingScreen from "./Screens/Profile/Settings/SettingScreen";
@@ -48,6 +48,7 @@ import Portfolio from "./Screens/HomeProfile/Portfolio";
 import ViewPortfolio from "./Screens/HomeProfile/ViewPortfolio";
 import EditProfile from "./Screens/HomeProfile/EditProfile";
 import CustomOffer from "./Screens/Chat/CustomOffer";
+import { io } from "socket.io-client";
 
 //screens out
 
@@ -83,8 +84,10 @@ import TeamWarnings from "./Screens/campaignHomeScreen/TeamWarnings";
 import Warnings from "./Screens/campaignHomeScreen/Warnings";
 import CampaignManagement from "./Screens/campaignHomeScreen/CampaignManagement";
 import ManagingCampaign from "./Screens/campaignHomeScreen/ManagingCampaign";
+import MessagesBox from "./Screens/Chat/MessagesBox";
 import TabBar from "./Components/TabBar";
-
+import NewMessage from "./Screens/Chat/NewMessage";
+import CartProvider from "./Context/CartProvider";
 //Navigation out
 
 // Creating Stacks
@@ -144,6 +147,9 @@ const MyStack = () => {
 
         <Stack.Screen name="Message" component={Message} />
         <Stack.Screen name="MessageBox" component={MessageBox} />
+        <Stack.Screen name="MessagesBox" component={MessagesBox} />
+        <Stack.Screen name="NewMessage" component={NewMessage} />
+
         <Stack.Screen name="CreateGroup" component={CreateGroup} />
         <Stack.Screen name="CreatingGroup" component={CreatingGroup} />
         <Stack.Screen name="CreatingGroup1" component={CreatingGroup1} />
@@ -249,6 +255,26 @@ const Main = () => {
   const {
     theme: { colors },
   } = useContext(Context);
+  const { accessToken, socket, setsocket } = useContext(CartProvider);
+
+  const startsocket = useCallback(
+    (accessToken) => {
+      setsocket(
+        io("https://stepdev.up.railway.app", {
+          autoConnect: false,
+          extraHeaders: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+      );
+    },
+    [socket]
+  );
+
+  useEffect(() => {
+    startsocket(accessToken);
+  }, [accessToken]);
+
   return (
     <SafeAreaView
       style={[
@@ -261,7 +287,7 @@ const Main = () => {
       {/* <SignIn /> */}
       <NavigationContainer>
         <MyStack />
-        <TabBar />
+        <TabBar show={true} />
       </NavigationContainer>
     </SafeAreaView>
   );

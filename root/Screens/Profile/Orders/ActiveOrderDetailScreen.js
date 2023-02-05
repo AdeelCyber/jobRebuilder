@@ -22,6 +22,8 @@ import {
   uploadFileServer,
 } from '../services/orderServices'
 import { upload } from '../../../Components/DownloadUpload'
+import { imageUpload } from '../../../Components/uploadNewFile'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const ActiveOrderDetailScreen = ({ route }) => {
   const navigation = useNavigation()
@@ -44,10 +46,9 @@ const ActiveOrderDetailScreen = ({ route }) => {
     if (!formData) {
       return
     }
-    const resp = await uploadFileServer(formData)
-    if (resp.status === 200) {
-      setFileNameFromServer(resp.data.filename)
-    }
+    const token = await AsyncStorage.getItem('@accessToken')
+    imageUpload(token, formData.uri)
+    setFileNameFromServer(formData.name)
   }
 
   useEffect(() => {

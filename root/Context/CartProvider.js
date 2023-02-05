@@ -6,6 +6,7 @@ export function CartProvider({ children }) {
   const [refreshToken, setrefreshToken] = useState("");
   const [userdetails, setuserdetails] = useState([]);
   const [milestone, setmilestone] = useState([]);
+  const [socket, setsocket] = useState();
 
   return (
     <CartContext.Provider
@@ -18,6 +19,8 @@ export function CartProvider({ children }) {
         setuserdetails,
         milestone,
         setmilestone,
+        socket,
+        setsocket,
       }}
     >
       {children}

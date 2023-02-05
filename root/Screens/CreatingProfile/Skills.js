@@ -19,6 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import DropDownPicker from "react-native-dropdown-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
 
 const Skills = () => {
   const {
@@ -29,8 +30,8 @@ const Skills = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    { label: "Join a business (equity)", value: "Join a business (equity)" },
-    { label: "Fixed Rate (Freelancer)", value: "Fixed Rate (Freelancer)" },
+    { label: "Join a business (equity)", value: "Equity" },
+    { label: "Fixed Rate (Freelancer)", value: "Freelance" },
     { label: "Both", value: "Both" },
   ]);
   const [availibility, setavailibility] = useState();
