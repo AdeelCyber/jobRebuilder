@@ -8,7 +8,7 @@ import {
   TextInput,
 } from "react-native";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Context from "../../Context/Context";
 import CustomHeader2 from "../../Components/CustomHeader2";
 import { Searchbar } from "react-native-paper";
@@ -17,18 +17,33 @@ import MyText from "../../Components/Text";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DynamicButton from "../../Components/DynamicButton";
 import questionMark from "../../../assets/Svgs/QuestionMark";
+import { addRoles } from "../Profile/services/FreeLancerServices";
 
-const AddRoles = ({ navigation }) => {
+const AddRoles = ({ navigation, route }) => {
+  const [data, setData] = useState(route.params.data);
   const {
     theme: { colors },
   } = useContext(Context);
   const [changed, setchanged] = useState({
     //title and description
-    Title: "",
-    desc: "",
+    title: "",
+    description: "",
+    type: "Equity",
   });
+
+  // Api call
+
+  const getFreelancersData = async () => {
+    const resp = await addRoles(data.startup._id, changed);
+
+    if (resp.data.status === "OK") {
+      route.params.set(resp.data.projectRoles.roles);
+    }
+  };
   function handlePress(text) {
-    alert(text);
+    if (text === "Add Role") {
+      getFreelancersData();
+    }
   }
 
   return (
@@ -85,7 +100,7 @@ const AddRoles = ({ navigation }) => {
           <TextInput
             placeholderTextColor="#ACA9A9"
             placeholder="Role Title"
-            value={changed.Title}
+            value={changed.title}
             style={{
               backgroundColor: "#EEEEEE",
 
@@ -101,7 +116,7 @@ const AddRoles = ({ navigation }) => {
             }}
             onChangeText={(got) => {
               {
-                setchanged({ ...changed, Title: got });
+                setchanged({ ...changed, title: got });
               }
             }}
           />
@@ -117,7 +132,7 @@ const AddRoles = ({ navigation }) => {
               multiline={true}
               placeholderTextColor="#ACA9A9"
               placeholder="Role Description"
-              value={changed.desc}
+              value={changed.description}
               style={{
                 backgroundColor: "#EEEEEE",
 
@@ -136,7 +151,7 @@ const AddRoles = ({ navigation }) => {
               }}
               onChangeText={(got) => {
                 {
-                  setchanged({ ...changed, desc: got });
+                  setchanged({ ...changed, description: got });
                 }
               }}
             />

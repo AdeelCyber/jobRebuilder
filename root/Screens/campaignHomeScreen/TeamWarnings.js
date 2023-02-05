@@ -8,7 +8,7 @@ import {
   TextInput,
 } from "react-native";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Context from "../../Context/Context";
 import CustomHeader2 from "../../Components/CustomHeader2";
 import { Searchbar } from "react-native-paper";
@@ -24,12 +24,13 @@ import { SearchBar } from "react-native-paper";
 import TeamMember from "../../Components/TeamMember";
 import TeamMemberWarning from "../../Components/TeamMemberWarning";
 import WarningHistoryComp from "../../Components/WarningHistory";
+import { getWarnings } from "../Profile/services/FreeLancerServices";
 
 const TeamWarnings = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
-  const TeamWarning = [
+  const [TeamWarning, setTeamWarning] = useState([
     {
       image: "https://bit.ly/kent-c-dodds",
       text: "Mike Dean",
@@ -55,8 +56,8 @@ const TeamWarnings = ({ navigation }) => {
       designation: "Ceo",
       desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur in nostrum molestiae obcaecati sapiente sequi, facere modi possimus labore et!",
     },
-  ];
-  const WarningHistory = [
+  ]);
+  const [WarningHistory, setWaringHistory] = useState([
     {
       image: "https://bit.ly/kent-c-dodds",
       text: "Mike Dean",
@@ -69,120 +70,141 @@ const TeamWarnings = ({ navigation }) => {
       designation: "Ceo",
       desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur in nostrum molestiae obcaecati sapiente sequi, facere modi possimus labore et!",
     },
-  ];
+  ]);
   function handlePress(text) {
     alert(text);
   }
   const [TeamWarnings, setTeamWarnings] = useState(true);
+  //Loading use State
+  const [loading, setLoading] = useState(false);
+  //Api call
+  useEffect(() => {
+    const getFreelancersData = async () => {
+      const resp = await getWarnings();
+      console.log(resp.data);
+      if (resp.data.status === "OK") {
+        setTeamWarning(resp.data.warnings);
+        setWaringHistory(resp.data.warnings);
+        setLoading(true);
+        console.log(resp.data.warnings[0].warnedTo);
+      }
+    };
+
+    getFreelancersData();
+  }, []);
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: colors.white,
-      }}
-    >
-      <CustomHeader2
-        Title="Warnings"
-        style={{ elevation: 0 }}
-        nav={navigation}
-      />
-      {/* main View */}
-      <View style={{ flex: 1 }}>
-        {/* Toggle */}
-        <View
-          style={{
-            backgroundColor: "#EFEFEF",
-            paddingVertical: 5,
-
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 100,
-            flexDirection: "row",
-
-            marginHorizontal: 20,
-          }}
-        >
-          <Pressable
+    loading && (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: colors.white,
+        }}
+      >
+        <CustomHeader2
+          Title="Warnings"
+          style={{ elevation: 0 }}
+          nav={navigation}
+        />
+        {/* main View */}
+        <View style={{ flex: 1 }}>
+          {/* Toggle */}
+          <View
             style={{
-              width: "48.5 %",
+              backgroundColor: "#EFEFEF",
+              paddingVertical: 5,
 
               justifyContent: "center",
               alignItems: "center",
-              paddingVertical: 18,
-              borderRadius: 50,
-              backgroundColor: TeamWarnings ? "#8489FC" : "#EFEFEF",
+              borderRadius: 100,
+              flexDirection: "row",
+
+              marginHorizontal: 20,
             }}
-            onPress={() => setTeamWarnings(true)}
           >
-            <MyText
+            <Pressable
               style={{
-                color: TeamWarnings ? colors.white : "#23232380",
-                fontWeight: "400",
-                fontSize: 14,
-              }}
-            >
-              Team Warning
-            </MyText>
-          </Pressable>
-          <Pressable
-            style={{
-              width: "48.5%",
+                width: "48.5 %",
 
-              justifyContent: "center",
-              alignItems: "center",
-              paddingVertical: 18,
-              borderRadius: 50,
-              backgroundColor: !TeamWarnings ? "#8489FC" : "#EFEFEF",
-            }}
-            onPress={() => setTeamWarnings(false)}
-          >
-            <MyText
+                justifyContent: "center",
+                alignItems: "center",
+                paddingVertical: 18,
+                borderRadius: 50,
+                backgroundColor: TeamWarnings ? "#8489FC" : "#EFEFEF",
+              }}
+              onPress={() => setTeamWarnings(true)}
+            >
+              <MyText
+                style={{
+                  color: TeamWarnings ? colors.white : "#23232380",
+                  fontWeight: "400",
+                  fontSize: 14,
+                }}
+              >
+                Team Warning
+              </MyText>
+            </Pressable>
+            <Pressable
               style={{
-                color: !TeamWarnings ? colors.white : "#23232380",
-                fontWeight: "400",
-                fontSize: 14,
+                width: "48.5%",
+
+                justifyContent: "center",
+                alignItems: "center",
+                paddingVertical: 18,
+                borderRadius: 50,
+                backgroundColor: !TeamWarnings ? "#8489FC" : "#EFEFEF",
               }}
+              onPress={() => setTeamWarnings(false)}
             >
-              Warning History
-            </MyText>
-          </Pressable>
-        </View>
-        {/* Toggle out  */}
+              <MyText
+                style={{
+                  color: !TeamWarnings ? colors.white : "#23232380",
+                  fontWeight: "400",
+                  fontSize: 14,
+                }}
+              >
+                Warning History
+              </MyText>
+            </Pressable>
+          </View>
+          {/* Toggle out  */}
 
-        {TeamWarnings && (
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={{ marginTop: 30 }}
-          >
-            {TeamWarning.map((item) => (
-              <TeamMemberWarning
-                designation={item.designation}
-                image={item.image}
-                text={item.text}
-                Warnings={item.Warnings}
-                style={{ marginVertical: 12, marginHorizontal: 20 }}
-              />
-            ))}
-          </ScrollView>
-        )}
-
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {!TeamWarnings && (
-            <View style={{ marginTop: 30 }}>
-              {WarningHistory.map((item) => (
-                <WarningHistoryComp
-                  designation={item.designation}
-                  image={item.image}
-                  text={item.text}
-                  desc={item.desc}
+          {TeamWarnings && (
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              style={{ marginTop: 30 }}
+            >
+              {TeamWarning.map((item) => (
+                <TeamMemberWarning
+                  designation={"Ceo"}
+                  image={item.warnedTo.avatar}
+                  text={item.warnedTo.name}
+                  Warnings={item.warnedTo.Warnings}
                   style={{ marginVertical: 12, marginHorizontal: 20 }}
                 />
               ))}
-            </View>
+            </ScrollView>
           )}
-        </ScrollView>
+
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {!TeamWarnings && (
+              <View style={{ marginTop: 30 }}>
+                {WarningHistory.map((item) => (
+                  <WarningHistoryComp
+                    designation={item.designation}
+                    image={item.warnedTo.avatar}
+                    text={item.warnedTo.name}
+                    requestedBy={item.warnedBy.name}
+                    requesterImage={item.warnedBy.avatar}
+                    desc={item.reason}
+                    style={{ marginVertical: 12, marginHorizontal: 20 }}
+                  />
+                ))}
+              </View>
+            )}
+          </ScrollView>
+        </View>
       </View>
-    </View>
+    )
   );
 };
 

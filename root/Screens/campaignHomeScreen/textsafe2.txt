@@ -23,57 +23,50 @@ import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { EditMileStones } from "../Profile/services/FreeLancerServices";
-import CartContext from "../../Context/CartProvider";
 
 const EditMileStone = ({ navigation, route }) => {
+  const [value, setValue] = useState(false); // integer state
+  // update state to force render
+  // A function that increment 👆🏻 the previous state like here
+  // is better than directly setting `setValue(value + 1)`
+
   const [data, setData] = useState(route.params.data);
   // console.log(data);
   //Coming data useState named comming data
-  // console.log("WHat data", route.params.mileStoneArray.startup.milestones);
   const [commingData, setcommingData] = useState([]);
 
   // slider hooks in
-  const [range, setrange] = useState(50);
-  // console.log("range", range);
+  const [range, setrange] = useState("50%");
   const [sliding, setsliding] = useState("Inactive");
   const [update, setupdate] = useState([]);
-
   const {
     theme: { colors },
   } = useContext(Context);
-  const contest = useContext(CartContext);
   const [changed, setchanged] = useState({
-    title: data.title,
-    description: data.description,
-    progress: data.progress,
+    Title: "Graphic Designer",
+    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis  ",
   });
-  const [Obj, setObj] = useState({ ...changed });
   async function handlePress(text) {
     if (text === "Update") {
-      setObj({ ...changed });
-      // console.log("obj", Obj);
       await getFreelancersData();
       // console.log("data sending" + JSON.stringify(data));
     }
     if (text === "Cancel") {
-      navigation.navigate("MileStone", { data: route.params.mileStoneArray });
-      // console.log("data sending" + JSON.stringify(route.params.mileStoneArray));
+      navigation.replace("MileStone", { data: data });
+      // console.log("data sending" + JSON.stringify(data));
     }
   }
   // Api call
 
   const getFreelancersData = async () => {
-    setObj({ ...changed });
-    // console.log("obj", Obj);
-    const resp = await EditMileStones(data.startupId, data._id, changed);
-    // console.log(
-    //   "startuptoken == " + data.startupId,
-    //   "mileStoneID == " + data._id
-    // );
-    // console.log(resp.data);
+    const resp = await EditMileStones(data.startupId, data._id);
+    console.log(
+      "startuptoken == " + data.startupId,
+      "mileStoneID == " + data._id
+    );
+    console.log(resp.data);
     if (resp.data.status === "OK") {
       setcommingData(resp.data.milestones);
-      // setObj({ ...changed, progress: range });
 
       route.params.set(commingData);
     }
@@ -81,11 +74,6 @@ const EditMileStone = ({ navigation, route }) => {
 
   useEffect(() => {
     route.params.set(commingData);
-    contest.setmilestone(commingData);
-    // console.log("iTS length", commingData.length);
-    // if (commingData.length === 0) {
-    //   route.params.set([...route.params.mileStoneArray.startup.milestones]);
-    // }
   }, [commingData]);
 
   return (
@@ -125,7 +113,7 @@ const EditMileStone = ({ navigation, route }) => {
         >
           <TextInput
             placeholderTextColor="#232323BF"
-            value={changed.title}
+            value={data.title}
             style={{
               backgroundColor: colors.white,
               borderWidth: 1,
@@ -140,14 +128,14 @@ const EditMileStone = ({ navigation, route }) => {
             }}
             onChangeText={(got) => {
               {
-                setchanged({ ...changed, title: got });
+                setchanged({ ...changed, Title: got });
               }
             }}
           />
           <TextInput
             multiline={true}
             placeholderTextColor="#232323BF"
-            value={changed.description}
+            value={data.description}
             style={{
               backgroundColor: colors.white,
               borderWidth: 1,
@@ -161,7 +149,7 @@ const EditMileStone = ({ navigation, route }) => {
             }}
             onChangeText={(got) => {
               {
-                setchanged({ ...changed, description: got });
+                setchanged({ ...changed, desc: got });
               }
             }}
           />
@@ -194,15 +182,13 @@ const EditMileStone = ({ navigation, route }) => {
                 maximumValue={1}
                 maximumTrackTintColor={"#D9D9D9"}
                 thumbTintColor={colors.secondary}
-                value={data.progress / 100}
-                onValueChange={(value) =>
-                  setchanged({ ...changed, progress: parseInt(value * 100) })
-                }
+                value={data.progress}
+                onValueChange={(value) => setrange(parseInt(value * 100) + "%")}
               />
               <MyText
                 style={{ marginRight: 12, fontWeight: "500", fontSize: 16 }}
               >
-                {changed.progress} %
+                {range}
               </MyText>
             </View>
             {/* slider view out */}

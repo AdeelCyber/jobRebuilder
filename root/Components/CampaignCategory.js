@@ -40,6 +40,9 @@ const HomeCategories = ({ svg, title, ...props }) => {
 
           height: "60%",
         }}
+        onPress={() =>
+          props.navigation.navigate(`${props.screen}`, { data: props.data })
+        }
       >
         <SvgImport svg={svg} style={{ marginTop: props.itemStyle }} />
         <MyText

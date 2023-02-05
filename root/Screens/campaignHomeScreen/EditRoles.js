@@ -16,19 +16,37 @@ import SvgImport from "../../Components/SvgImport";
 import MyText from "../../Components/Text";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DynamicButton from "../../Components/DynamicButton";
+import { EditRole } from "../Profile/services/FreeLancerServices";
 
-const EditRoles = ({ navigation }) => {
+const EditRoles = ({ navigation, route }) => {
+  const [data, setData] = useState(route.params.data);
+  const [item, setitem] = useState(route.params.item);
   const {
     theme: { colors },
   } = useContext(Context);
   const [changed, setchanged] = useState({
-    Title: "Graphic Designer",
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.  ",
+    title: item.title,
+    description: item.description,
+    type: "Equity",
   });
-  function handlePress(text) {
-    alert(text);
-  }
 
+  // Api call
+
+  const getFreelancersData = async () => {
+    const resp = await EditRole(data.startup._id, item._id, changed);
+    console.log(data.startup._id, item._id, changed);
+
+    console.log(resp.data.projectRoles.roles);
+    if (resp.data.status === "OK") {
+      route.params.set(resp.data.projectRoles.roles);
+    }
+  };
+
+  function handlePress(text) {
+    if ((text = "Update")) {
+      getFreelancersData();
+    }
+  }
   return (
     // main container
     <View
@@ -65,7 +83,7 @@ const EditRoles = ({ navigation }) => {
         >
           <TextInput
             placeholderTextColor="#232323BF"
-            value={changed.Title}
+            value={changed.title}
             style={{
               backgroundColor: colors.white,
               borderWidth: 1,
@@ -80,14 +98,14 @@ const EditRoles = ({ navigation }) => {
             }}
             onChangeText={(got) => {
               {
-                setchanged({ ...changed, Title: got });
+                setchanged({ ...changed, title: got });
               }
             }}
           />
           <TextInput
             multiline={true}
             placeholderTextColor="#232323BF"
-            value={changed.desc}
+            value={changed.description}
             style={{
               backgroundColor: colors.white,
               borderWidth: 1,
@@ -101,7 +119,7 @@ const EditRoles = ({ navigation }) => {
             }}
             onChangeText={(got) => {
               {
-                setchanged({ ...changed, desc: got });
+                setchanged({ ...changed, description: got });
               }
             }}
           />

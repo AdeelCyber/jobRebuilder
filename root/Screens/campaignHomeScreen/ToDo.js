@@ -27,7 +27,9 @@ import HorizontalCalendar from "../../Components/HorizontalCalendar";
 import TodoListItem from "../../Components/TodoListItem";
 import Buttons from "../../Components/Buttons";
 
-const Todo = ({ navigation }) => {
+const Todo = ({ navigation, route }) => {
+  const [data, setData] = useState(route.params.data);
+  // console.log(data);
   const {
     theme: { colors },
   } = useContext(Context);

@@ -14,6 +14,10 @@ const RolesDropDown = ({ Title, desc, ...props }) => {
   } = useContext(Context);
   const [open, setopen] = useState(false);
   const [select, setselected] = useState(true);
+
+  const update = (data) => {
+    props.set(data);
+  };
   return (
     <View>
       <View
@@ -85,7 +89,14 @@ const RolesDropDown = ({ Title, desc, ...props }) => {
               alignItems: "center",
             }}
           >
-            <Pressable style={{ marginRight: 10 }}>
+            <Pressable
+              style={{ marginRight: 10 }}
+              onPress={() => {
+                console.log(props.data.startup._id, props.item._id);
+
+                props.delete(props.data.startup._id, props.item._id);
+              }}
+            >
               <AntDesign name="delete" size={24} color="black" />
             </Pressable>
             <View
@@ -101,7 +112,11 @@ const RolesDropDown = ({ Title, desc, ...props }) => {
             <Pressable
               style={{ marginLeft: 10 }}
               onPress={() => {
-                props.nav.navigate("EditRoles");
+                props.nav.navigate("EditRoles", {
+                  data: props.data,
+                  item: props.item,
+                  set: update,
+                });
               }}
             >
               <MaterialIcons name="edit" size={24} color="black" />

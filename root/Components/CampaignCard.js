@@ -107,6 +107,9 @@ const CampaignCard = ({ ...props }) => {
               borderRadius: 5,
               borderWidth: 1,
             }}
+            onPress={() => {
+              props.navigation.navigate("Todo", { data: props.data });
+            }}
           >
             <SvgImport svg={todo} />
             <MyText

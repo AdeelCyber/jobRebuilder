@@ -5,6 +5,7 @@ export function CartProvider({ children }) {
   const [accessToken, setaccessToken] = useState("");
   const [refreshToken, setrefreshToken] = useState("");
   const [userdetails, setuserdetails] = useState([]);
+  const [milestone, setmilestone] = useState([]);
 
   return (
     <CartContext.Provider
@@ -15,6 +16,8 @@ export function CartProvider({ children }) {
         setrefreshToken,
         userdetails,
         setuserdetails,
+        milestone,
+        setmilestone,
       }}
     >
       {children}

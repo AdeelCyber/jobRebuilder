@@ -7,18 +7,23 @@ import {
   Pressable,
 } from "react-native";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Context from "../../Context/Context";
+
 import CustomHeader2 from "../../Components/CustomHeader2";
 import Logo from "../../../assets/Svgs/Logo";
 import Buildings from "../../../assets/img/Buildings.png";
 
 import CampaignPopular from "../../Components/CampaignPopular";
+import { getStartups } from "../Profile/services/FreeLancerServices";
+import CartContext from "../../Context/CartProvider";
 
 const CampaignManagement = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
+  const userDetails = useContext(CartContext);
+  // console.log(userDetails.userdetails.role);
   function handlePress(text) {
     alert(text);
   }
@@ -26,7 +31,7 @@ const CampaignManagement = ({ navigation }) => {
   const [popularCards, setPopularCards] = useState([
     {
       src: Buildings,
-      title: "Beyond",
+      businessName: "Beyond",
       desc: "",
       Stage: "Idea",
       Team: "Complete",
@@ -52,6 +57,22 @@ const CampaignManagement = ({ navigation }) => {
       status: "Draft",
     },
   ]);
+  // console.log(popularCards);
+
+  // Api call
+  useEffect(() => {
+    const getFreelancersData = async () => {
+      const resp = await getStartups();
+      // console.log(resp.data);
+      if (resp.data.status === "OK") {
+        console.log("done");
+        setPopularCards(resp.data.startUps);
+        // userDetails.setmilestone(resp.data.startUps);
+      }
+    };
+
+    getFreelancersData();
+  }, []);
   return (
     // main container
     <View
@@ -72,13 +93,15 @@ const CampaignManagement = ({ navigation }) => {
         style={{}}
         renderItem={({ item, index }) => (
           <CampaignPopular
-            Src={item.src}
-            title={item.title}
-            Logo={Logo}
-            Stage={item.Stage}
+            Src={Buildings}
+            title={item.businessName}
+            Logo={item.logo}
+            Stage={item.stage}
             Team={item.Team}
-            Budget={item.Budget}
+            Budget={item.budget}
             status={item.status}
+            navigation={navigation}
+            id={item._id}
             style={{
               width: "90%",
               marginHorizontal: 23,

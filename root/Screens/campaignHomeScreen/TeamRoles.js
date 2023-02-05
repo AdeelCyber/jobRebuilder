@@ -21,7 +21,7 @@ import TickPara from "../../Components/TickPara";
 import RolesDropDown from "../../Components/RolesDropDown";
 import Buttons from "../../Components/Buttons";
 import BottomPopup from "../../Components/BottomPopup";
-import { Role } from "../Profile/services/FreeLancerServices";
+import { DeleteRoles, Role } from "../Profile/services/FreeLancerServices";
 const TeamRoles = ({ navigation, route }) => {
   const [modal, setModal] = useState({ modal1: false, modal2: false });
   const [data, setData] = useState(route.params.data);
@@ -29,9 +29,7 @@ const TeamRoles = ({ navigation, route }) => {
   const {
     theme: { colors },
   } = useContext(Context);
-  function handlePress(text) {
-    navigation.navigate("AddRoles");
-  }
+
   const [Roles, setRoles] = useState([
     {
       Title: "Graphic Designer",
@@ -42,20 +40,40 @@ const TeamRoles = ({ navigation, route }) => {
       desc: " Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.",
     },
   ]);
+  // console.log(Roles);
   // Api call
   useEffect(() => {
     const getFreelancersData = async () => {
       const resp = await Role();
 
-      console.log(resp.data);
+      // console.log(resp.data);
       if (resp.data.status === "OK") {
-        console.log(resp.data.projectRoles[0].roles);
+        // console.log(resp.data.projectRoles[0].roles);
         setRoles(resp.data.projectRoles[0].roles);
       }
     };
 
     getFreelancersData();
   }, []);
+
+  function handlePress(text) {
+    if (text === "+ Add new Item") {
+      navigation.navigate("AddRoles", { data: data, set: setRoles });
+    } else if (text === "delete") {
+      console.log(text);
+    }
+  }
+  // Api call
+
+  const DeleteRole = async (startup, milestone) => {
+    // console.log("obj", Obj);
+    const resp = await DeleteRoles(startup, milestone);
+
+    console.log(resp.data.projectRoles.roles);
+    if (resp.data.status === "OK") {
+      setRoles(resp.data.projectRoles.roles);
+    }
+  };
   return (
     // main container
     <ScrollView
@@ -100,6 +118,11 @@ const TeamRoles = ({ navigation, route }) => {
               Title={item.title}
               desc={item.description}
               nav={navigation}
+              handlePress={handlePress}
+              data={data}
+              item={item}
+              set={setRoles}
+              delete={DeleteRole}
             />
           ))}
         </View>

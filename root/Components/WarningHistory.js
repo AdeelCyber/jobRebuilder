@@ -109,7 +109,7 @@ const WarningHistory = ({ designation, image, text, ...props }) => {
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Image
-              source={{ uri: image }}
+              source={{ uri: props.requesterImage }}
               style={{
                 width: 35,
                 height: 35,
@@ -133,7 +133,7 @@ const WarningHistory = ({ designation, image, text, ...props }) => {
                   marginRight: 0,
                 }}
               >
-                {text}
+                {props.requestedBy}
               </MyText>
             </View>
           </View>

@@ -23,9 +23,7 @@ import CircularProgress from "react-native-circular-progress-indicator";
 import Buttons from "../../Components/Buttons";
 import BottomPopup from "../../Components/BottomPopup";
 import BottomPopup2 from "../../Components/BottomPopup2";
-import { useIsFocused } from "@react-navigation/native";
 import CartContext from "../../Context/CartProvider";
-import { DeleteMileStones } from "../Profile/services/FreeLancerServices";
 
 // component
 function MileStoneComponent({ para, ...props }) {
@@ -33,7 +31,7 @@ function MileStoneComponent({ para, ...props }) {
     theme: { colors },
   } = useContext(Context);
 
-  const [progress, setprogress] = useState();
+  const [progress, setprogress] = useState(props.item.progress);
   const [color, setColor] = useState("#8489FC");
   return (
     <View
@@ -54,13 +52,13 @@ function MileStoneComponent({ para, ...props }) {
       >
         <CircularProgress
           radius={30}
-          value={props.item.progress}
+          value={progress}
           progressValueColor={"#000"}
           fontSize={12}
           valueSuffix={"%"}
           inActiveStrokeColor={"#D1D1D1"}
           inActiveStrokeOpacity={1}
-          activeStrokeColor={props.item.progress == 100 ? "#13B887" : "#8489FC"}
+          activeStrokeColor={progress == 100 ? "#13B887" : "#8489FC"}
           activeStrokeWidth={4}
           inActiveStrokeWidth={1}
           duration={3000}
@@ -159,19 +157,16 @@ function useForceUpdate() {
 }
 const MileStone = ({ navigation, route }) => {
   const [data, setData] = useState(route.params.data);
-  const isFocused = useIsFocused();
+  const { milestone, setmilestone } = useContext(CartContext);
+  const forceUpdate = useForceUpdate();
 
   const {
     theme: { colors },
   } = useContext(Context);
-  const contest = useContext(CartContext);
-  const [MileStones, setMileStone] = useState([]);
-  const updateMileStone = (data) => {
-    setMileStone(data);
-  };
-
   function handlePress(text) {
-    navigation.navigate("AddMileStone", { data: data, set: updateMileStone });
+    // navigation.navigate("AddMileStone");
+    useForceUpdate();
+    setRender(!render);
   }
   let popupRef = React.useRef();
   const [modal, setModal] = useState({ modal1: false, modal2: false });
@@ -181,28 +176,24 @@ const MileStone = ({ navigation, route }) => {
 
   // TODO: send send function to edit milestone
 
-  // console.log("MileStone Page", MileStones);
+  // const [MileStones, setMileStone] = useState(milestone);
+  console.log("MileStone Page", milestone);
 
-  useEffect(() => {
-    if (contest.milestone.length !== 0) {
-      setMileStone(contest.milestone);
-    } else {
-      setMileStone(data.startup.milestones);
-    }
-  }, [isFocused]);
-  // Api call
+  const [render, setRender] = useState(false);
 
-  const DeleteMileStone = async (startup, milestone) => {
-    // console.log("obj", Obj);
-    const resp = await DeleteMileStones(startup, milestone);
-
-    // console.log(resp.data);
-    if (resp.data.status === "OK") {
-      contest.setmilestone(resp.data.milestones);
-      setMileStone(resp.data.milestones);
-      // setObj({ ...changed, progress: range });
-    }
+  const updateMileStone = (data) => {
+    // setMileStone(data);
+    setRender(!render);
   };
+  useEffect(() => {
+    done = () => {
+      setmilestone(milestone);
+      forceUpdate();
+      console.log("reneder");
+    };
+    done();
+  }, [render]);
+
   return (
     // main container
     <ScrollView
@@ -228,7 +219,7 @@ const MileStone = ({ navigation, route }) => {
       {/* Little nav out */}
       {/* mile Stones in */}
       <View style={{ paddingHorizontal: 12, marginTop: 10 }}>
-        {MileStones.map((item) => (
+        {milestone.map((item) => (
           <MileStoneComponent
             item={item}
             style={{ marginVertical: 8 }}
@@ -261,8 +252,6 @@ const MileStone = ({ navigation, route }) => {
         nav={navigation}
         data={CurrentMileStone}
         set={updateMileStone}
-        mileStoneArray={data}
-        DeleteMileStone={DeleteMileStone}
       />
     </ScrollView>
   );

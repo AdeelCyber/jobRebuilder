@@ -8,7 +8,7 @@ import {
   TextInput,
 } from "react-native";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Context from "../../Context/Context";
 import CustomHeader2 from "../../Components/CustomHeader2";
 import { Searchbar } from "react-native-paper";
@@ -18,20 +18,53 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DynamicButton from "../../Components/DynamicButton";
 import calender from "../../../assets/Svgs/Calender";
 import questionMark from "../../../assets/Svgs/QuestionMark";
+import { AddMileStones } from "../Profile/services/FreeLancerServices";
+import CartContext from "../../Context/CartProvider";
 
-const AddMileStone = ({ navigation }) => {
+const AddMileStone = ({ navigation, route }) => {
+  const contest = useContext(CartContext);
+  const [data, setData] = useState(route.params.data);
+  // console.log(data);
+  const [commingData, setcommingData] = useState([]);
   const {
     theme: { colors },
   } = useContext(Context);
   const [changed, setchanged] = useState({
-    //title and description
-    Title: "",
-    desc: "",
-    date: "",
+    title: "",
+    description: "",
+    dueDate: "2023-01-30",
   });
+
+  // Api call
+
+  const getFreelancersData = async () => {
+    // console.log("obj", Obj);
+    const resp = await AddMileStones(data.startup._id, changed);
+    // console.log("StartupID == " + data.startup._id);
+    // console.log("changed == " + JSON.stringify(changed));
+    // console.log(resp.data);
+    if (resp.data.status === "OK") {
+      setcommingData(resp.data.milestones);
+      // setObj({ ...changed, progress: range });
+
+      route.params.set(commingData);
+    }
+  };
   function handlePress(text) {
-    alert(text);
+    if (text === "Add Mile Stone") {
+      getFreelancersData();
+      // console.log("hello");
+    }
   }
+
+  useEffect(() => {
+    route.params.set(commingData);
+    contest.setmilestone(commingData);
+    // console.log("iTS length", commingData.length);
+    // if (commingData.length === 0) {
+    //   route.params.set([...route.params.mileStoneArray.startup.milestones]);
+    // }
+  }, [commingData]);
 
   return (
     // main container
@@ -85,7 +118,7 @@ const AddMileStone = ({ navigation }) => {
           <TextInput
             placeholderTextColor="#ACA9A9"
             placeholder="Mile Stone"
-            value={changed.Title}
+            value={changed.title}
             style={{
               backgroundColor: "#EEEEEE",
 
@@ -101,7 +134,7 @@ const AddMileStone = ({ navigation }) => {
             }}
             onChangeText={(got) => {
               {
-                setchanged({ ...changed, Title: got });
+                setchanged({ ...changed, title: got });
               }
             }}
           />
@@ -117,7 +150,7 @@ const AddMileStone = ({ navigation }) => {
               multiline={true}
               placeholderTextColor="#ACA9A9"
               placeholder="Role Description"
-              value={changed.desc}
+              value={changed.description}
               style={{
                 backgroundColor: "#EEEEEE",
 
@@ -136,7 +169,7 @@ const AddMileStone = ({ navigation }) => {
               }}
               onChangeText={(got) => {
                 {
-                  setchanged({ ...changed, desc: got });
+                  setchanged({ ...changed, description: got });
                 }
               }}
             />
@@ -160,10 +193,10 @@ const AddMileStone = ({ navigation }) => {
                   style={{ width: "70%", height: "100%", padding: 5 }}
                   placeholderTextColor="#ACA9A9"
                   placeholder="Due Date"
-                  value={changed.date}
+                  value={changed.dueDate}
                   onChangeText={(got) => {
                     {
-                      setchanged({ ...changed, date: got });
+                      setchanged({ ...changed, dueDate: got });
                     }
                   }}
                 />

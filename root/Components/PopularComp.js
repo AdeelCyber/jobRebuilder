@@ -85,7 +85,9 @@ const PopularComp = (props) => {
             </MyText>
           </View>
           <Pressable
-            onPress={() => props.nav.navigate("CampaignMenu", { id: props.id })}
+            onPress={() =>
+              props.nav.navigate("CampaignManagement", { id: props.id })
+            }
           >
             <AntDesign name="arrowright" size={20} color="black" />
           </Pressable>

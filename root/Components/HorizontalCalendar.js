@@ -18,7 +18,7 @@ const ITEM_OFFSET = ITEM_WIDTH + 18;
 
 function dateSubtractDays(date, days) {
   var result = new Date(date);
-  result.setDate(result.getDate() - days);
+  result.setDate(result.getDate() + days);
   return result;
 }
 
@@ -37,11 +37,11 @@ function isToday(date) {
 function generateHorizontalCalendarDates(days) {
   const today = new Date();
   let result = [];
-  for (let i = 0; i < days; i++) {
+  for (let i = days; i >= 0; i--) {
     result[i] = dateSubtractDays(today, i);
   }
 
-  return result.reverse();
+  return result;
 }
 
 export default function HorizontalCalendar({ selectedDate, setSelectedDate }) {
@@ -49,7 +49,7 @@ export default function HorizontalCalendar({ selectedDate, setSelectedDate }) {
     theme: { colors },
   } = useContext(Context);
   const dates = useMemo(() => {
-    return generateHorizontalCalendarDates(30);
+    return generateHorizontalCalendarDates(15);
   }, []);
 
   const onDatePress = (date) => {

@@ -7,7 +7,7 @@ import {
   Pressable,
   Image,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Context from "../../Context/Context";
 import CustomHeader from "../../Components/CustomHeader2";
 import HeartIcon from "../../../assets/Svgs/HeartIcon";
@@ -29,6 +29,8 @@ import Pattern from "../../../assets/Svgs/WhitePattern";
 import People from "../../../assets/Svgs/WhitePeople";
 import TeamMemberCampaign from "../../Components/TeamMembersCampaign";
 import TeamMemberWarning from "../../Components/TeamMemberWarning";
+import { getStartupDetails } from "../Profile/services/FreeLancerServices";
+import CartContext from "../../Context/CartProvider";
 
 function TodoComponent({ Title, desc, ...props }) {
   const [select, setselected] = useState(true);
@@ -142,7 +144,11 @@ function TodoComponent({ Title, desc, ...props }) {
   );
 }
 
-const ManagingCampaign = ({ navigation }) => {
+const ManagingCampaign = ({ navigation, route }) => {
+  //fetch id params from previous screen into useState
+
+  const [id, setid] = useState(route.params.id);
+  const contest = useContext(CartContext);
   // members array
   const TeamWarning = [
     {
@@ -189,116 +195,179 @@ const ManagingCampaign = ({ navigation }) => {
   ]);
   // upper categories
   const [catgeories, setCategories] = useState([
-    { icon: WhiteEye, text: "Campaign", img: background, itemStyle: 20 },
-    { icon: Pattern, text: "MileStone", img: background },
-    { icon: People, text: "Our Team", img: background, itemStyle: 15 },
+    {
+      icon: WhiteEye,
+      text: "Campaign",
+      img: background,
+      itemStyle: 20,
+      navigation: "CampaignMenu",
+    },
+    {
+      icon: Pattern,
+      text: "MileStone",
+      img: background,
+      navigation: "MileStone",
+    },
+    {
+      icon: People,
+      text: "Our Team",
+      img: background,
+      itemStyle: 15,
+      navigation: "Team",
+    },
   ]);
   const {
     theme: { colors },
   } = useContext(Context);
+
+  // api call
+  const [data, setData] = useState("");
+  const [Loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    const getFreelancersData = async () => {
+      const resp = await getStartupDetails(id);
+
+      console.log(resp.data);
+      if (resp.data.status === "OK") {
+        console.log("done");
+        setData(resp.data);
+        setLoaded(true);
+        // console.log(resp.data.startup.milestones);
+        contest.setmilestone(resp.data.startup.milestones);
+      }
+    };
+
+    getFreelancersData();
+  }, []);
   return (
-    <ScrollView
-      style={{
-        flex: 1,
-        backgroundColor: colors.white,
-      }}
-    >
-      <CustomHeader Title="Beyond" style={{ elevation: 0 }} nav={navigation} />
-      <View style={{ marginTop: 10 }}>
-        <FlatList
-          horizontal
-          data={catgeories}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({ item, index }) => (
-            <HomeCategories
-              svg={item.icon}
-              title={item.text}
-              img={item.img}
-              style={{ marginHorizontal: 10, marginLeft: index == 0 ? 20 : 0 }}
-              itemStyle={item.itemStyle}
-            />
-          )}
+    Loaded && (
+      <ScrollView
+        style={{
+          flex: 1,
+          backgroundColor: colors.white,
+        }}
+      >
+        <CustomHeader
+          Title="Beyond"
+          style={{ elevation: 0 }}
+          nav={navigation}
         />
-      </View>
-      <View style={{ paddingHorizontal: 23 }}>
-        {/* header heading */}
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            paddingRight: 4,
-            marginTop: 30,
-          }}
-        >
-          <MyText style={{ fontSize: 24, fontWeight: "700" }}>To Do</MyText>
-          <MyText
-            style={{ fontWeight: "500", fontSize: 10, color: colors.lighttext }}
-          >
-            View more
-          </MyText>
-        </View>
-        {/* Todo Component */}
-        {Todo.map((item, index) => (
-          <TodoComponent key={index} Title={item.Title} desc={item.desc} />
-        ))}
-
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            paddingRight: 4,
-            marginTop: 30,
-          }}
-        >
-          <MyText style={{ fontSize: 24, fontWeight: "700" }}>
-            Team Members
-          </MyText>
-          <MyText
-            style={{ fontWeight: "500", fontSize: 10, color: colors.lighttext }}
-          >
-            View more
-          </MyText>
-        </View>
-
-        {TeamMembers.map((item) => (
-          <TeamMemberCampaign
-            designation={item.designation}
-            image={item.image}
-            text={item.text}
-            Warnings={item.Warnings}
-            style={{ marginVertical: 12 }}
+        <View style={{ marginTop: 10 }}>
+          <FlatList
+            horizontal
+            data={catgeories}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item, index }) => (
+              <HomeCategories
+                svg={item.icon}
+                title={item.text}
+                navigation={navigation}
+                screen={item.navigation}
+                data={data}
+                img={item.img}
+                style={{
+                  marginHorizontal: 10,
+                  marginLeft: index == 0 ? 20 : 0,
+                }}
+                itemStyle={item.itemStyle}
+              />
+            )}
           />
-        ))}
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            paddingRight: 4,
-            marginTop: 30,
-          }}
-        >
-          <MyText style={{ fontSize: 24, fontWeight: "700" }}>Warnings</MyText>
-          <MyText
-            style={{ fontWeight: "500", fontSize: 10, color: colors.lighttext }}
-          >
-            View more
-          </MyText>
         </View>
+        <View style={{ paddingHorizontal: 23 }}>
+          {/* header heading */}
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingRight: 4,
+              marginTop: 30,
+            }}
+          >
+            <MyText style={{ fontSize: 24, fontWeight: "700" }}>To Do</MyText>
+            <MyText
+              style={{
+                fontWeight: "500",
+                fontSize: 10,
+                color: colors.lighttext,
+              }}
+            >
+              View more
+            </MyText>
+          </View>
+          {/* Todo Component */}
+          {Todo.map((item, index) => (
+            <TodoComponent key={index} Title={item.Title} desc={item.desc} />
+          ))}
 
-        {TeamWarning.map((item) => (
-          <TeamMemberWarning
-            designation={item.designation}
-            image={item.image}
-            text={item.text}
-            Warnings={item.Warnings}
-            style={{ marginVertical: 12 }}
-          />
-        ))}
-      </View>
-    </ScrollView>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingRight: 4,
+              marginTop: 30,
+            }}
+          >
+            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+              Team Members
+            </MyText>
+            <MyText
+              style={{
+                fontWeight: "500",
+                fontSize: 10,
+                color: colors.lighttext,
+              }}
+            >
+              View more
+            </MyText>
+          </View>
+
+          {TeamMembers.map((item) => (
+            <TeamMemberCampaign
+              designation={item.designation}
+              image={item.image}
+              text={item.text}
+              Warnings={item.Warnings}
+              style={{ marginVertical: 12 }}
+            />
+          ))}
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingRight: 4,
+              marginTop: 30,
+            }}
+          >
+            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+              Warnings
+            </MyText>
+            <MyText
+              style={{
+                fontWeight: "500",
+                fontSize: 10,
+                color: colors.lighttext,
+              }}
+            >
+              View more
+            </MyText>
+          </View>
+
+          {TeamWarning.map((item) => (
+            <TeamMemberWarning
+              designation={item.designation}
+              image={item.image}
+              text={item.text}
+              Warnings={item.Warnings}
+              style={{ marginVertical: 12 }}
+            />
+          ))}
+        </View>
+      </ScrollView>
+    )
   );
 };
 

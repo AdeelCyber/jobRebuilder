@@ -20,18 +20,30 @@ const BottomPopup2 = (props) => {
     theme: { colors },
   } = useContext(Context);
   const [open, setopen] = React.useState(props.show);
+  //make update state true false
+  const [update, setupdate] = React.useState(false);
 
   useEffect(() => {
     setopen(props.show);
   }, [props.show, open]);
+  useEffect(() => {
+    setupdate(!update);
+  }, [props.nav]);
 
   const handleit = (msg) => {
     if (msg == "Edit") {
-      props.nav.navigate("EditMileStone");
+      props.nav.navigate("EditMileStone", {
+        data: props.data,
+        set: props.set,
+        mileStoneArray: props.mileStoneArray,
+      });
     } else if (msg == "View") {
       props.nav.navigate("ViewMileStone", { data: props.data });
     } else if (msg == "Delete") {
       console.log("delete");
+      console.log("startup", props.data.startupId);
+      console.log("MileStone", props.data._id);
+      props.DeleteMileStone(props.data.startupId, props.data._id);
     }
     setopen(props.show);
   };

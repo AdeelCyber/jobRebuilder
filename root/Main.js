@@ -96,10 +96,15 @@ const MyStack = () => {
   return (
     <>
       <Stack.Navigator
-        initialRouteName="CampaignMenu"
+        initialRouteName="CampaignManagement"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="CampaignHome" component={CampaignHome} />
+        <Stack.Screen
+          name="CampaignManagement"
+          component={CampaignManagement}
+        />
+        <Stack.Screen name="ManagingCampaign" component={ManagingCampaign} />
         <Stack.Screen name="CampaignMenu" component={CampaignMenu} />
         <Stack.Screen name="OverView" component={OverView} />
         <Stack.Screen name="PartnerShipTerms" component={PartnerShipTerms} />
@@ -117,11 +122,6 @@ const MyStack = () => {
         <Stack.Screen name="AddNewTask" component={AddNewTask} />
         <Stack.Screen name="TeamWarnings" component={TeamWarnings} />
         <Stack.Screen name="Warnings" component={Warnings} />
-        <Stack.Screen
-          name="CampaignManagement"
-          component={CampaignManagement}
-        />
-        <Stack.Screen name="ManagingCampaign" component={ManagingCampaign} />
 
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="SignUp" component={Signup} />
