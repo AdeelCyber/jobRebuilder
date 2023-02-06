@@ -81,12 +81,14 @@ const TeamWarnings = ({ navigation, route }) => {
   const [TeamWarnings, setTeamWarnings] = useState(true);
   //Loading use State
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   //Api call
   useEffect(() => {
     const getFreelancersData = async () => {
       const resp = await getWarnings(id);
       const resp2 = await getRequestedWarnings(id);
       console.log(resp.data.warnings);
+      console.log(resp2.data.warnings);
       if (resp.data.status === "OK" && resp2.data.status === "OK") {
         setTeamWarning(resp.data.warnings);
         // setWaringHistory(resp.data.warnings);
@@ -98,8 +100,26 @@ const TeamWarnings = ({ navigation, route }) => {
 
     getFreelancersData();
   }, []);
+  // api 2
+  useEffect(() => {
+    const getFreelancersData2 = async () => {
+      const resp2 = await getRequestedWarnings(id);
+
+      console.log(resp2.data.warnings);
+      if (resp2.data.status === "OK") {
+        // setTeamWarning(resp.data.warnings);
+        setWaringHistory(resp2.data.warnings);
+
+        // console.log("responded", resp.data.warnings[0].warnings);
+        setLoading2(true);
+      }
+    };
+
+    getFreelancersData2();
+  }, []);
   return (
-    loading && (
+    loading &&
+    loading2 && (
       <View
         style={{
           flex: 1,
@@ -194,17 +214,19 @@ const TeamWarnings = ({ navigation, route }) => {
           <ScrollView showsVerticalScrollIndicator={false}>
             {!TeamWarnings && (
               <View style={{ marginTop: 30 }}>
-                {/* {WarningHistory.map((item) => (
+                {WarningHistory.map((item) => (
                   <WarningHistoryComp
-                    designation={item.designation}
+                    designation={"Ceo"}
                     image={item.warnedTo.avatar}
                     text={item.warnedTo.name}
                     requestedBy={item.warnedBy.name}
                     requesterImage={item.warnedBy.avatar}
                     desc={item.reason}
+                    startupid={id}
+                    warningid={item._id}
                     style={{ marginVertical: 12, marginHorizontal: 20 }}
                   />
-                ))} */}
+                ))}
               </View>
             )}
           </ScrollView>

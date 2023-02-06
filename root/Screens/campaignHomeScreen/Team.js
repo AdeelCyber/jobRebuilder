@@ -153,7 +153,7 @@ const Team = ({ navigation, route }) => {
                   setModalVisible(false);
                   navigation.navigate("Warnings", {
                     data: data,
-                    id: personData.id,
+                    personData: personData,
                   });
                 }}
               >

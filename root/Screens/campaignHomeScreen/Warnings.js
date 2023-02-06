@@ -25,21 +25,42 @@ import { SearchBar } from "react-native-paper";
 import TeamMember from "../../Components/TeamMember";
 import TeamMemberWarning from "../../Components/TeamMemberWarning";
 import WarningHistoryComp from "../../Components/WarningHistory";
+import { SendWarning } from "../Profile/services/FreeLancerServices";
 
-const Warnings = ({ navigation }) => {
+const Warnings = ({ navigation, route }) => {
+  const [data, setData] = useState(route.params.data);
+  const [personData, setPersonData] = useState(route.params.personData); // this is the person data
+
   const {
     theme: { colors },
   } = useContext(Context);
   const TeamWarning = {
-    image: "https://bit.ly/kent-c-dodds",
-    text: "Mike Dean",
-    designation: "Ceo",
+    image: personData.image,
+    text: personData.name,
+    designation: personData.designation,
   };
 
   function handlePress(text) {
-    alert(text);
+    if (text === "Submit Warning") {
+      getFreelancersData();
+    }
   }
   const [input, setinput] = useState("");
+
+  // Api call
+
+  const getFreelancersData = async () => {
+    console.log(data.startup._id, personData.id, input);
+    const resp = await SendWarning(data.startup._id, personData.id, input);
+    console.log(resp.data);
+
+    if (resp.data.status === "OK") {
+      console.log("request send");
+    } else {
+      console.log("request not send");
+    }
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <CustomHeader2

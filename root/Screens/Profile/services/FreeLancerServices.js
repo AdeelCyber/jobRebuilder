@@ -306,3 +306,27 @@ export const EditTodo = async (startup, Task, data) => {
     return error.response;
   }
 };
+// Send Warning Post
+export const SendWarning = async (startup, warnTo, data) => {
+  try {
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1MTEwODA3fQ.8PbjThH_JcuOSBd2lL29mDExLSuSyiBEKGv0_HECJq8";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.post(
+      "warnings/request",
+      {
+        startupId: startup,
+        warningTo: warnTo,
+        reason: data,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
