@@ -34,6 +34,7 @@ import CartContext from "../../Context/CartProvider";
 
 function TodoComponent({ Title, desc, ...props }) {
   const [select, setselected] = useState(true);
+
   const {
     theme: { colors },
   } = useContext(Context);
@@ -104,40 +105,21 @@ function TodoComponent({ Title, desc, ...props }) {
             paddingBottom: 18,
           }}
         >
-          <Image
-            source={{ uri: "https://bit.ly/kent-c-dodds" }}
-            style={{
-              width: 21,
-              height: 21,
-              borderRadius: 10,
-              zIndex: 1,
-              position: "absolute",
-              left: 0,
-            }}
-          />
-          <Image
-            source={{ uri: "https://bit.ly/kent-c-dodds" }}
-            style={{
-              width: 21,
-              height: 21,
-              borderRadius: 10,
-              zIndex: 2,
-              marginRight: 2,
-              position: "absolute",
-              left: 14,
-            }}
-          />
-          <Image
-            source={{ uri: "https://bit.ly/kent-c-dodds" }}
-            style={{
-              width: 21,
-              height: 21,
-              borderRadius: 10,
-              zIndex: 3,
-              position: "absolute",
-              left: 25,
-            }}
-          />
+          {props.item.members.map((item, index) => {
+            return (
+              <Image
+                source={{ uri: item.avatar }}
+                style={{
+                  width: 21,
+                  height: 21,
+                  borderRadius: 10,
+                  zIndex: 1,
+                  position: "absolute",
+                  left: 0,
+                }}
+              />
+            );
+          })}
         </View>
       </View>
     </View>
@@ -181,16 +163,19 @@ const ManagingCampaign = ({ navigation, route }) => {
   ];
   const [Todo, setTodo] = useState([
     {
-      Title: "Design UI for step ev",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.",
+      title: "Design UI for step ev",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.",
     },
     {
-      Title: "Design UI for step ev",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.",
+      title: "Design UI for step ev",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.",
     },
     {
-      Title: "Design UI for step ev",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.",
+      title: "Design UI for step ev",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.",
     },
   ]);
   // upper categories
@@ -223,22 +208,32 @@ const ManagingCampaign = ({ navigation, route }) => {
   // api call
   const [data, setData] = useState("");
   const [Loaded, setLoaded] = useState(false);
+  const [members, setmembers] = useState([]);
   useEffect(() => {
     const getFreelancersData = async () => {
       const resp = await getStartupDetails(id);
 
-      console.log(resp.data);
+      // console.log(resp.data);
       if (resp.data.status === "OK") {
         console.log("done");
+
         setData(resp.data);
-        setLoaded(true);
+        // console.log(data.todos[0].todos);
         // console.log(resp.data.startup.milestones);
         contest.setmilestone(resp.data.startup.milestones);
+        setLoaded(true);
       }
     };
 
     getFreelancersData();
   }, []);
+
+  useEffect(() => {
+    if (data) {
+      setTodo(data.todos[0].todos);
+      setmembers(data.startup.members);
+    }
+  }, [data]);
   return (
     Loaded && (
       <ScrollView
@@ -298,7 +293,13 @@ const ManagingCampaign = ({ navigation, route }) => {
           </View>
           {/* Todo Component */}
           {Todo.map((item, index) => (
-            <TodoComponent key={index} Title={item.Title} desc={item.desc} />
+            <TodoComponent
+              key={index}
+              Title={item.title}
+              desc={item.description}
+              members={item.members}
+              item={item}
+            />
           ))}
 
           <View
@@ -324,12 +325,11 @@ const ManagingCampaign = ({ navigation, route }) => {
             </MyText>
           </View>
 
-          {TeamMembers.map((item) => (
+          {members.map((item) => (
             <TeamMemberCampaign
-              designation={item.designation}
-              image={item.image}
-              text={item.text}
-              Warnings={item.Warnings}
+              designation={item.position}
+              image={item.member.avatar}
+              text={item.member.name}
               style={{ marginVertical: 12 }}
             />
           ))}
@@ -345,15 +345,19 @@ const ManagingCampaign = ({ navigation, route }) => {
             <MyText style={{ fontSize: 24, fontWeight: "700" }}>
               Warnings
             </MyText>
-            <MyText
-              style={{
-                fontWeight: "500",
-                fontSize: 10,
-                color: colors.lighttext,
-              }}
+            <Pressable
+              onPress={() => navigation.navigate("TeamWarnings", { id: id })}
             >
-              View more
-            </MyText>
+              <MyText
+                style={{
+                  fontWeight: "500",
+                  fontSize: 10,
+                  color: colors.lighttext,
+                }}
+              >
+                View more
+              </MyText>
+            </Pressable>
           </View>
 
           {TeamWarning.map((item) => (

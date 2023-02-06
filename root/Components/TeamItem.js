@@ -59,6 +59,12 @@ const TeamItem = (props) => {
         >
           <Pressable
             onPress={() => {
+              props.personData({
+                name: props.text,
+                designation: props.designation,
+                image: props.image,
+                id: props.id,
+              });
               handleClick("Send Warning");
             }}
             style={{
@@ -86,6 +92,7 @@ const TeamItem = (props) => {
                 name: props.text,
                 designation: props.designation,
                 image: props.image,
+                id: props.id,
               });
 
               handleClick("View Profile");

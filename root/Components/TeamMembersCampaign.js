@@ -17,6 +17,7 @@ const TeamMembersCampaign = ({ designation, image, text, ...props }) => {
   } = useContext(Context);
   const [open, setopen] = useState(false);
   const [select, setselected] = useState(true);
+
   return (
     <View
       style={[

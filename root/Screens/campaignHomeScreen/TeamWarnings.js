@@ -24,33 +24,37 @@ import { SearchBar } from "react-native-paper";
 import TeamMember from "../../Components/TeamMember";
 import TeamMemberWarning from "../../Components/TeamMemberWarning";
 import WarningHistoryComp from "../../Components/WarningHistory";
-import { getWarnings } from "../Profile/services/FreeLancerServices";
+import {
+  getRequestedWarnings,
+  getWarnings,
+} from "../Profile/services/FreeLancerServices";
 
-const TeamWarnings = ({ navigation }) => {
+const TeamWarnings = ({ navigation, route }) => {
+  const [id, setid] = useState(route.params.id);
   const {
     theme: { colors },
   } = useContext(Context);
   const [TeamWarning, setTeamWarning] = useState([
     {
-      image: "https://bit.ly/kent-c-dodds",
+      avatar: "https://bit.ly/kent-c-dodds",
       text: "Mike Dean",
       designation: "Ceo",
       Warnings: 2,
     },
     {
-      image: "https://bit.ly/kent-c-dodds",
+      avatar: "https://bit.ly/kent-c-dodds",
       text: "Mike Dean",
       designation: "Ceo",
       Warnings: 2,
     },
     {
-      image: "https://bit.ly/kent-c-dodds",
+      avatar: "https://bit.ly/kent-c-dodds",
       text: "Mike Dean",
       designation: "Ceo",
       Warnings: 2,
     },
     {
-      image: "https://bit.ly/kent-c-dodds",
+      avatar: "https://bit.ly/kent-c-dodds",
       Warnings: 2,
       text: "Mike Dean",
       designation: "Ceo",
@@ -59,13 +63,13 @@ const TeamWarnings = ({ navigation }) => {
   ]);
   const [WarningHistory, setWaringHistory] = useState([
     {
-      image: "https://bit.ly/kent-c-dodds",
+      avatar: "https://bit.ly/kent-c-dodds",
       text: "Mike Dean",
       designation: "Ceo",
       desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur in nostrum molestiae obcaecati sapiente sequi, facere modi possimus labore et!",
     },
     {
-      image: "https://bit.ly/kent-c-dodds",
+      avatar: "https://bit.ly/kent-c-dodds",
       text: "Mike Dean",
       designation: "Ceo",
       desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur in nostrum molestiae obcaecati sapiente sequi, facere modi possimus labore et!",
@@ -80,13 +84,15 @@ const TeamWarnings = ({ navigation }) => {
   //Api call
   useEffect(() => {
     const getFreelancersData = async () => {
-      const resp = await getWarnings();
-      console.log(resp.data);
-      if (resp.data.status === "OK") {
+      const resp = await getWarnings(id);
+      const resp2 = await getRequestedWarnings(id);
+      console.log(resp.data.warnings);
+      if (resp.data.status === "OK" && resp2.data.status === "OK") {
         setTeamWarning(resp.data.warnings);
-        setWaringHistory(resp.data.warnings);
+        // setWaringHistory(resp.data.warnings);
+
+        // console.log("responded", resp.data.warnings[0].warnings);
         setLoading(true);
-        console.log(resp.data.warnings[0].warnedTo);
       }
     };
 
@@ -175,10 +181,10 @@ const TeamWarnings = ({ navigation }) => {
             >
               {TeamWarning.map((item) => (
                 <TeamMemberWarning
-                  designation={"Ceo"}
-                  image={item.warnedTo.avatar}
-                  text={item.warnedTo.name}
-                  Warnings={item.warnedTo.Warnings}
+                  designation={item.warnings.warnedTo.jobTitle}
+                  image={item.warnings.warnedTo.avatar}
+                  text={item.warnings.warnedTo.name}
+                  Warnings={item.WarningCount}
                   style={{ marginVertical: 12, marginHorizontal: 20 }}
                 />
               ))}
@@ -188,7 +194,7 @@ const TeamWarnings = ({ navigation }) => {
           <ScrollView showsVerticalScrollIndicator={false}>
             {!TeamWarnings && (
               <View style={{ marginTop: 30 }}>
-                {WarningHistory.map((item) => (
+                {/* {WarningHistory.map((item) => (
                   <WarningHistoryComp
                     designation={item.designation}
                     image={item.warnedTo.avatar}
@@ -198,7 +204,7 @@ const TeamWarnings = ({ navigation }) => {
                     desc={item.reason}
                     style={{ marginVertical: 12, marginHorizontal: 20 }}
                   />
-                ))}
+                ))} */}
               </View>
             )}
           </ScrollView>

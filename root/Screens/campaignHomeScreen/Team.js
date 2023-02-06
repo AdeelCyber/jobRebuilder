@@ -30,6 +30,7 @@ import RoundQuestionMark from "../../../assets/Svgs/RoundQuestionMark";
 const Team = ({ navigation, route }) => {
   const [data, setData] = useState(route.params.data);
   const [personData, setPersonData] = useState({});
+  console.log(personData);
 
   const {
     theme: { colors },
@@ -37,11 +38,12 @@ const Team = ({ navigation, route }) => {
   function handlePress(text) {
     if (text == "View Profile") {
       setModalSecondVisible(true);
-    } else if (text == "Remove") {
+    } else if (text == "Send Warning") {
       setModalVisible(true);
     }
   }
   const [menu, setmenu] = useState(data.startup.members);
+  // console.log(menu);
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModalSecondVisible, setModalSecondVisible] = useState(false);
@@ -82,6 +84,7 @@ const Team = ({ navigation, route }) => {
             handleClick={handlePress}
             image={member.avatar}
             text={member.name}
+            id={member._id}
             designation={position}
             personData={setPersonData}
           />
@@ -146,7 +149,13 @@ const Team = ({ navigation, route }) => {
                   borderRadius: 4,
                   marginLeft: 3,
                 }}
-                onPress={() => setModalVisible(false)}
+                onPress={() => {
+                  setModalVisible(false);
+                  navigation.navigate("Warnings", {
+                    data: data,
+                    id: personData.id,
+                  });
+                }}
               >
                 <MyText
                   style={{

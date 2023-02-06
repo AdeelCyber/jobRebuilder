@@ -16,7 +16,7 @@ export const getFreelancers = async () => {
   }
 };
 //All Warnings post
-export const getWarnings = async () => {
+export const getWarnings = async (id) => {
   try {
     const token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1NDI0NjAzfQ.OmebzO_GT9asjbRe8BufZOzkUdqE5DI-y5Zqhg3CzJU";
@@ -27,7 +27,27 @@ export const getWarnings = async () => {
     };
     const resp = await axios.post(
       "/startup/getallwarnings",
-      { startupid: "63d82eef251166001f1dceb4" },
+      { startupid: id },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+//All Requested Warnings post
+export const getRequestedWarnings = async (id) => {
+  try {
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1NDI0NjAzfQ.OmebzO_GT9asjbRe8BufZOzkUdqE5DI-y5Zqhg3CzJU";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.post(
+      "startup/getwarningsrequest",
+      { startupid: id },
       config
     );
     return resp;
