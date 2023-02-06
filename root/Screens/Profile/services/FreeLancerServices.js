@@ -180,7 +180,7 @@ export const addRoles = async (startup, data) => {
     return error.response;
   }
 };
-// Mile Stones Post Delete
+// role Post Delete
 export const DeleteRoles = async (startup, role) => {
   try {
     const token =
@@ -197,7 +197,7 @@ export const DeleteRoles = async (startup, role) => {
     return error.response;
   }
 };
-// Mile Stones Put
+// role Put
 export const EditRole = async (startup, role, data) => {
   try {
     const token =
@@ -213,6 +213,71 @@ export const EditRole = async (startup, role, data) => {
         startupid: startup,
         roleid: role,
         newRole: data,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// Todo Add Post
+export const AddTodo = async (startup, data) => {
+  try {
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1MTEwODA3fQ.8PbjThH_JcuOSBd2lL29mDExLSuSyiBEKGv0_HECJq8";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.post(
+      "/startup/addtodo",
+      {
+        startupid: startup,
+
+        newTodo: data,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// Todo  Delete
+export const DeleteTodo = async (startup, role) => {
+  try {
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1MTEwODA3fQ.8PbjThH_JcuOSBd2lL29mDExLSuSyiBEKGv0_HECJq8";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: { startupid: startup, todoid: role },
+    };
+    const resp = await axios.delete("/startup/deletetodo", config);
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// Task Put
+export const EditTodo = async (startup, Task, data) => {
+  try {
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1MTEwODA3fQ.8PbjThH_JcuOSBd2lL29mDExLSuSyiBEKGv0_HECJq8";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.put(
+      "startup/updatetodo",
+      {
+        startupid: startup,
+        todoid: Task,
+        newTodo: data,
       },
       config
     );

@@ -24,10 +24,11 @@ import { SearchBar } from "react-native-paper";
 import TeamMember from "../../Components/TeamMember";
 import * as DocumentPicker from "expo-document-picker";
 import { fileUpload } from "../Profile/services/fileServices";
-import { AddTodo } from "../Profile/services/FreeLancerServices";
+import { AddTodo, EditTodo } from "../Profile/services/FreeLancerServices";
 
-const AddNewTask = ({ navigation, route }) => {
+const EditTask = ({ navigation, route }) => {
   const [data, setData] = useState(route.params.data);
+  const [item, setitem] = useState(route.params.item);
   const {
     theme: { colors },
   } = useContext(Context);
@@ -55,10 +56,10 @@ const AddNewTask = ({ navigation, route }) => {
   ];
   const [changed, setchanged] = useState({
     //title and description
-    title: "",
-    description: "",
-    dueDate: "2023-02-05",
-    file: "",
+    title: item.title,
+    description: item.description,
+    dueDate: item.dueDate,
+    file: item.file,
     members: ["63d824eb4da9d5001e758de2"],
   });
 
@@ -98,16 +99,15 @@ const AddNewTask = ({ navigation, route }) => {
   // Api call
 
   const getFreelancersData = async () => {
-    const resp = await AddTodo(data.startup._id, changed);
+    const resp = await EditTodo(data.startup._id, item._id, changed);
 
     if (resp.data.status === "OK") {
       route.params.set(resp.data.todos.todos);
-      // console.log("resp", resp.data);
     }
   };
 
   function handlePress(text) {
-    if (text === "Add Task") {
+    if (text === "Update") {
       getFreelancersData();
     }
   }
@@ -364,7 +364,7 @@ const AddNewTask = ({ navigation, route }) => {
       >
         <DynamicButton
           handlePress={handlePress}
-          text={"Add Task"}
+          text={"Update"}
           color={colors.secondary}
           textStyle={{ color: colors.white }}
           style={{ borderRadius: 10, paddingVertical: 18 }}
@@ -381,6 +381,6 @@ const AddNewTask = ({ navigation, route }) => {
   );
 };
 
-export default AddNewTask;
+export default EditTask;
 
 const styles = StyleSheet.create({});

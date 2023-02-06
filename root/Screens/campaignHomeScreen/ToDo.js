@@ -29,26 +29,18 @@ import Buttons from "../../Components/Buttons";
 
 const Todo = ({ navigation, route }) => {
   const [data, setData] = useState(route.params.data);
-  // console.log(data);
+  // console.log(data);'
+  // console.log(data.todos[0].todos);
   const {
     theme: { colors },
   } = useContext(Context);
-  function handlePress(text) {
-    alert(text);
-  }
 
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [Roles, setRoles] = useState([
-    {
-      Title: "Design Front end",
-    },
-    {
-      Title: "Design Backend",
-    },
-    {
-      Title: "Design Schema",
-    },
-  ]);
+  const [Roles, setRoles] = useState(data.todos[0].todos);
+
+  function handlePress(text) {
+    navigation.navigate("AddNewTask", { data: data, set: setRoles });
+  }
 
   return (
     // main container
@@ -121,12 +113,16 @@ const Todo = ({ navigation, route }) => {
 
         <FlatList
           data={Roles}
-          keyExtractor={(item) => item.Title}
+          keyExtractor={(item) => item._id}
           contentContainerStyle={{ flexGrow: 1 }}
           renderItem={({ item }) => (
             <TodoListItem
-              Title={item.Title}
+              Title={item.title}
+              item={item}
+              data={data}
+              set={setRoles}
               style={{ marginHorizontal: 23, marginVertical: 10 }}
+              navigation={navigation}
             />
           )}
         />

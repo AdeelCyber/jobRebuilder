@@ -186,6 +186,8 @@ const BuildingStartupScreen1 = ({ navigation }) => {
       }
     };
 
+    // TODO : UPload document
+
     const pickDocument = async () => {
       let result = await DocumentPicker.getDocumentAsync({});
 

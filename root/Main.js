@@ -88,6 +88,7 @@ import MessagesBox from "./Screens/Chat/MessagesBox";
 import TabBar from "./Components/TabBar";
 import NewMessage from "./Screens/Chat/NewMessage";
 import CartProvider from "./Context/CartProvider";
+import EditTask from "./Screens/campaignHomeScreen/EditTask";
 //Navigation out
 
 // Creating Stacks
@@ -125,6 +126,7 @@ const MyStack = () => {
         <Stack.Screen name="AddNewTask" component={AddNewTask} />
         <Stack.Screen name="TeamWarnings" component={TeamWarnings} />
         <Stack.Screen name="Warnings" component={Warnings} />
+        <Stack.Screen name="EditTask" component={EditTask} />
 
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="SignUp" component={Signup} />
