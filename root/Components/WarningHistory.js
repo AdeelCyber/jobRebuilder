@@ -11,12 +11,22 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import msg from "../../assets/Svgs/Message";
+import { WarnApprove } from "../Screens/Profile/services/FreeLancerServices";
 const WarningHistory = ({ designation, image, text, ...props }) => {
   const {
     theme: { colors },
   } = useContext(Context);
   const [open, setopen] = useState(false);
   const [select, setselected] = useState(true);
+
+  const getFreelancersData = async (data) => {
+    const resp = await WarnApprove(props.startupid, props.warningid, data);
+
+    if (resp.data.status === "OK") {
+      console.log("success warned");
+    }
+  };
+
   return (
     // main Container
     <View
@@ -145,6 +155,7 @@ const WarningHistory = ({ designation, image, text, ...props }) => {
                 paddingHorizontal: 25,
                 borderRadius: 4,
               }}
+              onPress={() => getFreelancersData("Rejected")}
             >
               <MyText style={{ fontSize: 10, fontWeight: "500" }}>
                 Reject
@@ -158,6 +169,7 @@ const WarningHistory = ({ designation, image, text, ...props }) => {
                 borderRadius: 4,
                 marginLeft: 3,
               }}
+              onPress={() => getFreelancersData("Approved")}
             >
               <MyText
                 style={{ fontSize: 10, fontWeight: "500", color: colors.white }}

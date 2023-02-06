@@ -87,8 +87,8 @@ const TeamWarnings = ({ navigation, route }) => {
     const getFreelancersData = async () => {
       const resp = await getWarnings(id);
       const resp2 = await getRequestedWarnings(id);
-      console.log(resp.data.warnings);
-      console.log(resp2.data.warnings);
+      // console.log(resp.data.warnings);
+      // console.log(resp2.data.warnings);
       if (resp.data.status === "OK" && resp2.data.status === "OK") {
         setTeamWarning(resp.data.warnings);
         // setWaringHistory(resp.data.warnings);
@@ -105,7 +105,7 @@ const TeamWarnings = ({ navigation, route }) => {
     const getFreelancersData2 = async () => {
       const resp2 = await getRequestedWarnings(id);
 
-      console.log(resp2.data.warnings);
+      // console.log(resp2.data.warnings);
       if (resp2.data.status === "OK") {
         // setTeamWarning(resp.data.warnings);
         setWaringHistory(resp2.data.warnings);

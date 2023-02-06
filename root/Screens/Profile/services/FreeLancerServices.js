@@ -330,3 +330,27 @@ export const SendWarning = async (startup, warnTo, data) => {
     return error.response;
   }
 };
+// approving or rejecting warning
+export const WarnApprove = async (startup, warnTo, data) => {
+  try {
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1MTEwODA3fQ.8PbjThH_JcuOSBd2lL29mDExLSuSyiBEKGv0_HECJq8";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.post(
+      "startup/approvewarning",
+      {
+        startupid: startup,
+        warningid: warnTo,
+        status: data,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
