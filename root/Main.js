@@ -100,7 +100,7 @@ const MyStack = () => {
   return (
     <>
       <Stack.Navigator
-        initialRouteName="CampaignManagement"
+        initialRouteName="LoginScreen"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="CampaignHome" component={CampaignHome} />

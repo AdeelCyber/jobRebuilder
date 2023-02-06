@@ -24,8 +24,9 @@ import CircularProgress from "react-native-circular-progress-indicator";
 import DynamicButton from "../../Components/DynamicButton";
 import pdf from "../../../assets/Svgs/pdf";
 import BottomPopup from "../../Components/BottomPopup";
-import { upload } from "../../Components/DownloadUpload";
-import { uploadFileServer } from "../Profile/services/orderServices";
+
+import * as DocumentPicker from "expo-document-picker";
+import { fileUpload } from "../Profile/services/fileServices";
 
 const PitchDeck = ({ navigation }) => {
   const [modal, setModal] = useState({ modal1: false, modal2: false });
@@ -38,24 +39,31 @@ const PitchDeck = ({ navigation }) => {
   // lets upload the file
   const [fileNameFromServer, setFileNameFromServer] = useState("");
 
-  const uploadFile = async () => {
-    const formData = upload();
-    if (!formData) {
-      return;
-    }
-    const resp = await uploadFileServer(formData);
-    if (resp.status === 200) {
-      setFileNameFromServer(resp.data.filename);
-    }
+  //upload file
+  const [getdoc, setdoc] = useState("");
+
+  const pickDocument = async () => {
+    let result = await DocumentPicker.getDocumentAsync({});
+
+    setdoc(result.uri);
+    const pdf = await fileUpload(result.uri);
+    var filename = result.uri.substring(
+      result.uri.lastIndexOf("/") + 1,
+      result.uri.length
+    );
+    console.log("filename", filename);
+    setchanged({ ...changed, file: filename });
   };
+  //upload out
 
   // action on buttons
   function handlePress(text) {
     alert(text);
     if (text === "Upload New") {
-      uploadFile();
+      pickDocument();
     }
   }
+
   return (
     // main container
     <View
