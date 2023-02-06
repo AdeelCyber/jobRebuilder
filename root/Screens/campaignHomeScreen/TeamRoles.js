@@ -44,7 +44,7 @@ const TeamRoles = ({ navigation, route }) => {
   // Api call
   useEffect(() => {
     const getFreelancersData = async () => {
-      const resp = await Role();
+      const resp = await Role(data.startup._id);
 
       // console.log(resp.data);
       if (resp.data.status === "OK") {

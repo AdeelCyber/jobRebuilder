@@ -1,9 +1,9 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "../../../http/axiosSet";
 //All Freelancers Get
 export const getFreelancers = async () => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2MyZjA2MGJhZGJiNDAwMWY3OWE0YmMiLCJyb2xlIjoiRnJlZWxhbmNlciIsImVtYWlsIjoiYWJkdWxsYWhAZ21haWwuY29tIiwiaWF0IjoxNjc0NTg3MzUyfQ.HVTkY7gBEhgZAlRTEbOqx7-FItyg0Mqsdu8OhMCkr8Y";
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -18,8 +18,7 @@ export const getFreelancers = async () => {
 //All Warnings post
 export const getWarnings = async (id) => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1NDI0NjAzfQ.OmebzO_GT9asjbRe8BufZOzkUdqE5DI-y5Zqhg3CzJU";
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -38,8 +37,7 @@ export const getWarnings = async (id) => {
 //All Requested Warnings post
 export const getRequestedWarnings = async (id) => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1NDI0NjAzfQ.OmebzO_GT9asjbRe8BufZOzkUdqE5DI-y5Zqhg3CzJU";
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -58,8 +56,7 @@ export const getRequestedWarnings = async (id) => {
 //All Startups Get
 export const getStartups = async () => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1MjQ2ODg2fQ.fKcazFTrfGdIbx4s_s8wCx1uhbJizD49BlE-R5VmKIg";
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -74,8 +71,7 @@ export const getStartups = async () => {
 // startup details Post
 export const getStartupDetails = async (id) => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1MTEwODA3fQ.8PbjThH_JcuOSBd2lL29mDExLSuSyiBEKGv0_HECJq8";
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -92,10 +88,9 @@ export const getStartupDetails = async (id) => {
   }
 };
 // Team Roles Post
-export const Role = async () => {
+export const Role = async (id) => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2MyZjA3ZjdlNmQ3MDMzNGNkYWMyZDEiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWxjb20iLCJpYXQiOjE2NzQ4MzM3ODR9.hOYTBCiC1ekH76DWdhnXdcLcl5UYISDQezERIE80iiA";
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -103,7 +98,7 @@ export const Role = async () => {
     };
     const resp = await axios.post(
       "/startup/getstartupRoles",
-      { startupid: "63d82eef251166001f1dceb4" },
+      { startupid: id },
       config
     );
     return resp;
@@ -114,8 +109,7 @@ export const Role = async () => {
 // Mile Stones Put
 export const EditMileStones = async (startup, milestone, data) => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1MTEwODA3fQ.8PbjThH_JcuOSBd2lL29mDExLSuSyiBEKGv0_HECJq8";
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -138,8 +132,7 @@ export const EditMileStones = async (startup, milestone, data) => {
 // Mile Stones Post
 export const AddMileStones = async (startup, data) => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1MTEwODA3fQ.8PbjThH_JcuOSBd2lL29mDExLSuSyiBEKGv0_HECJq8";
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -162,8 +155,7 @@ export const AddMileStones = async (startup, data) => {
 // Mile Stones Post Delete
 export const DeleteMileStones = async (startup, milestone) => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1MTEwODA3fQ.8PbjThH_JcuOSBd2lL29mDExLSuSyiBEKGv0_HECJq8";
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -179,8 +171,7 @@ export const DeleteMileStones = async (startup, milestone) => {
 // Team Roles Add Post
 export const addRoles = async (startup, data) => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1MTEwODA3fQ.8PbjThH_JcuOSBd2lL29mDExLSuSyiBEKGv0_HECJq8";
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -203,8 +194,7 @@ export const addRoles = async (startup, data) => {
 // role Post Delete
 export const DeleteRoles = async (startup, role) => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1MTEwODA3fQ.8PbjThH_JcuOSBd2lL29mDExLSuSyiBEKGv0_HECJq8";
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -220,8 +210,7 @@ export const DeleteRoles = async (startup, role) => {
 // role Put
 export const EditRole = async (startup, role, data) => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1MTEwODA3fQ.8PbjThH_JcuOSBd2lL29mDExLSuSyiBEKGv0_HECJq8";
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -244,8 +233,7 @@ export const EditRole = async (startup, role, data) => {
 // Todo Add Post
 export const AddTodo = async (startup, data) => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1MTEwODA3fQ.8PbjThH_JcuOSBd2lL29mDExLSuSyiBEKGv0_HECJq8";
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -268,8 +256,7 @@ export const AddTodo = async (startup, data) => {
 // Todo  Delete
 export const DeleteTodo = async (startup, role) => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1MTEwODA3fQ.8PbjThH_JcuOSBd2lL29mDExLSuSyiBEKGv0_HECJq8";
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -285,8 +272,7 @@ export const DeleteTodo = async (startup, role) => {
 // Task Put
 export const EditTodo = async (startup, Task, data) => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1MTEwODA3fQ.8PbjThH_JcuOSBd2lL29mDExLSuSyiBEKGv0_HECJq8";
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -309,8 +295,7 @@ export const EditTodo = async (startup, Task, data) => {
 // Send Warning Post
 export const SendWarning = async (startup, warnTo, data) => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1MTEwODA3fQ.8PbjThH_JcuOSBd2lL29mDExLSuSyiBEKGv0_HECJq8";
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -333,8 +318,7 @@ export const SendWarning = async (startup, warnTo, data) => {
 // approving or rejecting warning
 export const WarnApprove = async (startup, warnTo, data) => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q4Mjk2M2Q2MzlkOTAwMWUxOTllOGYiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1MTEwODA3fQ.8PbjThH_JcuOSBd2lL29mDExLSuSyiBEKGv0_HECJq8";
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,

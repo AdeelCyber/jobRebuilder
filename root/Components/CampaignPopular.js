@@ -13,7 +13,7 @@ import Buildings from "../../assets/img/Buildings.png";
 const CampaignPopular = ({
   Src,
   title,
-  status = true,
+  show = true,
   label = "IT Company",
   Logo = { Logo },
   ...props
@@ -198,7 +198,7 @@ const CampaignPopular = ({
         </View>
       </View>
       {/* arrow back over */}
-      {status && (
+      {show && (
         <View
           style={{
             position: "absolute",

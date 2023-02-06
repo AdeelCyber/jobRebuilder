@@ -97,10 +97,11 @@ const CampaignManagement = ({ navigation }) => {
             title={item.businessName}
             Logo={item.logo}
             Stage={item.stage}
-            Team={item.Team}
+            Team={"Complete"}
             Budget={item.budget}
             status={item.status}
             navigation={navigation}
+            label={item.category}
             id={item._id}
             style={{
               width: "90%",
