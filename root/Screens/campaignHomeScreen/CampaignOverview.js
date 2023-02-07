@@ -21,6 +21,7 @@ import TickPara from "../../Components/TickPara";
 import BottomPopup from "../../Components/BottomPopup";
 const OverView = ({ navigation, route }) => {
   const [show, setshow] = useState(route.params.show);
+  const [isPart, setisPart] = useState(route.params.isPart);
   const {
     theme: { colors },
   } = useContext(Context);
@@ -52,6 +53,7 @@ const OverView = ({ navigation, route }) => {
         data={data}
         navigation={navigation}
         show={show}
+        isPart={isPart}
       />
       {/* card out */}
       {/* Little nav in */}

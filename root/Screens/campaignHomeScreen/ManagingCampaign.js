@@ -130,6 +130,7 @@ const ManagingCampaign = ({ navigation, route }) => {
   //fetch id params from previous screen into useState
 
   const [id, setid] = useState(route.params.id);
+  // console.log(id);
   const [show, setshow] = useState(route.params.show);
   const contest = useContext(CartContext);
   // members array
@@ -231,8 +232,12 @@ const ManagingCampaign = ({ navigation, route }) => {
 
   useEffect(() => {
     if (data) {
-      if (data.todos[0].todos) {
+      if (data.todos[0] !== undefined) {
+        console.log(console.log(data.todos));
         setTodo(data.todos[0].todos);
+      } else {
+        setTodo([]);
+        console.log("no todos");
       }
       setmembers(data.startup.members);
     }
@@ -264,6 +269,7 @@ const ManagingCampaign = ({ navigation, route }) => {
                 data={data}
                 img={item.img}
                 show={show}
+                id={id}
                 style={{
                   marginHorizontal: 10,
                   marginLeft: index == 0 ? 20 : 0,

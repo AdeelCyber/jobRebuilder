@@ -31,6 +31,7 @@ import { fileUpload } from "../Profile/services/fileServices";
 const PitchDeck = ({ navigation, route }) => {
   const [show, setshow] = useState(route.params.show);
   const [modal, setModal] = useState({ modal1: false, modal2: false });
+  const [isPart, setisPart] = useState(route.params.isPart);
   const {
     theme: { colors },
   } = useContext(Context);
@@ -93,6 +94,7 @@ const PitchDeck = ({ navigation, route }) => {
             Thumbnail={Thumbnail}
             modal={setModal}
             show={show}
+            isPart={isPart}
           />
           {/* card out */}
           {/* Little nav in */}

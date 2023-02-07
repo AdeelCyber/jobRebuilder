@@ -59,7 +59,7 @@ const AddNewTask = ({ navigation, route }) => {
     description: "",
     dueDate: "2023-02-05",
     file: "",
-    members: ["63d824eb4da9d5001e758de2"],
+    members: ["63e28e3d6fc91d001e00404e"],
   });
 
   const [search, setSearch] = useState("");

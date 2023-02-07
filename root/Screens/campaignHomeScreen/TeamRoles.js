@@ -24,6 +24,7 @@ import BottomPopup from "../../Components/BottomPopup";
 import { DeleteRoles, Role } from "../Profile/services/FreeLancerServices";
 const TeamRoles = ({ navigation, route }) => {
   const [show, setshow] = useState(route.params.show);
+  const [isPart, setisPart] = useState(route.params.isPart);
   const [modal, setModal] = useState({ modal1: false, modal2: false });
   const [data, setData] = useState(route.params.data);
 
@@ -31,16 +32,7 @@ const TeamRoles = ({ navigation, route }) => {
     theme: { colors },
   } = useContext(Context);
 
-  const [Roles, setRoles] = useState([
-    {
-      Title: "Graphic Designer",
-      desc: " Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.",
-    },
-    {
-      Title: "Graphic Designer",
-      desc: " Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.",
-    },
-  ]);
+  const [Roles, setRoles] = useState([]);
   // console.log(Roles);
   // Api call
   useEffect(() => {
@@ -96,6 +88,7 @@ const TeamRoles = ({ navigation, route }) => {
         data={data}
         navigation={navigation}
         show={show}
+        isPart={isPart}
       />
       {/* card out */}
       {/* Little nav in */}

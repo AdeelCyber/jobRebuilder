@@ -22,6 +22,7 @@ import BottomPopup from "../../Components/BottomPopup";
 const PartnerShipTerms = ({ navigation, route }) => {
   const [show, setshow] = useState(route.params.show);
   const [data, setData] = useState(route.params.data);
+  const [isPart, setisPart] = useState(route.params.isPart);
   const {
     theme: { colors },
   } = useContext(Context);
@@ -50,6 +51,7 @@ const PartnerShipTerms = ({ navigation, route }) => {
         data={data}
         navigation={navigation}
         show={show}
+        isPart={isPart}
       />
       {/* card out */}
       {/* Little nav in */}

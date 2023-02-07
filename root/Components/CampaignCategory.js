@@ -44,6 +44,7 @@ const HomeCategories = ({ svg, title, ...props }) => {
           props.navigation.navigate(`${props.screen}`, {
             data: props.data,
             show: props.show,
+            id: props.id,
           })
         }
       >

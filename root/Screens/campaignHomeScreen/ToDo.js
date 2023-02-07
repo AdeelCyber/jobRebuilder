@@ -7,7 +7,7 @@ import {
   Pressable,
 } from "react-native";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Context from "../../Context/Context";
 import CustomHeader2 from "../../Components/CustomHeader2";
 import { Searchbar } from "react-native-paper";
@@ -37,12 +37,20 @@ const Todo = ({ navigation, route }) => {
   } = useContext(Context);
 
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [Roles, setRoles] = useState(data.todos[0].todos);
+  const [Roles, setRoles] = useState([]);
 
   function handlePress(text) {
     navigation.navigate("AddNewTask", { data: data, set: setRoles });
   }
-
+  useEffect(() => {
+    if (data.todos[0] !== undefined) {
+      console.log("OK 54");
+      setRoles(data.todos[0].todos);
+    } else {
+      setRoles([]);
+      console.log("OK 56");
+    }
+  }, []);
   return (
     // main container
     <View

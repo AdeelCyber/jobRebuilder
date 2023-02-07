@@ -21,6 +21,7 @@ const CampaignPopular = ({
   const {
     theme: { colors },
   } = useContext(Context);
+  // console.log(props.id);
   return (
     <View
       style={[

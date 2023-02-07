@@ -63,72 +63,92 @@ const CampaignCard = ({ ...props }) => {
         <Image source={props.Thumbnail} style={{}} />
 
         {/* Buttons View in */}
-        <View
-          style={{
-            flexDirection: "row",
-            width: "100%",
-            justifyContent: "space-between",
-          }}
-        >
-          <Pressable
+        {props.isPart ? (
+          <View
             style={{
-              backgroundColor: colors.secondary,
-              justifyContent: "center",
-              alignItems: "center",
-              paddingHorizontal: 50,
-              paddingVertical: 10,
               flexDirection: "row",
-              borderRadius: 5,
-            }}
-            onPress={() => {
-              props.navigation.navigate("Team", {
-                data: props.data,
-                show: props.show,
-              });
+              width: "100%",
+              justifyContent: "space-between",
             }}
           >
-            <SvgImport svg={Team} />
-            <MyText
+            <Pressable
               style={{
-                color: colors.white,
-                fontSize: 16,
-                fontWeight: "500",
-                marginLeft: 10,
+                backgroundColor: colors.secondary,
+                justifyContent: "center",
+                alignItems: "center",
+                paddingHorizontal: 50,
+                paddingVertical: 10,
+                flexDirection: "row",
+                borderRadius: 5,
+              }}
+              onPress={() => {
+                props.navigation.navigate("Team", {
+                  data: props.data,
+                  show: props.show,
+                });
               }}
             >
-              Team
-            </MyText>
-          </Pressable>
+              <SvgImport svg={Team} />
+              <MyText
+                style={{
+                  color: colors.white,
+                  fontSize: 16,
+                  fontWeight: "500",
+                  marginLeft: 10,
+                }}
+              >
+                Team
+              </MyText>
+            </Pressable>
+            <Pressable
+              style={{
+                backgroundColor: colors.white,
+                justifyContent: "center",
+                alignItems: "center",
+                paddingHorizontal: 50,
+                paddingVertical: 10,
+                flexDirection: "row",
+                borderRadius: 5,
+                borderWidth: 1,
+              }}
+              onPress={() => {
+                props.navigation.navigate("Todo", {
+                  data: props.data,
+                  show: props.show,
+                });
+              }}
+            >
+              <SvgImport svg={todo} />
+              <MyText
+                style={{
+                  fontSize: 16,
+                  fontWeight: "500",
+                  marginLeft: 10,
+                }}
+              >
+                To do
+              </MyText>
+            </Pressable>
+          </View>
+        ) : (
           <Pressable
             style={{
-              backgroundColor: colors.white,
-              justifyContent: "center",
-              alignItems: "center",
-              paddingHorizontal: 50,
-              paddingVertical: 10,
-              flexDirection: "row",
-              borderRadius: 5,
+              width: "100%",
               borderWidth: 1,
-            }}
-            onPress={() => {
-              props.navigation.navigate("Todo", {
-                data: props.data,
-                show: props.show,
-              });
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: colors.text,
+              borderRadius: 10,
+              paddingVertical: 10,
             }}
           >
-            <SvgImport svg={todo} />
             <MyText
-              style={{
-                fontSize: 16,
-                fontWeight: "500",
-                marginLeft: 10,
-              }}
+              style={{ color: colors.white, fontSize: 16, fontWeight: "500" }}
             >
-              To do
+              Apply
             </MyText>
           </Pressable>
-        </View>
+        )}
       </View>
     </View>
   );
