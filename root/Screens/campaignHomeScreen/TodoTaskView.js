@@ -27,6 +27,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { DeleteTodo } from "../Profile/services/FreeLancerServices";
 
 const TodoTaskView = ({ navigation, route }) => {
+  const [show, setshow] = useState(route.params.show);
   const [data, setData] = useState(route.params.data);
   const [item, setitem] = useState(route.params.item);
 
@@ -165,42 +166,45 @@ const TodoTaskView = ({ navigation, route }) => {
           }}
         >
           {/* Both Icons in */}
-          <View
-            style={{
-              flexDirection: "row",
-
-              alignItems: "center",
-            }}
-          >
-            <Pressable
-              style={{ marginRight: 10 }}
-              onPress={() => DeleteMileStone(data.startup._id, item._id)}
-            >
-              <AntDesign name="delete" size={24} color="black" />
-            </Pressable>
+          {show && (
             <View
               style={{
-                justifyContent: "center",
-                alignItems: "center",
-                height: "35%",
+                flexDirection: "row",
 
-                borderLeftWidth: 1,
-                borderColor: "#DEDEDE",
+                alignItems: "center",
               }}
-            ></View>
-            <Pressable
-              style={{ marginLeft: 10 }}
-              onPress={() =>
-                navigation.navigate("EditTask", {
-                  set: route.params.set,
-                  item: route.params.item,
-                  data: route.params.data,
-                })
-              }
             >
-              <MaterialIcons name="edit" size={24} color="black" />
-            </Pressable>
-          </View>
+              <Pressable
+                style={{ marginRight: 10 }}
+                onPress={() => DeleteMileStone(data.startup._id, item._id)}
+              >
+                <AntDesign name="delete" size={24} color="black" />
+              </Pressable>
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "35%",
+
+                  borderLeftWidth: 1,
+                  borderColor: "#DEDEDE",
+                }}
+              ></View>
+              <Pressable
+                style={{ marginLeft: 10 }}
+                onPress={() =>
+                  navigation.navigate("EditTask", {
+                    set: route.params.set,
+                    item: route.params.item,
+                    data: route.params.data,
+                  })
+                }
+              >
+                <MaterialIcons name="edit" size={24} color="black" />
+              </Pressable>
+            </View>
+          )}
+          {!show && <View></View>}
           {/* Both Icons Out */}
           <DynamicButton
             text="Complete"
@@ -208,6 +212,7 @@ const TodoTaskView = ({ navigation, route }) => {
               backgroundColor: "#E8E8E8",
               width: "50%",
               paddingVertical: 15,
+              alignSelf: "flex-end",
             }}
             textStyle={{ color: "#232323" }}
             handlePress={handlePress}

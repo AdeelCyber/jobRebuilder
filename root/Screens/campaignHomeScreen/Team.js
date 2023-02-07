@@ -156,6 +156,7 @@ const Team = ({ navigation, route }) => {
                   navigation.navigate("Warnings", {
                     data: data,
                     personData: personData,
+                    show: show,
                   });
                 }}
               >

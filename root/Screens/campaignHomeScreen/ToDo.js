@@ -28,6 +28,7 @@ import TodoListItem from "../../Components/TodoListItem";
 import Buttons from "../../Components/Buttons";
 
 const Todo = ({ navigation, route }) => {
+  const [show, setshow] = useState(route.params.show);
   const [data, setData] = useState(route.params.data);
   // console.log(data);'
   // console.log(data.todos[0].todos);
@@ -123,26 +124,29 @@ const Todo = ({ navigation, route }) => {
               set={setRoles}
               style={{ marginHorizontal: 23, marginVertical: 10 }}
               navigation={navigation}
+              show={show}
             />
           )}
         />
 
         {/* Todo item out */}
       </View>
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: 10,
-        }}
-      >
-        <Buttons
-          color={colors.text}
-          text=" + Add new Task"
-          style={{ width: "50%", alignSelf: "center" }}
-          pass={handlePress}
-        />
-      </View>
+      {show && (
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 10,
+          }}
+        >
+          <Buttons
+            color={colors.text}
+            text=" + Add new Task"
+            style={{ width: "50%", alignSelf: "center" }}
+            pass={handlePress}
+          />
+        </View>
+      )}
     </View>
   );
 };

@@ -38,6 +38,7 @@ const TodoListItem = ({ Title, ...props }) => {
           item: props.item,
           set: props.set,
           data: props.data,
+          show: props.show,
         })
       }
     >

@@ -26,8 +26,10 @@ import TeamMember from "../../Components/TeamMember";
 import TeamMemberWarning from "../../Components/TeamMemberWarning";
 import WarningHistoryComp from "../../Components/WarningHistory";
 import { SendWarning } from "../Profile/services/FreeLancerServices";
+import { Ionicons } from "@expo/vector-icons";
 
 const Warnings = ({ navigation, route }) => {
+  const [show, setshow] = useState(route.params.show);
   const [data, setData] = useState(route.params.data);
   const [personData, setPersonData] = useState(route.params.personData); // this is the person data
 
@@ -118,22 +120,26 @@ const Warnings = ({ navigation, route }) => {
             </View>
           </View>
           {/* 2 */}
-          <Pressable
-            style={{
-              backgroundColor: colors.secondary,
-              paddingVertical: 10,
-              paddingHorizontal: 26,
-              borderRadius: 4,
-              marginLeft: 3,
-            }}
-            onPress={() => handlePress("chat")}
-          >
-            <MyText
-              style={{ fontSize: 10, fontWeight: "500", color: colors.white }}
+          {show ? (
+            <Pressable
+              style={{
+                backgroundColor: colors.secondary,
+                paddingVertical: 10,
+                paddingHorizontal: 26,
+                borderRadius: 4,
+                marginLeft: 3,
+              }}
+              onPress={() => handlePress("chat")}
             >
-              Chat
-            </MyText>
-          </Pressable>
+              <MyText
+                style={{ fontSize: 10, fontWeight: "500", color: colors.white }}
+              >
+                Chat
+              </MyText>
+            </Pressable>
+          ) : (
+            <Ionicons name="warning" size={26} color="#F50303" />
+          )}
         </View>
         {/* header out */}
         {/* Text box and heading */}
