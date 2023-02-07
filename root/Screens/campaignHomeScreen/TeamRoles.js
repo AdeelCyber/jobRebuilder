@@ -23,6 +23,7 @@ import Buttons from "../../Components/Buttons";
 import BottomPopup from "../../Components/BottomPopup";
 import { DeleteRoles, Role } from "../Profile/services/FreeLancerServices";
 const TeamRoles = ({ navigation, route }) => {
+  const [show, setshow] = useState(route.params.show);
   const [modal, setModal] = useState({ modal1: false, modal2: false });
   const [data, setData] = useState(route.params.data);
 
@@ -94,6 +95,7 @@ const TeamRoles = ({ navigation, route }) => {
         modal={setModal}
         data={data}
         navigation={navigation}
+        show={show}
       />
       {/* card out */}
       {/* Little nav in */}
@@ -123,27 +125,29 @@ const TeamRoles = ({ navigation, route }) => {
               item={item}
               set={setRoles}
               delete={DeleteRole}
+              show={show}
             />
           ))}
         </View>
       </View>
       {/* roles out */}
       {/* Black Button */}
-
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: 10,
-        }}
-      >
-        <Buttons
-          color={colors.text}
-          text="+ Add new Item"
-          style={{ width: "50%", alignSelf: "center" }}
-          pass={handlePress}
-        />
-      </View>
+      {show && (
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 10,
+          }}
+        >
+          <Buttons
+            color={colors.text}
+            text="+ Add new Item"
+            style={{ width: "50%", alignSelf: "center" }}
+            pass={handlePress}
+          />
+        </View>
+      )}
       <BottomPopup show={modal.modal1} setshow={setModal} />
     </ScrollView>
   );

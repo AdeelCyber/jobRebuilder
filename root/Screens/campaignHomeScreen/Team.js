@@ -28,6 +28,7 @@ import ReactNativeModal from "react-native-modal";
 import RoundQuestionMark from "../../../assets/Svgs/RoundQuestionMark";
 
 const Team = ({ navigation, route }) => {
+  const [show, setshow] = useState(route.params.show);
   const [data, setData] = useState(route.params.data);
   const [personData, setPersonData] = useState({});
   console.log(personData);
@@ -87,6 +88,7 @@ const Team = ({ navigation, route }) => {
             id={member._id}
             designation={position}
             personData={setPersonData}
+            show={show}
           />
         ))}
       </View>

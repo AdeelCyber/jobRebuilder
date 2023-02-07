@@ -20,6 +20,7 @@ import LittleNav from "../../Components/LittleNav";
 import TickPara from "../../Components/TickPara";
 import BottomPopup from "../../Components/BottomPopup";
 const OverView = ({ navigation, route }) => {
+  const [show, setshow] = useState(route.params.show);
   const {
     theme: { colors },
   } = useContext(Context);
@@ -50,6 +51,7 @@ const OverView = ({ navigation, route }) => {
         modal={setModal}
         data={data}
         navigation={navigation}
+        show={show}
       />
       {/* card out */}
       {/* Little nav in */}

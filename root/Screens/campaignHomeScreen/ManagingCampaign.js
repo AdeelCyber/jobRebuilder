@@ -130,6 +130,7 @@ const ManagingCampaign = ({ navigation, route }) => {
   //fetch id params from previous screen into useState
 
   const [id, setid] = useState(route.params.id);
+  const [show, setshow] = useState(route.params.show);
   const contest = useContext(CartContext);
   // members array
   const TeamWarning = [
@@ -230,7 +231,9 @@ const ManagingCampaign = ({ navigation, route }) => {
 
   useEffect(() => {
     if (data) {
-      setTodo(data.todos[0].todos);
+      if (data.todos[0].todos) {
+        setTodo(data.todos[0].todos);
+      }
       setmembers(data.startup.members);
     }
   }, [data]);
@@ -260,6 +263,7 @@ const ManagingCampaign = ({ navigation, route }) => {
                 screen={item.navigation}
                 data={data}
                 img={item.img}
+                show={show}
                 style={{
                   marginHorizontal: 10,
                   marginLeft: index == 0 ? 20 : 0,
@@ -333,42 +337,47 @@ const ManagingCampaign = ({ navigation, route }) => {
               style={{ marginVertical: 12 }}
             />
           ))}
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              paddingRight: 4,
-              marginTop: 30,
-            }}
-          >
-            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
-              Warnings
-            </MyText>
-            <Pressable
-              onPress={() => navigation.navigate("TeamWarnings", { id: id })}
-            >
-              <MyText
-                style={{
-                  fontWeight: "500",
-                  fontSize: 10,
-                  color: colors.lighttext,
-                }}
-              >
-                View more
-              </MyText>
-            </Pressable>
-          </View>
 
-          {TeamWarning.map((item) => (
-            <TeamMemberWarning
-              designation={item.designation}
-              image={item.image}
-              text={item.text}
-              Warnings={item.Warnings}
-              style={{ marginVertical: 12 }}
-            />
-          ))}
+          {show ? (
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                paddingRight: 4,
+                marginTop: 30,
+              }}
+            >
+              <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+                Warnings
+              </MyText>
+              <Pressable
+                onPress={() => navigation.navigate("TeamWarnings", { id: id })}
+              >
+                <MyText
+                  style={{
+                    fontWeight: "500",
+                    fontSize: 10,
+                    color: colors.lighttext,
+                  }}
+                >
+                  View more
+                </MyText>
+              </Pressable>
+            </View>
+          ) : null}
+
+          {show
+            ? TeamWarning.map((item) => (
+                <TeamMemberWarning
+                  designation={item.designation}
+                  image={item.image}
+                  text={item.text}
+                  Warnings={item.Warnings}
+                  style={{ marginVertical: 12 }}
+                />
+              ))
+            : null}
         </View>
       </ScrollView>
     )

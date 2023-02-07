@@ -152,25 +152,57 @@ const CampaignPopular = ({
           </MyText>
         </View>
         {/*  4 button */}
-        <Pressable
-          style={{
-            backgroundColor: colors.secondary,
+        {show ? (
+          <Pressable
+            style={{
+              backgroundColor: colors.secondary,
 
-            paddingHorizontal: 8,
-            paddingVertical: 7,
-            borderRadius: 5,
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-          onPress={() => {
-            props.navigation.navigate("ManagingCampaign", { id: props.id });
-          }}
-        >
-          <SvgImport svg={edit} style={{ marginRight: 4 }} />
-          <MyText style={{ fontSize: 11, color: colors.white, marginLeft: 4 }}>
-            Edit Campaign
-          </MyText>
-        </Pressable>
+              paddingHorizontal: 8,
+              paddingVertical: 7,
+              borderRadius: 5,
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+            onPress={() => {
+              props.navigation.navigate("ManagingCampaign", {
+                id: props.id,
+                show: show,
+              });
+            }}
+          >
+            <SvgImport svg={edit} style={{ marginRight: 4 }} />
+            <MyText
+              style={{ fontSize: 11, color: colors.white, marginLeft: 4 }}
+            >
+              Edit Campaign
+            </MyText>
+          </Pressable>
+        ) : (
+          <Pressable
+            style={{
+              backgroundColor: colors.secondary,
+
+              paddingHorizontal: 8,
+              paddingVertical: 7,
+              borderRadius: 5,
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+            onPress={() => {
+              props.navigation.navigate("ManagingCampaign", {
+                id: props.id,
+                show: show,
+              });
+            }}
+          >
+            <MyText
+              style={{ fontSize: 11, color: colors.white, marginLeft: 4 }}
+            >
+              View Campaign
+            </MyText>
+          </Pressable>
+        )}
+        {/* 4 out */}
       </View>
       {/* arrow back */}
       <View

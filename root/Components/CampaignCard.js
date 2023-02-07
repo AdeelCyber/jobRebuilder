@@ -81,7 +81,10 @@ const CampaignCard = ({ ...props }) => {
               borderRadius: 5,
             }}
             onPress={() => {
-              props.navigation.navigate("Team", { data: props.data });
+              props.navigation.navigate("Team", {
+                data: props.data,
+                show: props.show,
+              });
             }}
           >
             <SvgImport svg={Team} />
@@ -108,7 +111,10 @@ const CampaignCard = ({ ...props }) => {
               borderWidth: 1,
             }}
             onPress={() => {
-              props.navigation.navigate("Todo", { data: props.data });
+              props.navigation.navigate("Todo", {
+                data: props.data,
+                show: props.show,
+              });
             }}
           >
             <SvgImport svg={todo} />

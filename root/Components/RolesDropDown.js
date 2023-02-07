@@ -81,47 +81,49 @@ const RolesDropDown = ({ Title, desc, ...props }) => {
           >
             {desc}
           </MyText>
-          <View
-            style={{
-              flexDirection: "row",
-              marginTop: 20,
-
-              alignItems: "center",
-            }}
-          >
-            <Pressable
-              style={{ marginRight: 10 }}
-              onPress={() => {
-                console.log(props.data.startup._id, props.item._id);
-
-                props.delete(props.data.startup._id, props.item._id);
-              }}
-            >
-              <AntDesign name="delete" size={24} color="black" />
-            </Pressable>
+          {props.show && (
             <View
               style={{
-                justifyContent: "center",
-                alignItems: "center",
-                height: "90%",
+                flexDirection: "row",
+                marginTop: 20,
 
-                borderLeftWidth: 1,
-                borderColor: "#DEDEDE",
-              }}
-            ></View>
-            <Pressable
-              style={{ marginLeft: 10 }}
-              onPress={() => {
-                props.nav.navigate("EditRoles", {
-                  data: props.data,
-                  item: props.item,
-                  set: update,
-                });
+                alignItems: "center",
               }}
             >
-              <MaterialIcons name="edit" size={24} color="black" />
-            </Pressable>
-          </View>
+              <Pressable
+                style={{ marginRight: 10 }}
+                onPress={() => {
+                  console.log(props.data.startup._id, props.item._id);
+
+                  props.delete(props.data.startup._id, props.item._id);
+                }}
+              >
+                <AntDesign name="delete" size={24} color="black" />
+              </Pressable>
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "90%",
+
+                  borderLeftWidth: 1,
+                  borderColor: "#DEDEDE",
+                }}
+              ></View>
+              <Pressable
+                style={{ marginLeft: 10 }}
+                onPress={() => {
+                  props.nav.navigate("EditRoles", {
+                    data: props.data,
+                    item: props.item,
+                    set: update,
+                  });
+                }}
+              >
+                <MaterialIcons name="edit" size={24} color="black" />
+              </Pressable>
+            </View>
+          )}
         </View>
       )}
     </View>

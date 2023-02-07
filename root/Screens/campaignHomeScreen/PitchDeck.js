@@ -28,7 +28,8 @@ import BottomPopup from "../../Components/BottomPopup";
 import * as DocumentPicker from "expo-document-picker";
 import { fileUpload } from "../Profile/services/fileServices";
 
-const PitchDeck = ({ navigation }) => {
+const PitchDeck = ({ navigation, route }) => {
+  const [show, setshow] = useState(route.params.show);
   const [modal, setModal] = useState({ modal1: false, modal2: false });
   const {
     theme: { colors },
@@ -91,6 +92,7 @@ const PitchDeck = ({ navigation }) => {
             Logo={logo}
             Thumbnail={Thumbnail}
             modal={setModal}
+            show={show}
           />
           {/* card out */}
           {/* Little nav in */}
@@ -124,30 +126,33 @@ const PitchDeck = ({ navigation }) => {
 
         {/* Buttons in */}
         {/* Buttons View In */}
-        <View
-          style={{
-            flexDirection: "row",
-            width: "100%",
-            paddingHorizontal: 10,
-            justifyContent: "space-between",
-            marginVertical: 20,
-          }}
-        >
-          <DynamicButton
-            handlePress={handlePress}
-            text={"Cancel"}
-            color={"#FF0000"}
-            textStyle={{ color: colors.white }}
-            style={{ width: "48%", borderRadius: 15 }}
-          />
-          <DynamicButton
-            handlePress={handlePress}
-            text={"Upload New"}
-            color={colors.text}
-            textStyle={{ color: colors.white }}
-            style={{ width: "48%", borderRadius: 15 }}
-          />
-        </View>
+
+        {show && (
+          <View
+            style={{
+              flexDirection: "row",
+              width: "100%",
+              paddingHorizontal: 10,
+              justifyContent: "space-between",
+              marginVertical: 20,
+            }}
+          >
+            <DynamicButton
+              handlePress={handlePress}
+              text={"Cancel"}
+              color={"#FF0000"}
+              textStyle={{ color: colors.white }}
+              style={{ width: "48%", borderRadius: 15 }}
+            />
+            <DynamicButton
+              handlePress={handlePress}
+              text={"Upload New"}
+              color={colors.text}
+              textStyle={{ color: colors.white }}
+              style={{ width: "48%", borderRadius: 15 }}
+            />
+          </View>
+        )}
       </View>
 
       {/* Buttons out */}

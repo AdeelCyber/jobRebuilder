@@ -21,6 +21,7 @@ import BottomPopup from "../../Components/BottomPopup";
 import { getStartupDetails } from "../Profile/services/FreeLancerServices";
 
 const CampaignMenu = ({ navigation, route }) => {
+  const [show, setshow] = useState(route.params.show);
   const {
     theme: { colors },
   } = useContext(Context);
@@ -66,6 +67,7 @@ const CampaignMenu = ({ navigation, route }) => {
         modal={setModal}
         data={data}
         navigation={navigation}
+        show={show}
       />
       {/* card out */}
       {/* Little nav in */}
@@ -78,7 +80,9 @@ const CampaignMenu = ({ navigation, route }) => {
       <View>
         {/* 1 */}
         <Pressable
-          onPress={() => navigation.navigate("OverView", { data: data })}
+          onPress={() =>
+            navigation.navigate("OverView", { data: data, show: show })
+          }
           style={{
             backgroundColor: colors.listback,
             paddingVertical: 15,
@@ -97,7 +101,9 @@ const CampaignMenu = ({ navigation, route }) => {
         </Pressable>
         {/* 2 */}
         <Pressable
-          onPress={() => navigation.navigate("TeamRoles", { data: data })}
+          onPress={() =>
+            navigation.navigate("TeamRoles", { data: data, show: show })
+          }
           style={{
             backgroundColor: colors.listback,
             paddingVertical: 15,
@@ -117,7 +123,7 @@ const CampaignMenu = ({ navigation, route }) => {
         {/* 3 */}
         <Pressable
           onPress={() =>
-            navigation.navigate("PartnerShipTerms", { data: data })
+            navigation.navigate("PartnerShipTerms", { data: data, show: show })
           }
           style={{
             backgroundColor: colors.listback,
@@ -138,7 +144,9 @@ const CampaignMenu = ({ navigation, route }) => {
       </View>
       {/* Little nav in */}
       <Pressable
-        onPress={() => navigation.navigate("MileStone", { data: data })}
+        onPress={() =>
+          navigation.navigate("MileStone", { data: data, show: show })
+        }
       >
         <LittleNav
           title={"Milestones"}
@@ -148,7 +156,9 @@ const CampaignMenu = ({ navigation, route }) => {
       </Pressable>
       {/* Little nav out */}
       <Pressable
-        onPress={() => navigation.navigate("PitchDeck", { data: data })}
+        onPress={() =>
+          navigation.navigate("PitchDeck", { data: data, show: show })
+        }
         style={{
           backgroundColor: colors.listback,
           paddingVertical: 15,

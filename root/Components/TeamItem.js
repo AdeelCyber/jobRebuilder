@@ -116,52 +116,56 @@ const TeamItem = (props) => {
               View Profile
             </MyText>
           </Pressable>
-          <Pressable
-            onPress={() => {
-              handleClick("Remove");
-            }}
-            style={{
-              flexDirection: "row",
-              padding: 5,
-              borderBottomColor: colors.white,
-              borderBottomWidth: 0.2,
-            }}
-          >
-            <Ionicons name="remove-circle" size={15} color="#F50303" />
-            <MyText
+          {props.show && (
+            <Pressable
+              onPress={() => {
+                handleClick("Remove");
+              }}
               style={{
-                color: "#fff",
-                marginLeft: 5,
-                fontWeight: "400",
-                fontSize: 10,
+                flexDirection: "row",
+                padding: 5,
+                borderBottomColor: colors.white,
+                borderBottomWidth: 0.2,
               }}
             >
-              Remove
-            </MyText>
-          </Pressable>
-          <Pressable
-            onPress={() => {
-              handleClick("Copy Profile Url");
-            }}
-            style={{
-              flexDirection: "row",
-              padding: 5,
-              borderBottomColor: colors.white,
-              borderBottomWidth: 0.2,
-            }}
-          >
-            <Ionicons name="link" size={15} color="#8489FC" />
-            <MyText
+              <Ionicons name="remove-circle" size={15} color="#F50303" />
+              <MyText
+                style={{
+                  color: "#fff",
+                  marginLeft: 5,
+                  fontWeight: "400",
+                  fontSize: 10,
+                }}
+              >
+                Remove
+              </MyText>
+            </Pressable>
+          )}
+          {props.show && (
+            <Pressable
+              onPress={() => {
+                handleClick("Copy Profile Url");
+              }}
               style={{
-                color: "#fff",
-                marginLeft: 5,
-                fontWeight: "400",
-                fontSize: 10,
+                flexDirection: "row",
+                padding: 5,
+                borderBottomColor: colors.white,
+                borderBottomWidth: 0.2,
               }}
             >
-              Copy Profile Url
-            </MyText>
-          </Pressable>
+              <Ionicons name="link" size={15} color="#8489FC" />
+              <MyText
+                style={{
+                  color: "#fff",
+                  marginLeft: 5,
+                  fontWeight: "400",
+                  fontSize: 10,
+                }}
+              >
+                Copy Profile Url
+              </MyText>
+            </Pressable>
+          )}
         </View>
       )}
     </View>

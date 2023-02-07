@@ -73,6 +73,7 @@ function MileStoneComponent({ para, ...props }) {
       </View>
       {/* widget off */}
       {/* text in */}
+
       <View style={{ flex: 1 }}>
         {/* head in */}
         <View
@@ -82,16 +83,26 @@ function MileStoneComponent({ para, ...props }) {
             paddingHorizontal: 5,
           }}
         >
-          <MyText
-            style={{
-              color: colors.black,
-              fontWeight: "500",
-              fontSize: 16,
-              lineHeight: 20,
+          <Pressable
+            onPress={() => {
+              props.data({
+                ...props.item,
+                startupId: props.Credentials.startup._id,
+              });
+              // props.nav.navigate("ViewMileStone", { data: props.send });
             }}
           >
-            {props.item.title}
-          </MyText>
+            <MyText
+              style={{
+                color: colors.black,
+                fontWeight: "500",
+                fontSize: 16,
+                lineHeight: 20,
+              }}
+            >
+              {props.item.title}
+            </MyText>
+          </Pressable>
           <Pressable
             onPress={() => {
               props.modal((currents) => ({ ...currents, modal2: true }));
@@ -158,6 +169,7 @@ function useForceUpdate() {
   // is better than directly setting `setValue(value + 1)`
 }
 const MileStone = ({ navigation, route }) => {
+  const [show, setshow] = useState(route.params.show);
   const [data, setData] = useState(route.params.data);
   const isFocused = useIsFocused();
 
@@ -171,15 +183,15 @@ const MileStone = ({ navigation, route }) => {
   };
 
   function handlePress(text) {
-    navigation.navigate("AddMileStone", { data: data, set: updateMileStone });
+    if (text == "+ Add new Item") {
+      navigation.navigate("AddMileStone", { data: data, set: updateMileStone });
+    }
   }
   let popupRef = React.useRef();
   const [modal, setModal] = useState({ modal1: false, modal2: false });
 
   const [CurrentMileStone, setCurrentMileStone] = useState({});
   // console.log(CurrentMileStone);
-
-  // TODO: send send function to edit milestone
 
   // console.log("MileStone Page", MileStones);
 
@@ -221,6 +233,7 @@ const MileStone = ({ navigation, route }) => {
         Logo={logo}
         Thumbnail={Thumbnail}
         modal={setModal}
+        show={show}
       />
       {/* card out */}
       {/* Little nav in */}
@@ -234,26 +247,30 @@ const MileStone = ({ navigation, route }) => {
             style={{ marginVertical: 8 }}
             modal={setModal}
             data={setCurrentMileStone}
+            send={CurrentMileStone}
             Credentials={data}
+            nav={navigation}
           />
         ))}
       </View>
       {/* mile Stones out */}
       {/* Button in */}
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: 10,
-        }}
-      >
-        <Buttons
-          color={colors.text}
-          text=" + Add new Item"
-          style={{ width: "50%", alignSelf: "center" }}
-          pass={handlePress}
-        />
-      </View>
+      {show && (
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 10,
+          }}
+        >
+          <Buttons
+            color={colors.text}
+            text="+ Add new Item"
+            style={{ width: "50%", alignSelf: "center" }}
+            pass={handlePress}
+          />
+        </View>
+      )}
       <BottomPopup show={modal.modal1} setshow={setModal} />
       <BottomPopup2
         show={modal.modal2}
@@ -263,6 +280,7 @@ const MileStone = ({ navigation, route }) => {
         set={updateMileStone}
         mileStoneArray={data}
         DeleteMileStone={DeleteMileStone}
+        visible={show}
       />
     </ScrollView>
   );

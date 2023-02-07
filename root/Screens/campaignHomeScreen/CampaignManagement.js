@@ -22,8 +22,7 @@ const CampaignManagement = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context);
-  const userDetails = useContext(CartContext);
-  // console.log(userDetails.userdetails.role);
+
   function handlePress(text) {
     alert(text);
   }
@@ -73,6 +72,14 @@ const CampaignManagement = ({ navigation }) => {
 
     getFreelancersData();
   }, []);
+  const userDetails = useContext(CartContext);
+  console.log(userDetails.userdetails.role);
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    if (userDetails.userdetails.role === "Startup Owner") {
+      setShow(true);
+    }
+  }, []);
   return (
     // main container
     <View
@@ -102,6 +109,7 @@ const CampaignManagement = ({ navigation }) => {
             status={item.status}
             navigation={navigation}
             label={item.category}
+            show={show}
             id={item._id}
             style={{
               width: "90%",

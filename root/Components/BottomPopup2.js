@@ -117,35 +117,41 @@ const BottomPopup2 = (props) => {
           ></View>
           {/* list component in */}
           {/* 1 */}
-          <View
-            style={{
-              width: "100%",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              padding: 5,
-              marginVertical: 5,
-            }}
-          >
-            <MyText style={{ fontSize: 16, color: colors.Red }}>Delete</MyText>
-            <Pressable onPress={() => handleit("Delete")}>
-              <AntDesign name="delete" size={24} color={colors.Red} />
-            </Pressable>
-          </View>
+          {props.visible && (
+            <View
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                padding: 5,
+                marginVertical: 5,
+              }}
+            >
+              <MyText style={{ fontSize: 16, color: colors.Red }}>
+                Delete
+              </MyText>
+              <Pressable onPress={() => handleit("Delete")}>
+                <AntDesign name="delete" size={24} color={colors.Red} />
+              </Pressable>
+            </View>
+          )}
           {/* 2 */}
-          <View
-            style={{
-              width: "100%",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              padding: 5,
-              marginVertical: 5,
-            }}
-          >
-            <MyText style={{ fontSize: 16 }}>Edit Milestones</MyText>
-            <Pressable onPress={() => handleit("Edit")}>
-              <MaterialIcons name="edit" size={24} color="black" />
-            </Pressable>
-          </View>
+          {props.visible && (
+            <View
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                padding: 5,
+                marginVertical: 5,
+              }}
+            >
+              <MyText style={{ fontSize: 16 }}>Edit Milestones</MyText>
+              <Pressable onPress={() => handleit("Edit")}>
+                <MaterialIcons name="edit" size={24} color="black" />
+              </Pressable>
+            </View>
+          )}
           {/* 3 */}
           <View
             style={{

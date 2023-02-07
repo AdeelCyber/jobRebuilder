@@ -62,7 +62,8 @@ export const getStartups = async () => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const resp = await axios.get("/startup/getallStartups", config);
+
+    const resp = await axios.get("/startup/getclientStartups", config);
     return resp;
   } catch (error) {
     return error.response;
