@@ -172,7 +172,7 @@ const MileStone = ({ navigation, route }) => {
   const [show, setshow] = useState(route.params.show);
   const [data, setData] = useState(route.params.data);
   const [isPart, setisPart] = useState(route.params.isPart);
-  const [undefinedd, setundefined] = useState(route.params.undefinedd);
+  const [undefinedd, setundefined] = useState(true); //route.params.undefinedd
   const isFocused = useIsFocused();
 
   const {
@@ -187,6 +187,9 @@ const MileStone = ({ navigation, route }) => {
   function handlePress(text) {
     if (text == "+ Add new Item") {
       navigation.navigate("AddMileStone", { data: data, set: updateMileStone });
+    }
+    if (text == "Register") {
+      navigation.navigate("LoginScreen");
     }
   }
   let popupRef = React.useRef();
@@ -259,7 +262,7 @@ const MileStone = ({ navigation, route }) => {
       </View>
       {/* mile Stones out */}
       {/* Button in */}
-      {show && (
+      {show ? (
         <View
           style={{
             justifyContent: "center",
@@ -274,7 +277,22 @@ const MileStone = ({ navigation, route }) => {
             pass={handlePress}
           />
         </View>
-      )}
+      ) : undefinedd ? (
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 10,
+          }}
+        >
+          <Buttons
+            color={colors.text}
+            text="Register"
+            style={{ width: "50%", alignSelf: "center" }}
+            pass={handlePress}
+          />
+        </View>
+      ) : null}
       <BottomPopup show={modal.modal1} setshow={setModal} />
       <BottomPopup2
         show={modal.modal2}
