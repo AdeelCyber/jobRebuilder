@@ -210,6 +210,7 @@ const ManagingCampaign = ({ navigation, route }) => {
   // api call
   const [data, setData] = useState("");
   const [Loaded, setLoaded] = useState(false);
+  const [Loaded2, setLoaded2] = useState(false);
   const [members, setmembers] = useState([]);
   useEffect(() => {
     const getFreelancersData = async () => {

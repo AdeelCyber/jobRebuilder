@@ -325,7 +325,30 @@ export const SendWarning = async (startup, warnTo, data) => {
       },
     };
     const resp = await axios.post(
-      "warnings/request",
+      "/startup/warnmember",
+      {
+        startupid: startup,
+        memberid: warnTo,
+        reason: data,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// Send Warning Post
+export const SendRequestWarning = async (startup, warnTo, data) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.post(
+      "/warnings/request",
       {
         startupId: startup,
         warningTo: warnTo,
