@@ -232,7 +232,7 @@ const ManagingCampaign = ({ navigation, route }) => {
 
   useEffect(() => {
     if (data) {
-      if (data.todos !== undefined) {
+      if (data.todos[0] !== undefined) {
         console.log(console.log(data.todos));
         setTodo(data.todos[0].todos);
       } else {

@@ -107,6 +107,7 @@ const AddNewTask = ({ navigation, route }) => {
     if (resp.data.status === "OK") {
       route.params.set(resp.data.todos.todos);
       // console.log("resp", resp.data);
+      navigation.goBack();
     }
   };
 
