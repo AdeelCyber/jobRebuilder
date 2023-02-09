@@ -45,6 +45,8 @@ const HomeCategories = ({ svg, title, ...props }) => {
             data: props.data,
             show: props.show,
             id: props.id,
+            isPart: props.isPart,
+            undefinedd: props.undefinedd,
           })
         }
       >

@@ -243,6 +243,26 @@ const ManagingCampaign = ({ navigation, route }) => {
       setmembers(data.startup.members);
     }
   }, [data]);
+  const userDetails = useContext(CartContext);
+  console.log(userDetails.userdetails.role);
+  const [undefinedd, setundefined] = useState(false);
+  const [isPart, setispart] = useState(true);
+  //second line of defence
+  useEffect(() => {
+    if (data) {
+      if (data.todos !== undefined) {
+        console.log(console.log(data.todos));
+      } else {
+        setispart(false);
+        console.log("no todos");
+      }
+    }
+    if (userDetails.userdetails.role === undefined) {
+      setundefined(true);
+      console.log("user is undefined");
+    }
+  }, [data]);
+
   return (
     Loaded && (
       <ScrollView
@@ -271,6 +291,8 @@ const ManagingCampaign = ({ navigation, route }) => {
                 img={item.img}
                 show={show}
                 id={id}
+                isPart={isPart}
+                undefinedd={undefinedd}
                 style={{
                   marginHorizontal: 10,
                   marginLeft: index == 0 ? 20 : 0,
