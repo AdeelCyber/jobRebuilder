@@ -53,7 +53,7 @@ const CampaignMenu = ({ navigation, route }) => {
 
   const userDetails = useContext(CartContext);
   console.log(userDetails.userdetails.role);
-  const [undefinedd, setundefined] = useState(false);
+  const [undefinedd, setundefined] = useState(true);
   const [isPart, setispart] = useState(true);
   useEffect(() => {
     if (data) {
@@ -93,6 +93,7 @@ const CampaignMenu = ({ navigation, route }) => {
           navigation={navigation}
           show={show}
           isPart={isPart}
+          undefinedd={undefinedd}
         />
         {/* card out */}
         {/* Little nav in */}
@@ -110,6 +111,7 @@ const CampaignMenu = ({ navigation, route }) => {
                 data: data,
                 show: show,
                 isPart: isPart,
+                undefinedd: undefinedd,
               })
             }
             style={{
@@ -161,6 +163,7 @@ const CampaignMenu = ({ navigation, route }) => {
                 data: data,
                 show: show,
                 isPart: isPart,
+                undefinedd: undefinedd,
               })
             }
             style={{
@@ -187,6 +190,7 @@ const CampaignMenu = ({ navigation, route }) => {
               data: data,
               show: show,
               isPart: isPart,
+              undefinedd: undefinedd,
             })
           }
         >
@@ -203,6 +207,7 @@ const CampaignMenu = ({ navigation, route }) => {
               data: data,
               show: show,
               isPart: isPart,
+              undefinedd: undefinedd,
             })
           }
           style={{

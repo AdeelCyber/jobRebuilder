@@ -172,6 +172,7 @@ const MileStone = ({ navigation, route }) => {
   const [show, setshow] = useState(route.params.show);
   const [data, setData] = useState(route.params.data);
   const [isPart, setisPart] = useState(route.params.isPart);
+  const [undefinedd, setundefined] = useState(route.params.undefinedd);
   const isFocused = useIsFocused();
 
   const {
@@ -236,6 +237,7 @@ const MileStone = ({ navigation, route }) => {
         modal={setModal}
         show={show}
         isPart={isPart}
+        undefinedd={undefinedd}
       />
       {/* card out */}
       {/* Little nav in */}

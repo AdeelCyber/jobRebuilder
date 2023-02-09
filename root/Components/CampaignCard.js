@@ -130,7 +130,7 @@ const CampaignCard = ({ ...props }) => {
               </MyText>
             </Pressable>
           </View>
-        ) : (
+        ) : props.undefinedd ? null : (
           <Pressable
             style={{
               width: "100%",

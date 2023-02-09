@@ -92,6 +92,7 @@ const TeamRoles = ({ navigation, route }) => {
         navigation={navigation}
         show={show}
         isPart={isPart}
+        undefinedd={undefinedd}
       />
       {/* card out */}
       {/* Little nav in */}
