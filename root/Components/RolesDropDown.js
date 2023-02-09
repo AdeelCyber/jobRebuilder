@@ -8,12 +8,27 @@ import SvgImport from "./SvgImport";
 import { Entypo } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { RoleApply } from "../Screens/Profile/services/FreeLancerServices";
+
 const RolesDropDown = ({ Title, desc, ...props }) => {
   const {
     theme: { colors },
   } = useContext(Context);
   const [open, setopen] = useState(false);
   const [select, setselected] = useState(true);
+  // Api call apply for roles
+
+  const [applied, setApplied] = useState(false);
+
+  const getFreelancersData = async () => {
+    const resp = await RoleApply(props.data.startup._id, props.item._id);
+
+    console.log(resp.data);
+
+    if (resp.data.status === "OK") {
+      setApplied(true);
+    }
+  };
 
   const update = (data) => {
     props.set(data);
@@ -127,20 +142,35 @@ const RolesDropDown = ({ Title, desc, ...props }) => {
           ) : !props.show && !props.isPart ? (
             <Pressable
               style={{
-                backgroundColor: colors.secondary,
+                backgroundColor: applied ? "#F3F3F3" : colors.secondary,
                 paddingHorizontal: 25,
                 paddingVertical: 10,
-                width: 100,
+                width: "38%",
+
                 justifyContent: "center",
                 alignItems: "center",
                 borderRadius: 5,
                 marginTop: 15,
               }}
+              onPress={() => {
+                if (!props.undefinedd) {
+                  getFreelancersData();
+                } else {
+                  props.setmodal(true);
+                }
+              }}
             >
               <MyText
-                style={{ color: colors.white, fontSize: 16, fontWeight: "500" }}
+                style={{
+                  color: applied ? colors.text : colors.white,
+                  fontSize: 16,
+                  fontWeight: "500",
+                }}
               >
-                Apply
+                {applied && (
+                  <AntDesign name="checkcircle" size={16} color="black" />
+                )}
+                {applied ? "Applied" : "Apply"}
               </MyText>
             </Pressable>
           ) : null}

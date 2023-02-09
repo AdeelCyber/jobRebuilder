@@ -25,8 +25,11 @@ import { DeleteRoles, Role } from "../Profile/services/FreeLancerServices";
 const TeamRoles = ({ navigation, route }) => {
   const [show, setshow] = useState(route.params.show);
   const [isPart, setisPart] = useState(route.params.isPart);
+  const [undefinedd, setundefined] = useState(route.params.undefinedd);
+  console.log("undefinedd", undefinedd);
   const [modal, setModal] = useState({ modal1: false, modal2: false });
   const [data, setData] = useState(route.params.data);
+  const [modal2, setModal2] = useState(false);
 
   const {
     theme: { colors },
@@ -120,6 +123,8 @@ const TeamRoles = ({ navigation, route }) => {
               delete={DeleteRole}
               show={show}
               isPart={isPart}
+              undefinedd={undefinedd}
+              setmodal={setModal2}
             />
           ))}
         </View>

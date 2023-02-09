@@ -135,6 +135,7 @@ const CampaignMenu = ({ navigation, route }) => {
                 data: data,
                 show: show,
                 isPart: isPart,
+                undefinedd: undefinedd,
               })
             }
             style={{

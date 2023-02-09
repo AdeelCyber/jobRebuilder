@@ -232,6 +232,28 @@ export const EditRole = async (startup, role, data) => {
     return error.response;
   }
 };
+// role Put
+export const RoleApply = async (startup, role) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.post(
+      "jobs/apply",
+      {
+        startupId: startup,
+        roleId: role,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
 // Todo Add Post
 export const AddTodo = async (startup, data) => {
   try {
