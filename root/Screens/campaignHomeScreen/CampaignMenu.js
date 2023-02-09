@@ -57,8 +57,8 @@ const CampaignMenu = ({ navigation, route }) => {
   const [isPart, setispart] = useState(true);
   useEffect(() => {
     if (data) {
-      if (data.todos[0] !== undefined) {
-        // console.log(console.log(data.todos[0]));
+      if (data.todos !== undefined) {
+        console.log(console.log(data.todos));
       } else {
         setispart(false);
         console.log("no todos");
