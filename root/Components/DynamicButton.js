@@ -10,6 +10,7 @@ const DynamicButton = ({
   color = "#8489FC",
   text = "Update",
   logo = false,
+
   ...props
 }) => {
   const {

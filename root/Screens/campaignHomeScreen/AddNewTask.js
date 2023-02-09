@@ -82,6 +82,7 @@ const AddNewTask = ({ navigation, route }) => {
   };
   //upload file
   const [getdoc, setdoc] = useState("");
+  const [upload, setupload] = useState(false);
 
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
@@ -94,6 +95,7 @@ const AddNewTask = ({ navigation, route }) => {
     );
     console.log("filename", filename);
     setchanged({ ...changed, file: filename });
+    setupload(true);
   };
   //upload out
 
@@ -175,7 +177,7 @@ const AddNewTask = ({ navigation, route }) => {
           >
             <TextInput
               placeholderTextColor="#ACA9A9"
-              placeholder="Mile Stone"
+              placeholder="Task title"
               value={changed.title}
               style={{
                 backgroundColor: "#EEEEEE",
@@ -367,9 +369,13 @@ const AddNewTask = ({ navigation, route }) => {
         <DynamicButton
           handlePress={handlePress}
           text={"Add Task"}
-          color={colors.secondary}
           textStyle={{ color: colors.white }}
-          style={{ borderRadius: 10, paddingVertical: 18 }}
+          style={{
+            borderRadius: 10,
+            paddingVertical: 18,
+          }}
+          color={upload ? "#8489FC" : "#8489FC66"}
+          disabled={upload}
         />
         <DynamicButton
           handlePress={handlePress}
