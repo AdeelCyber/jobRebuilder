@@ -37,10 +37,15 @@ const Todo = ({ navigation, route }) => {
   } = useContext(Context);
 
   const [selectedDate, setSelectedDate] = useState(new Date());
+
   const [Roles, setRoles] = useState([]);
 
   function handlePress(text) {
-    navigation.navigate("AddNewTask", { data: data, set: setRoles });
+    navigation.navigate("AddNewTask", {
+      data: data,
+      set: setRoles,
+      date: selectedDate,
+    });
   }
   useEffect(() => {
     if (data.todos[0] !== undefined) {

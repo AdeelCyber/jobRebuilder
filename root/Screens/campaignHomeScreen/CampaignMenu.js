@@ -53,7 +53,7 @@ const CampaignMenu = ({ navigation, route }) => {
 
   const userDetails = useContext(CartContext);
   console.log(userDetails.userdetails.role);
-  const [undefinedd, setundefined] = useState(true);
+  const [undefinedd, setundefined] = useState(false);
   const [isPart, setispart] = useState(true);
   useEffect(() => {
     if (data) {

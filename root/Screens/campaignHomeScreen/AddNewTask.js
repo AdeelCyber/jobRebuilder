@@ -28,6 +28,8 @@ import { AddTodo } from "../Profile/services/FreeLancerServices";
 
 const AddNewTask = ({ navigation, route }) => {
   const [data, setData] = useState(route.params.data);
+  const [date, setDate] = useState(route.params.date);
+
   const {
     theme: { colors },
   } = useContext(Context);
@@ -57,7 +59,7 @@ const AddNewTask = ({ navigation, route }) => {
     //title and description
     title: "",
     description: "",
-    dueDate: "2023-02-05",
+    dueDate: `${date}`,
     file: "",
     members: ["63e28e3d6fc91d001e00404e"],
   });
@@ -285,7 +287,7 @@ const AddNewTask = ({ navigation, route }) => {
                     style={{ width: "70%", height: "100%", padding: 5 }}
                     placeholderTextColor="#ACA9A9"
                     placeholder="Due Date"
-                    value={changed.dueDate}
+                    value={changed.dueDate.substring(0, 10)}
                     onChangeText={(got) => {
                       {
                         setchanged({ ...changed, dueDate: got });
