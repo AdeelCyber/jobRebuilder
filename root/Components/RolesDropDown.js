@@ -81,7 +81,8 @@ const RolesDropDown = ({ Title, desc, ...props }) => {
           >
             {desc}
           </MyText>
-          {props.show && (
+
+          {props.show ? (
             <View
               style={{
                 flexDirection: "row",
@@ -123,7 +124,26 @@ const RolesDropDown = ({ Title, desc, ...props }) => {
                 <MaterialIcons name="edit" size={24} color="black" />
               </Pressable>
             </View>
-          )}
+          ) : !props.show && !props.isPart ? (
+            <Pressable
+              style={{
+                backgroundColor: colors.secondary,
+                paddingHorizontal: 25,
+                paddingVertical: 10,
+                width: 100,
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 5,
+                marginTop: 15,
+              }}
+            >
+              <MyText
+                style={{ color: colors.white, fontSize: 16, fontWeight: "500" }}
+              >
+                Apply
+              </MyText>
+            </Pressable>
+          ) : null}
         </View>
       )}
     </View>

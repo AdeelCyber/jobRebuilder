@@ -119,6 +119,7 @@ const TeamRoles = ({ navigation, route }) => {
               set={setRoles}
               delete={DeleteRole}
               show={show}
+              isPart={isPart}
             />
           ))}
         </View>
