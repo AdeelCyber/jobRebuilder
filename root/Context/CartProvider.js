@@ -5,6 +5,7 @@ export function CartProvider({ children }) {
   const [accessToken, setaccessToken] = useState("");
   const [refreshToken, setrefreshToken] = useState("");
   const [userdetails, setuserdetails] = useState([]);
+  const [milestone, setmilestone] = useState([]);
   const [socket, setsocket] = useState();
 
   return (
@@ -16,6 +17,8 @@ export function CartProvider({ children }) {
         setrefreshToken,
         userdetails,
         setuserdetails,
+        milestone,
+        setmilestone,
         socket,
         setsocket,
       }}

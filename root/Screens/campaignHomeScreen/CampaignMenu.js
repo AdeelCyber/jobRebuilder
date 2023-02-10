@@ -19,8 +19,11 @@ import Thumbnail from "../../../assets/img/Thumbnail.png";
 import LittleNav from "../../Components/LittleNav";
 import BottomPopup from "../../Components/BottomPopup";
 import { getStartupDetails } from "../Profile/services/FreeLancerServices";
+import CartContext from "../../Context/CartProvider";
 
-const CampaignMenu = ({ navigation }) => {
+const CampaignMenu = ({ navigation, route }) => {
+  const [show, setshow] = useState(route.params.show);
+  const [id, setid] = useState(route.params.id);
   const {
     theme: { colors },
   } = useContext(Context);
@@ -33,18 +36,39 @@ const CampaignMenu = ({ navigation }) => {
   // Api call
   useEffect(() => {
     const getFreelancersData = async () => {
-      const resp = await getStartupDetails();
+      const resp = await getStartupDetails(id);
 
       // console.log(resp.data);
       if (resp.data.status === "OK") {
         console.log("done");
+
         setData(resp.data);
+
         setLoaded(true);
       }
     };
 
     getFreelancersData();
   }, []);
+
+  const userDetails = useContext(CartContext);
+  console.log(userDetails.userdetails.role);
+  const [undefinedd, setundefined] = useState(false);
+  const [isPart, setispart] = useState(true);
+  useEffect(() => {
+    if (data) {
+      if (data.todos !== undefined) {
+        console.log(console.log(data.todos));
+      } else {
+        setispart(false);
+        console.log("no todos");
+      }
+    }
+    if (userDetails.userdetails.role === undefined) {
+      setundefined(true);
+      console.log("user is undefined");
+    }
+  }, [data]);
 
   return (
     Loaded && (
@@ -67,6 +91,9 @@ const CampaignMenu = ({ navigation }) => {
           modal={setModal}
           data={data}
           navigation={navigation}
+          show={show}
+          isPart={isPart}
+          undefinedd={undefinedd}
         />
         {/* card out */}
         {/* Little nav in */}
@@ -79,7 +106,14 @@ const CampaignMenu = ({ navigation }) => {
         <View>
           {/* 1 */}
           <Pressable
-            onPress={() => navigation.navigate("OverView", { data: data })}
+            onPress={() =>
+              navigation.navigate("OverView", {
+                data: data,
+                show: show,
+                isPart: isPart,
+                undefinedd: undefinedd,
+              })
+            }
             style={{
               backgroundColor: colors.listback,
               paddingVertical: 15,
@@ -98,7 +132,14 @@ const CampaignMenu = ({ navigation }) => {
           </Pressable>
           {/* 2 */}
           <Pressable
-            onPress={() => navigation.navigate("TeamRoles", { data: data })}
+            onPress={() =>
+              navigation.navigate("TeamRoles", {
+                data: data,
+                show: show,
+                isPart: isPart,
+                undefinedd: undefinedd,
+              })
+            }
             style={{
               backgroundColor: colors.listback,
               paddingVertical: 15,
@@ -118,7 +159,12 @@ const CampaignMenu = ({ navigation }) => {
           {/* 3 */}
           <Pressable
             onPress={() =>
-              navigation.navigate("PartnerShipTerms", { data: data })
+              navigation.navigate("PartnerShipTerms", {
+                data: data,
+                show: show,
+                isPart: isPart,
+                undefinedd: undefinedd,
+              })
             }
             style={{
               backgroundColor: colors.listback,
@@ -139,7 +185,14 @@ const CampaignMenu = ({ navigation }) => {
         </View>
         {/* Little nav in */}
         <Pressable
-          onPress={() => navigation.navigate("MileStone", { data: data })}
+          onPress={() =>
+            navigation.navigate("MileStone", {
+              data: data,
+              show: show,
+              isPart: isPart,
+              undefinedd: undefinedd,
+            })
+          }
         >
           <LittleNav
             title={"Milestones"}
@@ -149,7 +202,14 @@ const CampaignMenu = ({ navigation }) => {
         </Pressable>
         {/* Little nav out */}
         <Pressable
-          onPress={() => navigation.navigate("PitchDeck", { data: data })}
+          onPress={() =>
+            navigation.navigate("PitchDeck", {
+              data: data,
+              show: show,
+              isPart: isPart,
+              undefinedd: undefinedd,
+            })
+          }
           style={{
             backgroundColor: colors.listback,
             paddingVertical: 15,

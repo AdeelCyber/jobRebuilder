@@ -6,7 +6,7 @@ import MyText from "./Text";
 import tick from "../../assets/Svgs/Tick";
 import SvgImport from "./SvgImport";
 
-const TickPara = ({ para, ...props }) => {
+const TickPara = ({ para, logo = tick, ...props }) => {
   const {
     theme: { colors },
   } = useContext(Context);
@@ -19,6 +19,7 @@ const TickPara = ({ para, ...props }) => {
           flexDirection: "row",
           width: "100%",
           ...props.style,
+          alignItems: "center",
         }}
       >
         <View
@@ -28,7 +29,7 @@ const TickPara = ({ para, ...props }) => {
             marginRight: 13,
           }}
         >
-          <SvgImport svg={tick} />
+          <SvgImport svg={logo} />
         </View>
         <View style={{}}>
           <MyText
@@ -38,6 +39,7 @@ const TickPara = ({ para, ...props }) => {
               fontSize: 11,
               lineHeight: 14.32,
               textAlign: "left",
+              ...props.textStyle,
             }}
           >
             {para}

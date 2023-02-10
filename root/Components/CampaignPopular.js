@@ -8,9 +8,13 @@ import PopularArrow from "../../assets/Svgs/PopularArrow";
 import { Entypo } from "@expo/vector-icons";
 import edit from "../../assets/Svgs/PopularEdit";
 
+import Buildings from "../../assets/img/Buildings.png";
+//"http://stepdev.up.railway.app/media/getImage/9f3d4992e16ca7b2a6fa87b5c01e9771.png",
+
 const CampaignPopular = ({
   Src,
   title,
+  show = true,
   label = "IT Company",
   Logo = { Logo },
   ...props
@@ -18,6 +22,8 @@ const CampaignPopular = ({
   const {
     theme: { colors },
   } = useContext(Context);
+  // console.log(props.id);
+
   return (
     <View
       style={[
@@ -78,7 +84,12 @@ const CampaignPopular = ({
         </View>
         {/* label title view out */}
         <View>
-          <SvgImport svg={Logo} />
+          <Image
+            source={{
+              uri: `http://stepdev.up.railway.app/media/getImage/${Logo}`,
+            }}
+            style={{ width: 18, height: 18 }}
+          />
         </View>
       </View>
       {/* All investment paramenters in */}
@@ -143,22 +154,57 @@ const CampaignPopular = ({
           </MyText>
         </View>
         {/*  4 button */}
-        <Pressable
-          style={{
-            backgroundColor: colors.secondary,
+        {show ? (
+          <Pressable
+            style={{
+              backgroundColor: colors.secondary,
 
-            paddingHorizontal: 8,
-            paddingVertical: 7,
-            borderRadius: 5,
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <SvgImport svg={edit} />
-          <MyText style={{ fontSize: 11, color: colors.white, marginLeft: 4 }}>
-            Edit Campaign
-          </MyText>
-        </Pressable>
+              paddingHorizontal: 8,
+              paddingVertical: 7,
+              borderRadius: 5,
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+            onPress={() => {
+              props.navigation.navigate("ManagingCampaign", {
+                id: props.id,
+                show: show,
+              });
+            }}
+          >
+            <SvgImport svg={edit} style={{ marginRight: 4 }} />
+            <MyText
+              style={{ fontSize: 11, color: colors.white, marginLeft: 4 }}
+            >
+              Edit Campaign
+            </MyText>
+          </Pressable>
+        ) : (
+          <Pressable
+            style={{
+              backgroundColor: colors.secondary,
+
+              paddingHorizontal: 8,
+              paddingVertical: 7,
+              borderRadius: 5,
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+            onPress={() => {
+              props.navigation.navigate("ManagingCampaign", {
+                id: props.id,
+                show: show,
+              });
+            }}
+          >
+            <MyText
+              style={{ fontSize: 11, color: colors.white, marginLeft: 4 }}
+            >
+              View Campaign
+            </MyText>
+          </Pressable>
+        )}
+        {/* 4 out */}
       </View>
       {/* arrow back */}
       <View
@@ -186,62 +232,66 @@ const CampaignPopular = ({
         </View>
       </View>
       {/* arrow back over */}
-      <View
-        style={{
-          position: "absolute",
-          left: 8,
-          backgroundColor: colors.white,
-          top: 10,
-          justifyContent: "center",
-          alignItems: "center",
-          borderRadius: 20,
-        }}
-      >
-        {props.status === "Approved" ? (
-          <Pressable
-            style={{
-              backgroundColor: "#13B887",
-              paddingHorizontal: 8,
-              paddingVertical: 4,
-              borderRadius: 4,
-            }}
-          >
-            <MyText
-              style={{ fontSize: 10, fontWeight: "500", color: colors.white }}
+      {show && (
+        <View
+          style={{
+            position: "absolute",
+            left: 8,
+            backgroundColor: colors.white,
+            top: 10,
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: 20,
+          }}
+        >
+          {props.status === "Approved" ? (
+            <Pressable
+              style={{
+                backgroundColor: "#13B887",
+                paddingHorizontal: 8,
+                paddingVertical: 4,
+                borderRadius: 4,
+              }}
             >
-              Approved
-            </MyText>
-          </Pressable>
-        ) : props.status === "Pending" ? (
-          <Pressable
-            style={{
-              backgroundColor: "#8EB5FF",
-              paddingHorizontal: 8,
-              paddingVertical: 4,
-              borderRadius: 4,
-            }}
-          >
-            <MyText
-              style={{ fontSize: 10, fontWeight: "500", color: colors.white }}
+              <MyText
+                style={{ fontSize: 10, fontWeight: "500", color: colors.white }}
+              >
+                Approved
+              </MyText>
+            </Pressable>
+          ) : props.status === "Pending" ? (
+            <Pressable
+              style={{
+                backgroundColor: "#8EB5FF",
+                paddingHorizontal: 8,
+                paddingVertical: 4,
+                borderRadius: 4,
+              }}
             >
-              Pending
-            </MyText>
-          </Pressable>
-        ) : (
-          <Pressable
-            style={{
-              backgroundColor: colors.white,
-              paddingHorizontal: 8,
-              paddingVertical: 4,
-              borderRadius: 4,
-            }}
-          >
-            <MyText style={{ fontSize: 10, fontWeight: "500", color: "#000" }}>
-              Draft
-            </MyText>
-          </Pressable>
-        )}
-      </View>
+              <MyText
+                style={{ fontSize: 10, fontWeight: "500", color: colors.white }}
+              >
+                Pending
+              </MyText>
+            </Pressable>
+          ) : (
+            <Pressable
+              style={{
+                backgroundColor: colors.white,
+                paddingHorizontal: 8,
+                paddingVertical: 4,
+                borderRadius: 4,
+              }}
+            >
+              <MyText
+                style={{ fontSize: 10, fontWeight: "500", color: "#000" }}
+              >
+                Draft
+              </MyText>
+            </Pressable>
+          )}
+        </View>
+      )}
     </View>
   );
 };

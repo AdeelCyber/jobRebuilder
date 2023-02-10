@@ -8,12 +8,31 @@ import SvgImport from "./SvgImport";
 import { Entypo } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { RoleApply } from "../Screens/Profile/services/FreeLancerServices";
+
 const RolesDropDown = ({ Title, desc, ...props }) => {
   const {
     theme: { colors },
   } = useContext(Context);
   const [open, setopen] = useState(false);
   const [select, setselected] = useState(true);
+  // Api call apply for roles
+
+  const [applied, setApplied] = useState(false);
+
+  const getFreelancersData = async () => {
+    const resp = await RoleApply(props.data.startup._id, props.item._id);
+
+    console.log(resp.data);
+
+    if (resp.data.status === "OK") {
+      setApplied(true);
+    }
+  };
+
+  const update = (data) => {
+    props.set(data);
+  };
   return (
     <View>
       <View
@@ -77,36 +96,84 @@ const RolesDropDown = ({ Title, desc, ...props }) => {
           >
             {desc}
           </MyText>
-          <View
-            style={{
-              flexDirection: "row",
-              marginTop: 20,
 
-              alignItems: "center",
-            }}
-          >
-            <Pressable style={{ marginRight: 10 }}>
-              <AntDesign name="delete" size={24} color="black" />
-            </Pressable>
+          {props.show ? (
             <View
               style={{
-                justifyContent: "center",
-                alignItems: "center",
-                height: "90%",
+                flexDirection: "row",
+                marginTop: 20,
 
-                borderLeftWidth: 1,
-                borderColor: "#DEDEDE",
-              }}
-            ></View>
-            <Pressable
-              style={{ marginLeft: 10 }}
-              onPress={() => {
-                props.nav.navigate("EditRoles");
+                alignItems: "center",
               }}
             >
-              <MaterialIcons name="edit" size={24} color="black" />
+              <Pressable
+                style={{ marginRight: 10 }}
+                onPress={() => {
+                  console.log(props.data.startup._id, props.item._id);
+
+                  props.delete(props.data.startup._id, props.item._id);
+                }}
+              >
+                <AntDesign name="delete" size={24} color="black" />
+              </Pressable>
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "90%",
+
+                  borderLeftWidth: 1,
+                  borderColor: "#DEDEDE",
+                }}
+              ></View>
+              <Pressable
+                style={{ marginLeft: 10 }}
+                onPress={() => {
+                  props.nav.navigate("EditRoles", {
+                    data: props.data,
+                    item: props.item,
+                    set: update,
+                  });
+                }}
+              >
+                <MaterialIcons name="edit" size={24} color="black" />
+              </Pressable>
+            </View>
+          ) : !props.show && !props.isPart ? (
+            <Pressable
+              style={{
+                backgroundColor: applied ? "#F3F3F3" : colors.secondary,
+                paddingHorizontal: 25,
+                paddingVertical: 10,
+                width: "38%",
+
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: 5,
+                marginTop: 15,
+              }}
+              onPress={() => {
+                if (!props.undefinedd) {
+                  getFreelancersData();
+                } else {
+                  props.setmodal(true);
+                }
+              }}
+            >
+              <MyText
+                style={{
+                  color: applied ? colors.text : colors.white,
+                  fontSize: 16,
+                  fontWeight: "500",
+                }}
+              >
+                {applied && (
+                  <AntDesign name="checkcircle" size={16} color="black" />
+                )}
+                {applied ? "Applied" : "Apply"}
+              </MyText>
             </Pressable>
-          </View>
+          ) : null}
         </View>
       )}
     </View>

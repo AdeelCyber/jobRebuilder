@@ -24,12 +24,11 @@ import { SearchBar } from "react-native-paper";
 import TeamMember from "../../Components/TeamMember";
 import * as DocumentPicker from "expo-document-picker";
 import { fileUpload } from "../Profile/services/fileServices";
-import { AddTodo } from "../Profile/services/FreeLancerServices";
+import { AddTodo, EditTodo } from "../Profile/services/FreeLancerServices";
 
-const AddNewTask = ({ navigation, route }) => {
+const EditTask = ({ navigation, route }) => {
   const [data, setData] = useState(route.params.data);
-  const [date, setDate] = useState(route.params.date);
-
+  const [item, setitem] = useState(route.params.item);
   const {
     theme: { colors },
   } = useContext(Context);
@@ -57,11 +56,11 @@ const AddNewTask = ({ navigation, route }) => {
   ];
   const [changed, setchanged] = useState({
     //title and description
-    title: "",
-    description: "",
-    dueDate: `${date}`,
-    file: "",
-    members: ["63e28e3d6fc91d001e00404e"],
+    title: item.title,
+    description: item.description,
+    dueDate: item.dueDate,
+    file: item.file,
+    members: ["63d824eb4da9d5001e758de2"],
   });
 
   const [search, setSearch] = useState("");
@@ -82,7 +81,6 @@ const AddNewTask = ({ navigation, route }) => {
   };
   //upload file
   const [getdoc, setdoc] = useState("");
-  const [upload, setupload] = useState(false);
 
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
@@ -95,24 +93,21 @@ const AddNewTask = ({ navigation, route }) => {
     );
     console.log("filename", filename);
     setchanged({ ...changed, file: filename });
-    setupload(true);
   };
   //upload out
 
   // Api call
 
   const getFreelancersData = async () => {
-    const resp = await AddTodo(data.startup._id, changed);
+    const resp = await EditTodo(data.startup._id, item._id, changed);
 
     if (resp.data.status === "OK") {
       route.params.set(resp.data.todos.todos);
-      // console.log("resp", resp.data);
-      navigation.goBack();
     }
   };
 
   function handlePress(text) {
-    if (text === "Add Task") {
+    if (text === "Update") {
       getFreelancersData();
     }
   }
@@ -178,7 +173,7 @@ const AddNewTask = ({ navigation, route }) => {
           >
             <TextInput
               placeholderTextColor="#ACA9A9"
-              placeholder="Task title"
+              placeholder="Mile Stone"
               value={changed.title}
               style={{
                 backgroundColor: "#EEEEEE",
@@ -290,7 +285,7 @@ const AddNewTask = ({ navigation, route }) => {
                     style={{ width: "70%", height: "100%", padding: 5 }}
                     placeholderTextColor="#ACA9A9"
                     placeholder="Due Date"
-                    value={changed.dueDate.substring(0, 10)}
+                    value={changed.dueDate}
                     onChangeText={(got) => {
                       {
                         setchanged({ ...changed, dueDate: got });
@@ -369,14 +364,10 @@ const AddNewTask = ({ navigation, route }) => {
       >
         <DynamicButton
           handlePress={handlePress}
-          text={"Add Task"}
+          text={"Update"}
+          color={colors.secondary}
           textStyle={{ color: colors.white }}
-          style={{
-            borderRadius: 10,
-            paddingVertical: 18,
-          }}
-          color={upload ? "#8489FC" : "#8489FC66"}
-          disabled={upload}
+          style={{ borderRadius: 10, paddingVertical: 18 }}
         />
         <DynamicButton
           handlePress={handlePress}
@@ -390,6 +381,6 @@ const AddNewTask = ({ navigation, route }) => {
   );
 };
 
-export default AddNewTask;
+export default EditTask;
 
 const styles = StyleSheet.create({});

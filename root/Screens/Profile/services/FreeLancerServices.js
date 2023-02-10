@@ -1,9 +1,9 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "../../../http/axiosSet";
-
+//All Freelancers Get
 export const getFreelancers = async () => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2MyZjA2MGJhZGJiNDAwMWY3OWE0YmMiLCJyb2xlIjoiRnJlZWxhbmNlciIsImVtYWlsIjoiYWJkdWxsYWhAZ21haWwuY29tIiwiaWF0IjoxNjc0NTg3MzUyfQ.HVTkY7gBEhgZAlRTEbOqx7-FItyg0Mqsdu8OhMCkr8Y";
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -15,19 +15,18 @@ export const getFreelancers = async () => {
     return error.response;
   }
 };
-// startup details
-export const getStartupDetails = async () => {
+//All Warnings post
+export const getWarnings = async (id) => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2MyZjA3ZjdlNmQ3MDMzNGNkYWMyZDEiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWxjb20iLCJpYXQiOjE2NzQ4MzM3ODR9.hOYTBCiC1ekH76DWdhnXdcLcl5UYISDQezERIE80iiA";
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     };
     const resp = await axios.post(
-      "/startup/getStarupbyId",
-      { startupid: "63d82eef251166001f1dceb4" },
+      "/startup/getallwarnings",
+      { startupid: id },
       config
     );
     return resp;
@@ -35,11 +34,64 @@ export const getStartupDetails = async () => {
     return error.response;
   }
 };
-// Team Roles
-export const Role = async () => {
+//All Requested Warnings post
+export const getRequestedWarnings = async (id) => {
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2MyZjA3ZjdlNmQ3MDMzNGNkYWMyZDEiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWxjb20iLCJpYXQiOjE2NzQ4MzM3ODR9.hOYTBCiC1ekH76DWdhnXdcLcl5UYISDQezERIE80iiA";
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.post(
+      "startup/getwarningsrequest",
+      { startupid: id },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+//All Startups Get
+export const getStartups = async () => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const resp = await axios.get("/startup/getclientStartups", config);
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// startup details Post
+export const getStartupDetails = async (id) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.post(
+      "/startup/getStarupbyId",
+      { startupid: id },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// Team Roles Post
+export const Role = async (id) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -47,7 +99,284 @@ export const Role = async () => {
     };
     const resp = await axios.post(
       "/startup/getstartupRoles",
-      { startupid: "63d82eef251166001f1dceb4" },
+      { startupid: id },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// Mile Stones Put
+export const EditMileStones = async (startup, milestone, data) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.put(
+      "/startup/updatemilestone",
+      {
+        startupid: startup,
+        milestoneid: milestone,
+        newMilestone: data,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// Mile Stones Post
+export const AddMileStones = async (startup, data) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.post(
+      "/startup/addmilestone",
+      {
+        startupid: startup,
+
+        newMilestone: data,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// Mile Stones Post Delete
+export const DeleteMileStones = async (startup, milestone) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: { startupid: startup, milestoneid: milestone },
+    };
+    const resp = await axios.delete("/startup/removemilestone", config);
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// Team Roles Add Post
+export const addRoles = async (startup, data) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.post(
+      "/startup/addProjectRole",
+      {
+        startupid: startup,
+
+        newRole: data,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// role Post Delete
+export const DeleteRoles = async (startup, role) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: { startupid: startup, roleid: role },
+    };
+    const resp = await axios.delete("/startup/deletestartupRoles", config);
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// role Put
+export const EditRole = async (startup, role, data) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.put(
+      "startup/updatestartupRoles",
+      {
+        startupid: startup,
+        roleid: role,
+        newRole: data,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// role Put
+export const RoleApply = async (startup, role) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.post(
+      "jobs/apply",
+      {
+        startupId: startup,
+        roleId: role,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// Todo Add Post
+export const AddTodo = async (startup, data) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.post(
+      "/startup/addtodo",
+      {
+        startupid: startup,
+
+        newTodo: data,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// Todo  Delete
+export const DeleteTodo = async (startup, role) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: { startupid: startup, todoid: role },
+    };
+    const resp = await axios.delete("/startup/deletetodo", config);
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// Task Put
+export const EditTodo = async (startup, Task, data) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.put(
+      "startup/updatetodo",
+      {
+        startupid: startup,
+        todoid: Task,
+        newTodo: data,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// Send Warning Post
+export const SendWarning = async (startup, warnTo, data) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.post(
+      "/startup/warnmember",
+      {
+        startupid: startup,
+        memberid: warnTo,
+        reason: data,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// Send Warning Post
+export const SendRequestWarning = async (startup, warnTo, data) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.post(
+      "/warnings/request",
+      {
+        startupId: startup,
+        warningTo: warnTo,
+        reason: data,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// approving or rejecting warning
+export const WarnApprove = async (startup, warnTo, data) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.post(
+      "startup/approvewarning",
+      {
+        startupid: startup,
+        warningid: warnTo,
+        status: data,
+      },
       config
     );
     return resp;

@@ -16,7 +16,7 @@ const TodoListItem = ({ Title, ...props }) => {
   const [open, setopen] = useState(false);
   const [select, setselected] = useState(true);
   return (
-    <View
+    <Pressable
       style={[
         {
           alignItems: "center",
@@ -33,6 +33,14 @@ const TodoListItem = ({ Title, ...props }) => {
 
         { ...props.style },
       ]}
+      onPress={() =>
+        props.navigation.navigate("TodoTaskView", {
+          item: props.item,
+          set: props.set,
+          data: props.data,
+          show: props.show,
+        })
+      }
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Pressable onPress={() => setselected(!select)}>
@@ -59,7 +67,7 @@ const TodoListItem = ({ Title, ...props }) => {
           <Feather name="more-vertical" size={20} color="#23232380" />
         </Pressable>
       }
-    </View>
+    </Pressable>
   );
 };
 

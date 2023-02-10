@@ -24,22 +24,31 @@ import Slider from "@react-native-community/slider";
 import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { DeleteTodo } from "../Profile/services/FreeLancerServices";
 
-const TodoTaskView = () => {
-  // slider hooks in
-  const [range, setrange] = useState("50%");
-  const [sliding, setsliding] = useState("Inactive");
+const TodoTaskView = ({ navigation, route }) => {
+  const [show, setshow] = useState(route.params.show);
+  const [data, setData] = useState(route.params.data);
+  const [item, setitem] = useState(route.params.item);
+
   const {
     theme: { colors },
   } = useContext(Context);
-  const [currentTask, setcurrentTask] = useState({
-    Title: "Design Ui for step ev",
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis. orem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis. orem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.  ",
-    day: "Monday",
-  });
+  const [currentTask, setcurrentTask] = useState(item);
   function handlePress(text) {
     alert(text);
   }
+
+  //Api call
+  const DeleteMileStone = async (startup, todo) => {
+    const resp = await DeleteTodo(startup, todo);
+
+    // console.log(resp.data);
+    if (resp.data.status === "OK") {
+      route.params.set(resp.data.todos);
+      navigation.goBack();
+    }
+  };
 
   return (
     // main container
@@ -62,8 +71,9 @@ const TodoTaskView = () => {
               />
             );
           }}
-          Title={currentTask.day + "'s Task"}
+          Title={"Monday" + "'s Task"}
           style={{ elevation: 0 }}
+          nav={navigation}
         />
         {/* header out */}
         {/* Inputs In */}
@@ -78,7 +88,7 @@ const TodoTaskView = () => {
           >
             {/* Title in */}
             <TodoTaskViewBar
-              Title={currentTask.Title}
+              Title={currentTask.title}
               style={{ borderWidth: 0, elevation: 0 }}
             />
             {/* title out */}
@@ -88,9 +98,10 @@ const TodoTaskView = () => {
                 fontSize: 13,
 
                 marginTop: 0,
+                alignSelf: "flex-start",
               }}
             >
-              {currentTask.desc}
+              {currentTask.description}
             </MyText>
             {/* Avatars View In */}
             <View
@@ -100,33 +111,19 @@ const TodoTaskView = () => {
                 paddingTop: 15,
               }}
             >
-              <Image
-                source={{ uri: "https://bit.ly/kent-c-dodds" }}
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20,
-                  marginRight: 8,
-                }}
-              />
-              <Image
-                source={{ uri: "https://bit.ly/kent-c-dodds" }}
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20,
-                  marginRight: 8,
-                }}
-              />
-              <Image
-                source={{ uri: "https://bit.ly/kent-c-dodds" }}
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20,
-                  marginRight: 8,
-                }}
-              />
+              {currentTask.members.map((item, index) => {
+                return (
+                  <Image
+                    source={{ uri: item.avatar }}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 20,
+                      marginRight: 8,
+                    }}
+                  />
+                );
+              })}
             </View>
             {/* Avatars View out */}
             {/* Attach Button View in */}
@@ -169,30 +166,45 @@ const TodoTaskView = () => {
           }}
         >
           {/* Both Icons in */}
-          <View
-            style={{
-              flexDirection: "row",
-
-              alignItems: "center",
-            }}
-          >
-            <View style={{ marginRight: 10 }}>
-              <AntDesign name="delete" size={24} color="black" />
-            </View>
+          {show && (
             <View
               style={{
-                justifyContent: "center",
-                alignItems: "center",
-                height: "35%",
+                flexDirection: "row",
 
-                borderLeftWidth: 1,
-                borderColor: "#DEDEDE",
+                alignItems: "center",
               }}
-            ></View>
-            <View style={{ marginLeft: 10 }}>
-              <MaterialIcons name="edit" size={24} color="black" />
+            >
+              <Pressable
+                style={{ marginRight: 10 }}
+                onPress={() => DeleteMileStone(data.startup._id, item._id)}
+              >
+                <AntDesign name="delete" size={24} color="black" />
+              </Pressable>
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "35%",
+
+                  borderLeftWidth: 1,
+                  borderColor: "#DEDEDE",
+                }}
+              ></View>
+              <Pressable
+                style={{ marginLeft: 10 }}
+                onPress={() =>
+                  navigation.navigate("EditTask", {
+                    set: route.params.set,
+                    item: route.params.item,
+                    data: route.params.data,
+                  })
+                }
+              >
+                <MaterialIcons name="edit" size={24} color="black" />
+              </Pressable>
             </View>
-          </View>
+          )}
+          {!show && <View></View>}
           {/* Both Icons Out */}
           <DynamicButton
             text="Complete"
@@ -200,6 +212,7 @@ const TodoTaskView = () => {
               backgroundColor: "#E8E8E8",
               width: "50%",
               paddingVertical: 15,
+              alignSelf: "flex-end",
             }}
             textStyle={{ color: "#232323" }}
             handlePress={handlePress}

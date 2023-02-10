@@ -24,11 +24,15 @@ import CircularProgress from "react-native-circular-progress-indicator";
 import DynamicButton from "../../Components/DynamicButton";
 import pdf from "../../../assets/Svgs/pdf";
 import BottomPopup from "../../Components/BottomPopup";
-import { upload } from "../../Components/DownloadUpload";
-import { uploadFileServer } from "../Profile/services/orderServices";
 
-const PitchDeck = ({ navigation }) => {
+import * as DocumentPicker from "expo-document-picker";
+import { fileUpload } from "../Profile/services/fileServices";
+
+const PitchDeck = ({ navigation, route }) => {
+  const [show, setshow] = useState(route.params.show);
   const [modal, setModal] = useState({ modal1: false, modal2: false });
+  const [isPart, setisPart] = useState(route.params.isPart);
+  const [undefinedd, setundefined] = useState(route.params.undefinedd);
   const {
     theme: { colors },
   } = useContext(Context);
@@ -38,24 +42,31 @@ const PitchDeck = ({ navigation }) => {
   // lets upload the file
   const [fileNameFromServer, setFileNameFromServer] = useState("");
 
-  const uploadFile = async () => {
-    const formData = upload();
-    if (!formData) {
-      return;
-    }
-    const resp = await uploadFileServer(formData);
-    if (resp.status === 200) {
-      setFileNameFromServer(resp.data.filename);
-    }
+  //upload file
+  const [getdoc, setdoc] = useState("");
+
+  const pickDocument = async () => {
+    let result = await DocumentPicker.getDocumentAsync({});
+
+    setdoc(result.uri);
+    const pdf = await fileUpload(result.uri);
+    var filename = result.uri.substring(
+      result.uri.lastIndexOf("/") + 1,
+      result.uri.length
+    );
+    console.log("filename", filename);
+    setchanged({ ...changed, file: filename });
   };
+  //upload out
 
   // action on buttons
   function handlePress(text) {
     alert(text);
     if (text === "Upload New") {
-      uploadFile();
+      pickDocument();
     }
   }
+
   return (
     // main container
     <View
@@ -83,6 +94,9 @@ const PitchDeck = ({ navigation }) => {
             Logo={logo}
             Thumbnail={Thumbnail}
             modal={setModal}
+            show={show}
+            isPart={isPart}
+            undefinedd={undefinedd}
           />
           {/* card out */}
           {/* Little nav in */}
@@ -116,30 +130,33 @@ const PitchDeck = ({ navigation }) => {
 
         {/* Buttons in */}
         {/* Buttons View In */}
-        <View
-          style={{
-            flexDirection: "row",
-            width: "100%",
-            paddingHorizontal: 10,
-            justifyContent: "space-between",
-            marginVertical: 20,
-          }}
-        >
-          <DynamicButton
-            handlePress={handlePress}
-            text={"Cancel"}
-            color={"#FF0000"}
-            textStyle={{ color: colors.white }}
-            style={{ width: "48%", borderRadius: 15 }}
-          />
-          <DynamicButton
-            handlePress={handlePress}
-            text={"Upload New"}
-            color={colors.text}
-            textStyle={{ color: colors.white }}
-            style={{ width: "48%", borderRadius: 15 }}
-          />
-        </View>
+
+        {show && (
+          <View
+            style={{
+              flexDirection: "row",
+              width: "100%",
+              paddingHorizontal: 10,
+              justifyContent: "space-between",
+              marginVertical: 20,
+            }}
+          >
+            <DynamicButton
+              handlePress={handlePress}
+              text={"Cancel"}
+              color={"#FF0000"}
+              textStyle={{ color: colors.white }}
+              style={{ width: "48%", borderRadius: 15 }}
+            />
+            <DynamicButton
+              handlePress={handlePress}
+              text={"Upload New"}
+              color={colors.text}
+              textStyle={{ color: colors.white }}
+              style={{ width: "48%", borderRadius: 15 }}
+            />
+          </View>
+        )}
       </View>
 
       {/* Buttons out */}

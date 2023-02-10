@@ -7,7 +7,7 @@ import {
   Pressable,
 } from "react-native";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Context from "../../Context/Context";
 import CustomHeader2 from "../../Components/CustomHeader2";
 import { Searchbar } from "react-native-paper";
@@ -27,27 +27,35 @@ import HorizontalCalendar from "../../Components/HorizontalCalendar";
 import TodoListItem from "../../Components/TodoListItem";
 import Buttons from "../../Components/Buttons";
 
-const Todo = ({ navigation }) => {
+const Todo = ({ navigation, route }) => {
+  const [show, setshow] = useState(route.params.show);
+  const [data, setData] = useState(route.params.data);
+  // console.log(data);'
+  // console.log(data.todos[0].todos);
   const {
     theme: { colors },
   } = useContext(Context);
-  function handlePress(text) {
-    alert(text);
-  }
 
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [Roles, setRoles] = useState([
-    {
-      Title: "Design Front end",
-    },
-    {
-      Title: "Design Backend",
-    },
-    {
-      Title: "Design Schema",
-    },
-  ]);
 
+  const [Roles, setRoles] = useState([]);
+
+  function handlePress(text) {
+    navigation.navigate("AddNewTask", {
+      data: data,
+      set: setRoles,
+      date: selectedDate,
+    });
+  }
+  useEffect(() => {
+    if (data.todos[0] !== undefined) {
+      console.log("OK 54");
+      setRoles(data.todos[0].todos);
+    } else {
+      setRoles([]);
+      console.log("OK 56");
+    }
+  }, []);
   return (
     // main container
     <View
@@ -119,32 +127,39 @@ const Todo = ({ navigation }) => {
 
         <FlatList
           data={Roles}
-          keyExtractor={(item) => item.Title}
+          keyExtractor={(item) => item._id}
           contentContainerStyle={{ flexGrow: 1 }}
           renderItem={({ item }) => (
             <TodoListItem
-              Title={item.Title}
+              Title={item.title}
+              item={item}
+              data={data}
+              set={setRoles}
               style={{ marginHorizontal: 23, marginVertical: 10 }}
+              navigation={navigation}
+              show={show}
             />
           )}
         />
 
         {/* Todo item out */}
       </View>
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: 10,
-        }}
-      >
-        <Buttons
-          color={colors.text}
-          text=" + Add new Task"
-          style={{ width: "50%", alignSelf: "center" }}
-          pass={handlePress}
-        />
-      </View>
+      {show && (
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 10,
+          }}
+        >
+          <Buttons
+            color={colors.text}
+            text=" + Add new Task"
+            style={{ width: "50%", alignSelf: "center" }}
+            pass={handlePress}
+          />
+        </View>
+      )}
     </View>
   );
 };

@@ -19,7 +19,13 @@ import Thumbnail from "../../../assets/img/Thumbnail.png";
 import LittleNav from "../../Components/LittleNav";
 import TickPara from "../../Components/TickPara";
 import BottomPopup from "../../Components/BottomPopup";
+import Location from "../../../assets/Svgs/Location";
+import Budget from "../../../assets/Svgs/Budget";
+import Category from "../../../assets/Svgs/Category";
 const OverView = ({ navigation, route }) => {
+  const [show, setshow] = useState(route.params.show);
+  const [isPart, setisPart] = useState(route.params.isPart);
+  const [undefinedd, setundefined] = useState(route.params.undefinedd);
   const {
     theme: { colors },
   } = useContext(Context);
@@ -50,32 +56,143 @@ const OverView = ({ navigation, route }) => {
         modal={setModal}
         data={data}
         navigation={navigation}
+        show={show}
+        isPart={isPart}
+        undefinedd={undefinedd}
       />
       {/* card out */}
       {/* Little nav in */}
       <LittleNav style={{ marginTop: 10 }} title={"OverView"} />
       {/* Little nav out */}
+      {/* One unit system */}
       <View>
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
             paddingHorizontal: 23,
             marginTop: 15,
             marginBottom: 25,
           }}
         >
           <MyText style={{ fontSize: 24, fontWeight: "700" }}>
-            Highlights
+            Problem Statement
           </MyText>
         </View>
         <View>
-          {HeighLights.map((item) => (
-            <TickPara para={item} />
-          ))}
+          <TickPara para={data.startup.problemStatement} />
         </View>
       </View>
+      {/* One unit system out */}
+      {/* One unit system */}
+      <View>
+        <View
+          style={{
+            paddingHorizontal: 23,
+
+            marginBottom: 25,
+          }}
+        >
+          <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            Impact Statement
+          </MyText>
+        </View>
+        <View>
+          <TickPara para={data.startup.impactStatement} />
+        </View>
+      </View>
+      {/* One unit system out */}
+      {/* One unit system */}
+      <View>
+        <View
+          style={{
+            paddingHorizontal: 23,
+
+            marginBottom: 25,
+          }}
+        >
+          <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            Competition
+          </MyText>
+        </View>
+        <View>
+          <TickPara para={data.startup.competition} />
+        </View>
+      </View>
+      {/* One unit system out */}
+      {/* One unit system */}
+      <View>
+        <View
+          style={{
+            paddingHorizontal: 23,
+
+            marginBottom: 25,
+          }}
+        >
+          <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            Story about investors
+          </MyText>
+        </View>
+        <View>
+          <TickPara para={data.startup.story} />
+        </View>
+      </View>
+      {/* One unit system out */}
+      {/* One unit system */}
+      <View>
+        <View
+          style={{
+            paddingHorizontal: 23,
+
+            marginBottom: 25,
+          }}
+        >
+          <MyText style={{ fontSize: 24, fontWeight: "700" }}>Location</MyText>
+        </View>
+        <View>
+          <TickPara para={data.startup.location} logo={Location} />
+        </View>
+      </View>
+      {/* One unit system out */}
+      {/* One unit system */}
+      <View>
+        <View
+          style={{
+            paddingHorizontal: 23,
+
+            marginBottom: 25,
+          }}
+        >
+          <MyText style={{ fontSize: 24, fontWeight: "700" }}>Budget</MyText>
+        </View>
+        <View>
+          <TickPara
+            para={"$ " + data.startup.budget}
+            logo={Budget}
+            textStyle={{
+              fontWeight: "700",
+              fontSize: 20,
+              color: "#232323BF",
+              lineHeight: 30,
+            }}
+          />
+        </View>
+      </View>
+      {/* One unit system out */}
+      {/* One unit system */}
+      <View>
+        <View
+          style={{
+            paddingHorizontal: 23,
+
+            marginBottom: 25,
+          }}
+        >
+          <MyText style={{ fontSize: 24, fontWeight: "700" }}>Category</MyText>
+        </View>
+        <View>
+          <TickPara para={data.startup.category} logo={Category} />
+        </View>
+      </View>
+      {/* One unit system out */}
       <BottomPopup show={modal.modal1} setshow={setModal} />
     </ScrollView>
   );

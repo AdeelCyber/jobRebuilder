@@ -88,10 +88,9 @@ import MessagesBox from "./Screens/Chat/MessagesBox";
 import TabBar from "./Components/TabBar";
 import NewMessage from "./Screens/Chat/NewMessage";
 import CartProvider from "./Context/CartProvider";
+import EditTask from "./Screens/campaignHomeScreen/EditTask";
 import OtpScreen from "./Screens/StartScreens/OtpScreen";
-//Navigation out
 
-// Creating Stacks
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
@@ -100,10 +99,15 @@ const MyStack = () => {
   return (
     <>
       <Stack.Navigator
-        initialRouteName="StartScreen"
+        initialRouteName="LoginScreen"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="CampaignHome" component={CampaignHome} />
+        <Stack.Screen
+          name="CampaignManagement"
+          component={CampaignManagement}
+        />
+        <Stack.Screen name="ManagingCampaign" component={ManagingCampaign} />
         <Stack.Screen name="CampaignMenu" component={CampaignMenu} />
         <Stack.Screen name="OverView" component={OverView} />
         <Stack.Screen name="PartnerShipTerms" component={PartnerShipTerms} />
@@ -121,11 +125,7 @@ const MyStack = () => {
         <Stack.Screen name="AddNewTask" component={AddNewTask} />
         <Stack.Screen name="TeamWarnings" component={TeamWarnings} />
         <Stack.Screen name="Warnings" component={Warnings} />
-        <Stack.Screen
-          name="CampaignManagement"
-          component={CampaignManagement}
-        />
-        <Stack.Screen name="ManagingCampaign" component={ManagingCampaign} />
+        <Stack.Screen name="EditTask" component={EditTask} />
 
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="SignUp" component={Signup} />
