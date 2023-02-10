@@ -13,7 +13,7 @@ import {
 
 import Context from "../../Context/Context";
 import MyText from "../../Components/Text";
-import CustomHeader8 from "../../Components/CustomHeader8";
+import CustomHeader9 from "../../Components/CustomHeader9";
 import Icon from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
@@ -63,7 +63,8 @@ const EditProfile = ({ route }) => {
       country,
       language,
       work,
-      about
+      about,
+      image
     );
     console.log(res.data);
     if (res.status == 200) {
@@ -80,7 +81,8 @@ const EditProfile = ({ route }) => {
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
       <View style={[styles.container]}>
-        <CustomHeader8 />
+        <CustomHeader9 Title="" nav={navigation} />
+
         <View style={{ flexDirection: "row", marginTop: 20 }}>
           <Image
             source={{ uri: image }}

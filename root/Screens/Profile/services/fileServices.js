@@ -26,3 +26,23 @@ export const fileUpload = async (doc) => {
   );
   return uploadResult;
 };
+
+export const fileGet = async (accessToken, doc) => {
+  console.log(doc);
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${accessToken}`,
+    },
+  };
+  try {
+    const resp = axios.get(
+      `/media/getFile/${doc}`,
+
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};

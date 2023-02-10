@@ -13,7 +13,7 @@ import {
 
 import Context from "../../Context/Context";
 import MyText from "../../Components/Text";
-import CustomHeader10 from "../../Components/CustomHeader10";
+import CustomHeader9 from "../../Components/CustomHeader9";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import CartProvider from "../../Context/CartProvider";
@@ -68,7 +68,7 @@ const Portfolio = () => {
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
       <View style={[styles.container]}>
-        <CustomHeader10 />
+        <CustomHeader9 Title="Adding Portfolio" nav={navigation} />
         <MyText style={[styles.header, { margin: 30 }]}>
           Portfolio Details
         </MyText>

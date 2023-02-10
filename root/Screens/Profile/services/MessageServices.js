@@ -67,6 +67,7 @@ export const sendMessagess = async (accessToken, id, message, type) => {
 
 export const oneTimeOrder = async (
   accessToken,
+  id,
   jobTitle,
   description,
   price,
@@ -83,7 +84,7 @@ export const oneTimeOrder = async (
     const resp = axios.post(
       "/orders/create/oneTime",
       {
-        startupId: "63d82eef251166001f1dceb4",
+        clientId: id,
         jobTitle: jobTitle,
         attachments: ["jbj.png"],
         description: description,
@@ -118,5 +119,148 @@ export const sendMessagessInGroup = async (accessToken, id, message, type) => {
     return resp;
   } catch (error) {
     return error.response;
+  }
+};
+
+export const oneTimeOrderOfferStatus = async (accessToken, orderid, status) => {
+  console.log(status);
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${accessToken}`,
+    },
+  };
+  try {
+    const resp = axios.put(
+      "/orders/oneTime/offerStatus",
+      {
+        orderId: orderid,
+        OfferStatus: status,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const equityOrder = async (
+  accessToken,
+  id,
+  jobTitle,
+  description,
+  equity,
+  pdf
+) => {
+  console.log(equity);
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${accessToken}`,
+    },
+  };
+  try {
+    const resp = axios.post(
+      "/orders/create/equity",
+      {
+        clientId: id,
+        jobTitle: jobTitle,
+        description: description,
+        equity: equity,
+        partnershipAgreement: pdf,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const equityOrderOfferStatus = async (
+  accessToken,
+  startupid,
+  position,
+  equityid,
+  status
+) => {
+  console.log(status);
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${accessToken}`,
+    },
+  };
+  try {
+    if (status === "Accepted") {
+      const resp = axios.put(
+        "/orders/equity/offerStatus",
+        {
+          startupId: startupid,
+          position: position,
+          orderId: equityid,
+          offerStatus: status,
+        },
+        config
+      );
+      return resp;
+    } else {
+      const resp = axios.put(
+        "/orders/equity/offerStatus",
+        {
+          orderId: equityid,
+          offerStatus: status,
+        },
+        config
+      );
+      return resp;
+    }
+  } catch (error) {
+    return error.response;
+  }
+};
+export const equityOrderOfferStatusRej = async (
+  accessToken,
+  equityid,
+  status
+) => {
+  console.log(status);
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${accessToken}`,
+    },
+  };
+  try {
+    const resp = axios.put(
+      "/orders/equity/offerStatus",
+      {
+        orderId: equityid,
+        offerStatus: status,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+export const getChats = async (accessToken) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${accessToken}`,
+    },
+  };
+  try {
+    const resp = axios.get(
+      "/chat/getChats",
+
+      config
+    );
+    return resp;
+  } catch (error) {
+    console.log(error);
   }
 };

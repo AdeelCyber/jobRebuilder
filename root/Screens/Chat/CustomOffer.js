@@ -13,26 +13,30 @@ import {
 
 import Context from "../../Context/Context";
 import MyText from "../../Components/Text";
-import CustomHeader8 from "../../Components/CustomHeader8";
 import Icon from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
 import { Entypo, AntDesign, Ionicons } from "@expo/vector-icons";
 
 import DropDownPicker from "react-native-dropdown-picker";
-import { oneTimeOrder } from "../Profile/services/MessageServices";
+import {
+  equityOrder,
+  oneTimeOrder,
+  sendMessagess,
+} from "../Profile/services/MessageServices";
 import CartProvider from "../../Context/CartProvider";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
 import Toast from "react-native-toast-message";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as DocumentPicker from "expo-document-picker";
+import { fileUpload } from "../Profile/services/fileServices";
 
-const CustomOffer = () => {
+const CustomOffer = ({ route }) => {
   const {
     theme: { colors },
   } = useContext(Context);
-  const { accessToken } = useContext(CartProvider);
-
+  const { accessToken, socket } = useContext(CartProvider);
+  const { id } = route.params;
   const navigation = useNavigation();
   const [job, setjob] = useState(true);
   const [business, setbusiness] = useState(false);
@@ -41,30 +45,35 @@ const CustomOffer = () => {
   const [duedate, setduedate] = useState(new Date());
   const [datePicker, setDatePicker] = useState(false);
   // const [date, setDate] = useState(new Date());
-
+  const [getdoc, setdoc] = useState();
+  const [getdocinfo, setdocinfo] = useState();
   const onDateSelected = (event, value) => {
     setduedate(value);
     setDatePicker(false);
   };
   const [jobTitle, setjobTitle] = useState();
 
+  const pickDocument = async () => {
+    let result = await DocumentPicker.getDocumentAsync({});
+
+    setdoc(result.uri);
+    const pdf = await fileUpload(result.uri);
+    setdocinfo(JSON.parse(pdf.body));
+  };
+
   const oneTimeOffer = async () => {
     const onetime = await oneTimeOrder(
       accessToken,
+      id,
       jobTitle,
       description,
       price,
       moment(duedate).format("YYYY-MM-DD")
     );
-    //console.log(onetime.data.data);
+    //console.log(onetime.data.data._id);
     if (onetime.status == 201) {
-      try {
-        await AsyncStorage.setItem("@order", JSON.stringify(onetime.data.data));
+      sendMessage(onetime.data.data._id, "oneTimeOrder");
 
-        console.log("done");
-      } catch (error) {
-        console.log(error);
-      }
       Toast.show({
         topOffset: 60,
         type: "success",
@@ -81,6 +90,56 @@ const CustomOffer = () => {
         text2: ".",
       });
     }
+  };
+
+  const equityOffer = async () => {
+    const equity = await equityOrder(
+      accessToken,
+      id,
+      jobTitle,
+      description,
+      price,
+      getdocinfo.filename
+    );
+    console.log(equity);
+    if (equity.status == 201) {
+      sendMessage(equity.data.data._id, "equityOrder");
+
+      Toast.show({
+        topOffset: 60,
+        type: "success",
+        text1: "Ordered Created Successfully",
+        text2: ".",
+      });
+
+      // navigation.navigate("MessagesBox", { order: onetime.data });
+    } else {
+      Toast.show({
+        topOffset: 60,
+        type: "error",
+        text1: "Something went wrong",
+        text2: ".",
+      });
+    }
+  };
+  const sendMessage = async (message, type) => {
+    console.log("type", type);
+    console.log("msg", message);
+    console.log("id", id);
+
+    const res = await sendMessagess(accessToken, id, message, type);
+    console.log(res.status);
+    if (res.status == 200) {
+      socket.emit("private message", {
+        to: id,
+        content: {
+          msgcontent: message,
+          messageType: type,
+        },
+      });
+    }
+
+    //console.log(res.data);
   };
 
   return (
@@ -337,16 +396,20 @@ const CustomOffer = () => {
                 />
               </View>
             </View>
-            <MyText
-              style={{
-                fontSize: 15,
-                fontWeight: "500",
-                color: "#23232380",
-                marginBottom: 20,
-              }}
-            >
-              Graphic Designing
-            </MyText>
+            <View style={styles.SectionStyle}>
+              <TextInput
+                style={[
+                  styles.inputStyle,
+                  {
+                    elevation: 7,
+                  },
+                ]}
+                onChangeText={(jobTitle) => setjobTitle(jobTitle)}
+                placeholder="Job Title"
+                placeholderTextColor="#ACA9A9"
+                underlineColorAndroid="#f000"
+              />
+            </View>
             <MyText
               style={{ fontSize: 16, fontWeight: "700", marginBottom: 20 }}
             >
@@ -381,6 +444,29 @@ const CustomOffer = () => {
               <MyText style={{ fontSize: 12, fontWeight: "300" }}>
                 (Shares of company)
               </MyText>
+              <MyText
+                style={{
+                  fontSize: 10,
+                  fontWeight: "400",
+                  marginLeft: 120,
+                  margin: 5,
+                }}
+              >
+                %
+              </MyText>
+              <View style={{ height: 24, width: 46, borderRadius: 2 }}>
+                <TextInput
+                  style={[
+                    styles.inputStyle,
+                    {
+                      elevation: 7,
+                    },
+                  ]}
+                  value={price}
+                  onChangeText={(price) => setprice(price)}
+                  placeholderTextColor="#ACA9A9"
+                />
+              </View>
             </View>
             <View
               style={{
@@ -401,39 +487,76 @@ const CustomOffer = () => {
             <MyText style={{ fontSize: 12, fontWeight: "700" }}>
               Upload Partnership Agreement
             </MyText>
-            <Pressable
-              style={{
-                backgroundColor: colors.white,
-                width: 195,
-                height: 48,
-                borderRadius: 10,
-                elevation: 5,
+            {getdocinfo ? (
+              <Pressable
+                style={{
+                  backgroundColor: colors.white,
+                  width: 195,
+                  height: 48,
+                  borderRadius: 10,
+                  elevation: 5,
 
-                marginTop: 20,
-              }}
-              onPress={() => {}}
-            >
-              <View style={{ flexDirection: "row" }}>
-                <MyText
-                  style={{
-                    fontSize: 11,
-                    margin: 9,
-                    color: "#2323235E",
-                  }}
-                >
-                  Select from storage
-                </MyText>
-                <Image
-                  source={require("../../../assets/img/pdf.png")}
-                  style={{
-                    height: 25,
-                    width: 25,
-                    alignSelf: "center",
-                    margin: 6,
-                  }}
-                />
-              </View>
-            </Pressable>
+                  marginTop: 20,
+                }}
+                onPress={() => {}}
+              >
+                <View style={{ flexDirection: "row" }}>
+                  <MyText
+                    style={{
+                      fontSize: 11,
+                      margin: 9,
+                    }}
+                  >
+                    Uploaded
+                  </MyText>
+                  <Image
+                    source={require("../../../assets/img/pdf.png")}
+                    style={{
+                      height: 25,
+                      width: 25,
+                      alignSelf: "center",
+                      margin: 6,
+                    }}
+                  />
+                </View>
+              </Pressable>
+            ) : (
+              <Pressable
+                style={{
+                  backgroundColor: colors.white,
+                  width: 195,
+                  height: 48,
+                  borderRadius: 10,
+                  elevation: 5,
+
+                  marginTop: 20,
+                }}
+                onPress={() => {
+                  pickDocument();
+                }}
+              >
+                <View style={{ flexDirection: "row" }}>
+                  <MyText
+                    style={{
+                      fontSize: 11,
+                      margin: 9,
+                      color: "#2323235E",
+                    }}
+                  >
+                    Select from storage
+                  </MyText>
+                  <Image
+                    source={require("../../../assets/img/pdf.png")}
+                    style={{
+                      height: 25,
+                      width: 25,
+                      alignSelf: "center",
+                      margin: 6,
+                    }}
+                  />
+                </View>
+              </Pressable>
+            )}
 
             <Pressable
               style={{
@@ -445,7 +568,9 @@ const CustomOffer = () => {
                 alignItems: "center",
                 marginTop: 30,
               }}
-              onPress={() => {}}
+              onPress={() => {
+                equityOffer();
+              }}
             >
               <MyText
                 style={{

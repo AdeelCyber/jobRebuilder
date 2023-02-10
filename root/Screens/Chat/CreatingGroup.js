@@ -6,7 +6,11 @@ import {
   StyleSheet,
   FlatList,
   Pressable,
+  Image,
+  TouchableOpacity,
   ActivityIndicator,
+  RefreshControl,
+  TextInput,
 } from "react-native";
 import {
   Container,
@@ -27,10 +31,14 @@ import LittleNav from "../../Components/LittleNav";
 import { GroupChats } from "../../Components/GroupChats";
 import MyText from "../../Components/Text";
 import { FontAwesome } from "@expo/vector-icons";
-import CustomHeader5 from "../../Components/CustomHeader5";
+import CustomHeader4 from "../../Components/CustomHeader4";
 import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
 import moment from "moment";
+import { AntDesign, Entypo } from "@expo/vector-icons";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import { getChats } from "../Profile/services/MessageServices";
+
 const CreatingGroup = ({ navigation }) => {
   const {
     theme: { colors },
@@ -40,31 +48,38 @@ const CreatingGroup = ({ navigation }) => {
   const [members, setmembers] = useState([]);
   const [chat, setchat] = useState();
   const [selected, setselected] = useState(false);
+  const [chat2, setchat2] = useState();
+  const [search, setsearch] = useState(false);
+  const [searching, setsearching] = useState();
+
+  const onRefresh = async () => {
+    const res = await getChats(accessToken);
+    console.log(res.data.chats);
+
+    setchat(res.data.chats);
+    setchat2(res.data.chats);
+
+    setcondition(false);
+  };
 
   useEffect(() => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `bearer ${accessToken}`,
-      },
-    };
-
-    axios
-      .get(
-        "https://stepdev.up.railway.app/chat/getChats",
-
-        config
-      )
-      .then((res) => {
-        console.log(res.data.chats);
-        setchat(res.data.chats);
-
-        setcondition(false);
-      })
-      .catch((err) => {
-        console.log("error", err);
+    onRefresh();
+  }, []);
+  const searchFilterFunction = (text) => {
+    if (text) {
+      const newData = chat2.filter((item) => {
+        const itemData = item.chatname
+          ? item.chatname.toUpperCase()
+          : "".toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
       });
-  }, [getcondition]);
+
+      setchat(newData);
+    } else {
+      setchat(chat2);
+    }
+  };
 
   if (getcondition) {
     return (
@@ -81,19 +96,44 @@ const CreatingGroup = ({ navigation }) => {
       </View>
     );
   }
-  // useEffect(() => {
-  //   if (chat && chat.length > 0) {
-  //     chat.map((data) => {
-  //       if (data.chatid === members) {
-  //         setselected(true);
-  //       }
-  //     });
-  //   }
-  // }, []);
+
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <CustomHeader5 />
-
+      <CustomHeader4
+        Title="Creating Group"
+        icon1={() => {}}
+        icon2={() => {
+          return (
+            <AntDesign
+              name="search1"
+              size={24}
+              color="black"
+              onPress={() => {
+                setsearch(true);
+              }}
+            />
+          );
+        }}
+        nav={navigation}
+      />
+      {search && (
+        <View style={styles.inputContainer}>
+          <Icon name="search" size={28} />
+          <TextInput
+            style={{ height: 30, width: 220, fontSize: 18 }}
+            placeholder="Search..."
+            onChangeText={(searching) => searchFilterFunction(searching)}
+            value={searching}
+          />
+          <Icon
+            name="cancel"
+            size={20}
+            onPress={() => {
+              setsearch(false);
+            }}
+          />
+        </View>
+      )}
       <View style={{ alignSelf: "flex-start" }}>
         <MyText
           style={{
@@ -155,7 +195,6 @@ const CreatingGroup = ({ navigation }) => {
                             backgroundColor: colors.Bluish,
                           }}
                           onPress={() => {
-                            setmembers([...members, item.chatid]);
                             for (var i in members) {
                               console.log(members[i]);
                               //console.log(item.chatid);
@@ -163,6 +202,7 @@ const CreatingGroup = ({ navigation }) => {
                                 setselected(true);
                               }
                             }
+                            setmembers([...members, item.chatid]);
                           }}
                         >
                           <MyText
@@ -221,5 +261,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  inputContainer: {
+    height: 50,
+    marginTop: 7,
+    borderRadius: 10,
+    flexDirection: "row",
+    backgroundColor: "#E5E5E5",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    marginBottom: 20,
   },
 });

@@ -35,6 +35,7 @@ import CustomHeader5 from "../../Components/CustomHeader5";
 import { title } from "process";
 import * as ImagePicker from "expo-image-picker";
 import Toast from "react-native-toast-message";
+import { imageUpload } from "../Profile/services/fileServices";
 
 const CreatingGroup1 = ({ navigation, route }) => {
   const {
@@ -44,6 +45,7 @@ const CreatingGroup1 = ({ navigation, route }) => {
   const [image, setimage] = useState();
   const { accessToken } = useContext(CartProvider);
   const [getcondition, setcondition] = useState(true);
+  const [logo, setlogo] = useState();
   const { members } = route.params != undefined ? route.params : {};
   const [media, setmedia] = useState();
   const pickMedia = async () => {
@@ -58,6 +60,13 @@ const CreatingGroup1 = ({ navigation, route }) => {
     if (!result.canceled) {
       setimage("Uploaded");
       setmedia(result.assets[0].uri);
+    }
+    if (!result.canceled) {
+      setimage("Uploaded");
+      setmedia(result.assets[0].uri);
+
+      const img = await imageUpload(result.assets[0].uri);
+      setlogo(JSON.parse(img.body));
     }
   };
   useEffect(() => {
@@ -102,7 +111,7 @@ const CreatingGroup1 = ({ navigation, route }) => {
         {
           groupName: grouptitle,
           members: members,
-          avatar: media,
+          avatar: logo.filename,
         },
         config
       )

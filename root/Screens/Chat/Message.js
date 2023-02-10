@@ -8,6 +8,8 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
+  RefreshControl,
+  TextInput,
 } from "react-native";
 import { Container, Msgs } from "../../Components/MessageStyles";
 import Context from "../../Context/Context";
@@ -19,6 +21,10 @@ import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import moment from "moment";
 import { getmembers } from "../Profile/services/startupServices";
+import { SearchBar } from "react-native-elements";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import { getChats } from "../Profile/services/MessageServices";
+
 const Message = ({ navigation }) => {
   const {
     theme: { colors },
@@ -27,46 +33,69 @@ const Message = ({ navigation }) => {
 
   const [getcondition, setcondition] = useState(true);
   const [chat, setchat] = useState();
+  const [chat2, setchat2] = useState();
 
-  const startsocket = useCallback(
-    (accessToken) => {
-      setsocket(
-        io("https://stepdev.up.railway.app", {
-          autoConnect: false,
-          extraHeaders: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-      );
-    },
-    [socket]
-  );
+  const [getusers, setusers] = useState([]);
+  const [getcolor, setcolor] = useState("red");
+  const [search, setsearch] = useState(false);
+  const [searching, setsearching] = useState();
+
+  const onRefresh = async () => {
+    const res = await getChats(accessToken);
+    console.log(res.data.chats);
+
+    setchat(res.data.chats);
+    setchat2(res.data.chats);
+    res.data.chats.forEach((element) => {
+      if (element.chatType === "group") {
+        socket.emit("join-room", element.chatid);
+      }
+    });
+    res.data.chats.forEach((e) =>
+      getusers.forEach((e2) => {
+        if (e.chatid === e2.userID) {
+          setcolor("green");
+        }
+      })
+    );
+
+    setcondition(false);
+  };
 
   useEffect(() => {
-    startsocket(accessToken);
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `bearer ${accessToken}`,
-      },
-    };
+    // startsocket(accessToken);
 
-    axios
-      .get(
-        "https://stepdev.up.railway.app/chat/getChats",
-
-        config
-      )
-      .then((res) => {
-        console.log(res.data.chats);
-        setchat(res.data.chats);
-
-        setcondition(false);
-      })
-      .catch((err) => {
-        console.log("error", err);
+    // startsocket(accessToken);
+    socket.connect();
+    socket.on("connect", () => {
+      console.log("Connected");
+    });
+    // to get session
+    socket.on("session", (session) => {
+      console.log(session);
+    });
+    // to get all users
+    socket.on("users", (users) => {
+      //console.log(users);
+      setusers(users);
+    });
+    onRefresh();
+  }, []);
+  const searchFilterFunction = (text) => {
+    if (text) {
+      const newData = chat2.filter((item) => {
+        const itemData = item.chatname
+          ? item.chatname.toUpperCase()
+          : "".toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
       });
-  }, [getcondition]);
+
+      setchat(newData);
+    } else {
+      setchat(chat2);
+    }
+  };
 
   if (getcondition) {
     return (
@@ -88,7 +117,14 @@ const Message = ({ navigation }) => {
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={[styles.header, styles.shadow]}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <AntDesign name="search1" size={18} color="black" />
+          <AntDesign
+            name="search1"
+            size={18}
+            color="black"
+            onPress={() => {
+              setsearch(true);
+            }}
+          />
         </View>
         <View>
           <MyText style={{ fontWeight: "700", fontSize: 16 }}>Messages</MyText>
@@ -100,17 +136,38 @@ const Message = ({ navigation }) => {
             size={24}
             color="black"
             onPress={() => {
-              navigation.navigate("NewMessage");
+              navigation.navigate("CreateGroup");
             }}
           />
         </View>
       </View>
+      {search && (
+        <View style={styles.inputContainer}>
+          <Icon name="search" size={28} />
+          <TextInput
+            style={{ height: 30, width: 220, fontSize: 18 }}
+            placeholder="Search..."
+            onChangeText={(searching) => searchFilterFunction(searching)}
+            value={searching}
+          />
+          <Icon
+            name="cancel"
+            size={20}
+            onPress={() => {
+              setsearch(false);
+            }}
+          />
+        </View>
+      )}
       {chat ? (
         <Container>
           <FlatList
             data={chat}
             extraData={chat}
             refreshing={getcondition}
+            refreshControl={
+              <RefreshControl refreshing={getcondition} onRefresh={onRefresh} />
+            }
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <TouchableOpacity
@@ -145,10 +202,10 @@ const Message = ({ navigation }) => {
                     style={{
                       height: 15,
                       width: 15,
-                      borderRadius: 50,
+                      borderRadius: 100,
                       marginLeft: 40,
 
-                      backgroundColor: colors.red,
+                      backgroundColor: getcolor,
                       alignSelf: "flex-end",
                       position: "absolute",
                       bottom: 19,
@@ -181,7 +238,10 @@ const Message = ({ navigation }) => {
                         ": " +
                         item.lastMessage?.message.message
                     : */}
-                    {item.lastMessage?.message.message}
+                    {item.lastMessage?.message.attachments ||
+                    item.lastMessage?.message.equity
+                      ? "Offer Message"
+                      : item.lastMessage?.message.message}
                   </Text>
                 </View>
                 <View
@@ -245,5 +305,13 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
 
     elevation: 2,
+  },
+  inputContainer: {
+    height: 50,
+    borderRadius: 10,
+    flexDirection: "row",
+    backgroundColor: "#E5E5E5",
+    alignItems: "center",
+    paddingHorizontal: 20,
   },
 });

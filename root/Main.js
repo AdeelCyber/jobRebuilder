@@ -88,6 +88,7 @@ import MessagesBox from "./Screens/Chat/MessagesBox";
 import TabBar from "./Components/TabBar";
 import NewMessage from "./Screens/Chat/NewMessage";
 import CartProvider from "./Context/CartProvider";
+import OtpScreen from "./Screens/StartScreens/OtpScreen";
 //Navigation out
 
 // Creating Stacks
@@ -144,6 +145,7 @@ const MyStack = () => {
         <Stack.Screen name="StartScreen" component={StartScreen} />
         <Stack.Screen name="LoginScreen" component={Login} />
         <Stack.Screen name="CreateAccount" component={CreateAccount} />
+        <Stack.Screen name="OtpScreen" component={OtpScreen} />
 
         <Stack.Screen name="Message" component={Message} />
         <Stack.Screen name="MessageBox" component={MessageBox} />

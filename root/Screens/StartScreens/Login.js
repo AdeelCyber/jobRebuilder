@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useCallback, useEffect } from "react";
 import {
   Image,
   Pressable,
@@ -38,31 +38,70 @@ const Login = () => {
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
 
-  const { socket } = useContext(CartProvider);
+  const { socket, setsocket } = useContext(CartProvider);
+  const startsocket = useCallback(
+    (accessToken) => {
+      setsocket(
+        io("https://stepdev.up.railway.app", {
+          autoConnect: false,
+          extraHeaders: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+      );
+    },
+    [socket]
+  );
 
   const login = async () => {
-    const response = await userLogin(email, password);
-    //console.log(response.data);
-    if (response.status == 200) {
-      setuserdetails(response.data.user);
-      setaccessToken(response.data.accessToken);
-
-      try {
-        await AsyncStorage.setItem("@accessToken", response.data.accessToken);
-        await AsyncStorage.setItem("@refreshToken", response.data.refreshToken);
-
-        //console.log("done");
-      } catch (error) {
-        //console.log(error);
-      }
-
+    if (email == "" || password == "") {
       Toast.show({
         topOffset: 60,
-        type: "success",
-        text1: "You're Successfully Logged In",
-        text2: ".",
+        type: "error",
+        text1: "Some Fields are missing",
+        text2: "Please fill all the fields",
       });
-      navigation.navigate("Message");
+    } else {
+      try {
+        const response = await userLogin(email, password);
+        //console.log(response.data);
+        if (response.status == 200) {
+          setuserdetails(response.data.user);
+          setaccessToken(response.data.accessToken);
+          startsocket(response.data.accessToken);
+
+          try {
+            await AsyncStorage.setItem(
+              "@accessToken",
+              response.data.accessToken
+            );
+            await AsyncStorage.setItem(
+              "@refreshToken",
+              response.data.refreshToken
+            );
+
+            //console.log("done");
+          } catch (error) {
+            //console.log(error);
+          }
+
+          Toast.show({
+            topOffset: 60,
+            type: "success",
+            text1: "You're Successfully Logged In",
+            text2: ".",
+          });
+          navigation.navigate("Message");
+        }
+      } catch (error) {
+        console.log(error.response.data);
+        Toast.show({
+          topOffset: 60,
+          type: "error",
+          text1: error.response.data.error.message,
+          text2: error.response.data.error.name,
+        });
+      }
     }
   };
 

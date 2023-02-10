@@ -35,21 +35,37 @@ const CreateAccount = ({ route }) => {
     useTogglePasswordVisibility();
 
   const signUp = async () => {
-    const response = await createaccount(
-      email,
-      password,
-      Phonenumber,
-      name,
-      role
-    );
-    if (response.status == 201) {
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+
+    if (email == "" || password == "" || Phonenumber == "" || name == "") {
       Toast.show({
         topOffset: 60,
-        type: "success",
-        text1: "You Successfully created the account",
-        text2: ".",
+        type: "error",
+        text1: "Some Fields are missing",
+        text2: "Please fill all the fields",
       });
-      navigation.navigate("LoginScreen");
+    } else if (reg.test(email) === false) {
+      Toast.show({
+        topOffset: 60,
+        type: "error",
+        text1: "Email is incorrect",
+        text2: "Please enter a valid email",
+      });
+    } else if (password.length < 8) {
+      Toast.show({
+        topOffset: 60,
+        type: "error",
+        text1: "Password is too short",
+        text2: "It should be greater than 8 characters",
+      });
+    } else {
+      navigation.navigate("OtpScreen", {
+        email: email,
+        Phonenumber: Phonenumber,
+        password: password,
+        name: name,
+        role: role,
+      });
     }
   };
 
@@ -78,7 +94,7 @@ const CreateAccount = ({ route }) => {
                 marginTop: 30,
               }}
               onPress={() => {
-                navigation.navigate("StartScreen");
+                navigation.goBack();
               }}
             >
               <AntDesign name="arrowleft" size={20} color={colors.white} />
@@ -172,6 +188,13 @@ const CreateAccount = ({ route }) => {
                   marginTop: 20,
                 }}
                 onPress={() => {
+                  // navigation.navigate("OtpScreen", {
+                  //   email: email,
+                  //   Phonenumber: Phonenumber,
+                  //   password: password,
+                  //   name: name,
+                  //   role: role,
+                  // });
                   signUp();
                 }}
               >
@@ -296,14 +319,20 @@ const CreateAccount = ({ route }) => {
                 >
                   Already have an account?
                 </MyText>
-                <MyText
-                  style={{
-                    fontSize: 13,
-                    color: colors.text,
+                <Pressable
+                  onPress={() => {
+                    navigation.navigate("LoginScreen");
                   }}
                 >
-                  Login
-                </MyText>
+                  <MyText
+                    style={{
+                      fontSize: 13,
+                      color: colors.text,
+                    }}
+                  >
+                    Login
+                  </MyText>
+                </Pressable>
               </View>
             </View>
           </View>
