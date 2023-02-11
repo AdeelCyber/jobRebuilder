@@ -96,6 +96,8 @@ const PitchDeck = ({ navigation, route }) => {
             Logo={logo}
             Thumbnail={Thumbnail}
             modal={setModal}
+            navigation={navigation}
+            data={data}
             show={show}
             isPart={isPart}
             undefinedd={undefinedd}
@@ -118,7 +120,7 @@ const PitchDeck = ({ navigation, route }) => {
               }}
               onPress={() =>
                 downloadFile(
-                  "http://techslides.com/demos/sample-videos/small.mp4"
+                  `https://stepdev.up.railway.app/media/getFile/${data.startup.pitchDeck}`
                 )
               }
             >

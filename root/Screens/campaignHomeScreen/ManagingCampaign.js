@@ -115,7 +115,7 @@ function TodoComponent({ Title, desc, ...props }) {
                   borderRadius: 10,
                   zIndex: 1,
                   position: "absolute",
-                  left: 0,
+                  left: 0 + index * 10,
                 }}
               />
             );

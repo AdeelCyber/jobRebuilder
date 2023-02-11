@@ -32,35 +32,15 @@ const EditTask = ({ navigation, route }) => {
   const {
     theme: { colors },
   } = useContext(Context);
-  const menu = [
-    {
-      image: "https://bit.ly/kent-c-dodds",
-      name: "Mike Dean",
-      designation: "Ceo",
-    },
-    {
-      image: "https://bit.ly/kent-c-dodds",
-      name: "Mike Dean",
-      designation: "Ceo",
-    },
-    {
-      image: "https://bit.ly/kent-c-dodds",
-      name: "abdullah Dean",
-      designation: "Ceo",
-    },
-    {
-      image: "https://bit.ly/kent-c-dodds",
-      name: "suleman Dean",
-      designation: "Ceo",
-    },
-  ];
+  const [menu, setmenu] = useState(data.startup.members);
+  const [member, setmember] = useState([]);
   const [changed, setchanged] = useState({
     //title and description
     title: item.title,
     description: item.description,
     dueDate: item.dueDate,
     file: item.file,
-    members: ["63d824eb4da9d5001e758de2"],
+    members: ["63e27e1dbd0ec6001e3b0dd8"],
   });
 
   const [search, setSearch] = useState("");
@@ -74,7 +54,9 @@ const EditTask = ({ navigation, route }) => {
       searchTerm !== " "
     ) {
       temp = menu.filter((item) => {
-        return item.name.toLowerCase().includes(searchTerm.toLowerCase());
+        return item.member.name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
       });
     }
     return temp;
@@ -109,6 +91,18 @@ const EditTask = ({ navigation, route }) => {
   function handlePress(text) {
     if (text === "Update") {
       getFreelancersData();
+    }
+  }
+  function handleArray(text, id) {
+    if (text === "Add") {
+      console.log("id add ", id);
+      setmember([...member, id]);
+      setchanged({ ...changed, members: [...member, id] });
+    }
+    if (text === "Sub") {
+      console.log("id sub ", id);
+      setmember(member.filter((item) => item !== id));
+      setchanged({ ...changed, members: member.filter((item) => item !== id) });
     }
   }
 
@@ -341,9 +335,11 @@ const EditTask = ({ navigation, route }) => {
             {/* Component in */}
             {filteredData(search).map((item) => (
               <TeamMember
-                designation={item.designation}
-                image={item.image}
-                text={item.name}
+                designation={item.position}
+                image={item.member.avatar}
+                text={item.member.name}
+                id={item.member._id}
+                handlePress={handleArray}
                 style={{ width: "94%", marginVertical: 5 }}
               />
             ))}
