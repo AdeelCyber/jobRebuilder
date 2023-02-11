@@ -71,7 +71,7 @@ const Progress = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <CustomHeader7 />
+      <CustomHeader7 nav={navigation} />
       <View style={{ flex: 1 }}>
         <ProgressSteps {...progressStepsStyle}>
           <ProgressStep

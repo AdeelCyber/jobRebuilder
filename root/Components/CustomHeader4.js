@@ -1,19 +1,23 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, Pressable } from "react-native";
 
 import React, { useContext } from "react";
 import Context from "../Context/Context";
 import MyText from "./Text";
 import { FontAwesome } from "@expo/vector-icons";
-import { AntDesign,Entypo } from "@expo/vector-icons";
+import { AntDesign, Entypo } from "@expo/vector-icons";
 
 const CustomHeader4 = ({
-  icon1 = () => <AntDesign name="search1" size={24} color="black" />,
+  icon1 = () => <Entypo name="dots-three-vertical" size={24} color="black" />,
   icon2 = () => <Entypo name="dots-three-vertical" size={24} color="black" />,
   Title = "Select User",
+  ...props
 }) => {
   const {
     theme: { colors },
   } = useContext(Context);
+  const handleNav = () => {
+    props.nav.goBack();
+  };
   return (
     <View
       style={[
@@ -34,16 +38,22 @@ const CustomHeader4 = ({
         styles.shadow,
       ]}
     >
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-      <AntDesign name="arrowleft" size={24} color="black" />
-      </View>
+      <Pressable
+        style={{ flexDirection: "row", alignItems: "center" }}
+        onPress={handleNav}
+      >
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <AntDesign name="arrowleft" size={24} color="black" />
+        </View>
+      </Pressable>
       {/* Text View in */}
       <View>
         <MyText style={{ fontWeight: "700", fontSize: 16 }}>{Title}</MyText>
       </View>
-
-      <View style={{flexDirection:'row'}}>{icon1()}{icon2()}</View>
-
+      <View style={{ flexDirection: "row" }}>
+        {icon1()}
+        {icon2()}
+      </View>
     </View>
   );
 };

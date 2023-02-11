@@ -8,6 +8,7 @@ import {
   View,
   ImageBackground,
   TextInput,
+  Modal,
 } from "react-native";
 
 import Context from "../../Context/Context";
@@ -27,8 +28,10 @@ const ProfilePic = () => {
   const navigation = useNavigation();
   const [image, setimage] = useState();
   const [imagetosend, setimagetosend] = useState();
+  const [getmodalvisible5, setModalVisible5] = useState(false);
 
   const pickImg = async () => {
+    setModalVisible5(false);
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -36,6 +39,22 @@ const ProfilePic = () => {
       quality: 1,
     });
     console.log(result.assets);
+
+    if (!result.canceled) {
+      const img = await imageUpload(result.assets[0].uri);
+      setimage(result.assets[0].uri);
+      setimagetosend(JSON.parse(img.body));
+    }
+  };
+  const takeSelfie = async () => {
+    setModalVisible5(false);
+
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
 
     if (!result.canceled) {
       const img = await imageUpload(result.assets[0].uri);
@@ -67,6 +86,89 @@ const ProfilePic = () => {
         { backgroundColor: colors.background, margin: 30 },
       ]}
     >
+      <Modal animationType="fade" visible={getmodalvisible5}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View
+              style={{
+                borderBottomWidth: 1,
+                padding: 5,
+                marginBottom: 20,
+                borderColor: "#23232380",
+
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <MyText
+                style={{
+                  fontSize: 14,
+                  fontWeight: "400",
+                  marginRight: 50,
+                  color: "#23232380",
+                }}
+              >
+                Choose Option
+              </MyText>
+              <Entypo
+                name="circle-with-cross"
+                size={20}
+                color="#232323AB"
+                onPress={() => {
+                  setModalVisible5(false);
+                }}
+              />
+            </View>
+            <Pressable
+              style={{
+                height: 25,
+                width: 90,
+                alignSelf: "center",
+                backgroundColor: colors.Bluish,
+                borderRadius: 5,
+                marginBottom: 5,
+              }}
+              onPress={() => {
+                takeSelfie();
+              }}
+            >
+              <MyText
+                style={{
+                  fontSize: 12,
+                  fontWeight: "400",
+                  color: colors.white,
+                  alignSelf: "center",
+                }}
+              >
+                Camera
+              </MyText>
+            </Pressable>
+            <Pressable
+              style={{
+                height: 25,
+                width: 90,
+                alignSelf: "center",
+                backgroundColor: colors.Bluish,
+                borderRadius: 5,
+              }}
+              onPress={() => {
+                pickImg();
+              }}
+            >
+              <MyText
+                style={{
+                  fontSize: 12,
+                  fontWeight: "400",
+                  alignSelf: "center",
+                  color: colors.white,
+                }}
+              >
+                Open Gallery
+              </MyText>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
       <MyText
         style={{
           fontSize: 16,
@@ -85,7 +187,7 @@ const ProfilePic = () => {
           marginTop: 50,
         }}
         onPress={() => {
-          pickImg();
+          setModalVisible5(true);
         }}
       >
         {image ? (
@@ -157,6 +259,27 @@ const ProfilePic = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  modalView: {
+    margin: 20,
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
 

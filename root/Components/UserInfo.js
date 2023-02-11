@@ -30,7 +30,9 @@ const UserInfo = () => {
   const [getRating, setRating] = useState(5);
   const [userinfo, setuserinfo] = useState();
   const [getcondition, setcondition] = useState(true);
-
+  const [userreviews, setuserreviews] = useState([]);
+  var rate = [];
+  const [avg, setavg] = useState();
   const { accessToken } = useContext(CartProvider);
 
   useEffect(() => {
@@ -48,7 +50,8 @@ const UserInfo = () => {
         config
       )
       .then((res) => {
-        // console.log(res.data.data.portfolio);
+        //   console.log(res.data.data.ratingAndReviews);
+        setuserreviews(res.data.data.ratingAndReviews);
         setuserinfo(res.data.data);
         setcondition(false);
       })
@@ -56,6 +59,19 @@ const UserInfo = () => {
         console.log("error", err);
       });
   }, [getcondition]);
+
+  useEffect(() => {
+    if (userreviews) {
+      console.log(userreviews.length);
+      for (var i in userreviews) {
+        var review = userreviews[i].rating;
+      }
+      rate.push(review / userreviews.length);
+      setavg(rate.toString());
+
+      console.log(avg);
+    }
+  }, [userreviews]);
 
   if (getcondition) {
     return (
@@ -120,6 +136,11 @@ const UserInfo = () => {
                 name="pencil"
                 size={14}
                 color={colors.white}
+                onPress={() => {
+                  navigation.navigate("EditProfile", {
+                    userinfo: userinfo,
+                  });
+                }}
               />
             </View>
             <MaterialCommunityIcons
@@ -187,24 +208,32 @@ const UserInfo = () => {
           </MyText>
           <View style={{ flexDirection: "row" }}>
             <StarRating
-              rating={getRating}
-              onChange={setRating}
-              starSize={14}
-              style={{ padding: 0, margin: 0, width: 10 }}
+              rating={avg}
+              //onChange={setRating}
+              starSize={16}
+              style={{ padding: 0, margin: 4, width: 10 }}
             />
 
-            <MyText style={{ fontSize: 14, fontWeight: "700", marginLeft: 60 }}>
-              5.0
+            <MyText
+              style={{
+                fontSize: 14,
+                fontWeight: "700",
+                marginLeft: 60,
+                margin: 4,
+              }}
+            >
+              {avg}
             </MyText>
             <MyText
               style={{
                 fontSize: 12,
                 fontWeight: "400",
                 marginLeft: 10,
+                margin: 7,
                 color: "#23232380",
               }}
             >
-              (100 Reviews)
+              ({userreviews.length} Reviews)
             </MyText>
           </View>
         </View>

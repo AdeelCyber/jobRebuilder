@@ -135,6 +135,16 @@ const BuildingStartupScreen1 = ({ navigation }) => {
       { label: "Fitness", value: "Fitness" },
       { label: "Other", value: "Other" },
     ]);
+    const [open1, setOpen1] = useState(false);
+    const [value1, setValue1] = useState(null);
+    const [items1, setItems1] = useState([
+      { label: "Idea", value: "Idea" },
+      { label: "Market Research", value: "Market Research" },
+      { label: "Building a Team", value: "Building a Team" },
+      { label: "Prototyping/R&D", value: "Prototyping/R&D" },
+      { label: "Launching", value: "Launching" },
+    ]);
+
     const [location, setLocation] = useState();
     const [budget, setBudget] = useState();
     const [userimg, setimg] = useState();
@@ -150,8 +160,10 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     const [getmodalvisible2, setModalVisible2] = useState(false);
     const [getmodalvisible3, setModalVisible3] = useState(false);
     const [getmodalvisible4, setModalVisible4] = useState(false);
+    const [getmodalvisible5, setModalVisible5] = useState(false);
 
     const pickImg = async () => {
+      setModalVisible5(false);
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
@@ -159,6 +171,22 @@ const BuildingStartupScreen1 = ({ navigation }) => {
         quality: 1,
       });
       // console.log(result);
+
+      if (!result.canceled) {
+        setimg(result.assets[0].uri);
+        const img = await imageUpload(result.assets[0].uri);
+        setlogo(JSON.parse(img.body));
+      }
+    };
+    const takeSelfie = async () => {
+      setModalVisible5(false);
+
+      let result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
 
       if (!result.canceled) {
         setimg(result.assets[0].uri);
@@ -197,36 +225,49 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     };
 
     const step1 = async () => {
-      if (logo && mediatosend && getdocinfo) {
-        setcondition(true);
+      try {
+        if (logo && mediatosend && getdocinfo) {
+          setcondition(true);
 
-        const res = await step1startup(
-          accessToken,
-          businessName,
-          problemstatement,
-          impactstatement,
-          competition,
-          story,
-          budget,
-          value,
-          location,
-          getmediatype,
-          mediatosend.filename,
-          logo.filename,
-          getdocinfo.filename
-        );
-        console.log(res.data);
-        setcondition(false);
+          const res = await step1startup(
+            accessToken,
+            businessName,
+            problemstatement,
+            impactstatement,
+            competition,
+            story,
+            budget,
+            value,
+            location,
+            getmediatype,
+            mediatosend.filename,
+            logo.filename,
+            getdocinfo.filename,
+            value1
+          );
+          console.log(res.data);
+          setcondition(false);
 
-        if (res.status === 201) {
-          setstartupid(res.data.startUp._id);
-          Toast.show({
-            topOffset: 60,
-            type: "success",
-            text1: "Your Information is successfully saved",
-            text2: "Press Proceed to continue",
-          });
+          if (res.status === 201) {
+            setstartupid(res.data.startUp._id);
+            Toast.show({
+              topOffset: 60,
+              type: "success",
+              text1: "Your Information is successfully saved",
+              text2: "Press Proceed to continue",
+            });
+          }
         }
+      } catch (error) {
+        setcondition(false);
+        Toast.show({
+          topOffset: 60,
+          type: "error",
+          text1: "Something went wrong",
+          text2: ".",
+        });
+
+        console.log(error);
       }
     };
     if (getScreen == false) {
@@ -712,6 +753,20 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 underlineColorAndroid="#f000"
               />
             </View>
+            <View style={styles.SectionStyle}>
+              <DropDownPicker
+                style={[styles.inputStyle, { borderColor: "#EEEEEE" }]}
+                textStyle={{ color: "#ACA9A9" }}
+                placeholder="Stage"
+                autoScroll={true}
+                open={open1}
+                value={value1}
+                items={items1}
+                setOpen={setOpen1}
+                setValue={setValue1}
+                setItems={setItems1}
+              />
+            </View>
 
             <MyText
               style={{
@@ -835,6 +890,89 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               { backgroundColor: colors.background, margin: 30 },
             ]}
           >
+            <Modal animationType="fade" visible={getmodalvisible5}>
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <View
+                    style={{
+                      borderBottomWidth: 1,
+                      padding: 5,
+                      marginBottom: 20,
+                      borderColor: "#23232380",
+
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <MyText
+                      style={{
+                        fontSize: 14,
+                        fontWeight: "400",
+                        marginRight: 50,
+                        color: "#23232380",
+                      }}
+                    >
+                      Choose Option
+                    </MyText>
+                    <Entypo
+                      name="circle-with-cross"
+                      size={20}
+                      color="#232323AB"
+                      onPress={() => {
+                        setModalVisible5(false);
+                      }}
+                    />
+                  </View>
+                  <Pressable
+                    style={{
+                      height: 25,
+                      width: 90,
+                      alignSelf: "center",
+                      backgroundColor: colors.Bluish,
+                      borderRadius: 5,
+                      marginBottom: 5,
+                    }}
+                    onPress={() => {
+                      takeSelfie();
+                    }}
+                  >
+                    <MyText
+                      style={{
+                        fontSize: 12,
+                        fontWeight: "400",
+                        color: colors.white,
+                        alignSelf: "center",
+                      }}
+                    >
+                      Camera
+                    </MyText>
+                  </Pressable>
+                  <Pressable
+                    style={{
+                      height: 25,
+                      width: 90,
+                      alignSelf: "center",
+                      backgroundColor: colors.Bluish,
+                      borderRadius: 5,
+                    }}
+                    onPress={() => {
+                      pickImg();
+                    }}
+                  >
+                    <MyText
+                      style={{
+                        fontSize: 12,
+                        fontWeight: "400",
+                        alignSelf: "center",
+                        color: colors.white,
+                      }}
+                    >
+                      Open Gallery
+                    </MyText>
+                  </Pressable>
+                </View>
+              </View>
+            </Modal>
             <MyText
               style={{
                 fontSize: 16,
@@ -846,10 +984,9 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             >
               Upload your Logo
             </MyText>
-
             <Pressable
               onPress={() => {
-                pickImg();
+                setModalVisible5(true);
               }}
             >
               {userimg ? (
@@ -883,7 +1020,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 </View>
               )}
             </Pressable>
-
             <MyText
               style={{
                 fontSize: 16,
@@ -896,7 +1032,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             >
               Add Cover Image or Video
             </MyText>
-
             {getmedia ? (
               <Pressable
                 style={{
@@ -993,27 +1128,30 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     const [search, setsearch] = useState();
     const [positionn, setposition] = useState();
     const [role, setrole] = useState();
-    const [selected, setSelected] = React.useState("");
+    const [selected, setSelected] = useState();
+    const [getmodalvisible, setModalVisible] = React.useState(false);
+    const [usertodisplay, setusertodisplay] = useState([]);
 
-    const [getusers, setusers] = useState([
-      {
-        member: "63babb1954b661431a0519b5",
-        position: "developer",
-        role: "developer",
-      },
-    ]);
+    const [getusers, setusers] = useState([]);
     const [getmember, setmembers] = useState();
     const [showuser, setshowuser] = useState(false);
     const [image, setimage] = useState();
+    const [searching, setSearching] = useState(false);
 
-    const membershere = async () => {
-      const members = await getmembers(accessToken);
-      console.log(members.data);
-      setmembers(members.data);
+    const membershere = async (search) => {
+      try {
+        const members = await getmembers(accessToken, search);
+        console.log(members.data.data);
+        setmembers(members.data.data);
+        setSearching(true);
+      } catch (error) {
+        console.log(error);
+      }
+      // setModalVisible(true);
     };
-    useEffect(() => {
-      membershere();
-    }, []);
+    // useEffect(() => {
+    //   membershere();
+    // }, []);
 
     const pickMedia = async () => {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -1030,17 +1168,28 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     };
 
     const step2 = async () => {
-      const res = await step2startup(accessToken, startupid, getusers);
-      //console.log(res.status);
+      try {
+        const res = await step2startup(accessToken, startupid, getusers);
+        //console.log(res.status);
 
-      if (res.status === 201) {
-        setstartupid(res.data.startUp._id);
+        if (res.status === 201) {
+          setstartupid(res.data.startUp._id);
+          Toast.show({
+            topOffset: 60,
+            type: "success",
+            text1: "Your Information is successfully saved",
+            text2: "Press Proceed to continue",
+          });
+        }
+      } catch (error) {
         Toast.show({
           topOffset: 60,
-          type: "success",
-          text1: "Your Information is successfully saved",
-          text2: "Press Proceed to continue",
+          type: "error",
+          text1: "Something went wrong",
+          text2: ".",
         });
+
+        console.log(error);
       }
     };
     if (getScreen2 == false) {
@@ -1083,9 +1232,9 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             </Pressable>
 
             {showuser ? (
-              <View style={{ flex: 1 }}>
+              <View style={{ flex: 1, alignSelf: "flex-start" }}>
                 <FlatList
-                  data={getusers}
+                  data={usertodisplay}
                   keyExtractor={(item) => item.id}
                   numColumns={2}
                   columnWrapperStyle={{ flexWrap: "wrap" }}
@@ -1115,7 +1264,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                       }}
                     >
                       <Image
-                        source={item.img}
+                        source={{ uri: item.img }}
                         style={{
                           height: 73,
                           width: 73,
@@ -1131,7 +1280,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                           color: colors.text,
                         }}
                       >
-                        {item.name}
+                        {item.member}
                       </MyText>
                       <MyText
                         style={{
@@ -1154,6 +1303,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   style={{
                     backgroundColor: "#EEEEEE",
                     height: 50,
+                    width: 330,
                     borderRadius: 10,
                     justifyContent: "center",
                     alignItems: "center",
@@ -1185,6 +1335,42 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               { backgroundColor: colors.background, margin: 30 },
             ]}
           >
+            <Modal animationType="fade" visible={getmodalvisible}>
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <FlatList
+                    data={getmember}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                      <View style={{ flex: 1 }}>
+                        <Pressable
+                          style={{ height: 20, borderWidth: 1, margin: 3 }}
+                          onPress={() => {
+                            console.log(item._id);
+                            setSelected(item._id);
+                            setsearch(item.name);
+                            setModalVisible(false);
+                          }}
+                        >
+                          <MyText
+                            style={{
+                              fontSize: 14,
+                              fontWeight: "500",
+                              color: colors.text,
+                              ustifyContent: "center",
+                              alignItems: "center",
+                              marginLeft: 10,
+                            }}
+                          >
+                            {item.name}
+                          </MyText>
+                        </Pressable>
+                      </View>
+                    )}
+                  />
+                </View>
+              </View>
+            </Modal>
             <MyText
               style={{
                 fontSize: 16,
@@ -1196,7 +1382,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             >
               Add Team Member
             </MyText>
-
             <Pressable
               onPress={() => {
                 pickMedia();
@@ -1250,13 +1435,17 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   styles.inputStyle,
                   { borderTopRightRadius: 0, borderBottomRightRadius: 0 },
                 ]}
-                onChangeText={(search) => setsearch(search)}
+                onChangeText={(search) => membershere(search)}
+                value={search}
                 placeholder="Search from users" //12345
                 placeholderTextColor="#ACA9A9"
                 keyboardType="default"
+                onPress={() => setSearching(false)}
               />
               <Pressable
-                onPress={() => {}}
+                onPress={() => {
+                  membershere();
+                }}
                 style={{
                   backgroundColor: "#EEEEEE",
                   borderTopRightRadius: 10,
@@ -1267,6 +1456,58 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 <AntDesign name="search1" size={18} color={colors.Bluish} />
               </Pressable>
             </View>
+            {searching && (
+              <View
+                style={[
+                  { backgroundColor: "#EEEEEE", width: 330, borderRadius: 5 },
+                ]}
+              >
+                {getmember?.length ? (
+                  getmember.map((item) => {
+                    return (
+                      <Pressable
+                        style={[styles.SectionStyle]}
+                        onPress={() => {
+                          console.log(item._id);
+                          setSelected(item._id);
+                          setsearch(item.name);
+                          setSearching(false);
+                        }}
+                      >
+                        <Text
+                          style={{
+                            padding: 4,
+                            alignSelf: "center",
+                            alignItems: "center",
+                            margin: 6,
+                          }}
+                        >
+                          {item.name}
+                        </Text>
+                      </Pressable>
+                    );
+                  })
+                ) : (
+                  <Pressable
+                    style={styles.noResultView}
+                    onPress={() => {
+                      setSearching(false);
+                    }}
+                  >
+                    <Text
+                      style={{
+                        padding: 4,
+                        alignSelf: "center",
+                        alignItems: "center",
+                        margin: 6,
+                      }}
+                    >
+                      No search items matched
+                    </Text>
+                  </Pressable>
+                )}
+              </View>
+            )}
 
             <View style={styles.SectionStyle}>
               <TextInput
@@ -1277,7 +1518,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 keyboardType="default"
               />
             </View>
-
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
@@ -1287,7 +1527,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 keyboardType="default"
               />
             </View>
-
             <Pressable
               style={{
                 backgroundColor: colors.Bluish,
@@ -1299,10 +1538,19 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 marginTop: 20,
               }}
               onPress={() => {
+                setusertodisplay([
+                  ...usertodisplay,
+                  {
+                    img: image,
+                    member: search,
+                    position: positionn,
+                    role: role,
+                  },
+                ]);
                 setusers([
                   ...getusers,
                   {
-                    member: "63babb1954b661431a0519b5",
+                    member: selected,
                     position: positionn,
                     role: role,
                   },
@@ -1350,16 +1598,31 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     const [partnershipTerms, setpartnershipTerms] = useState();
     const [rolelist, setrolelist] = useState([]);
     const step3 = async () => {
-      const res = await step3startup(accessToken, startupid, partnershipTerms);
-      console.log(res.data);
+      try {
+        const res = await step3startup(
+          accessToken,
+          startupid,
+          partnershipTerms
+        );
+        console.log(res.data);
 
-      if (res.status === 201) {
+        if (res.status === 201) {
+          Toast.show({
+            topOffset: 60,
+            type: "success",
+            text1: "Your Information is successfully saved",
+            text2: "Press Proceed to continue",
+          });
+        }
+      } catch (error) {
         Toast.show({
           topOffset: 60,
-          type: "success",
-          text1: "Your Information is successfully saved",
-          text2: "Press Proceed to continue",
+          type: "error",
+          text1: "Something went wrong",
+          text2: ".",
         });
+
+        console.log(error);
       }
     };
 
@@ -1783,6 +2046,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     const [duedate, setduedate] = useState(new Date());
     const [milestonelist, setmilestonelist] = useState([]);
     const [datePicker, setDatePicker] = useState(false);
+    const [getmodalvisible, setModalVisible] = useState(false);
     // const [date, setDate] = useState(new Date());
 
     const onDateSelected = (event, value) => {
@@ -1791,16 +2055,27 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     };
 
     const step4 = async () => {
-      const res = await step4startup(accessToken, startupid, milestonelist);
-      console.log(res.data);
+      try {
+        const res = await step4startup(accessToken, startupid, milestonelist);
+        console.log(res.data);
 
-      if (res.status === 201) {
+        if (res.status === 201) {
+          Toast.show({
+            topOffset: 60,
+            type: "success",
+            text1: "Your Information is successfully saved",
+            text2: "Press Proceed to continue",
+          });
+        }
+      } catch (error) {
         Toast.show({
           topOffset: 60,
-          type: "success",
-          text1: "Your Information is successfully saved",
-          text2: "Press Proceed to continue",
+          type: "error",
+          text1: "Something went wrong",
+          text2: ".",
         });
+
+        console.log(error);
       }
     };
 
@@ -1835,7 +2110,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                     width: 334,
                     borderRadius: 10,
                     justifyContent: "center",
-                    alignItems: "center",
+                    alignItems: "flex-start",
                     marginTop: 20,
                   }}
                 >
@@ -1847,6 +2122,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                         borderRadius: 50,
                         height: 38,
                         width: 38,
+                        marginLeft: 9,
                         alignSelf: "flex-start",
                       }}
                     >
@@ -1861,12 +2137,13 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                         0%
                       </MyText>
                     </View>
-                    <View>
+                    <View style={{ alignSelf: "flex-start", width: 250 }}>
                       <MyText
                         style={{
                           fontSize: 16,
                           fontWeight: "500",
                           margin: 4,
+                          marginLeft: 20,
                         }}
                       >
                         {item.title}
@@ -1876,6 +2153,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                           fontSize: 12,
                           fontWeight: "400",
                           marginRight: 5,
+                          marginLeft: 20,
                         }}
                       >
                         {item.description}
@@ -1886,7 +2164,25 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                       name="dots-three-horizontal"
                       size={17}
                       color="#A1A1A1"
+                      style={{}}
                     />
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignSelf: "flex-end",
+                      marginRight: 7,
+                    }}
+                  >
+                    <AntDesign
+                      name="calender"
+                      size={13}
+                      color="#A1A1A1"
+                      style={{ marginRight: 3 }}
+                    />
+                    <MyText color="#A1A1A1">
+                      {item.dueDate.toDateString()}
+                    </MyText>
                   </View>
                 </View>
               )}
@@ -1950,6 +2246,63 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               { backgroundColor: colors.background, margin: 30 },
             ]}
           >
+            <Modal animationType="fade" visible={getmodalvisible}>
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <View
+                    style={{
+                      borderBottomWidth: 1,
+                      padding: 5,
+                      marginBottom: 20,
+                      borderColor: "#23232380",
+
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <MyText
+                      style={{
+                        fontSize: 14,
+                        fontWeight: "400",
+                        marginRight: 50,
+                        color: "#23232380",
+                      }}
+                    >
+                      More Info (Description for Milestone)
+                    </MyText>
+                    <Entypo
+                      name="circle-with-cross"
+                      size={20}
+                      color="#232323AB"
+                      onPress={() => {
+                        setModalVisible(false);
+                      }}
+                    />
+                  </View>
+                  <MyText
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "500",
+                    }}
+                  >
+                    Breakdown your progress into different levels of
+                    achievements that are going to take your business to success
+                    such as:
+                  </MyText>
+                  <MyText
+                    style={{
+                      fontSize: 11,
+                      fontWeight: "500",
+                      marginTop: 6,
+                      marginBottom: 6,
+                    }}
+                  >
+                    - Idea 100% - Building a team 70% - Prototyping 30% -
+                    Funding 10%
+                  </MyText>
+                </View>
+              </View>
+            </Modal>
             <MyText
               style={{
                 fontSize: 16,
@@ -1994,7 +2347,14 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 }}
                 onPress={() => {}}
               >
-                <AntDesign name="questioncircleo" size={20} color="#232323AB" />
+                <AntDesign
+                  name="questioncircleo"
+                  size={20}
+                  color="#232323AB"
+                  onPress={() => {
+                    setModalVisible(true);
+                  }}
+                />
               </Pressable>
             </View>
 
@@ -2080,22 +2440,33 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     };
 
     const step5 = async () => {
-      if (pitchtosend) {
-        const res = await step5startup(
-          accessToken,
-          startupid,
-          pitchtosend.filename
-        );
-        console.log(res.data);
+      try {
+        if (pitchtosend) {
+          const res = await step5startup(
+            accessToken,
+            startupid,
+            pitchtosend.filename
+          );
+          console.log(res.data);
 
-        if (res.status === 201) {
-          Toast.show({
-            topOffset: 60,
-            type: "success",
-            text1: "Your Information is successfully saved",
-            text2: "Press Proceed to continue",
-          });
+          if (res.status === 201) {
+            Toast.show({
+              topOffset: 60,
+              type: "success",
+              text1: "Your Information is successfully saved",
+              text2: "Press Proceed to continue",
+            });
+          }
         }
+      } catch (error) {
+        Toast.show({
+          topOffset: 60,
+          type: "error",
+          text1: "Something went wrong",
+          text2: ".",
+        });
+
+        console.log(error);
       }
     };
 
@@ -2293,16 +2664,27 @@ const BuildingStartupScreen1 = ({ navigation }) => {
   };
 
   const publish = async () => {
-    const res = await publishStartup(accessToken, startupid);
-    console.log(res.data);
+    try {
+      const res = await publishStartup(accessToken, startupid);
+      console.log(res.data);
 
-    if (res.status === 201) {
+      if (res.status === 201) {
+        Toast.show({
+          topOffset: 60,
+          type: "success",
+          text1: "Your Startup has been published",
+          text2: "",
+        });
+      }
+    } catch (error) {
       Toast.show({
         topOffset: 60,
-        type: "success",
-        text1: "Your Startup has been published",
-        text2: "",
+        type: "error",
+        text1: "Something went wrong",
+        text2: ".",
       });
+
+      console.log(error);
     }
   };
 
@@ -2438,5 +2820,44 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  subContainer: {
+    backgroundColor: "#84DCC6",
+    paddingTop: 10,
+    marginHorizontal: 20,
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
+    flexWrap: "wrap",
+
+    justifyContent: "center",
+    alignItems: "center",
+    alignContent: "center",
+  },
+  itemView: {
+    // marginHorizontal: '10%',
+    backgroundColor: "white",
+    height: 30,
+    width: "90%",
+    marginBottom: 10,
+    justifyContent: "center",
+    borderRadius: 4,
+  },
+  itemText: {
+    color: "black",
+    paddingHorizontal: 10,
+  },
+  noResultView: {
+    alignSelf: "center",
+    // margin: 20,
+    height: 100,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    alignContent: "center",
+  },
+  noResultText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "white",
   },
 });

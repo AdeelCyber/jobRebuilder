@@ -13,7 +13,8 @@ export const step1startup = async (
   getmediatype,
   mediatosend,
   logo,
-  getdocinfo
+  getdocinfo,
+  value1
 ) => {
   const config = {
     headers: {
@@ -40,6 +41,7 @@ export const step1startup = async (
         },
         logo: logo,
         businessPlan: getdocinfo,
+        stage: value1,
       },
       config
     );
@@ -196,7 +198,7 @@ export const addStartupRole = async (accessToken, startupid, newRole) => {
   }
 };
 
-export const getmembers = async (accessToken) => {
+export const getmembers = async (accessToken, search) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -204,7 +206,32 @@ export const getmembers = async (accessToken) => {
     },
   };
   try {
-    const resp = axios.get("/startup/getallmembers", config);
+    const resp = axios.post(
+      "/freelancer/findByName",
+      {
+        name: search,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const startupNames = async (accessToken) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${accessToken}`,
+    },
+  };
+  try {
+    const resp = axios.get(
+      "/startup/startupNames",
+
+      config
+    );
     return resp;
   } catch (error) {
     return error.response;

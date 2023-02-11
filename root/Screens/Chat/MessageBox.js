@@ -15,6 +15,8 @@ import {
   TextInput,
   ActivityIndicator,
   FlatList,
+  Pressable,
+  Modal,
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Context from "../../Context/Context";
@@ -24,16 +26,29 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
 import moment from "moment";
+
 import {
+  equityOrderOfferStatus,
+  equityOrderOfferStatusRej,
+  oneTimeOrderOfferStatus,
   sendMessagess,
   sendMessagessInGroup,
 } from "../Profile/services/MessageServices";
 import { set } from "react-native-reanimated";
 import * as ImagePicker from "expo-image-picker";
-import { fileUpload, imageUpload } from "../Profile/services/fileServices";
+import {
+  fileGet,
+  fileUpload,
+  imageUpload,
+} from "../Profile/services/fileServices";
 import * as DocumentPicker from "expo-document-picker";
 import PDFReader from "rn-pdf-reader-js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
+import { startupNames } from "../Profile/services/startupServices";
+import SelectDropdown from "react-native-select-dropdown";
+import * as FileSystem from "expo-file-system";
+import { StorageAccessFramework } from "expo-file-system";
 
 const MessageBox = ({
   route,
@@ -50,7 +65,6 @@ const MessageBox = ({
   const {
     theme: { colors },
   } = useContext(Context);
-  const [type, settype] = useState();
   const [getmedia, setmedia] = useState(false);
 
   const [message, setMessage] = useState("");
@@ -59,7 +73,11 @@ const MessageBox = ({
   const [imgcontent, setimgcontent] = useState();
   const [doc, setdoc] = useState();
   const [docinfo, setdocinfo] = useState();
-
+  const [getmodalvisible1, setModalVisible1] = useState(false);
+  const [items, setItems] = useState([]);
+  const [position, setposition] = useState();
+  const [equityid, setequityid] = useState();
+  const [startupid, setstartupid] = useState();
   const pickMedia = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -73,29 +91,30 @@ const MessageBox = ({
       setmedia(result.assets[0].uri);
       setmediatype(result.assets[0].type);
       const img = await imageUpload(result.assets[0].uri);
-      setimgcontent(JSON.parse(img.body));
+      const i = JSON.parse(img.body);
       if (chatType === "group") {
         var obj = {};
         (obj["createdAt"] = Date.now()),
           (obj["image"] = getmedia),
-          (obj["message"] = imgcontent.filename),
+          (obj["sender"] = userImg),
+          (obj["text"] = i.filename),
           (obj["user"] = {
             _id: "me",
           });
 
         setmsg([...msg, obj]);
-        sendMessage(imgcontent.filename, mediatype);
+        sendMessage(i.filename, mediatype);
       } else {
         var obj = {};
         (obj["createdAt"] = Date.now()),
           (obj["image"] = getmedia),
-          (obj["text"] = imgcontent.filename),
+          (obj["text"] = i.filename),
           (obj["user"] = {
             _id: "me",
           });
 
         setmsg([...msg, obj]);
-        sendMessage(imgcontent.filename, mediatype);
+        sendMessage(i.filename, mediatype);
       }
 
       // console.log(file.uri)
@@ -108,36 +127,37 @@ const MessageBox = ({
 
     setdoc(result.uri);
     const pdf = await fileUpload(result.uri);
-    setdocinfo(JSON.parse(pdf.body));
+    const p = JSON.parse(pdf.body);
 
     var obj = {};
     (obj["createdAt"] = Date.now()),
-      (obj["file"] = "file"),
-      (obj["text"] = docinfo.filename),
+      (obj["file"] = doc),
+      (obj["text"] = p.filename),
       (obj["user"] = {
         _id: "me",
       });
 
     setmsg([...msg, obj]);
-    sendMessage(docinfo.filename, "file");
+    sendMessage(p.filename, "file");
   };
 
   const sendMessage = async (message, type) => {
-    console.log(type);
-    console.log(message);
-    console.log(id);
+    //console.log(type);
+    //console.log(message);
+    //console.log(id);
 
     if (chatType === "group") {
       const res = await sendMessagessInGroup(accessToken, id, message, type);
-      console.log(res);
+      console.log(res.status);
       if (res.status == 201) {
-        socket.emit("private message", {
-          to: id,
-          content: {
+        socket.emit(
+          "group message",
+          {
             msgcontent: message,
             messageType: type,
           },
-        });
+          id
+        );
       }
     } else {
       const res = await sendMessagess(accessToken, id, message, type);
@@ -154,22 +174,98 @@ const MessageBox = ({
     }
     //console.log(res.data);
   };
+
+  const oneTimeOfferstatus = async (orderid, status) => {
+    const resp = await oneTimeOrderOfferStatus(accessToken, orderid, status);
+    console.log(resp.data);
+    if (resp.status == 200) {
+      Toast.show({
+        topOffset: 60,
+        type: "success",
+        text1: "Done",
+        text2: ".",
+      });
+    }
+  };
+  const equityOfferstatus = async (startupid, position, equityid, status) => {
+    try {
+      const resp = await equityOrderOfferStatus(
+        accessToken,
+        startupid,
+        position,
+        equityid,
+        status
+      );
+      //console.log(resp.data);
+      if (resp.status == 200) {
+        Toast.show({
+          topOffset: 60,
+          type: "success",
+          text1: "Done",
+          text2: ".",
+        });
+      }
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
+  const equityOfferstatusReject = async (equityid, status) => {
+    try {
+      const resp = await equityOrderOfferStatusRej(
+        accessToken,
+        equityid,
+        status
+      );
+      console.log(resp.data);
+      if (resp.status == 200) {
+        Toast.show({
+          topOffset: 60,
+          type: "success",
+          text1: "Done",
+          text2: ".",
+        });
+      }
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
+
+  const getstartups = async () => {
+    const res = await startupNames(accessToken);
+    setItems(res.data.startUps);
+    //console.log(res.data);
+  };
+
+  const getpdf = async (doc) => {
+    const res = await fileGet(accessToken, doc);
+    console.log(res.data);
+    const permissions =
+      await StorageAccessFramework.requestDirectoryPermissionsAsync();
+    if (!permissions.granted) {
+      return;
+    }
+    try {
+      await StorageAccessFramework.createFileAsync(
+        permissions.directoryUri,
+        res.data,
+        "application/pdf"
+      )
+        .then((r) => {
+          console.log(r);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    //console.log(res.data);
+  };
   useEffect(() => {
-    console.log(chatType);
+    getstartups();
+    // console.log(chatType);
   }, []);
 
-  // const retrieveData = async () => {
-  //   try {
-  //     const order1 = await AsyncStorage.getItem("@order");
-  //     const order2 = JSON.parse(order1);
-
-  //     if (order2 !== null) {
-  //       console.log("order", order2);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
   const icon = () => (
       <Entypo name="dots-three-vertical" size={24} color="black" />
     ),
@@ -177,41 +273,113 @@ const MessageBox = ({
 
   // useEffect(() => {
   //   console.log(messages);
-  socket.on("private message", (data) => {
-    const { content, from } = data;
-    // console.log(content);
-    //console.log(from);
 
-    let obj = {
-      createdAt: Date.now(),
-      text: content.msgcontent,
-      user: {
-        _id: "other",
-      },
-    };
-    console.log(msg.length);
-    console.log(msg);
+  if (chatType === "group") {
+    socket.on("get-group-messages", (data, id) => {
+      console.log(data);
+      console.log(id);
 
-    //console.log(obj);
-    setmsg([...msg, obj]);
-    console.log(
-      "--------------------------------------------------------------------------------"
-    );
-    console.log(msg);
+      var obj = {};
+      (obj["createdAt"] = Date.now()),
+        (obj[`${data.messageType}`] = data.msgcontent),
+        (obj["user"] = {
+          _id: "other",
+        });
 
-    //let tempmsg = [...messages.current];
-    //console.log(tempmsg);
-    // tempmsg.push(obj);
-    // messages.current = tempmsg;
-    // console.log(messages.current);
-  });
-  // }, []);
+      setmsg([...msg, obj]);
+    });
+  } else {
+    socket.on("private message", (data) => {
+      const { content, from } = data;
+      console.log(content);
+      // console.log(from);
+
+      var obj = {};
+      (obj["createdAt"] = Date.now()),
+        (obj[`${content.messageType}`] = content.msgcontent),
+        (obj["user"] = {
+          _id: "other",
+        });
+
+      setmsg([...msg, obj]);
+    });
+  }
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Modal animationType="fade" visible={getmodalvisible1}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View style={styles.SectionStyle}>
+              <SelectDropdown
+                style={[styles.inputStyle, { borderColor: "#EEEEEE" }]}
+                data={items}
+                onSelect={(selectedItem, index) => {
+                  setstartupid(selectedItem._id);
+                  console.log(selectedItem._id, index);
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  // text represented after item is selected
+                  // if data array is an array of objects then return selectedItem.property to render after item is selected
+                  return selectedItem.businessName;
+                }}
+                rowTextForSelection={(item, index) => {
+                  // text represented for each item in dropdown
+                  // if data array is an array of objects then return item.property to represent item in dropdown
+                  return item.businessName;
+                }}
+              />
+            </View>
+            <View style={[styles.SectionStyle, { width: 192 }]}>
+              <TextInput
+                style={[
+                  styles.inputStyle,
+                  {
+                    elevation: 7,
+                  },
+                ]}
+                onChangeText={(position) => setposition(position)}
+                placeholder="Position"
+                placeholderTextColor="#ACA9A9"
+                underlineColorAndroid="#f000"
+              />
+            </View>
+            <Pressable
+              style={{
+                width: 192,
+                height: 31,
+                borderRadius: 10,
+                marginTop: 6,
+                backgroundColor: colors.Bluish,
+              }}
+              onPress={() => {
+                equityOfferstatus(startupid, position, equityid, "Accepted");
+                setModalVisible1(false);
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 11,
+                  fontWeight: "400",
+                  alignSelf: "center",
+                  margin: 6,
+                  color: colors.white,
+                }}
+              >
+                Accept Offer
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
       <View style={[styles.header, styles.shadow]}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <AntDesign name="arrowleft" size={24} color="black" />
+          <AntDesign
+            name="arrowleft"
+            size={24}
+            color="black"
+            onPress={() => navigation.goBack()}
+          />
         </View>
         {/* Text View in */}
         <View>
@@ -231,6 +399,7 @@ const MessageBox = ({
           >
             {Title}
           </MyText>
+
           {chatType === "group" ? (
             <FlatList
               data={members}
@@ -270,116 +439,322 @@ const MessageBox = ({
           keyExtractor={(item) => item._id}
           renderItem={({ item }) => (
             <View>
-              <View>
-                <View
-                  style={{
-                    height: 43,
-                    flexDirection: "row",
-                    alignSelf: "flex-end",
-                    backgroundColor: "#ecf0f1",
-                    padding: 8,
-                    marginTop: 10,
-                    marginRight: 18,
-                    borderRadius: 10,
-                    backgroundColor: colors.Bluish,
-                  }}
-                >
-                  <Text
+              {item.user._id == "other" ? (
+                <View>
+                  <View
                     style={{
-                      color: colors.white,
-                      fontSize: 11,
-                      fontWeight: "400",
+                      flexDirection: "row",
+                      justifyContent: "flex-start",
                     }}
                   >
-                    {item?.message.message}
-                  </Text>
-                </View>
-                <Text
-                  style={{
-                    marginRight: 20,
-                    margin: 7,
-                    fontSize: 8,
-                    alignSelf: "flex-end",
-                    fontWeight: "400",
-                    color: "#23232380",
-                  }}
-                >
-                  {moment(item.message.createdAt).format("h:mm a")}
-                </Text>
-                {item.message.messageType === "image" && (
-                  <View>
-                    <Image
-                      source={{
-                        uri: `https://stepdev.up.railway.app/media/getimage/${item.message.message}`,
-                      }}
+                    {/* <Image
+                      source={{ uri: item.sender.avatar }}
                       style={{
-                        height: 150,
-                        width: 150,
-                        alignSelf: "flex-end",
-                        marginRight: 20,
-                        margin: 7,
-                        borderRadius: 10,
-                        backgroundColor: colors.Bluish,
+                        height: 25,
+                        marginLeft: 9,
+                        width: 25,
+                        marginTop: 25,
+                        borderRadius: 50,
                       }}
-                    />
-                    <Text
-                      style={{
-                        marginRight: 20,
-                        margin: 7,
-                        fontSize: 8,
-                        alignSelf: "flex-end",
-                        fontWeight: "400",
-                        color: "#23232380",
-                      }}
-                    >
-                      {moment(item.message.createdAt).format("h:mm a")}
-                    </Text>
-                  </View>
-                )}
-
-                {item.file && (
-                  <View>
+                    /> */}
                     <View
                       style={{
-                        height: 70,
-                        width: 90,
-                        alignSelf: "flex-end",
-                        marginRight: 20,
-
-                        backgroundColor: colors.Bluish,
+                        height: 43,
+                        flexDirection: "row",
+                        alignSelf: "flex-start",
+                        backgroundColor: "#ecf0f1",
+                        padding: 8,
+                        marginTop: 10,
+                        marginLeft: 13,
                         borderRadius: 10,
+                        backgroundColor: "#FFF2F2",
                       }}
                     >
-                      <Image
-                        source={require("../../../assets/img/pdf.png")}
+                      <Text
                         style={{
-                          height: 50,
-                          width: 50,
-                          alignSelf: "flex-end",
-                          margin: 7,
+                          fontSize: 11,
+                          fontWeight: "400",
                         }}
-                      />
-                      <PDFReader
-                        source={{
-                          uri: `https://stepdev.up.railway.app/media/getFile/${item.message.file}`,
-                        }}
-                      />
+                      >
+                        {item?.text}
+                      </Text>
                     </View>
-                    <Text
+                  </View>
+                  <Text
+                    style={{
+                      marginLeft: 50,
+                      margin: 7,
+                      fontSize: 8,
+                      fontWeight: "400",
+                      color: "#23232380",
+                    }}
+                  >
+                    {moment(item.createdAt).format("h:mm a")}
+                  </Text>
+                  {item.image && (
+                    <View>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "flex-start",
+                        }}
+                      >
+                        <Image
+                          source={{ uri: item.sender.avatar }}
+                          style={{
+                            height: 25,
+                            marginLeft: 9,
+                            width: 25,
+                            marginTop: 25,
+                            borderRadius: 50,
+                          }}
+                        />
+                        <Image
+                          source={{
+                            uri: `https://stepdev.up.railway.app/media/getimage/${item.image}`,
+                          }}
+                          style={{
+                            height: 150,
+                            width: 150,
+                            marginLeft: 13,
+                            margin: 7,
+                            borderRadius: 10,
+                            backgroundColor: "#FFF2F2",
+                          }}
+                        />
+                      </View>
+                      <Text
+                        style={{
+                          marginLeft: 50,
+                          margin: 7,
+                          fontSize: 8,
+                          fontWeight: "400",
+                          color: "#23232380",
+                        }}
+                      >
+                        {moment(item.createdAt).format("h:mm a")}
+                      </Text>
+                    </View>
+                  )}
+
+                  {item.file && (
+                    <View>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "flex-start",
+                        }}
+                      >
+                        {/* <Image
+                          source={{ uri: item.sender.avatar }}
+                          style={{
+                            height: 25,
+                            marginLeft: 9,
+                            width: 25,
+                            marginTop: 25,
+                            borderRadius: 50,
+                          }}
+                        /> */}
+                        <View
+                          style={{
+                            height: 70,
+                            width: 90,
+                            marginLeft: 13,
+
+                            backgroundColor: "#FFF2F2",
+                            borderRadius: 10,
+                          }}
+                        >
+                          <Pressable
+                            onPress={() => {
+                              getpdf(item.file);
+                            }}
+                          >
+                            <Image
+                              source={require("../../../assets/img/pdf.png")}
+                              style={{
+                                height: 50,
+                                width: 50,
+                                margin: 7,
+                              }}
+                            />
+                          </Pressable>
+                        </View>
+                      </View>
+                      <Text
+                        style={{
+                          marginLeft: 50,
+                          margin: 7,
+                          fontSize: 8,
+                          fontWeight: "400",
+                          color: "#23232380",
+                        }}
+                      >
+                        {moment(item.createdAt).format("h:mm a")}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              ) : (
+                <View>
+                  <View
+                    style={{ flexDirection: "row", justifyContent: "flex-end" }}
+                  >
+                    <View
                       style={{
-                        marginRight: 20,
-                        margin: 7,
-                        fontSize: 8,
+                        height: 43,
+                        flexDirection: "row",
                         alignSelf: "flex-end",
-                        fontWeight: "400",
-                        color: "#23232380",
+                        backgroundColor: "#ecf0f1",
+                        padding: 8,
+                        marginTop: 10,
+                        marginRight: 13,
+                        borderRadius: 10,
+                        backgroundColor: colors.Bluish,
                       }}
                     >
-                      {moment(item.message.createdAt).format("h:mm a")}
-                    </Text>
+                      <Text
+                        style={{
+                          color: colors.white,
+                          fontSize: 11,
+                          fontWeight: "400",
+                        }}
+                      >
+                        {item?.text}
+                      </Text>
+                    </View>
+                    {/* <Image
+                      source={{ uri: item.sender.avatar }}
+                      style={{
+                        height: 25,
+                        marginRight: 9,
+                        width: 25,
+                        borderRadius: 50,
+                        alignSelf: "flex-end",
+                      }}
+                    /> */}
                   </View>
-                )}
-              </View>
+                  <Text
+                    style={{
+                      marginRight: 50,
+                      margin: 7,
+                      fontSize: 8,
+                      alignSelf: "flex-end",
+                      fontWeight: "400",
+                      color: "#23232380",
+                    }}
+                  >
+                    {moment(item.createdAt).format("h:mm a")}
+                  </Text>
+                  {item.image && (
+                    <View>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "flex-end",
+                        }}
+                      >
+                        <Image
+                          source={{
+                            uri: `https://stepdev.up.railway.app/media/getimage/${item.image}`,
+                          }}
+                          style={{
+                            height: 150,
+                            width: 150,
+                            alignSelf: "flex-end",
+                            marginRight: 13,
+                            margin: 7,
+                            borderRadius: 10,
+                            backgroundColor: colors.Bluish,
+                          }}
+                        />
+                        {/* <Image
+                          source={{ uri: item.sender.avatar }}
+                          style={{
+                            height: 25,
+                            marginRight: 9,
+                            width: 25,
+                            borderRadius: 50,
+                            alignSelf: "flex-end",
+                          }}
+                        /> */}
+                      </View>
+                      <Text
+                        style={{
+                          marginRight: 50,
+                          margin: 7,
+                          fontSize: 8,
+                          alignSelf: "flex-end",
+                          fontWeight: "400",
+                          color: "#23232380",
+                        }}
+                      >
+                        {moment(item.createdAt).format("h:mm a")}
+                      </Text>
+                    </View>
+                  )}
+
+                  {item.file && (
+                    <View>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "flex-end",
+                        }}
+                      >
+                        <View
+                          style={{
+                            height: 70,
+                            width: 90,
+                            alignSelf: "flex-end",
+                            marginRight: 13,
+
+                            backgroundColor: colors.Bluish,
+                            borderRadius: 10,
+                          }}
+                        >
+                          <Pressable
+                            onPress={() => {
+                              getpdf(item.file);
+                            }}
+                          >
+                            <Image
+                              source={require("../../../assets/img/pdf.png")}
+                              style={{
+                                height: 50,
+                                width: 50,
+                                margin: 7,
+                              }}
+                            />
+                          </Pressable>
+                        </View>
+                        {/* <Image
+                          source={{ uri: item.sender.avatar }}
+                          style={{
+                            height: 25,
+                            marginRight: 9,
+                            width: 25,
+                            borderRadius: 50,
+                            alignSelf: "flex-end",
+                          }}
+                        /> */}
+                      </View>
+                      <Text
+                        style={{
+                          marginRight: 50,
+                          margin: 7,
+                          fontSize: 8,
+                          alignSelf: "flex-end",
+                          fontWeight: "400",
+                          color: "#23232380",
+                        }}
+                      >
+                        {moment(item.createdAt).format("h:mm a")}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              )}
             </View>
           )}
         />
@@ -464,19 +839,335 @@ const MessageBox = ({
                           borderRadius: 10,
                         }}
                       >
-                        <Image
-                          source={require("../../../assets/img/pdf.png")}
+                        <Pressable
+                          onPress={() => {
+                            getpdf(item.file);
+                          }}
+                        >
+                          <Image
+                            source={require("../../../assets/img/pdf.png")}
+                            style={{
+                              height: 50,
+                              width: 50,
+                              margin: 7,
+                            }}
+                          />
+                        </Pressable>
+                      </View>
+                      <Text
+                        style={{
+                          marginLeft: 20,
+                          margin: 7,
+                          fontSize: 8,
+                          fontWeight: "400",
+                          color: "#23232380",
+                        }}
+                      >
+                        {moment(item.createdAt).format("h:mm a")}
+                      </Text>
+                    </View>
+                  )}
+                  {item.oneTimeOrder && (
+                    <View>
+                      <View
+                        style={{
+                          height: 180,
+                          alignSelf: "flex-start",
+                          padding: 8,
+                          marginTop: 10,
+                          marginLeft: 18,
+                          borderRadius: 10,
+                          backgroundColor: "#FFF2F2",
+                        }}
+                      >
+                        <Text
                           style={{
-                            height: 50,
-                            width: 50,
-                            margin: 7,
+                            fontSize: 12,
+                            fontWeight: "500",
+                            marginBottom: 5,
                           }}
-                        />
-                        <PDFReader
-                          source={{
-                            uri: `https://stepdev.up.railway.app/media/getFile/${item.file}`,
+                        >
+                          {item.oneTimeOrder.jobTitle}
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            fontWeight: "700",
+                            marginBottom: 3,
+                            borderBottomWidth: 0.5,
+                            borderColor: colors.iconGray,
                           }}
-                        />
+                        >
+                          One Time Project
+                        </Text>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              fontWeight: "400",
+                              color: "#23232380",
+                            }}
+                          >
+                            Total Price
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              fontWeight: "500",
+                            }}
+                          >
+                            ${item.oneTimeOrder.totalPrice}
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              fontWeight: "400",
+                              color: "#23232380",
+                            }}
+                          >
+                            Delivery Time
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              fontWeight: "500",
+                            }}
+                          >
+                            {moment(item.oneTimeOrder.deliveryTime).format(
+                              "MMM Do YY"
+                            )}
+                          </Text>
+                        </View>
+                        <Pressable
+                          disabled={
+                            item.oneTimeOrder.offerStatus === "Accepted" ||
+                            item.oneTimeOrder.offerStatus === "Rejected"
+                              ? true
+                              : false
+                          }
+                          style={{
+                            width: 192,
+                            height: 31,
+                            borderWidth: 1,
+                            borderRadius: 10,
+                            marginTop: 6,
+                          }}
+                          onPress={() => {
+                            oneTimeOfferstatus(
+                              item.oneTimeOrder._id,
+                              "Accepted"
+                            );
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 11,
+                              fontWeight: "400",
+                              alignSelf: "center",
+                              margin: 6,
+                            }}
+                          >
+                            Accept Offer
+                          </Text>
+                        </Pressable>
+                        <Pressable
+                          disabled={
+                            item.oneTimeOrder.offerStatus === "Accepted" ||
+                            item.oneTimeOrder.offerStatus === "Rejected"
+                              ? true
+                              : false
+                          }
+                          style={{
+                            width: 192,
+                            height: 31,
+                            marginTop: 6,
+                            borderRadius: 10,
+                            backgroundColor: colors.Bluish,
+                          }}
+                          onPress={() => {
+                            oneTimeOfferstatus(
+                              item.oneTimeOrder._id,
+                              "Rejected"
+                            );
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 11,
+                              fontWeight: "400",
+                              color: colors.white,
+                              alignSelf: "center",
+                              margin: 6,
+                            }}
+                          >
+                            Reject Offer
+                          </Text>
+                        </Pressable>
+                      </View>
+                      <Text
+                        style={{
+                          marginLeft: 20,
+                          margin: 7,
+                          fontSize: 8,
+                          fontWeight: "400",
+                          color: "#23232380",
+                        }}
+                      >
+                        {moment(item.createdAt).format("h:mm a")}
+                      </Text>
+                    </View>
+                  )}
+                  {item.equityOrder && (
+                    <View>
+                      <View
+                        style={{
+                          height: 180,
+                          alignSelf: "flex-start",
+                          padding: 8,
+                          marginTop: 10,
+                          marginLeft: 18,
+                          borderRadius: 10,
+                          backgroundColor: "#FFF2F2",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            fontWeight: "500",
+                            marginBottom: 5,
+                          }}
+                        >
+                          {item.equityOrder.jobTitle}
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            fontWeight: "700",
+                            marginBottom: 3,
+                            borderBottomWidth: 0.5,
+                            borderColor: colors.iconGray,
+                          }}
+                        >
+                          Join a business
+                        </Text>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              fontWeight: "400",
+                              color: "#23232380",
+                            }}
+                          >
+                            Equity
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              fontWeight: "500",
+                            }}
+                          >
+                            %{item.equityOrder.equity}
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              fontWeight: "400",
+                              color: "#23232380",
+                            }}
+                          >
+                            Partnership Agreement
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              fontWeight: "500",
+                            }}
+                          >
+                            View
+                          </Text>
+                        </View>
+                        <Pressable
+                          style={{
+                            width: 192,
+                            height: 31,
+                            borderWidth: 1,
+                            borderRadius: 10,
+                            marginTop: 6,
+                          }}
+                          onPress={() => {
+                            setequityid(item.equityOrder._id);
+                            setModalVisible1(true);
+                            //equityOfferstatus(item.equityOrder._id, "Accepted");
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 11,
+                              fontWeight: "400",
+                              alignSelf: "center",
+                              margin: 6,
+                            }}
+                          >
+                            Accept Offer
+                          </Text>
+                        </Pressable>
+                        <Pressable
+                          disabled={
+                            item.equityOrder.offerStatus === "Accepted" ||
+                            item.equityOrder.offerStatus === "Rejected"
+                              ? true
+                              : false
+                          }
+                          style={{
+                            width: 192,
+                            height: 31,
+                            marginTop: 6,
+                            borderRadius: 10,
+                            backgroundColor: colors.Bluish,
+                          }}
+                          onPress={() => {
+                            equityOfferstatusReject(
+                              item.equityOrder._id,
+                              "Rejected"
+                            );
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 11,
+                              fontWeight: "400",
+                              color: colors.white,
+                              alignSelf: "center",
+                              margin: 6,
+                            }}
+                          >
+                            Reject Offer
+                          </Text>
+                        </Pressable>
                       </View>
                       <Text
                         style={{
@@ -573,20 +1264,20 @@ const MessageBox = ({
                           borderRadius: 10,
                         }}
                       >
-                        <Image
-                          source={require("../../../assets/img/pdf.png")}
-                          style={{
-                            height: 50,
-                            width: 50,
-                            alignSelf: "flex-end",
-                            margin: 7,
+                        <Pressable
+                          onPress={() => {
+                            getpdf(item.file);
                           }}
-                        />
-                        <PDFReader
-                          source={{
-                            uri: `https://stepdev.up.railway.app/media/getFile/${item.file}`,
-                          }}
-                        />
+                        >
+                          <Image
+                            source={require("../../../assets/img/pdf.png")}
+                            style={{
+                              height: 50,
+                              width: 50,
+                              margin: 7,
+                            }}
+                          />
+                        </Pressable>
                       </View>
                       <Text
                         style={{
@@ -594,6 +1285,318 @@ const MessageBox = ({
                           margin: 7,
                           fontSize: 8,
                           alignSelf: "flex-end",
+                          fontWeight: "400",
+                          color: "#23232380",
+                        }}
+                      >
+                        {moment(item.createdAt).format("h:mm a")}
+                      </Text>
+                    </View>
+                  )}
+                  {item.oneTimeOrder && (
+                    <View>
+                      <View
+                        style={{
+                          height: 180,
+                          alignSelf: "flex-end",
+                          padding: 8,
+                          marginTop: 10,
+                          marginRight: 18,
+                          borderRadius: 10,
+                          backgroundColor: colors.Bluish,
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            fontWeight: "500",
+                            color: colors.white,
+                            marginBottom: 5,
+                          }}
+                        >
+                          {item.oneTimeOrder.jobTitle}
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            fontWeight: "700",
+                            color: colors.white,
+                            marginBottom: 3,
+                            borderBottomWidth: 0.5,
+                            borderColor: colors.white,
+                          }}
+                        >
+                          One Time Project
+                        </Text>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              fontWeight: "400",
+                              color: colors.white,
+                            }}
+                          >
+                            Total Price
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              fontWeight: "500",
+                              color: colors.white,
+                            }}
+                          >
+                            ${item.oneTimeOrder.totalPrice}
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              fontWeight: "400",
+                              color: colors.white,
+                            }}
+                          >
+                            Delivery Time
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              fontWeight: "500",
+                              color: colors.white,
+                            }}
+                          >
+                            {moment(item.oneTimeOrder.deliveryTime).format(
+                              "MMM Do YY"
+                            )}
+                          </Text>
+                        </View>
+                        <Pressable
+                          style={{
+                            width: 192,
+                            height: 31,
+                            borderWidth: 1,
+                            borderColor: colors.white,
+                            borderRadius: 10,
+                            marginTop: 6,
+                          }}
+                          onPress={() => {}}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 11,
+                              fontWeight: "400",
+                              alignSelf: "center",
+                              margin: 6,
+                              color: colors.white,
+                            }}
+                          >
+                            Offer Sent
+                          </Text>
+                        </Pressable>
+                        <Pressable
+                          disabled={
+                            item.oneTimeOrder.offerStatus === "Withdrawn"
+                              ? true
+                              : false
+                          }
+                          style={{
+                            width: 192,
+                            height: 31,
+                            marginTop: 6,
+                            borderRadius: 10,
+                            backgroundColor: colors.white,
+                          }}
+                          onPress={() => {
+                            oneTimeOfferstatus(
+                              item.oneTimeOrder._id,
+                              "Withdrawn"
+                            );
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 11,
+                              fontWeight: "400",
+                              color: colors.Bluish,
+                              alignSelf: "center",
+                              margin: 6,
+                            }}
+                          >
+                            Withdraw Offer
+                          </Text>
+                        </Pressable>
+                      </View>
+                      <Text
+                        style={{
+                          marginRight: 20,
+                          alignSelf: "flex-end",
+                          margin: 7,
+                          fontSize: 8,
+                          fontWeight: "400",
+                          color: "#23232380",
+                        }}
+                      >
+                        {moment(item.createdAt).format("h:mm a")}
+                      </Text>
+                    </View>
+                  )}
+                  {item.equityOrder && (
+                    <View>
+                      <View
+                        style={{
+                          height: 180,
+                          alignSelf: "flex-end",
+                          padding: 8,
+                          marginTop: 10,
+                          marginRight: 18,
+                          borderRadius: 10,
+                          backgroundColor: colors.Bluish,
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            fontWeight: "500",
+                            color: colors.white,
+                            marginBottom: 5,
+                          }}
+                        >
+                          {item.equityOrder.jobTitle}
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            fontWeight: "700",
+                            color: colors.white,
+                            marginBottom: 3,
+                            borderBottomWidth: 0.5,
+                            borderColor: colors.white,
+                          }}
+                        >
+                          Joining a business
+                        </Text>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              fontWeight: "400",
+                              color: colors.white,
+                            }}
+                          >
+                            Equity
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              fontWeight: "500",
+                              color: colors.white,
+                            }}
+                          >
+                            %{item.equityOrder.equity}
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              fontWeight: "400",
+                              color: colors.white,
+                            }}
+                          >
+                            Partnership Agreement
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              fontWeight: "500",
+                              color: colors.white,
+                            }}
+                          >
+                            View
+                          </Text>
+                        </View>
+                        <Pressable
+                          style={{
+                            width: 192,
+                            height: 31,
+                            borderWidth: 1,
+                            borderColor: colors.white,
+                            borderRadius: 10,
+                            marginTop: 6,
+                          }}
+                          onPress={() => {}}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 11,
+                              fontWeight: "400",
+                              alignSelf: "center",
+                              margin: 6,
+                              color: colors.white,
+                            }}
+                          >
+                            Offer Sent
+                          </Text>
+                        </Pressable>
+                        <Pressable
+                          disabled={
+                            item.equityOrder.offerStatus === "Withdrawn"
+                              ? true
+                              : false
+                          }
+                          style={{
+                            width: 192,
+                            height: 31,
+                            marginTop: 6,
+                            borderRadius: 10,
+                            backgroundColor: colors.white,
+                          }}
+                          onPress={() => {
+                            equityOfferstatusReject(
+                              item.equityOrder._id,
+                              "Withdrawn"
+                            );
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 11,
+                              fontWeight: "400",
+                              color: colors.Bluish,
+                              alignSelf: "center",
+                              margin: 6,
+                            }}
+                          >
+                            Withdraw Offer
+                          </Text>
+                        </Pressable>
+                      </View>
+                      <Text
+                        style={{
+                          marginRight: 20,
+                          alignSelf: "flex-end",
+                          margin: 7,
+                          fontSize: 8,
                           fontWeight: "400",
                           color: "#23232380",
                         }}
@@ -638,20 +1641,19 @@ const MessageBox = ({
             size={32}
             color={colors.Bluish}
             onPress={() => {
+              //console.log(msg);
               if (chatType === "group") {
-                console.log(msg);
-                settype("text");
                 var obj = {};
-                (obj["message.createdAt"] = Date.now()),
-                  (obj["message"] = message),
+                (obj["createdAt"] = Date.now()),
+                  (obj["text"] = message),
+                  (obj["sender"] = userImg),
                   (obj["user"] = {
                     _id: "me",
                   });
                 setmsg([...msg, obj]);
-                sendMessage(message, type);
+                sendMessage(message, "text");
+                setMessage("");
               } else {
-                console.log(msg);
-                settype("text");
                 var obj = {};
                 (obj["createdAt"] = Date.now()),
                   (obj["text"] = message),
@@ -659,7 +1661,8 @@ const MessageBox = ({
                     _id: "me",
                   });
                 setmsg([...msg, obj]);
-                sendMessage(message, type);
+                sendMessage(message, "text");
+                setMessage("");
               }
             }}
           />
@@ -706,7 +1709,7 @@ const MessageBox = ({
               size={15}
               color="#23232380"
               onPress={() => {
-                navigation.navigate("CustomOffer");
+                navigation.navigate("CustomOffer", { id: id });
               }}
             />
             <MyText
@@ -746,5 +1749,40 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 3,
     borderRadius: 10,
+  },
+  SectionStyle: {
+    flexDirection: "row",
+    height: 47,
+    marginTop: 14,
+    marginBottom: 5,
+  },
+
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  modalView: {
+    margin: 20,
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  inputStyle: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 14,
+    borderRadius: 2,
+    backgroundColor: "white",
   },
 });

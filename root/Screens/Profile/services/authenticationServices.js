@@ -29,6 +29,7 @@ export const createaccount = async (
       phoneNumber,
       name,
       role,
+      authType: "local",
     });
     return resp;
   } catch (error) {

@@ -192,7 +192,8 @@ export const editProfile = async (
   country,
   language,
   work,
-  about
+  about,
+  image
 ) => {
   const config = {
     headers: {
@@ -211,6 +212,7 @@ export const editProfile = async (
         hoursPerWeek: work,
         hourlyRate: work,
         aboutMe: about,
+        avatar: image,
       },
       config
     );

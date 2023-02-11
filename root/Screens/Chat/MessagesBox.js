@@ -49,16 +49,16 @@ const MessagesBox = ({ route }) => {
     if (chatType === "group") {
       const res = await getMessagesGroup(accessToken, id);
       // console.log(res.data.messages);
-      setMessages(res.data.chat.messages);
-      console.log(res.data.chat.messages);
+      setMessages(res.data.chat);
+      // console.log(res.data.chat);
       // messages.current = res.data.messages;
 
       setcondition(false);
     } else {
       const res = await getMessages(accessToken, id);
-      // console.log(res.data.messages);
-      setMessages(res.data.messages);
       console.log(res.data.messages);
+      setMessages(res.data.messages);
+      //  console.log(res.data.messages);
       // messages.current = res.data.messages;
 
       setcondition(false);

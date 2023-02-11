@@ -27,32 +27,24 @@ import CartProvider from "../../Context/CartProvider";
 import { editServices } from "../Profile/services/ProfileServices";
 import Toast from "react-native-toast-message";
 
-const EditService = () => {
+const EditService = ({ route }) => {
   const {
     theme: { colors },
   } = useContext(Context);
+  const { userinfo } = route.params != undefined ? route.params : {};
+
   const navigation = useNavigation();
   const [description, setdescription] = useState(true);
   const [skills, setskills] = useState(false);
   const [rates, setrates] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [userdesc, setuserdesc] = useState(
-    "Im a professional designer specialist in logo and identity design. I guarantee you the quality in a short time.  Deliverables: 1- Presentation file which shows you how your logo will appear in many applications (Mockups). 2- Vector files / Open sources: (Ai, EPS, and PDF). 3- JPEGs files of the logo in many different colored backgrounds."
-  );
-  const [items, setItems] = useState([
-    { label: "100$", value: "100" },
-    { label: "200$", value: "200" },
-  ]);
-  const [skillsofuser, setskillsofuser] = useState([
-    "UI/UX Design",
-    "Logo Design",
-    "Video Editing",
-    "Animations",
-    "Post Designs",
-  ]);
+  //const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(userinfo?.services.hourlyRate);
+  const [userdesc, setuserdesc] = useState(userinfo?.services.description);
+
+  const [skillsofuser, setskillsofuser] = useState(userinfo?.services.skills);
 
   const { accessToken } = useContext(CartProvider);
+  const [userskill, setuserskill] = useState();
 
   const deleteItem = (index) => {
     const r = skillsofuser.filter((i, e) => e != index);
@@ -74,7 +66,7 @@ const EditService = () => {
 
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
-      <CustomHeader9 />
+      <CustomHeader9 nav={navigation} />
       <View style={[styles.container, { marginTop: 30 }]}>
         <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
           {description ? (
@@ -213,16 +205,10 @@ const EditService = () => {
         {rates && (
           <View style={{ marginTop: 30 }}>
             <View style={styles.SectionStyle}>
-              <DropDownPicker
-                style={[styles.inputStyle, { borderColor: "#EEEEEE" }]}
-                textStyle={{ color: "#ACA9A9" }}
-                placeholder="100$"
-                open={open}
+              <TextInput
+                style={styles.inputStyle}
                 value={value}
-                items={items}
-                setOpen={setOpen}
-                setValue={setValue}
-                setItems={setItems}
+                onChangeText={(value) => setValue(value)}
               />
             </View>
             <Pressable
@@ -333,6 +319,22 @@ const EditService = () => {
                     </View>
                   </View>
                 )}
+              />
+              <TextInput
+                style={[
+                  styles.inputStyle,
+                  {
+                    flexDirection: "row",
+                    justifyContent: "space-evenly",
+                    height: 60,
+                  },
+                ]}
+                onChangeText={(userskill) => setuserskill(userskill)}
+                value={userskill}
+                onSubmitEditing={() => {
+                  setskillsofuser([...skillsofuser, userskill]);
+                  setuserskill("");
+                }}
               />
             </View>
             <Pressable

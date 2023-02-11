@@ -8,6 +8,7 @@ import {
   View,
   ImageBackground,
   TextInput,
+  FlatList,
 } from "react-native";
 
 import Context from "../../Context/Context";
@@ -39,7 +40,7 @@ const Skills = () => {
   const [hourlyrate, sethourlyrate] = useState();
   const [description, setdescription] = useState();
   const [skills, setskills] = useState([]);
-
+  const [userskill, setuserskill] = useState();
   const saveData = async () => {
     try {
       await AsyncStorage.setItem("@skills", JSON.stringify(skills));
@@ -61,6 +62,12 @@ const Skills = () => {
     }
   };
 
+  const deleteItem = (index) => {
+    const r = skills.filter((i, e) => e != index);
+
+    setskills(r);
+  };
+
   return (
     <View
       style={[
@@ -79,38 +86,74 @@ const Skills = () => {
         Skills
       </MyText>
       <View>
-        <View style={styles.SectionStyle}>
-          <View
+        <View style={[styles.inputStyle]}>
+          <FlatList
+            data={skills}
+            keyExtractor={(item) => item.id}
+            numColumns={3}
+            renderItem={({ item, index }) => (
+              <View
+                style={{
+                  marginTop: 15,
+                  marginLeft: 10,
+                  height: 22,
+                  width: 90,
+                  backgroundColor: colors.Bluish,
+                  borderRadius: 5,
+                }}
+              >
+                <View style={{ flexDirection: "row" }}>
+                  <MyText
+                    style={{
+                      color: colors.white,
+                      fontSize: 11,
+                      fontWeight: "400",
+                      alignSelf: "center",
+                      margin: 3,
+                      marginLeft: 5,
+                    }}
+                  >
+                    {item}
+                  </MyText>
+                  <TouchableOpacity
+                    style={{
+                      justifyContent: "flex-end",
+                      alignItems: "flex-end",
+                    }}
+                    onPress={() => {
+                      deleteItem(index);
+                    }}
+                  >
+                    <MyText
+                      style={{
+                        color: colors.white,
+                        fontSize: 9,
+                        margin: 5,
+                      }}
+                    >
+                      X
+                    </MyText>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+          />
+          <TextInput
             style={[
               styles.inputStyle,
-              { flexDirection: "row", justifyContent: "space-evenly" },
+              {
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+                height: 60,
+              },
             ]}
-          >
-            <TouchableOpacity
-              style={styles.btnstyle}
-              onPress={() => {
-                setskills([...skills, "UI/UX design"]);
-              }}
-            >
-              <MyText style={styles.btntext}>UI/UX design</MyText>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.btnstyle}
-              onPress={() => {
-                setskills([...skills, "Wordpress"]);
-              }}
-            >
-              <MyText style={styles.btntext}>Wordpress</MyText>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.btnstyle}
-              onPress={() => {
-                setskills([...skills, "Flutter"]);
-              }}
-            >
-              <MyText style={styles.btntext}>Flutter</MyText>
-            </TouchableOpacity>
-          </View>
+            onChangeText={(userskill) => setuserskill(userskill)}
+            value={userskill}
+            onSubmitEditing={() => {
+              setskills([...skills, userskill]);
+              setuserskill("");
+            }}
+          />
         </View>
 
         <View style={styles.SectionStyle}>

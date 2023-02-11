@@ -14,7 +14,7 @@ import {
 
 import Context from "../../Context/Context";
 import MyText from "../../Components/Text";
-import CustomHeader8 from "../../Components/CustomHeader8";
+import CustomHeader9 from "../../Components/CustomHeader9";
 import Icon from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
@@ -50,8 +50,6 @@ const HomeService = ({ route }) => {
   const [userinfo, setuserinfo] = useState();
   const [getcondition, setcondition] = useState(true);
 
-  const [userreviews, setuserreviews] = useState([]);
-
   const { accessToken } = useContext(CartProvider);
   const getUser = async () => {
     const res = await getProfile(accessToken);
@@ -82,7 +80,7 @@ const HomeService = ({ route }) => {
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
       <View style={[styles.container]}>
-        <CustomHeader8 />
+        <CustomHeader9 Title="" nav={navigation} />
         <UserInfo />
         <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
           <ScrollView
@@ -291,6 +289,11 @@ const HomeService = ({ route }) => {
                     name="pencil"
                     size={14}
                     color={colors.white}
+                    onPress={() => {
+                      navigation.navigate("EditService", {
+                        userinfo: userinfo,
+                      });
+                    }}
                   />
                 </View>
                 <View
@@ -309,7 +312,9 @@ const HomeService = ({ route }) => {
                     size={14}
                     color={colors.white}
                     onPress={() => {
-                      navigation.navigate("EditService");
+                      navigation.navigate("EditService", {
+                        userinfo: userinfo,
+                      });
                     }}
                   />
                 </View>
@@ -362,6 +367,11 @@ const HomeService = ({ route }) => {
                   name="pencil"
                   size={14}
                   color={colors.white}
+                  onPress={() => {
+                    navigation.navigate("EditService", {
+                      userinfo: userinfo,
+                    });
+                  }}
                 />
               </View>
             </View>
@@ -684,6 +694,11 @@ const HomeService = ({ route }) => {
                         name="pencil"
                         size={14}
                         color={colors.white}
+                        onPress={() => {
+                          navigation.navigate("EditProfile", {
+                            userinfo: userinfo,
+                          });
+                        }}
                       />
                     </View>
                   </View>
@@ -754,6 +769,11 @@ const HomeService = ({ route }) => {
                         name="pencil"
                         size={14}
                         color={colors.white}
+                        onPress={() => {
+                          navigation.navigate("EditProfile", {
+                            userinfo: userinfo,
+                          });
+                        }}
                       />
                     </View>
                   </View>
@@ -799,6 +819,11 @@ const HomeService = ({ route }) => {
                         name="pencil"
                         size={14}
                         color={colors.white}
+                        onPress={() => {
+                          navigation.navigate("EditProfile", {
+                            userinfo: userinfo,
+                          });
+                        }}
                       />
                     </View>
                   </View>

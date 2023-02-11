@@ -15,7 +15,7 @@ import Context from "../../Context/Context";
 import MyText from "../../Components/Text";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
-import CustomHeader12 from "../../Components/CustomHeader12";
+import CustomHeader9 from "../../Components/CustomHeader9";
 import CartProvider from "../../Context/CartProvider";
 import { editPortfolio } from "../Profile/services/ProfileServices";
 import Toast from "react-native-toast-message";
@@ -102,7 +102,7 @@ const EditPortfolio = ({ route }) => {
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
       <View style={[styles.container]}>
-        <CustomHeader12 />
+        <CustomHeader9 Title="Edit Portfolio" nav={navigation} />
         <MyText style={[styles.header, { margin: 30 }]}>
           Portfolio Details
         </MyText>

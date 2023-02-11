@@ -13,7 +13,7 @@ import {
 
 import Context from "../../Context/Context";
 import MyText from "../../Components/Text";
-import CustomHeader11 from "../../Components/CustomHeader11";
+import CustomHeader9 from "../../Components/CustomHeader9";
 import Icon from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
@@ -53,7 +53,7 @@ const ViewPortfolio = ({ route }) => {
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
       <View style={[styles.container]}>
-        <CustomHeader11 />
+        <CustomHeader9 Title="View Portfolio" nav={navigation} />
         <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
           <MyText style={[styles.header, { marginLeft: 30, marginRight: 5 }]}>
             Portfolio Details
