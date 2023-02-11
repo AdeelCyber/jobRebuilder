@@ -241,6 +241,8 @@ const MileStone = ({ navigation, route }) => {
         show={show}
         isPart={isPart}
         undefinedd={undefinedd}
+        navigation={navigation}
+        data={data}
       />
       {/* card out */}
       {/* Little nav in */}

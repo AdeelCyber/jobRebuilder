@@ -54,6 +54,7 @@ const EditMileStone = ({ navigation, route }) => {
       // console.log("obj", Obj);
       await getFreelancersData();
       // console.log("data sending" + JSON.stringify(data));
+      navigation.goBack();
     }
     if (text === "Cancel") {
       navigation.navigate("MileStone", { data: route.params.mileStoneArray });

@@ -25,22 +25,24 @@ import TeamMember from "../../Components/TeamMember";
 import * as DocumentPicker from "expo-document-picker";
 import { fileUpload } from "../Profile/services/fileServices";
 import { AddTodo, EditTodo } from "../Profile/services/FreeLancerServices";
+import { log } from "react-native-reanimated";
 
 const EditTask = ({ navigation, route }) => {
   const [data, setData] = useState(route.params.data);
   const [item, setitem] = useState(route.params.item);
+  console.log(item);
   const {
     theme: { colors },
   } = useContext(Context);
   const [menu, setmenu] = useState(data.startup.members);
-  const [member, setmember] = useState([]);
+  const [member, setmember] = useState(item.members);
   const [changed, setchanged] = useState({
     //title and description
     title: item.title,
     description: item.description,
     dueDate: item.dueDate,
     file: item.file,
-    members: ["63e27e1dbd0ec6001e3b0dd8"],
+    members: item.members,
   });
 
   const [search, setSearch] = useState("");
@@ -91,6 +93,7 @@ const EditTask = ({ navigation, route }) => {
   function handlePress(text) {
     if (text === "Update") {
       getFreelancersData();
+      navigation.goBack();
     }
   }
   function handleArray(text, id) {

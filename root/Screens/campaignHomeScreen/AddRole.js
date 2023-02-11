@@ -43,6 +43,7 @@ const AddRoles = ({ navigation, route }) => {
   function handlePress(text) {
     if (text === "Add Role") {
       getFreelancersData();
+      navigation.goBack();
     }
   }
 

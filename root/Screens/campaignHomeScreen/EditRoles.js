@@ -45,6 +45,7 @@ const EditRoles = ({ navigation, route }) => {
   function handlePress(text) {
     if ((text = "Update")) {
       getFreelancersData();
+      navigation.goBack();
     }
   }
   return (
