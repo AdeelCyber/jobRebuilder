@@ -27,16 +27,8 @@ import CartContext from "../../Context/CartProvider";
 
 const EditMileStone = ({ navigation, route }) => {
   const [data, setData] = useState(route.params.data);
-  // console.log(data);
-  //Coming data useState named comming data
-  // console.log("WHat data", route.params.mileStoneArray.startup.milestones);
-  const [commingData, setcommingData] = useState([]);
 
-  // slider hooks in
-  const [range, setrange] = useState(50);
-  // console.log("range", range);
-  const [sliding, setsliding] = useState("Inactive");
-  const [update, setupdate] = useState([]);
+  const [commingData, setcommingData] = useState([]);
 
   const {
     theme: { colors },
@@ -47,47 +39,26 @@ const EditMileStone = ({ navigation, route }) => {
     description: data.description,
     progress: data.progress,
   });
-  const [Obj, setObj] = useState({ ...changed });
+
   async function handlePress(text) {
     if (text === "Update") {
-      setObj({ ...changed });
-      // console.log("obj", Obj);
       await getFreelancersData();
-      // console.log("data sending" + JSON.stringify(data));
+
       navigation.goBack();
     }
     if (text === "Cancel") {
-      navigation.navigate("MileStone", { data: route.params.mileStoneArray });
-      // console.log("data sending" + JSON.stringify(route.params.mileStoneArray));
+      navigation.goBack();
     }
   }
   // Api call
 
   const getFreelancersData = async () => {
-    setObj({ ...changed });
-    // console.log("obj", Obj);
     const resp = await EditMileStones(data.startupId, data._id, changed);
-    // console.log(
-    //   "startuptoken == " + data.startupId,
-    //   "mileStoneID == " + data._id
-    // );
-    // console.log(resp.data);
-    if (resp.data.status === "OK") {
-      setcommingData(resp.data.milestones);
-      // setObj({ ...changed, progress: range });
 
-      route.params.set(commingData);
+    if (resp.data.status === "OK") {
+      route.params.set(resp.data.milestones);
     }
   };
-
-  useEffect(() => {
-    route.params.set(commingData);
-    contest.setmilestone(commingData);
-    // console.log("iTS length", commingData.length);
-    // if (commingData.length === 0) {
-    //   route.params.set([...route.params.mileStoneArray.startup.milestones]);
-    // }
-  }, [commingData]);
 
   return (
     // main container

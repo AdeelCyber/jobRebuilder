@@ -38,33 +38,18 @@ const AddMileStone = ({ navigation, route }) => {
   // Api call
 
   const getFreelancersData = async () => {
-    // console.log("obj", Obj);
     const resp = await AddMileStones(data.startup._id, changed);
-    // console.log("StartupID == " + data.startup._id);
-    // console.log("changed == " + JSON.stringify(changed));
-    // console.log(resp.data);
-    if (resp.data.status === "OK") {
-      setcommingData(resp.data.milestones);
-      // setObj({ ...changed, progress: range });
 
-      route.params.set(commingData);
+    if (resp.data.status === "OK") {
+      route.params.set(resp.data.milestones);
     }
   };
   function handlePress(text) {
     if (text === "Add Mile Stone") {
       getFreelancersData();
-      // console.log("hello");
+      navigation.goBack();
     }
   }
-
-  useEffect(() => {
-    route.params.set(commingData);
-    contest.setmilestone(commingData);
-    // console.log("iTS length", commingData.length);
-    // if (commingData.length === 0) {
-    //   route.params.set([...route.params.mileStoneArray.startup.milestones]);
-    // }
-  }, [commingData]);
 
   return (
     // main container

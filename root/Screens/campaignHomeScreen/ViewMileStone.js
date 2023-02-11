@@ -87,6 +87,7 @@ const ViewMileStone = ({ navigation, route }) => {
 
               marginTop: 0,
               paddingHorizontal: 14,
+              alignSelf: "flex-start",
             }}
           >
             {data.description}
