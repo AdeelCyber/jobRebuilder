@@ -188,7 +188,7 @@ const Login = () => {
             text1: "You're Successfully Logged In",
             text2: ".",
           });
-          navigation.navigate("HomeService");
+          navigation.navigate("Message");
         }
       } catch (error) {
         console.log(error.response.data);
