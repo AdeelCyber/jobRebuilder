@@ -86,6 +86,7 @@ const AddNewTask = ({ navigation, route }) => {
   const getFreelancersData = async () => {
     const resp = await AddTodo(data.startup._id, changed);
 
+    console.log("resp", resp.data);
     if (resp.data.status === "OK") {
       route.params.set(resp.data.todos.todos);
       // console.log("resp", resp.data);
@@ -104,9 +105,7 @@ const AddNewTask = ({ navigation, route }) => {
       console.log("id add ", id);
       console.log("member", member);
 
-      if (member.includes(id)) {
-        return;
-      } else {
+      if (!member.includes(id)) {
         setmember([...member, id]);
         setchanged({ ...changed, members: [...member, id] });
         console.log(changed);
