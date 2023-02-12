@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback, useEffect } from "react";
+import React, { useContext, useState, useCallback, useEffect } from 'react'
 import {
   Image,
   Pressable,
@@ -8,65 +8,65 @@ import {
   View,
   ImageBackground,
   TextInput,
-} from "react-native";
+} from 'react-native'
 
-import Context from "../../Context/Context";
-import MyText from "../../Components/Text";
+import Context from '../../Context/Context'
+import MyText from '../../Components/Text'
 
-import Icon from "@expo/vector-icons/FontAwesome";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useNavigation } from "@react-navigation/native";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import { useTogglePasswordVisibility } from "../../Components/useTogglePasswordVisibility";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Toast from "react-native-toast-message";
-import { io } from "socket.io-client";
+import Icon from '@expo/vector-icons/FontAwesome'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import { useNavigation } from '@react-navigation/native'
+import AntDesign from '@expo/vector-icons/AntDesign'
+import { useTogglePasswordVisibility } from '../../Components/useTogglePasswordVisibility'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import Toast from 'react-native-toast-message'
+import { io } from 'socket.io-client'
 import {
   createfacebook,
   creategoogle,
   userLogin,
-} from "../Profile/services/authenticationServices";
-import axios from "axios";
-import CartProvider from "../../Context/CartProvider";
-import * as Google from "expo-auth-session/providers/google";
-import * as Facebook from "expo-auth-session/providers/facebook";
+} from '../Profile/services/authenticationServices'
+import axios from 'axios'
+import CartProvider from '../../Context/CartProvider'
+import * as Google from 'expo-auth-session/providers/google'
+import * as Facebook from 'expo-auth-session/providers/facebook'
 const Login = () => {
   const {
     theme: { colors },
-  } = useContext(Context);
-  const navigation = useNavigation();
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
-  const { accessToken, setaccessToken } = useContext(CartProvider);
-  const [refreshToken, setrefreshToken] = useState();
-  const { userdetails, setuserdetails } = useContext(CartProvider);
+  } = useContext(Context)
+  const navigation = useNavigation()
+  const [email, setemail] = useState('')
+  const [password, setpassword] = useState('')
+  const { accessToken, setaccessToken } = useContext(CartProvider)
+  const [refreshToken, setrefreshToken] = useState()
+  const { userdetails, setuserdetails } = useContext(CartProvider)
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
-    useTogglePasswordVisibility();
+    useTogglePasswordVisibility()
 
-  const { socket, setsocket } = useContext(CartProvider);
+  const { socket, setsocket } = useContext(CartProvider)
   const startsocket = useCallback(
     (accessToken) => {
       setsocket(
-        io("https://stepdev.up.railway.app", {
+        io('https://stepdev.up.railway.app', {
           autoConnect: false,
           extraHeaders: {
             Authorization: `Bearer ${accessToken}`,
           },
         })
-      );
+      )
     },
     [socket]
-  );
+  )
   const [, , promptAsync] = Google.useIdTokenAuthRequest({
     expoClientId:
-      "253459265127-bgal1cs5eb1c8bcb8suso891fg9mm06m.apps.googleusercontent.com",
-    iosClientId: "GOOGLE_GUID.apps.googleusercontent.com",
-    androidClientId: "GOOGLE_GUID.apps.googleusercontent.com",
-    webClientId: "GOOGLE_GUID.apps.googleusercontent.com",
-  });
+      '253459265127-bgal1cs5eb1c8bcb8suso891fg9mm06m.apps.googleusercontent.com',
+    iosClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
+    androidClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
+    webClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
+  })
   const [, , fbpromptAsync] = Facebook.useAuthRequest({
-    clientId: "1366866914064008",
-  });
+    clientId: '1366866914064008',
+  })
   const google = async () => {
     try {
       const r = await promptAsync();
@@ -99,36 +99,36 @@ const Login = () => {
         }
       }
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  };
+  }
   const facebook = async () => {
     try {
-      const r = await fbpromptAsync();
-      if (r.type === "success") {
-        const { accesss_token } = r.params.access_token;
-        console.log(r);
+      const r = await fbpromptAsync()
+      if (r.type === 'success') {
+        const { accesss_token } = r.params.access_token
+        console.log(r)
         const { data } = await axios({
-          url: "https://graph.facebook.com/me",
-          method: "get",
+          url: 'https://graph.facebook.com/me',
+          method: 'get',
           params: {
-            fields: ["id", "email", "first_name", "last_name", "picture"].join(
-              ","
+            fields: ['id', 'email', 'first_name', 'last_name', 'picture'].join(
+              ','
             ),
             access_token: r.params.access_token,
           },
-        });
-        console.log(data);
-        const res = await createfacebook(data);
-        console.log(res.data);
+        })
+        console.log(data)
+        const res = await createfacebook(data)
+        console.log(res.data)
         if (res.status == 200) {
-          setuserdetails(res.data.user);
-          setaccessToken(res.data.accessToken);
-          startsocket(res.data.accessToken);
+          setuserdetails(res.data.user)
+          setaccessToken(res.data.accessToken)
+          startsocket(res.data.accessToken)
 
           try {
-            await AsyncStorage.setItem("@accessToken", res.data.accessToken);
-            await AsyncStorage.setItem("@refreshToken", res.data.refreshToken);
+            await AsyncStorage.setItem('@accessToken', res.data.accessToken)
+            await AsyncStorage.setItem('@refreshToken', res.data.refreshToken)
 
             //console.log("done");
           } catch (error) {
@@ -137,45 +137,45 @@ const Login = () => {
 
           Toast.show({
             topOffset: 60,
-            type: "success",
+            type: 'success',
             text1: "You're Successfully Logged In",
-            text2: ".",
-          });
-          navigation.navigate("Message");
+            text2: '.',
+          })
+          navigation.navigate('Message')
         }
       }
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  };
+  }
 
   const login = async () => {
-    if (email == "" || password == "") {
+    if (email == '' || password == '') {
       Toast.show({
         topOffset: 60,
-        type: "error",
-        text1: "Some Fields are missing",
-        text2: "Please fill all the fields",
-      });
+        type: 'error',
+        text1: 'Some Fields are missing',
+        text2: 'Please fill all the fields',
+      })
     } else {
       try {
-        const response = await userLogin(email, password);
+        const response = await userLogin(email, password)
         //console.log(response.data);
         if (response.status == 200) {
           //console.log(response.data.user);
-          setuserdetails(response.data.user);
-          setaccessToken(response.data.accessToken);
-          startsocket(response.data.accessToken);
+          setuserdetails(response.data.user)
+          setaccessToken(response.data.accessToken)
+          startsocket(response.data.accessToken)
 
           try {
             await AsyncStorage.setItem(
-              "@accessToken",
+              '@accessToken',
               response.data.accessToken
-            );
+            )
             await AsyncStorage.setItem(
-              "@refreshToken",
+              '@refreshToken',
               response.data.refreshToken
-            );
+            )
 
             //console.log("done");
           } catch (error) {
@@ -184,23 +184,23 @@ const Login = () => {
 
           Toast.show({
             topOffset: 60,
-            type: "success",
+            type: 'success',
             text1: "You're Successfully Logged In",
-            text2: ".",
-          });
-          navigation.navigate("Message");
+            text2: '.',
+          })
+          navigation.navigate('Message')
         }
       } catch (error) {
-        console.log(error.response.data);
+        console.log(error.response.data)
         Toast.show({
           topOffset: 60,
-          type: "error",
+          type: 'error',
           text1: error.response.data.error.message,
           text2: error.response.data.error.name,
-        });
+        })
       }
     }
-  };
+  }
 
   return (
     <ScrollView
@@ -208,11 +208,11 @@ const Login = () => {
     >
       <View>
         <ImageBackground
-          source={require("../../../assets/img/bg.png")}
-          resizeMode="cover"
+          source={require('../../../assets/img/bg.png')}
+          resizeMode='cover'
           style={{
-            height: "100%",
-            width: "100%",
+            height: '100%',
+            width: '100%',
           }}
         >
           <View style={{ padding: 24 }}>
@@ -222,22 +222,22 @@ const Login = () => {
                 width: 40,
                 height: 40,
                 borderRadius: 10,
-                justifyContent: "center",
-                alignItems: "center",
+                justifyContent: 'center',
+                alignItems: 'center',
                 marginTop: 30,
               }}
               onPress={() => {
-                navigation.navigate("StartScreen");
+                navigation.navigate('StartScreen')
               }}
             >
-              <AntDesign name="arrowleft" size={20} color={colors.white} />
+              <AntDesign name='arrowleft' size={20} color={colors.white} />
             </Pressable>
             <MyText
               style={{
                 fontSize: 24,
-                alignSelf: "center",
+                alignSelf: 'center',
                 color: colors.text,
-                fontWeight: "bold",
+                fontWeight: 'bold',
                 marginTop: 30,
               }}
             >
@@ -246,9 +246,9 @@ const Login = () => {
             <MyText
               style={{
                 fontSize: 32,
-                alignSelf: "center",
+                alignSelf: 'center',
                 color: colors.text,
-                fontWeight: "bold",
+                fontWeight: 'bold',
               }}
             >
               Job Rebuilder
@@ -259,11 +259,11 @@ const Login = () => {
                   style={styles.inputStyle}
                   value={email}
                   onChangeText={(email) => setemail(email)}
-                  placeholder="Email"
-                  placeholderTextColor="#ACA9A9"
-                  autoCapitalize="none"
-                  keyboardType="email-address"
-                  clearButtonMode="always"
+                  placeholder='Email'
+                  placeholderTextColor='#ACA9A9'
+                  autoCapitalize='none'
+                  keyboardType='email-address'
+                  clearButtonMode='always'
                   blurOnSubmit={false}
                 />
               </View>
@@ -275,18 +275,18 @@ const Login = () => {
                   ]}
                   onChangeText={(password) => setpassword(password)}
                   value={password}
-                  placeholder="Password" //12345
-                  placeholderTextColor="#ACA9A9"
-                  keyboardType="default"
+                  placeholder='Password' //12345
+                  placeholderTextColor='#ACA9A9'
+                  keyboardType='default'
                   blurOnSubmit={false}
                   secureTextEntry={passwordVisibility}
                   enablesReturnKeyAutomatically
-                  underlineColorAndroid="#f000"
+                  underlineColorAndroid='#f000'
                 />
                 <Pressable
                   onPress={handlePasswordVisibility}
                   style={{
-                    backgroundColor: "#EEEEEE",
+                    backgroundColor: '#EEEEEE',
                     borderTopRightRadius: 10,
                     borderBottomRightRadius: 10,
                     padding: 8,
@@ -295,22 +295,22 @@ const Login = () => {
                   <MaterialCommunityIcons
                     name={rightIcon}
                     size={22}
-                    color="#ACA9A9"
+                    color='#ACA9A9'
                   />
                 </Pressable>
               </View>
               <Pressable
                 style={{
                   backgroundColor: colors.Bluish,
-                  width: "100%",
+                  width: '100%',
                   height: 50,
                   borderRadius: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
+                  justifyContent: 'center',
+                  alignItems: 'center',
                   marginTop: 20,
                 }}
                 onPress={() => {
-                  login();
+                  login()
                 }}
               >
                 <MyText
@@ -322,7 +322,7 @@ const Login = () => {
                   Login
                 </MyText>
               </Pressable>
-              <View style={{ alignItems: "center", marginTop: 20 }}>
+              <View style={{ alignItems: 'center', marginTop: 20 }}>
                 <MyText
                   style={{
                     fontSize: 13,
@@ -334,20 +334,20 @@ const Login = () => {
               </View>
               <View
                 style={{
-                  flexDirection: "row",
-                  alignItems: "center",
+                  flexDirection: 'row',
+                  alignItems: 'center',
                   marginTop: 20,
                 }}
               >
                 <View
-                  style={{ flex: 1, height: 1, backgroundColor: "#ACA9A9" }}
+                  style={{ flex: 1, height: 1, backgroundColor: '#ACA9A9' }}
                 />
                 <View>
                   <MyText
                     style={{
                       width: 50,
-                      textAlign: "center",
-                      color: "#ACA9A9",
+                      textAlign: 'center',
+                      color: '#ACA9A9',
                       fontSize: 13,
                     }}
                   >
@@ -355,31 +355,31 @@ const Login = () => {
                   </MyText>
                 </View>
                 <View
-                  style={{ flex: 1, height: 1, backgroundColor: "#ACA9A9" }}
+                  style={{ flex: 1, height: 1, backgroundColor: '#ACA9A9' }}
                 />
               </View>
               <Pressable
                 style={{
                   backgroundColor: colors.white,
-                  width: "100%",
+                  width: '100%',
                   height: 50,
                   borderRadius: 10,
                   borderWidth: 2,
-                  justifyContent: "center",
-                  alignItems: "center",
+                  justifyContent: 'center',
+                  alignItems: 'center',
                   marginTop: 20,
                 }}
                 onPress={() => {
-                  google();
+                  google()
                 }}
               >
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: 'row' }}>
                   <Image
-                    source={require("../../../assets/img/google.png")}
+                    source={require('../../../assets/img/google.png')}
                     style={{
                       height: 25,
                       width: 25,
-                      alignSelf: "center",
+                      alignSelf: 'center',
                       margin: 6,
                     }}
                   />
@@ -396,25 +396,25 @@ const Login = () => {
               <Pressable
                 style={{
                   backgroundColor: colors.white,
-                  width: "100%",
+                  width: '100%',
                   height: 50,
                   borderRadius: 10,
                   borderWidth: 2,
-                  justifyContent: "center",
-                  alignItems: "center",
+                  justifyContent: 'center',
+                  alignItems: 'center',
                   marginTop: 20,
                 }}
                 onPress={() => {
-                  facebook();
+                  facebook()
                 }}
               >
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: 'row' }}>
                   <Image
-                    source={require("../../../assets/img/fcebok.png")}
+                    source={require('../../../assets/img/fcebok.png')}
                     style={{
                       height: 25,
                       width: 25,
-                      alignSelf: "center",
+                      alignSelf: 'center',
                       margin: 6,
                     }}
                   />
@@ -431,16 +431,16 @@ const Login = () => {
               <Pressable
                 style={{
                   backgroundColor: colors.text,
-                  width: "100%",
+                  width: '100%',
                   height: 50,
                   borderRadius: 10,
                   borderWidth: 2,
-                  justifyContent: "center",
-                  alignItems: "center",
+                  justifyContent: 'center',
+                  alignItems: 'center',
                   marginTop: 20,
                 }}
                 onPress={() => {
-                  navigation.navigate("CreateAccount");
+                  navigation.navigate('CreateAccount')
                 }}
               >
                 <MyText
@@ -457,8 +457,8 @@ const Login = () => {
         </ImageBackground>
       </View>
     </ScrollView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -468,15 +468,15 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 15,
     paddingRight: 15,
-    backgroundColor: "#EEEEEE",
+    backgroundColor: '#EEEEEE',
     borderRadius: 10,
   },
   SectionStyle: {
-    flexDirection: "row",
+    flexDirection: 'row',
     height: 47,
     marginTop: 14,
     marginBottom: 5,
   },
-});
+})
 
-export default Login;
+export default Login

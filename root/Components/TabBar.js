@@ -44,8 +44,7 @@ const TabBar = (props) => {
   });
 
   const getToken = async () => {
-    const token = await AsyncStorage.getItem("@accessToken");
-    console.log(token);
+    const token = await AsyncStorage.getItem('@accessToken')
     if (token) {
       setIsToken(true);
     }
@@ -55,7 +54,7 @@ const TabBar = (props) => {
     if (index === 0) {
       navigation.navigate("HomeService");
     } else if (index === 1) {
-      navigation.navigate("GroupChat");
+      navigation.navigate('Message')
     } else if (index === 2) {
       navigation.navigate("CampaignManagement");
     } else if (index === 3) {

@@ -1,12 +1,12 @@
-import React, { useContext, createContext, useState } from "react";
-const CartContext = createContext();
+import React, { useContext, createContext, useState } from 'react'
+const CartContext = createContext()
 
 export function CartProvider({ children }) {
-  const [accessToken, setaccessToken] = useState("");
-  const [refreshToken, setrefreshToken] = useState("");
-  const [userdetails, setuserdetails] = useState([]);
-  const [milestone, setmilestone] = useState([]);
-  const [socket, setsocket] = useState();
+  const [accessToken, setaccessToken] = useState('')
+  const [refreshToken, setrefreshToken] = useState('')
+  const [userdetails, setuserdetails] = useState([])
+  const [milestone, setmilestone] = useState([])
+  const [socket, setsocket] = useState()
 
   return (
     <CartContext.Provider
@@ -25,7 +25,7 @@ export function CartProvider({ children }) {
     >
       {children}
     </CartContext.Provider>
-  );
+  )
 }
 
-export default CartContext;
+export default CartContext
