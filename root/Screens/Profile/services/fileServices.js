@@ -1,6 +1,9 @@
 import axios from "../../../http/axiosSet";
 import React, { useContext, useState, useEffect } from "react";
 import * as FileSystem from "expo-file-system";
+
+import * as Permissions from "expo-permissions";
+import * as MediaLibrary from "expo-media-library";
 export const imageUpload = async (file) => {
   const uploadResult = await FileSystem.uploadAsync(
     "https://stepdev.up.railway.app/media/uploadfile",
@@ -27,6 +30,29 @@ export const fileUpload = async (doc) => {
   return uploadResult;
 };
 
+export const downloadFile = async (uri) => {
+  const targetUri =
+    FileSystem.documentDirectory +
+    uri.substring(uri.lastIndexOf("/") + 1, uri.length);
+
+  const downloadedFile = await FileSystem.downloadAsync(uri, targetUri);
+
+  if (downloadedFile.status === 200) {
+    if (Platform.OS === "android") {
+      const permission = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+
+      if (permission.status !== "granted") {
+        return;
+      }
+
+      const asset = await MediaLibrary.createAssetAsync(downloadedFile.uri);
+      const album = await MediaLibrary.getAlbumAsync("Download");
+      console.log("donloaded");
+
+      await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
+    }
+  }
+};
 export const fileGet = async (accessToken, doc) => {
   console.log(doc);
   const config = {

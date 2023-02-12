@@ -179,7 +179,7 @@ const MileStone = ({ navigation, route }) => {
     theme: { colors },
   } = useContext(Context);
   const contest = useContext(CartContext);
-  const [MileStones, setMileStone] = useState([]);
+  const [MileStones, setMileStone] = useState(data.startup.milestones);
   const updateMileStone = (data) => {
     setMileStone(data);
   };
@@ -196,17 +196,7 @@ const MileStone = ({ navigation, route }) => {
   const [modal, setModal] = useState({ modal1: false, modal2: false });
 
   const [CurrentMileStone, setCurrentMileStone] = useState({});
-  // console.log(CurrentMileStone);
 
-  // console.log("MileStone Page", MileStones);
-
-  useEffect(() => {
-    if (contest.milestone.length !== 0) {
-      setMileStone(contest.milestone);
-    } else {
-      setMileStone(data.startup.milestones);
-    }
-  }, [isFocused]);
   // Api call
 
   const DeleteMileStone = async (startup, milestone) => {
@@ -241,6 +231,8 @@ const MileStone = ({ navigation, route }) => {
         show={show}
         isPart={isPart}
         undefinedd={undefinedd}
+        navigation={navigation}
+        data={data}
       />
       {/* card out */}
       {/* Little nav in */}

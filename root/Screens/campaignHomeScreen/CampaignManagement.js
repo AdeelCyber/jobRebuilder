@@ -57,6 +57,7 @@ const CampaignManagement = ({ navigation }) => {
     },
   ]);
   // console.log(popularCards);
+  const [loaded, setLoaded] = useState(false);
 
   // Api call
   useEffect(() => {
@@ -67,6 +68,7 @@ const CampaignManagement = ({ navigation }) => {
         // console.log("done");
         setPopularCards(resp.data.startUps);
         // userDetails.setmilestone(resp.data.startUps);
+        setLoaded(true);
       }
     };
 
@@ -81,45 +83,47 @@ const CampaignManagement = ({ navigation }) => {
     }
   }, []);
   return (
-    // main container
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: colors.white,
-      }}
-    >
-      <CustomHeader2
-        Title="Campaign Management"
-        style={{ elevation: 0 }}
-        nav={navigation}
-      />
-      <FlatList
-        data={popularCards}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        style={{}}
-        renderItem={({ item, index }) => (
-          <CampaignPopular
-            Src={Buildings}
-            title={item.businessName}
-            Logo={item.logo}
-            Stage={item.stage}
-            Team={"Complete"}
-            Budget={item.budget}
-            status={item.status}
-            navigation={navigation}
-            label={item.category}
-            show={show}
-            id={item._id}
-            style={{
-              width: "90%",
-              marginHorizontal: 23,
-              marginVertical: 14,
-            }}
-          />
-        )}
-      />
-    </View>
+    loaded && (
+      // main container
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: colors.white,
+        }}
+      >
+        <CustomHeader2
+          Title="Campaign Management"
+          style={{ elevation: 0 }}
+          nav={navigation}
+        />
+        <FlatList
+          data={popularCards}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          style={{}}
+          renderItem={({ item, index }) => (
+            <CampaignPopular
+              Src={Buildings}
+              title={item.businessName}
+              Logo={item.logo}
+              Stage={item.stage}
+              Team={"Complete"}
+              Budget={item.budget}
+              status={item.status}
+              navigation={navigation}
+              label={item.category}
+              show={show}
+              id={item._id}
+              style={{
+                width: "90%",
+                marginHorizontal: 23,
+                marginVertical: 14,
+              }}
+            />
+          )}
+        />
+      </View>
+    )
   );
 };
 

@@ -29,7 +29,10 @@ import Pattern from "../../../assets/Svgs/WhitePattern";
 import People from "../../../assets/Svgs/WhitePeople";
 import TeamMemberCampaign from "../../Components/TeamMembersCampaign";
 import TeamMemberWarning from "../../Components/TeamMemberWarning";
-import { getStartupDetails } from "../Profile/services/FreeLancerServices";
+import {
+  getStartupDetails,
+  getWarnings,
+} from "../Profile/services/FreeLancerServices";
 import CartContext from "../../Context/CartProvider";
 
 function TodoComponent({ Title, desc, ...props }) {
@@ -115,7 +118,7 @@ function TodoComponent({ Title, desc, ...props }) {
                   borderRadius: 10,
                   zIndex: 1,
                   position: "absolute",
-                  left: 0,
+                  left: 0 + index * 10,
                 }}
               />
             );
@@ -134,20 +137,33 @@ const ManagingCampaign = ({ navigation, route }) => {
   const [show, setshow] = useState(route.params.show);
   const contest = useContext(CartContext);
   // members array
-  const TeamWarning = [
+  const [TeamWarning, setTeamWarning] = useState([
     {
-      image: "https://bit.ly/kent-c-dodds",
+      avatar: "https://bit.ly/kent-c-dodds",
       text: "Mike Dean",
       designation: "Ceo",
       Warnings: 2,
     },
     {
-      image: "https://bit.ly/kent-c-dodds",
+      avatar: "https://bit.ly/kent-c-dodds",
       text: "Mike Dean",
       designation: "Ceo",
       Warnings: 2,
     },
-  ];
+    {
+      avatar: "https://bit.ly/kent-c-dodds",
+      text: "Mike Dean",
+      designation: "Ceo",
+      Warnings: 2,
+    },
+    {
+      avatar: "https://bit.ly/kent-c-dodds",
+      Warnings: 2,
+      text: "Mike Dean",
+      designation: "Ceo",
+      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur in nostrum molestiae obcaecati sapiente sequi, facere modi possimus labore et!",
+    },
+  ]);
   // team members array
   const TeamMembers = [
     {
@@ -263,8 +279,28 @@ const ManagingCampaign = ({ navigation, route }) => {
     }
   }, [data]);
 
+  ///another api call
+  useEffect(() => {
+    const getFreelancersData = async () => {
+      const resp = await getWarnings(id);
+
+      // console.log(resp.data.warnings);
+      // console.log(resp2.data.warnings);
+      if (resp.data.status === "OK") {
+        setTeamWarning(resp.data.warnings);
+        // setWaringHistory(resp.data.warnings);
+
+        // console.log("responded", resp.data.warnings[0].warnings);
+        setLoaded2(true);
+      }
+    };
+
+    getFreelancersData();
+  }, []);
+
   return (
-    Loaded && (
+    Loaded &&
+    Loaded2 && (
       <ScrollView
         style={{
           flex: 1,
@@ -399,10 +435,10 @@ const ManagingCampaign = ({ navigation, route }) => {
           {show
             ? TeamWarning.map((item) => (
                 <TeamMemberWarning
-                  designation={item.designation}
-                  image={item.image}
-                  text={item.text}
-                  Warnings={item.Warnings}
+                  designation={item.warnings.warnedTo.jobTitle}
+                  image={item.warnings.warnedTo.avatar}
+                  text={item.warnings.warnedTo.name}
+                  Warnings={item.WarningCount}
                   style={{ marginVertical: 12 }}
                 />
               ))

@@ -26,9 +26,11 @@ import pdf from "../../../assets/Svgs/pdf";
 import BottomPopup from "../../Components/BottomPopup";
 
 import * as DocumentPicker from "expo-document-picker";
-import { fileUpload } from "../Profile/services/fileServices";
+import { fileUpload, downloadFile } from "../Profile/services/fileServices";
+import { log } from "react-native-reanimated";
 
 const PitchDeck = ({ navigation, route }) => {
+  const [data, setData] = useState(route.params.data);
   const [show, setshow] = useState(route.params.show);
   const [modal, setModal] = useState({ modal1: false, modal2: false });
   const [isPart, setisPart] = useState(route.params.isPart);
@@ -36,6 +38,7 @@ const PitchDeck = ({ navigation, route }) => {
   const {
     theme: { colors },
   } = useContext(Context);
+  console.log("data", data.startup.pitchDeck);
 
   const [MileStones, setMileStone] = useState("");
 
@@ -61,7 +64,6 @@ const PitchDeck = ({ navigation, route }) => {
 
   // action on buttons
   function handlePress(text) {
-    alert(text);
     if (text === "Upload New") {
       pickDocument();
     }
@@ -94,6 +96,8 @@ const PitchDeck = ({ navigation, route }) => {
             Logo={logo}
             Thumbnail={Thumbnail}
             modal={setModal}
+            navigation={navigation}
+            data={data}
             show={show}
             isPart={isPart}
             undefinedd={undefinedd}
@@ -114,7 +118,11 @@ const PitchDeck = ({ navigation, route }) => {
                 borderRadius: 10,
                 flexDirection: "row",
               }}
-              onPress={() => checkPermission()}
+              onPress={() =>
+                downloadFile(
+                  `https://stepdev.up.railway.app/media/getFile/${data.startup.pitchDeck}`
+                )
+              }
             >
               <SvgImport svg={pdf} />
               <MyText

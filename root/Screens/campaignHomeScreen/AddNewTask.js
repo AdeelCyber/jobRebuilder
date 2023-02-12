@@ -33,35 +33,15 @@ const AddNewTask = ({ navigation, route }) => {
   const {
     theme: { colors },
   } = useContext(Context);
-  const menu = [
-    {
-      image: "https://bit.ly/kent-c-dodds",
-      name: "Mike Dean",
-      designation: "Ceo",
-    },
-    {
-      image: "https://bit.ly/kent-c-dodds",
-      name: "Mike Dean",
-      designation: "Ceo",
-    },
-    {
-      image: "https://bit.ly/kent-c-dodds",
-      name: "abdullah Dean",
-      designation: "Ceo",
-    },
-    {
-      image: "https://bit.ly/kent-c-dodds",
-      name: "suleman Dean",
-      designation: "Ceo",
-    },
-  ];
+  const [menu, setmenu] = useState(data.startup.members);
+  const [member, setmember] = useState([]);
   const [changed, setchanged] = useState({
     //title and description
     title: "",
     description: "",
     dueDate: `${date}`,
     file: "",
-    members: ["63e28e3d6fc91d001e00404e"],
+    members: [],
   });
 
   const [search, setSearch] = useState("");
@@ -75,7 +55,9 @@ const AddNewTask = ({ navigation, route }) => {
       searchTerm !== " "
     ) {
       temp = menu.filter((item) => {
-        return item.name.toLowerCase().includes(searchTerm.toLowerCase());
+        return item.member.name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
       });
     }
     return temp;
@@ -104,6 +86,7 @@ const AddNewTask = ({ navigation, route }) => {
   const getFreelancersData = async () => {
     const resp = await AddTodo(data.startup._id, changed);
 
+    console.log("resp", resp.data);
     if (resp.data.status === "OK") {
       route.params.set(resp.data.todos.todos);
       // console.log("resp", resp.data);
@@ -114,6 +97,25 @@ const AddNewTask = ({ navigation, route }) => {
   function handlePress(text) {
     if (text === "Add Task") {
       getFreelancersData();
+    }
+  }
+
+  function handleArray(text, id, item) {
+    if (text === "Add") {
+      console.log("id add ", id);
+      console.log("member", member);
+
+      if (!member.includes(id)) {
+        setmember([...member, id]);
+        setchanged({ ...changed, members: [...member, id] });
+        console.log(changed);
+      }
+    }
+    if (text === "Sub") {
+      console.log("id sub ", id);
+      console.log("member", member);
+      setmember(member.filter((item) => item._id !== id));
+      setchanged({ ...changed, members: member.filter((item) => item !== id) });
     }
   }
 
@@ -346,9 +348,11 @@ const AddNewTask = ({ navigation, route }) => {
             {/* Component in */}
             {filteredData(search).map((item) => (
               <TeamMember
-                designation={item.designation}
-                image={item.image}
-                text={item.name}
+                designation={item.position}
+                image={item.member.avatar}
+                text={item.member.name}
+                id={item.member._id}
+                handlePress={handleArray}
                 style={{ width: "94%", marginVertical: 5 }}
               />
             ))}

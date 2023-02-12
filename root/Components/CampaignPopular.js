@@ -118,7 +118,9 @@ const CampaignPopular = ({
             Stage
           </MyText>
           <MyText style={{ fontWeight: "700", fontSize: 14 }}>
-            {props.Stage}
+            {props.Stage !== undefined
+              ? `${props.Stage.slice(0, 5)}` + "..."
+              : null}
           </MyText>
         </View>
         {/* 2 */}

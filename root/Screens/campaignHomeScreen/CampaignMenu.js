@@ -22,7 +22,7 @@ import { getStartupDetails } from "../Profile/services/FreeLancerServices";
 import CartContext from "../../Context/CartProvider";
 
 const CampaignMenu = ({ navigation, route }) => {
-  const [show, setshow] = useState(route.params.show);
+  const [show, setshow] = useState(false);
   const [id, setid] = useState(route.params.id);
   const {
     theme: { colors },
@@ -69,6 +69,16 @@ const CampaignMenu = ({ navigation, route }) => {
       console.log("user is undefined");
     }
   }, [data]);
+
+  //module
+
+  console.log(userDetails.userdetails.role);
+
+  useEffect(() => {
+    if (userDetails.userdetails.role === "Startup Owner") {
+      setshow(true);
+    }
+  }, []);
 
   return (
     Loaded && (

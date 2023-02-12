@@ -56,8 +56,17 @@ const TeamMember = ({ designation, image, text, ...props }) => {
         </View>
       </View>
       {/* 2 */}
-      <View>
-        <MaterialCommunityIcons name="delete" size={24} color="#E50505" />
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Pressable
+          onPress={() => props.handlePress("Add", props.id, props.item)}
+        >
+          <AntDesign name="pluscircleo" size={21} color="black" />
+        </Pressable>
+        <Pressable
+          onPress={() => props.handlePress("Sub", props.id, props.item)}
+        >
+          <MaterialCommunityIcons name="delete" size={24} color="#E50505" />
+        </Pressable>
       </View>
     </View>
   );
