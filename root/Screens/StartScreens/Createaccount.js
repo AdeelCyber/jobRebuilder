@@ -18,9 +18,15 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useTogglePasswordVisibility } from "../../Components/useTogglePasswordVisibility";
-import { createaccount } from "../Profile/services/authenticationServices";
+import {
+  createaccount,
+  createfacebook,
+  creategoogle,
+} from "../Profile/services/authenticationServices";
 import Toast from "react-native-toast-message";
-
+import * as Google from "expo-auth-session/providers/google";
+import * as Facebook from "expo-auth-session/providers/facebook";
+import axios from "axios";
 const CreateAccount = ({ route }) => {
   const {
     theme: { colors },
@@ -33,6 +39,74 @@ const CreateAccount = ({ route }) => {
   const { role } = route.params != undefined ? route.params : {};
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
+  const [googledis, setgoogledis] = useState();
+
+  const [, , promptAsync] = Google.useIdTokenAuthRequest({
+    expoClientId:
+      "253459265127-bgal1cs5eb1c8bcb8suso891fg9mm06m.apps.googleusercontent.com",
+    iosClientId: "GOOGLE_GUID.apps.googleusercontent.com",
+    androidClientId: "GOOGLE_GUID.apps.googleusercontent.com",
+    webClientId: "GOOGLE_GUID.apps.googleusercontent.com",
+  });
+  const [, , fbpromptAsync] = Facebook.useAuthRequest({
+    clientId: "1366866914064008",
+  });
+  const google = async () => {
+    try {
+      const r = await promptAsync();
+
+      if (r.type === "success") {
+        //  const { accesss_token } = r.params.access_token;
+        //  console.log(r);
+        const res = await creategoogle(r.params.id_token, role);
+        console.log(res);
+        if (res.status == 200) {
+          Toast.show({
+            topOffset: 60,
+            type: "success",
+            text1: "You Successfully created the account",
+            text2: ".",
+          });
+          navigation.navigate("LoginScreen");
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const facebook = async () => {
+    try {
+      const r = await fbpromptAsync();
+      if (r.type === "success") {
+        const { accesss_token } = r.params.access_token;
+        console.log(r);
+        const { data } = await axios({
+          url: "https://graph.facebook.com/me",
+          method: "get",
+          params: {
+            fields: ["id", "email", "first_name", "last_name", "picture"].join(
+              ","
+            ),
+            access_token: r.params.access_token,
+          },
+        });
+        console.log(data);
+        const res = await createfacebook(data, role);
+        console.log(res.status);
+        if (res.status == 200) {
+          Toast.show({
+            topOffset: 60,
+            type: "success",
+            text1: "You Successfully created the account",
+            text2: ".",
+          });
+          navigation.navigate("LoginScreen");
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const signUp = async () => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -234,6 +308,7 @@ const CreateAccount = ({ route }) => {
                   style={{ flex: 1, height: 1, backgroundColor: "#ACA9A9" }}
                 />
               </View>
+
               <Pressable
                 style={{
                   backgroundColor: colors.white,
@@ -246,7 +321,7 @@ const CreateAccount = ({ route }) => {
                   marginTop: 20,
                 }}
                 onPress={() => {
-                  navigation.navigate("LoginScreen");
+                  google();
                 }}
               >
                 <View style={{ flexDirection: "row" }}>
@@ -281,7 +356,7 @@ const CreateAccount = ({ route }) => {
                   marginTop: 20,
                 }}
                 onPress={() => {
-                  navigation.navigate("LoginScreen");
+                  facebook();
                 }}
               >
                 <View style={{ flexDirection: "row" }}>

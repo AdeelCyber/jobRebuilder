@@ -16,6 +16,7 @@ import {
   ActivityIndicator,
   FlatList,
   Pressable,
+  TouchableOpacity,
   Modal,
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -26,6 +27,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
 import moment from "moment";
+import { CardField, useStripe } from "@stripe/stripe-react-native";
 
 import {
   equityOrderOfferStatus,
@@ -59,9 +61,10 @@ const MessageBox = ({
   chatType,
   userName,
   members,
+  online,
 }) => {
   const navigation = useNavigation();
-  const { accessToken, socket } = useContext(CartProvider);
+  const { accessToken, socket, userdetails } = useContext(CartProvider);
   const {
     theme: { colors },
   } = useContext(Context);
@@ -74,10 +77,15 @@ const MessageBox = ({
   const [doc, setdoc] = useState();
   const [docinfo, setdocinfo] = useState();
   const [getmodalvisible1, setModalVisible1] = useState(false);
+  const [getmodalvisible2, setModalVisible2] = useState(false);
+
   const [items, setItems] = useState([]);
   const [position, setposition] = useState();
   const [equityid, setequityid] = useState();
   const [startupid, setstartupid] = useState();
+  const { initPaymentSheet, presentPaymentSheet } = useStripe();
+  const [loading, setLoading] = useState(false);
+  const [getorderid, setorderid] = useState("");
   const pickMedia = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -187,6 +195,7 @@ const MessageBox = ({
       });
     }
   };
+
   const equityOfferstatus = async (startupid, position, equityid, status) => {
     try {
       const resp = await equityOrderOfferStatus(
@@ -206,7 +215,7 @@ const MessageBox = ({
         });
       }
     } catch (error) {
-      console.log(error.response.data);
+      //  console.log(error.response.data);
     }
   };
   const equityOfferstatusReject = async (equityid, status) => {
@@ -216,7 +225,7 @@ const MessageBox = ({
         equityid,
         status
       );
-      console.log(resp.data);
+      // console.log(resp.data);
       if (resp.status == 200) {
         Toast.show({
           topOffset: 60,
@@ -226,7 +235,7 @@ const MessageBox = ({
         });
       }
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
     }
   };
 
@@ -238,6 +247,7 @@ const MessageBox = ({
 
   const getpdf = async (doc) => {
     const res = await fileGet(accessToken, doc);
+    var file = new Blob([res.data], { type: "application/octet-stream" });
     console.log(res.data);
     const permissions =
       await StorageAccessFramework.requestDirectoryPermissionsAsync();
@@ -247,17 +257,17 @@ const MessageBox = ({
     try {
       await StorageAccessFramework.createFileAsync(
         permissions.directoryUri,
-        res.data,
+        file,
         "application/pdf"
       )
         .then((r) => {
-          console.log(r);
+          //   console.log(r);
         })
         .catch((e) => {
-          console.log(e);
+          //   console.log(e);
         });
     } catch (error) {
-      console.log(error);
+      //  console.log(error);
     }
     //console.log(res.data);
   };
@@ -281,6 +291,7 @@ const MessageBox = ({
 
       var obj = {};
       (obj["createdAt"] = Date.now()),
+        (obj["sender"] = userImg),
         (obj[`${data.messageType}`] = data.msgcontent),
         (obj["user"] = {
           _id: "other",
@@ -316,7 +327,7 @@ const MessageBox = ({
                 data={items}
                 onSelect={(selectedItem, index) => {
                   setstartupid(selectedItem._id);
-                  console.log(selectedItem._id, index);
+                  //console.log(selectedItem._id, index);
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
                   // text represented after item is selected
@@ -369,6 +380,50 @@ const MessageBox = ({
                 Accept Offer
               </Text>
             </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <Modal animationType="fade" visible={getmodalvisible2}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <ScrollView style={styles.confirmation}>
+              <Text
+                style={{
+                  color: "#333",
+                  fontSize: 20,
+                  textAlign: "center",
+                }}
+              >
+                Enter your Card Info
+              </Text>
+              <CardField
+                postalCodeEnabled={true}
+                cardNumberEnabled={true}
+                style={{
+                  width: "90%",
+                  height: 50,
+                  marginVertical: 30,
+                  marginLeft: 15,
+                  color: "#333",
+                }}
+              />
+              <TouchableOpacity
+                style={{
+                  backgroundColor: colors.Bluish,
+                  height: 33,
+                  width: 150,
+                  marginLeft: 230,
+                  elevation: 8,
+                  borderRadius: 10,
+                }}
+                onPress={() => {
+                  initializePaymentSheet();
+                  openPaymentSheet();
+                }}
+              >
+                <Text style={styles.buttonText}>Pay - $</Text>
+              </TouchableOpacity>
+            </ScrollView>
           </View>
         </View>
       </Modal>
@@ -426,7 +481,7 @@ const MessageBox = ({
                 color: "#ACA9A9",
               }}
             >
-              Online
+              {online}
             </MyText>
           )}
         </View>
@@ -447,7 +502,7 @@ const MessageBox = ({
                       justifyContent: "flex-start",
                     }}
                   >
-                    {/* <Image
+                    <Image
                       source={{ uri: item.sender.avatar }}
                       style={{
                         height: 25,
@@ -456,7 +511,7 @@ const MessageBox = ({
                         marginTop: 25,
                         borderRadius: 50,
                       }}
-                    /> */}
+                    />
                     <View
                       style={{
                         height: 43,
@@ -545,7 +600,7 @@ const MessageBox = ({
                           justifyContent: "flex-start",
                         }}
                       >
-                        {/* <Image
+                        <Image
                           source={{ uri: item.sender.avatar }}
                           style={{
                             height: 25,
@@ -554,7 +609,7 @@ const MessageBox = ({
                             marginTop: 25,
                             borderRadius: 50,
                           }}
-                        /> */}
+                        />
                         <View
                           style={{
                             height: 70,
@@ -623,7 +678,7 @@ const MessageBox = ({
                         {item?.text}
                       </Text>
                     </View>
-                    {/* <Image
+                    <Image
                       source={{ uri: item.sender.avatar }}
                       style={{
                         height: 25,
@@ -632,7 +687,7 @@ const MessageBox = ({
                         borderRadius: 50,
                         alignSelf: "flex-end",
                       }}
-                    /> */}
+                    />
                   </View>
                   <Text
                     style={{
@@ -668,7 +723,7 @@ const MessageBox = ({
                             backgroundColor: colors.Bluish,
                           }}
                         />
-                        {/* <Image
+                        <Image
                           source={{ uri: item.sender.avatar }}
                           style={{
                             height: 25,
@@ -677,7 +732,7 @@ const MessageBox = ({
                             borderRadius: 50,
                             alignSelf: "flex-end",
                           }}
-                        /> */}
+                        />
                       </View>
                       <Text
                         style={{
@@ -728,7 +783,7 @@ const MessageBox = ({
                             />
                           </Pressable>
                         </View>
-                        {/* <Image
+                        <Image
                           source={{ uri: item.sender.avatar }}
                           style={{
                             height: 25,
@@ -737,7 +792,7 @@ const MessageBox = ({
                             borderRadius: 50,
                             alignSelf: "flex-end",
                           }}
-                        /> */}
+                        />
                       </View>
                       <Text
                         style={{
@@ -760,8 +815,9 @@ const MessageBox = ({
         />
       ) : (
         <FlatList
+          inverted
           data={msg}
-          keyExtractor={(item) => item._id}
+          keyExtractor={(item) => item.key}
           renderItem={({ item }) => (
             <View>
               {item.user._id == "other" ? (
@@ -957,6 +1013,7 @@ const MessageBox = ({
                               ? true
                               : false
                           }
+                          // disabled={!loading}
                           style={{
                             width: 192,
                             height: 31,
@@ -965,10 +1022,12 @@ const MessageBox = ({
                             marginTop: 6,
                           }}
                           onPress={() => {
-                            oneTimeOfferstatus(
-                              item.oneTimeOrder._id,
-                              "Accepted"
-                            );
+                            navigation.navigate("CheckoutSheet", {
+                              order: item.oneTimeOrder._id,
+                            });
+                            // setorderid(item.oneTimeOrder._id);
+                            // setModalVisible2(true);
+                            // openPaymentSheet(item.oneTimeOrder._id);
                           }}
                         >
                           <Text
@@ -1699,7 +1758,7 @@ const MessageBox = ({
           </MyText>
         </View>
 
-        {chatType === "group" ? (
+        {chatType === "group" || userdetails.role === "Startup Owner" ? (
           <View></View>
         ) : (
           <View style={{ flexDirection: "row" }}>

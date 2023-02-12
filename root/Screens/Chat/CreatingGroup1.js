@@ -90,12 +90,12 @@ const CreatingGroup1 = ({ navigation, route }) => {
         setcondition(false);
       })
       .catch((err) => {
-        console.log("error", err);
+        //console.log("error", err);
       });
   }, [getcondition]);
 
   const group = () => {
-    console.log(accessToken);
+    //console.log(accessToken);
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -210,7 +210,9 @@ const CreatingGroup1 = ({ navigation, route }) => {
         </View>
         <FlatList
           data={members}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item, index) => {
+            return index.toString();
+          }}
           horizontal={true}
           style={{ alignSelf: "flex-start" }}
           renderItem={({ item }) => (

@@ -42,7 +42,7 @@ const CreateGroup = ({ navigation }) => {
 
   const onRefresh = async () => {
     const res = await getChats(accessToken);
-    console.log(res.data.chats);
+    // console.log(res.data.chats);
 
     setchat(res.data.chats);
     setchat2(res.data.chats);
@@ -68,11 +68,11 @@ const CreateGroup = ({ navigation }) => {
     // startsocket(accessToken);
     socket.connect();
     socket.on("connect", () => {
-      console.log("Connected");
+      //console.log("Connected");
     });
     // to get session
     socket.on("session", (session) => {
-      console.log(session);
+      // console.log(session);
     });
     // to get all users
     socket.on("users", (users) => {
@@ -202,7 +202,9 @@ const CreateGroup = ({ navigation }) => {
             refreshControl={
               <RefreshControl refreshing={getcondition} onRefresh={onRefresh} />
             }
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item, index) => {
+              return index.toString();
+            }}
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={{
