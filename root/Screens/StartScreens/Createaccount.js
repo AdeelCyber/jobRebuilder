@@ -59,7 +59,7 @@ const CreateAccount = ({ route }) => {
         //  const { accesss_token } = r.params.access_token;
         //  console.log(r);
         const res = await creategoogle(r.params.id_token, role);
-        console.log(res);
+        console.log(res.status);
         if (res.status == 200) {
           Toast.show({
             topOffset: 60,

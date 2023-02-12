@@ -69,8 +69,35 @@ const Login = () => {
   });
   const google = async () => {
     try {
-      const res = await creategoogle();
-      console.log(res.data);
+      const r = await promptAsync();
+
+      if (r.type === "success") {
+        //  const { accesss_token } = r.params.access_token;
+        //  console.log(r);
+        const res = await creategoogle(r.params.id_token);
+        console.log(res.status);
+        if (res.status == 200) {
+          setuserdetails(res.data.user);
+          setaccessToken(res.data.accessToken);
+          startsocket(res.data.accessToken);
+
+          try {
+            await AsyncStorage.setItem("@accessToken", res.data.accessToken);
+            await AsyncStorage.setItem("@refreshToken", res.data.refreshToken);
+
+            //console.log("done");
+          } catch (error) {
+            //console.log(error);
+          }
+          Toast.show({
+            topOffset: 60,
+            type: "success",
+            text1: "You Successfully created the account",
+            text2: ".",
+          });
+          navigation.navigate("Message");
+        }
+      }
     } catch (err) {
       console.log(err);
     }
@@ -161,7 +188,7 @@ const Login = () => {
             text1: "You're Successfully Logged In",
             text2: ".",
           });
-          navigation.navigate("Message");
+          navigation.navigate("HomeService");
         }
       } catch (error) {
         console.log(error.response.data);

@@ -1625,6 +1625,11 @@ const BuildingStartupScreen1 = ({ navigation }) => {
         console.log(error);
       }
     };
+    const onChangeValue = (item, index) => {
+      let r = rolelist;
+      r[index].check = r[index].check ? !r[index].check : true;
+      setrolelist(r);
+    };
 
     const sendRole = async () => {
       const res = await addStartupRole(accessToken, startupid, rolelist);
@@ -1785,6 +1790,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 obj["title"] = roles;
                 obj["description"] = rolesbrokendown;
                 obj["type"] = value2;
+                obj["check"] = false;
                 setrolelist([...rolelist, obj]);
                 setTermScreen(false);
                 setteamroleScreen(false);
@@ -1836,14 +1842,14 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             <FlatList
               data={rolelist}
               keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
+              renderItem={({ item, index }) => (
                 <View style={{ flex: 1 }}>
                   <View style={styles.SectionStyle3}>
                     <Checkbox
                       style={{ margin: 14 }}
-                      value={getcheck}
-                      onValueChange={setcheck}
-                      color={getcheck ? colors.Bluish : undefined}
+                      value={item.check ? colors.Bluish : undefined}
+                      onValueChange={() => onChangeValue(item, index)}
+                      color={item.check ? colors.Bluish : undefined}
                     />
                     <MyText
                       style={{

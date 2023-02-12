@@ -9,6 +9,7 @@ import {
   ImageBackground,
   TextInput,
   FlatList,
+  Modal,
 } from "react-native";
 
 import Context from "../../Context/Context";
@@ -18,9 +19,12 @@ import Icon from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
+import { Entypo, AntDesign, Ionicons } from "@expo/vector-icons";
+
 import CartProvider from "../../Context/CartProvider";
 import Toast from "react-native-toast-message";
 import { editProfile } from "../Profile/services/ProfileServices";
+import { imageUpload } from "../Profile/services/fileServices";
 const EditProfile = ({ route }) => {
   const {
     theme: { colors },
@@ -35,23 +39,58 @@ const EditProfile = ({ route }) => {
   const [language, setlanguage] = useState(userinfo.about.language);
   const [work, setwork] = useState(userinfo.about.responseTime);
   const [about, setabout] = useState(userinfo.about.aboutMe);
-  const [image, setimage] = useState(userinfo.userInfo.avatar);
+  const [image, setimage] = useState();
   const { accessToken } = useContext(CartProvider);
-
+  const [getmodalvisible5, setmodalvisible5] = useState(false);
   const [preference, setpreference] = useState(
     "Fixed Rate " + userinfo.userInfo.role
   );
+  const [logo, setlogo] = useState(userinfo.userInfo.avatar);
+  // const pickImg = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //     allowsEditing: true,
+  //     aspect: [10, 10],
+  //     quality: 1,
+  //   });
+  //   console.log(result.assets);
+
+  //   if (!result.canceled) {
+  //     setimage(result.assets[0].uri);
+  //   }
+  // };
+
   const pickImg = async () => {
+    setmodalvisible5(false);
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [10, 10],
       quality: 1,
     });
-    console.log(result.assets);
+    // console.log(result);
 
     if (!result.canceled) {
       setimage(result.assets[0].uri);
+      const img = await imageUpload(result.assets[0].uri);
+      console.log(img);
+      setlogo(JSON.parse(img.body));
+    }
+  };
+  const takeSelfie = async () => {
+    setmodalvisible5(false);
+
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setimage(result.assets[0].uri);
+      const img = await imageUpload(result.assets[0].uri);
+      setlogo(JSON.parse(img.body));
     }
   };
   const profileedit = async () => {
@@ -64,7 +103,7 @@ const EditProfile = ({ route }) => {
       language,
       work,
       about,
-      image
+      logo.filename
     );
     console.log(res.data);
     if (res.status == 200) {
@@ -82,17 +121,116 @@ const EditProfile = ({ route }) => {
     <ScrollView style={{ backgroundColor: colors.background }}>
       <View style={[styles.container]}>
         <CustomHeader9 Title="" nav={navigation} />
+        <Modal animationType="fade" visible={getmodalvisible5}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View
+                style={{
+                  borderBottomWidth: 1,
+                  padding: 5,
+                  marginBottom: 20,
+                  borderColor: "#23232380",
+
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <MyText
+                  style={{
+                    fontSize: 14,
+                    fontWeight: "400",
+                    marginRight: 50,
+                    color: "#23232380",
+                  }}
+                >
+                  Choose Option
+                </MyText>
+                <Entypo
+                  name="circle-with-cross"
+                  size={20}
+                  color="#232323AB"
+                  onPress={() => {
+                    setmodalvisible5(false);
+                  }}
+                />
+              </View>
+              <Pressable
+                style={{
+                  height: 25,
+                  width: 90,
+                  alignSelf: "center",
+                  backgroundColor: colors.Bluish,
+                  borderRadius: 5,
+                  marginBottom: 5,
+                }}
+                onPress={() => {
+                  takeSelfie();
+                }}
+              >
+                <MyText
+                  style={{
+                    fontSize: 12,
+                    fontWeight: "400",
+                    color: colors.white,
+                    alignSelf: "center",
+                  }}
+                >
+                  Camera
+                </MyText>
+              </Pressable>
+              <Pressable
+                style={{
+                  height: 25,
+                  width: 90,
+                  alignSelf: "center",
+                  backgroundColor: colors.Bluish,
+                  borderRadius: 5,
+                }}
+                onPress={() => {
+                  pickImg();
+                }}
+              >
+                <MyText
+                  style={{
+                    fontSize: 12,
+                    fontWeight: "400",
+                    alignSelf: "center",
+                    color: colors.white,
+                  }}
+                >
+                  Open Gallery
+                </MyText>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
 
         <View style={{ flexDirection: "row", marginTop: 20 }}>
-          <Image
-            source={{ uri: image }}
-            style={{
-              height: 107,
-              width: 107,
-              borderRadius: 50,
-              alignSelf: "center",
-            }}
-          />
+          {image ? (
+            <Image
+              source={{
+                uri: image,
+              }}
+              style={{
+                height: 107,
+                width: 107,
+                borderRadius: 50,
+                alignSelf: "center",
+              }}
+            />
+          ) : (
+            <Image
+              source={{
+                uri: `https://stepdev.up.railway.app/media/getimage/${logo}`,
+              }}
+              style={{
+                height: 107,
+                width: 107,
+                borderRadius: 50,
+                alignSelf: "center",
+              }}
+            />
+          )}
 
           <View
             style={{
@@ -111,7 +249,7 @@ const EditProfile = ({ route }) => {
               size={14}
               color={colors.white}
               onPress={() => {
-                pickImg();
+                setmodalvisible5(true);
               }}
             />
           </View>
@@ -302,6 +440,27 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 14,
     marginBottom: 5,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  modalView: {
+    margin: 20,
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
 
