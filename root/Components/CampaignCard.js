@@ -67,7 +67,7 @@ const CampaignCard = ({ ...props }) => {
           <View
             style={{
               flexDirection: "row",
-              width: "100%",
+
               justifyContent: "space-between",
             }}
           >
@@ -76,10 +76,11 @@ const CampaignCard = ({ ...props }) => {
                 backgroundColor: colors.secondary,
                 justifyContent: "center",
                 alignItems: "center",
-                paddingHorizontal: 50,
+                paddingHorizontal: 45,
                 paddingVertical: 10,
                 flexDirection: "row",
                 borderRadius: 5,
+                marginRight: 10,
               }}
               onPress={() => {
                 props.navigation.navigate("Team", {
@@ -105,11 +106,12 @@ const CampaignCard = ({ ...props }) => {
                 backgroundColor: colors.white,
                 justifyContent: "center",
                 alignItems: "center",
-                paddingHorizontal: 50,
+                paddingHorizontal: 45,
                 paddingVertical: 10,
                 flexDirection: "row",
                 borderRadius: 5,
                 borderWidth: 1,
+                marginLeft: 10,
               }}
               onPress={() => {
                 props.navigation.navigate("Todo", {

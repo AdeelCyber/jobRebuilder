@@ -30,12 +30,13 @@ import { log } from "react-native-reanimated";
 const EditTask = ({ navigation, route }) => {
   const [data, setData] = useState(route.params.data);
   const [item, setitem] = useState(route.params.item);
-  console.log(item);
+  // console.log(item);
   const {
     theme: { colors },
   } = useContext(Context);
   const [menu, setmenu] = useState(data.startup.members);
   const [member, setmember] = useState(item.members);
+  log("member", member);
   const [changed, setchanged] = useState({
     //title and description
     title: item.title,
@@ -96,15 +97,17 @@ const EditTask = ({ navigation, route }) => {
       navigation.goBack();
     }
   }
-  function handleArray(text, id) {
+  function handleArray(text, id, item) {
     if (text === "Add") {
       console.log("id add ", id);
+      console.log("member", member);
       setmember([...member, id]);
       setchanged({ ...changed, members: [...member, id] });
     }
     if (text === "Sub") {
       console.log("id sub ", id);
-      setmember(member.filter((item) => item !== id));
+      console.log("member", member);
+      setmember(member.filter((item) => item._id !== id));
       setchanged({ ...changed, members: member.filter((item) => item !== id) });
     }
   }
@@ -137,7 +140,7 @@ const EditTask = ({ navigation, route }) => {
               />
             );
           }}
-          Title="Add New Task"
+          Title="Edit Task"
           style={{ elevation: 0 }}
           nav={navigation}
         />
@@ -342,6 +345,7 @@ const EditTask = ({ navigation, route }) => {
                 image={item.member.avatar}
                 text={item.member.name}
                 id={item.member._id}
+                item={item}
                 handlePress={handleArray}
                 style={{ width: "94%", marginVertical: 5 }}
               />

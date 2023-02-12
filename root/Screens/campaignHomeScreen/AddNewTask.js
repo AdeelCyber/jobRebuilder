@@ -99,7 +99,7 @@ const AddNewTask = ({ navigation, route }) => {
     }
   }
 
-  function handleArray(text, id) {
+  function handleArray(text, id, item) {
     if (text === "Add") {
       console.log("id add ", id);
       setmember([...member, id]);
