@@ -65,7 +65,8 @@ const TeamRoles = ({ navigation, route }) => {
     // console.log("obj", Obj);
     const resp = await DeleteRoles(startup, milestone);
 
-    console.log(resp.data.projectRoles.roles);
+    // console.log(resp.data.projectRoles.roles);
+    console.log(resp.data);
     if (resp.data.status === "OK") {
       setRoles(resp.data.projectRoles.roles);
     }
