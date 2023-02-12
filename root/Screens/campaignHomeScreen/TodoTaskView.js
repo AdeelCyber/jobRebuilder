@@ -50,6 +50,8 @@ const TodoTaskView = ({ navigation, route }) => {
     }
   };
 
+  const Update = (data) => route.params.set(data);
+
   return (
     // main container
     <View
@@ -194,7 +196,7 @@ const TodoTaskView = ({ navigation, route }) => {
                 style={{ marginLeft: 10 }}
                 onPress={() =>
                   navigation.navigate("EditTask", {
-                    set: route.params.set,
+                    set: Update,
                     item: route.params.item,
                     data: route.params.data,
                   })

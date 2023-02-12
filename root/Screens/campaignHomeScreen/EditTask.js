@@ -26,8 +26,10 @@ import * as DocumentPicker from "expo-document-picker";
 import { fileUpload } from "../Profile/services/fileServices";
 import { AddTodo, EditTodo } from "../Profile/services/FreeLancerServices";
 import { log } from "react-native-reanimated";
+import { useIsFocused } from "@react-navigation/native";
 
 const EditTask = ({ navigation, route }) => {
+  const isfocused = useIsFocused();
   const [data, setData] = useState(route.params.data);
   const [item, setitem] = useState(route.params.item);
   // console.log(item);
@@ -35,16 +37,23 @@ const EditTask = ({ navigation, route }) => {
     theme: { colors },
   } = useContext(Context);
   const [menu, setmenu] = useState(data.startup.members);
-  const [member, setmember] = useState(item.members);
-  log("member", member);
+  const [member, setmember] = useState([]);
+  console.log("member", member);
+  useEffect(() => {
+    //set setmember equal to array of _id in item.members
+    for (let i = 0; i < item.members.length; i++) {
+      setmember([...member, item.members[i]._id]);
+    }
+  }, [isfocused]);
   const [changed, setchanged] = useState({
     //title and description
     title: item.title,
     description: item.description,
     dueDate: item.dueDate,
     file: item.file,
-    members: [],
+    members: member,
   });
+  console.log("changed", changed);
 
   const [search, setSearch] = useState("");
 
@@ -101,6 +110,9 @@ const EditTask = ({ navigation, route }) => {
     if (text === "Add") {
       console.log("id add ", id);
       console.log("member", member);
+      if (member.includes(id)) {
+        return;
+      }
       setmember([...member, id]);
       setchanged({ ...changed, members: [...member, id] });
     }
