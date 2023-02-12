@@ -21,10 +21,15 @@ import { useTogglePasswordVisibility } from "../../Components/useTogglePasswordV
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
 import { io } from "socket.io-client";
-import { userLogin } from "../Profile/services/authenticationServices";
+import {
+  createfacebook,
+  creategoogle,
+  userLogin,
+} from "../Profile/services/authenticationServices";
 import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
-
+import * as Google from "expo-auth-session/providers/google";
+import * as Facebook from "expo-auth-session/providers/facebook";
 const Login = () => {
   const {
     theme: { colors },
@@ -52,6 +57,70 @@ const Login = () => {
     },
     [socket]
   );
+  const [, , promptAsync] = Google.useIdTokenAuthRequest({
+    expoClientId:
+      "253459265127-bgal1cs5eb1c8bcb8suso891fg9mm06m.apps.googleusercontent.com",
+    iosClientId: "GOOGLE_GUID.apps.googleusercontent.com",
+    androidClientId: "GOOGLE_GUID.apps.googleusercontent.com",
+    webClientId: "GOOGLE_GUID.apps.googleusercontent.com",
+  });
+  const [, , fbpromptAsync] = Facebook.useAuthRequest({
+    clientId: "1366866914064008",
+  });
+  const google = async () => {
+    try {
+      const res = await creategoogle();
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const facebook = async () => {
+    try {
+      const r = await fbpromptAsync();
+      if (r.type === "success") {
+        const { accesss_token } = r.params.access_token;
+        console.log(r);
+        const { data } = await axios({
+          url: "https://graph.facebook.com/me",
+          method: "get",
+          params: {
+            fields: ["id", "email", "first_name", "last_name", "picture"].join(
+              ","
+            ),
+            access_token: r.params.access_token,
+          },
+        });
+        console.log(data);
+        const res = await createfacebook(data);
+        console.log(res.data);
+        if (res.status == 200) {
+          setuserdetails(res.data.user);
+          setaccessToken(res.data.accessToken);
+          startsocket(res.data.accessToken);
+
+          try {
+            await AsyncStorage.setItem("@accessToken", res.data.accessToken);
+            await AsyncStorage.setItem("@refreshToken", res.data.refreshToken);
+
+            //console.log("done");
+          } catch (error) {
+            //console.log(error);
+          }
+
+          Toast.show({
+            topOffset: 60,
+            type: "success",
+            text1: "You're Successfully Logged In",
+            text2: ".",
+          });
+          navigation.navigate("Message");
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const login = async () => {
     if (email == "" || password == "") {
@@ -66,6 +135,7 @@ const Login = () => {
         const response = await userLogin(email, password);
         //console.log(response.data);
         if (response.status == 200) {
+          //console.log(response.data.user);
           setuserdetails(response.data.user);
           setaccessToken(response.data.accessToken);
           startsocket(response.data.accessToken);
@@ -273,7 +343,7 @@ const Login = () => {
                   marginTop: 20,
                 }}
                 onPress={() => {
-                  navigation.navigate("LoginScreen");
+                  google();
                 }}
               >
                 <View style={{ flexDirection: "row" }}>
@@ -308,7 +378,7 @@ const Login = () => {
                   marginTop: 20,
                 }}
                 onPress={() => {
-                  navigation.navigate("LoginScreen");
+                  facebook();
                 }}
               >
                 <View style={{ flexDirection: "row" }}>

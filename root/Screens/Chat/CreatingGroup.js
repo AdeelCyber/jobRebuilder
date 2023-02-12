@@ -54,7 +54,7 @@ const CreatingGroup = ({ navigation }) => {
 
   const onRefresh = async () => {
     const res = await getChats(accessToken);
-    console.log(res.data.chats);
+    //console.log(res.data.chats);
 
     setchat(res.data.chats);
     setchat2(res.data.chats);
@@ -153,7 +153,9 @@ const CreatingGroup = ({ navigation }) => {
         {chat && (
           <FlatList
             data={chat && chat.filter((item) => item.chatType.match("simple"))}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item, index) => {
+              return index.toString();
+            }}
             renderItem={({ item }) => (
               <Card>
                 <UserInfo>

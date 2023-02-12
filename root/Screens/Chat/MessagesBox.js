@@ -42,7 +42,7 @@ const MessagesBox = ({ route }) => {
   const [messages, setMessages] = useState([]);
   //const messages = useRef();
 
-  const { id, userImg, userName, chatType, members } =
+  const { id, userImg, userName, chatType, members, online } =
     route.params != undefined ? route.params : {};
 
   const getMsg = async () => {
@@ -69,16 +69,6 @@ const MessagesBox = ({ route }) => {
     getMsg();
   }, [getcondition]);
 
-  // const sendMessage = async (message) => {
-  //   //console.log(getusers);
-  //   socket.emit("private message", {
-  //     to: id,
-  //     content: message,
-  //   });
-  //   const res = await sendMessagess(accessToken, id, message);
-  //   //console.log(res.data);
-  // };
-
   if (getcondition) {
     return (
       <View
@@ -103,6 +93,7 @@ const MessagesBox = ({ route }) => {
       userName={userName}
       chatType={chatType}
       members={members}
+      online={online}
     />
   );
 };

@@ -101,7 +101,7 @@ const CustomOffer = ({ route }) => {
       price,
       getdocinfo.filename
     );
-    console.log(equity);
+    // console.log(equity);
     if (equity.status == 201) {
       sendMessage(equity.data.data._id, "equityOrder");
 
@@ -123,9 +123,9 @@ const CustomOffer = ({ route }) => {
     }
   };
   const sendMessage = async (message, type) => {
-    console.log("type", type);
-    console.log("msg", message);
-    console.log("id", id);
+    //console.log("type", type);
+    //  console.log("msg", message);
+    //  console.log("id", id);
 
     const res = await sendMessagess(accessToken, id, message, type);
     console.log(res.status);

@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   RefreshControl,
   TextInput,
+  Pressable,
 } from "react-native";
 import { Container, Msgs } from "../../Components/MessageStyles";
 import Context from "../../Context/Context";
@@ -24,6 +25,7 @@ import { getmembers } from "../Profile/services/startupServices";
 import { SearchBar } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { getChats } from "../Profile/services/MessageServices";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Message = ({ navigation }) => {
   const {
@@ -41,25 +43,29 @@ const Message = ({ navigation }) => {
   const [searching, setsearching] = useState();
 
   const onRefresh = async () => {
-    const res = await getChats(accessToken);
-    console.log(res.data.chats);
+    try {
+      const res = await getChats(accessToken);
+      //console.log(res.data.chats);
 
-    setchat(res.data.chats);
-    setchat2(res.data.chats);
-    res.data.chats.forEach((element) => {
-      if (element.chatType === "group") {
-        socket.emit("join-room", element.chatid);
-      }
-    });
-    res.data.chats.forEach((e) =>
-      getusers.forEach((e2) => {
-        if (e.chatid === e2.userID) {
-          setcolor("green");
+      setchat(res.data.chats);
+      setchat2(res.data.chats);
+      res.data.chats.forEach((element) => {
+        if (element.chatType === "group") {
+          socket.emit("join-room", element.chatid);
         }
-      })
-    );
+      });
+      res.data.chats.forEach((e) =>
+        getusers.forEach((e2) => {
+          if (e.chatid === e2.userID) {
+            setcolor("green");
+          }
+        })
+      );
 
-    setcondition(false);
+      setcondition(false);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -72,7 +78,7 @@ const Message = ({ navigation }) => {
     });
     // to get session
     socket.on("session", (session) => {
-      console.log(session);
+      //  console.log(session);
     });
     // to get all users
     socket.on("users", (users) => {
@@ -96,6 +102,26 @@ const Message = ({ navigation }) => {
       setchat(chat2);
     }
   };
+  const getReadStatus = async () => {
+    let isRead = null;
+    try {
+      isRead = await AsyncStorage.getItem("@read");
+    } catch (e) {
+      console.log(e);
+    }
+
+    return isRead;
+  };
+
+  const setReadToFalse = async () => {
+    try {
+      await AsyncStorage.setItem("@read", JSON.stringify(false));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const [unRead, setUnRead] = useState(() => getReadStatus || false);
 
   if (getcondition) {
     return (
@@ -168,7 +194,9 @@ const Message = ({ navigation }) => {
             refreshControl={
               <RefreshControl refreshing={getcondition} onRefresh={onRefresh} />
             }
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item, index) => {
+              return index.toString();
+            }}
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={{
@@ -185,6 +213,7 @@ const Message = ({ navigation }) => {
                     userName: item.chatname,
                     chatType: item.chatType,
                     members: item.members,
+                    online: getcolor === "green" ? "online" : "offline",
                   })
                 }
               >
@@ -244,20 +273,31 @@ const Message = ({ navigation }) => {
                       : item.lastMessage?.message.message}
                   </Text>
                 </View>
-                <View
-                  style={{ flexDirection: "column", justifyContent: "center" }}
-                >
-                  <Msgs style={{ marginLeft: 20, marginBottom: 5 }}>2</Msgs>
 
-                  <MyText
-                    style={{
-                      fontWeight: "500",
-                      fontSize: 9,
-                      color: "#23232380",
+                <View
+                  style={{
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Pressable
+                    onPress={async () => {
+                      await setReadToFalse();
+                      setUnRead(false);
                     }}
                   >
-                    {moment(item.date).format("h:mm a")}
-                  </MyText>
+                    <Msgs style={{ marginLeft: 20, marginBottom: 5 }}>2</Msgs>
+
+                    <MyText
+                      style={{
+                        fontWeight: "500",
+                        fontSize: 9,
+                        color: "#23232380",
+                      }}
+                    >
+                      {moment(item.date).format("h:mm a")}
+                    </MyText>
+                  </Pressable>
                 </View>
               </TouchableOpacity>
             )}

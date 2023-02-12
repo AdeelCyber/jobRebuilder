@@ -31,7 +31,6 @@ export const fileGet = async (accessToken, doc) => {
   console.log(doc);
   const config = {
     headers: {
-      "Content-Type": "application/json",
       Authorization: `bearer ${accessToken}`,
     },
   };

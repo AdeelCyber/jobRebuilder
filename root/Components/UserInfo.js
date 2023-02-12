@@ -32,7 +32,6 @@ const UserInfo = () => {
   const [getcondition, setcondition] = useState(true);
   const [userreviews, setuserreviews] = useState([]);
   var rate = [];
-  const [avg, setavg] = useState();
   const { accessToken } = useContext(CartProvider);
 
   useEffect(() => {
@@ -59,19 +58,6 @@ const UserInfo = () => {
         console.log("error", err);
       });
   }, [getcondition]);
-
-  useEffect(() => {
-    if (userreviews) {
-      console.log(userreviews.length);
-      for (var i in userreviews) {
-        var review = userreviews[i].rating;
-      }
-      rate.push(review / userreviews.length);
-      setavg(rate.toString());
-
-      console.log(avg);
-    }
-  }, [userreviews]);
 
   if (getcondition) {
     return (
@@ -117,7 +103,12 @@ const UserInfo = () => {
             style={{ flexDirection: "row", justifyContent: "space-evenly" }}
           >
             <MyText
-              style={{ fontSize: 20, fontWeight: "700", marginRight: 17 }}
+              style={{
+                fontSize: 20,
+                fontWeight: "700",
+                marginRight: 17,
+                marginLeft: 10,
+              }}
             >
               {userinfo?.userInfo.name}
             </MyText>
@@ -208,7 +199,7 @@ const UserInfo = () => {
           </MyText>
           <View style={{ flexDirection: "row" }}>
             <StarRating
-              rating={avg}
+              rating={userinfo.userInfo.rating}
               //onChange={setRating}
               starSize={16}
               style={{ padding: 0, margin: 4, width: 10 }}
@@ -222,7 +213,7 @@ const UserInfo = () => {
                 margin: 4,
               }}
             >
-              {avg}
+              {userinfo.userInfo.rating}
             </MyText>
             <MyText
               style={{

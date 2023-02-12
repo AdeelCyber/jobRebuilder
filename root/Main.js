@@ -90,6 +90,7 @@ import NewMessage from "./Screens/Chat/NewMessage";
 import CartProvider from "./Context/CartProvider";
 import EditTask from "./Screens/campaignHomeScreen/EditTask";
 import OtpScreen from "./Screens/StartScreens/OtpScreen";
+import CheckoutSheet from "./Screens/Chat/paymentsheet";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -99,7 +100,7 @@ const MyStack = () => {
   return (
     <>
       <Stack.Navigator
-        initialRouteName="LoginScreen"
+        initialRouteName="StartScreen"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="CampaignHome" component={CampaignHome} />
@@ -157,6 +158,7 @@ const MyStack = () => {
         <Stack.Screen name="CreatingGroup1" component={CreatingGroup1} />
         <Stack.Screen name="GroupChat" component={GroupChat} />
         <Stack.Screen name="CustomOffer" component={CustomOffer} />
+        <Stack.Screen name="CheckoutSheet" component={CheckoutSheet} />
 
         <Stack.Screen
           name="BuildingStartupScreen1"

@@ -36,3 +36,31 @@ export const createaccount = async (
     return error.response;
   }
 };
+
+export const creategoogle = async (token, role) => {
+  console.log(role);
+  try {
+    const resp = axios.post("/auth/google/mobile", {
+      tokenId: token,
+      role: role,
+    });
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const createfacebook = async (data, role) => {
+  try {
+    const resp = axios.post("/auth/facebook/mobile", {
+      id: data.id,
+      role: role,
+      email: data.email,
+      name: data.first_name + data.last_name,
+      picture: data.picture.data.url,
+    });
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
