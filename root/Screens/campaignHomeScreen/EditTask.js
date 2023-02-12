@@ -94,6 +94,7 @@ const EditTask = ({ navigation, route }) => {
 
   const getFreelancersData = async () => {
     const resp = await EditTodo(data.startup._id, item._id, changed);
+    console.log("resp", resp.data, changed);
 
     if (resp.data.status === "OK") {
       route.params.set(resp.data.todos.todos);
@@ -110,11 +111,9 @@ const EditTask = ({ navigation, route }) => {
     if (text === "Add") {
       console.log("id add ", id);
       console.log("member", member);
-      if (member.includes(id)) {
-        return;
-      }
-      setmember([...member, id]);
+
       setchanged({ ...changed, members: [...member, id] });
+      console.log(changed);
     }
     if (text === "Sub") {
       console.log("id sub ", id);

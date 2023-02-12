@@ -102,12 +102,20 @@ const AddNewTask = ({ navigation, route }) => {
   function handleArray(text, id, item) {
     if (text === "Add") {
       console.log("id add ", id);
-      setmember([...member, id]);
-      setchanged({ ...changed, members: [...member, id] });
+      console.log("member", member);
+
+      if (member.includes(id)) {
+        return;
+      } else {
+        setmember([...member, id]);
+        setchanged({ ...changed, members: [...member, id] });
+        console.log(changed);
+      }
     }
     if (text === "Sub") {
       console.log("id sub ", id);
-      setmember(member.filter((item) => item !== id));
+      console.log("member", member);
+      setmember(member.filter((item) => item._id !== id));
       setchanged({ ...changed, members: member.filter((item) => item !== id) });
     }
   }
