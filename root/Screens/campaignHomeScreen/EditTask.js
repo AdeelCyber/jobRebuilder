@@ -43,7 +43,7 @@ const EditTask = ({ navigation, route }) => {
     description: item.description,
     dueDate: item.dueDate,
     file: item.file,
-    members: item.members,
+    members: [],
   });
 
   const [search, setSearch] = useState("");

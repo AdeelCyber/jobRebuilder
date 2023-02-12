@@ -131,7 +131,7 @@ const TodoTaskView = ({ navigation, route }) => {
               text="Files Attached"
               style={{
                 backgroundColor: "#E8E8E8",
-                width: "43%",
+                width: "45%",
                 paddingVertical: 17,
                 alignSelf: "flex-start",
                 marginTop: 30,
