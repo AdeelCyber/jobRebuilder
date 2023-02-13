@@ -257,7 +257,7 @@ const MessageBox = ({
     try {
       await StorageAccessFramework.createFileAsync(
         permissions.directoryUri,
-        file,
+        res.data,
         "application/pdf"
       )
         .then((r) => {
@@ -315,6 +315,7 @@ const MessageBox = ({
       setmsg([...msg, obj]);
     });
   }
+  const yourRef = useRef(null);
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -439,7 +440,9 @@ const MessageBox = ({
         {/* Text View in */}
         <View>
           <Image
-            source={{ uri: userImg }}
+            source={{
+              uri: `https://stepdev.up.railway.app/media/getimage/${userImg}`,
+            }}
             style={{ height: 46, width: 46, margin: 6, borderRadius: 50 }}
           />
         </View>
@@ -466,7 +469,7 @@ const MessageBox = ({
                   <Image
                     style={{ width: 24, height: 24, borderRadius: 50 }}
                     source={{
-                      uri: item.avatar,
+                      uri: `https://stepdev.up.railway.app/media/getimage/${item.avatar}`,
                     }}
                   />
                 </View>
@@ -491,6 +494,9 @@ const MessageBox = ({
       {chatType === "group" ? (
         <FlatList
           data={msg}
+          // ref={yourRef}
+          // onContentSizeChange={() => yourRef.current.scrollToEnd()}
+          // onLayout={() => yourRef.current.scrollToEnd()}
           keyExtractor={(item) => item._id}
           renderItem={({ item }) => (
             <View>
@@ -503,7 +509,9 @@ const MessageBox = ({
                     }}
                   >
                     <Image
-                      source={{ uri: item.sender.avatar }}
+                      source={{
+                        uri: `https://stepdev.up.railway.app/media/getimage/${item.sender.avatar}`,
+                      }}
                       style={{
                         height: 25,
                         marginLeft: 9,
@@ -555,7 +563,9 @@ const MessageBox = ({
                         }}
                       >
                         <Image
-                          source={{ uri: item.sender.avatar }}
+                          source={{
+                            uri: `https://stepdev.up.railway.app/media/getimage/${item.sender.avatar}`,
+                          }}
                           style={{
                             height: 25,
                             marginLeft: 9,
@@ -601,7 +611,9 @@ const MessageBox = ({
                         }}
                       >
                         <Image
-                          source={{ uri: item.sender.avatar }}
+                          source={{
+                            uri: `https://stepdev.up.railway.app/media/getimage/${item.sender.avatar}`,
+                          }}
                           style={{
                             height: 25,
                             marginLeft: 9,
@@ -679,7 +691,9 @@ const MessageBox = ({
                       </Text>
                     </View>
                     <Image
-                      source={{ uri: item.sender.avatar }}
+                      source={{
+                        uri: `https://stepdev.up.railway.app/media/getimage/${item.sender.avatar}`,
+                      }}
                       style={{
                         height: 25,
                         marginRight: 9,
@@ -724,7 +738,9 @@ const MessageBox = ({
                           }}
                         />
                         <Image
-                          source={{ uri: item.sender.avatar }}
+                          source={{
+                            uri: `https://stepdev.up.railway.app/media/getimage/${item.sender.avatar}`,
+                          }}
                           style={{
                             height: 25,
                             marginRight: 9,
@@ -784,7 +800,9 @@ const MessageBox = ({
                           </Pressable>
                         </View>
                         <Image
-                          source={{ uri: item.sender.avatar }}
+                          source={{
+                            uri: `https://stepdev.up.railway.app/media/getimage/${item.sender.avatar}`,
+                          }}
                           style={{
                             height: 25,
                             marginRight: 9,
@@ -815,8 +833,10 @@ const MessageBox = ({
         />
       ) : (
         <FlatList
-          inverted
           data={msg}
+          // ref={yourRef}
+          // onContentSizeChange={() => yourRef.current.scrollToEnd()}
+          // onLayout={() => yourRef.current.scrollToEnd()}
           keyExtractor={(item) => item.key}
           renderItem={({ item }) => (
             <View>
@@ -1160,14 +1180,20 @@ const MessageBox = ({
                           >
                             Partnership Agreement
                           </Text>
-                          <Text
-                            style={{
-                              fontSize: 12,
-                              fontWeight: "500",
+                          <Pressable
+                            onPress={() => {
+                              getpdf(item.equityOrder.partnershipAgreement);
                             }}
                           >
-                            View
-                          </Text>
+                            <Text
+                              style={{
+                                fontSize: 12,
+                                fontWeight: "500",
+                              }}
+                            >
+                              View
+                            </Text>
+                          </Pressable>
                         </View>
                         <Pressable
                           style={{
@@ -1584,15 +1610,21 @@ const MessageBox = ({
                           >
                             Partnership Agreement
                           </Text>
-                          <Text
-                            style={{
-                              fontSize: 12,
-                              fontWeight: "500",
-                              color: colors.white,
+                          <Pressable
+                            onPress={() => {
+                              getpdf(item.equityOrder.partnershipAgreement);
                             }}
                           >
-                            View
-                          </Text>
+                            <Text
+                              style={{
+                                fontSize: 12,
+                                fontWeight: "500",
+                                color: colors.white,
+                              }}
+                            >
+                              View
+                            </Text>
+                          </Pressable>
                         </View>
                         <Pressable
                           style={{

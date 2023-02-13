@@ -161,7 +161,11 @@ const CreatingGroup = ({ navigation }) => {
                 <UserInfo>
                   <UserImgWrapper>
                     <UserInfoText>
-                      <UserImg source={{ uri: item.chatavatar }} />
+                      <UserImg
+                        source={{
+                          uri: `https://stepdev.up.railway.app/media/getimage/${item.chatavatar}`,
+                        }}
+                      />
                     </UserInfoText>
                   </UserImgWrapper>
                   <TextSection>

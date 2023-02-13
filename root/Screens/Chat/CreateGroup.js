@@ -232,7 +232,9 @@ const CreateGroup = ({ navigation }) => {
                       borderRadius: 50,
                       alignItems: "center",
                     }}
-                    source={{ uri: item.chatavatar }}
+                    source={{
+                      uri: `https://stepdev.up.railway.app/media/getimage/${item.chatavatar}`,
+                    }}
                   />
                   <View
                     style={{

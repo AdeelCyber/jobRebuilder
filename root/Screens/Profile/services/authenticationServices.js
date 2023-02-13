@@ -57,7 +57,6 @@ export const createfacebook = async (data, role) => {
       role: role,
       email: data.email,
       name: data.first_name + data.last_name,
-      picture: data.picture.data.url,
     });
     return resp;
   } catch (error) {

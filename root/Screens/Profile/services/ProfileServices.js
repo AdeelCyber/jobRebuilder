@@ -195,6 +195,7 @@ export const editProfile = async (
   about,
   image
 ) => {
+  console.log(image);
   const config = {
     headers: {
       Authorization: `bearer ${accessToken}`,
