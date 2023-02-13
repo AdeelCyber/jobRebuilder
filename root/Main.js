@@ -91,6 +91,7 @@ import CartProvider from "./Context/CartProvider";
 import EditTask from "./Screens/campaignHomeScreen/EditTask";
 import OtpScreen from "./Screens/StartScreens/OtpScreen";
 import CheckoutSheet from "./Screens/Chat/paymentsheet";
+import CartContext from "./Context/CartProvider";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -260,6 +261,8 @@ const Main = () => {
     theme: { colors },
   } = useContext(Context);
   const { accessToken, socket, setsocket } = useContext(CartProvider);
+  const userDetails = useContext(CartContext);
+  console.log("Gettted" + userDetails.userdetails.role);
 
   const startsocket = useCallback(
     (accessToken) => {
@@ -291,7 +294,8 @@ const Main = () => {
       {/* <SignIn /> */}
       <NavigationContainer>
         <MyStack />
-        <TabBar show={true} />
+
+        <TabBar show={userDetails.userdetails.role} />
       </NavigationContainer>
     </SafeAreaView>
   );

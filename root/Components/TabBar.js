@@ -64,7 +64,7 @@ const TabBar = (props) => {
   };
 
   return (
-    <View style={[styles.container, { display: isToken ? "flex" : "none" }]}>
+    <View style={[styles.container, { display: props.show ? "flex" : "none" }]}>
       <TouchableOpacity
         onPress={() => {
           setSelectedTab(0);
