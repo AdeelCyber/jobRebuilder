@@ -64,6 +64,7 @@ const Warnings = ({ navigation, route }) => {
 
     if (resp.data.status === "OK") {
       console.log("request send");
+      navigation.goBack();
     } else {
       console.log("request not send");
     }
@@ -81,6 +82,7 @@ const Warnings = ({ navigation, route }) => {
 
     if (resp.data.status === "OK") {
       console.log("request send");
+      navigation.goBack();
     } else {
       console.log("request not send");
     }

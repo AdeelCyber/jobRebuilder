@@ -189,7 +189,7 @@ const MileStone = ({ navigation, route }) => {
       navigation.navigate("AddMileStone", { data: data, set: updateMileStone });
     }
     if (text == "Register") {
-      navigation.navigate("LoginScreen");
+      navigation.navigate("StartScreen");
     }
   }
   let popupRef = React.useRef();
