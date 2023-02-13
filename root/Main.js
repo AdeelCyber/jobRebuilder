@@ -247,7 +247,7 @@ const Main = () => {
   const { accessToken, socket, setsocket } = useContext(CartProvider);
 
   const userDetails = useContext(CartContext);
-  console.log("Gettted" + userDetails.userdetails.role);
+  // console.log("Gettted" + userDetails.userdetails.role);
 
   // if (userDetails.userdetails.role) {
   //   userDetails.setislogin(true);

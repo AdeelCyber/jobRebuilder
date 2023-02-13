@@ -268,7 +268,7 @@ const ManagingCampaign = ({ navigation, route }) => {
     }
   }, [data]);
   const userDetails = useContext(CartContext);
-  console.log(userDetails.userdetails.role);
+  // console.log(userDetails.userdetails.role);
   const [undefinedd, setundefined] = useState(false);
   const [isPart, setispart] = useState(true);
   //second line of defence

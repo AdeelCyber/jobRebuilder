@@ -52,7 +52,7 @@ const CampaignMenu = ({ navigation, route }) => {
   }, []);
 
   const userDetails = useContext(CartContext);
-  console.log(userDetails.userdetails.role);
+  // console.log(userDetails.userdetails.role);
   const [undefinedd, setundefined] = useState(false);
   const [isPart, setispart] = useState(true);
   useEffect(() => {
@@ -72,7 +72,7 @@ const CampaignMenu = ({ navigation, route }) => {
 
   //module
 
-  console.log(userDetails.userdetails.role);
+  // console.log(userDetails.userdetails.role);
 
   useEffect(() => {
     if (userDetails.userdetails.role === "Startup Owner") {

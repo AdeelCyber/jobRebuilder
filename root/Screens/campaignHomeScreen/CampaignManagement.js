@@ -75,7 +75,7 @@ const CampaignManagement = ({ navigation }) => {
     getFreelancersData();
   }, []);
   const userDetails = useContext(CartContext);
-  console.log(userDetails.userdetails.role);
+  // console.log(userDetails.userdetails.role);
   const [show, setShow] = useState(false);
   useEffect(() => {
     if (userDetails.userdetails.role === "Startup Owner") {

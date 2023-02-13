@@ -95,6 +95,10 @@ const Login = () => {
           try {
             await AsyncStorage.setItem("@accessToken", res.data.accessToken);
             await AsyncStorage.setItem("@refreshToken", res.data.refreshToken);
+            await AsyncStorage.setItem(
+              "@userDetail",
+              JSON.stringify(res.data.user)
+            );
 
             //console.log("done");
           } catch (error) {
@@ -140,6 +144,10 @@ const Login = () => {
           try {
             await AsyncStorage.setItem("@accessToken", res.data.accessToken);
             await AsyncStorage.setItem("@refreshToken", res.data.refreshToken);
+            await AsyncStorage.setItem(
+              "@userDetail",
+              JSON.stringify(res.data.user)
+            );
 
             //console.log("done");
           } catch (error) {
@@ -187,6 +195,11 @@ const Login = () => {
               "@refreshToken",
               response.data.refreshToken
             );
+            await AsyncStorage.setItem(
+              "@userDetail",
+              JSON.stringify(res.data.user)
+            );
+            console.log("async setting" + JSON.stringify(res.data.user));
 
             //console.log("done");
           } catch (error) {
