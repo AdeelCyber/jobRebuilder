@@ -23,7 +23,7 @@ const CancelledOrderDetailScreen = () => {
   }, [])
 
   const fetchOrder = async () => {
-    const resp = await getOrders()
+    const resp = await getOrderCategoryWise('Completed')
 
     if (resp.status === 200) {
       setOrders(resp.data.data)

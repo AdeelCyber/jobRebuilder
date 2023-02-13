@@ -7,7 +7,7 @@ import Icon from '@expo/vector-icons/FontAwesome'
 import { useNavigation } from '@react-navigation/native'
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures'
 import PendingOrdersScreen from './PendingOrdersScreen'
-import CancelledOrderDetailScreen from './CompletedOrdersScreen'
+import CompletedOrdersScreen from './CompletedOrdersScreen'
 import ActiveOrdersScreen from './ActiveOrdersScreen'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons'
@@ -202,7 +202,7 @@ const OrdersScreen = () => {
           </View>
 
           {/* Page */}
-          {currentPage === 3 && <CancelledOrderDetailScreen />}
+          {currentPage === 3 && <CompletedOrdersScreen />}
           {currentPage === 2 && <PendingOrdersScreen />}
           {currentPage === 1 && <ActiveOrdersScreen />}
         </View>

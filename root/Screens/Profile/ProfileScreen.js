@@ -12,7 +12,7 @@ import Context from '../../Context/Context'
 import { profileMenu } from '../../utilities/profileMenu'
 import Icon from '@expo/vector-icons/FontAwesome'
 import MyText from '../../Components/Text'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import SvgImport from '../../Components/SvgImport'
 import HomeIcon from '../../../assets/Svgs/Home'
 import SettingIcon2 from '../../../assets/Svgs/Setting'
@@ -26,13 +26,22 @@ import ArrowRightIcon from '../../../assets/Svgs/ArrowRightIcon'
 import CustomHeader from '../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { CartProvider } from '../../Context/CartProvider'
+import CartContext from '../../Context/CartProvider'
 
 const ProfileScreen = () => {
+  const isFocused = useIsFocused()
   const navigation = useNavigation()
   const {
     theme: { colors },
   } = useContext(Context)
+
+  const {
+    userdetails,
+    setaccessToken,
+    setuserdetails,
+    setrefreshToken,
+    setislogin,
+  } = useContext(CartContext)
 
   const icons = [
     <SvgImport svg={HomeIcon} />,
@@ -45,12 +54,38 @@ const ProfileScreen = () => {
     <SvgImport svg={LogoutIcon} />,
   ]
 
+  const contest = useContext(CartContext)
+  React.useLayoutEffect(() => {
+    getData()
+  }, [isFocused])
+
+  const getData = async () => {
+    const token = await AsyncStorage.getItem('@accessToken')
+    const Refreshtoken = await AsyncStorage.getItem('@refreshToken')
+    const user = await AsyncStorage.getItem('@userDetail')
+    const userDetail = JSON.parse(user)
+
+    if (!token) {
+      contest.setaccessToken('')
+      contest.setrefreshToken('')
+      contest.setuserdetails('')
+      contest.setislogin(false)
+      navigation.navigate('LoginScreen')
+    }
+  }
+
   const ListItem = ({ profile, index }) => (
     <Pressable style={{ marginTop: 10 }}>
       <TouchableOpacity
         onPress={async () => {
           if (profile.navigate === 'LoginScreen') {
             await AsyncStorage.removeItem('@accessToken')
+            await AsyncStorage.removeItem('@refreshToken')
+            await AsyncStorage.removeItem('@userDetail')
+            setuserdetails([])
+            setaccessToken('')
+            setrefreshToken('')
+            setislogin(false)
           }
           navigation.navigate(profile.navigate)
         }}
@@ -132,7 +167,7 @@ const ProfileScreen = () => {
               marginTop: 20,
             }}
           >
-            Shaheer Ahmed
+            {userdetails.name}
           </MyText>
         </View>
 

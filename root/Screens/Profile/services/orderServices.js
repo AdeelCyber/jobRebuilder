@@ -23,13 +23,12 @@ export const getOrderCategoryWise = async (category) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      data: {
-        category,
-      },
     }
-    const resp = axios.post('/orders/category', config)
+    const resp = await axios.post('/orders/category', { category }, config)
+    console.log('Resp', resp)
     return resp
   } catch (error) {
+    console.log('errrorrr', error.response)
     return error.response
   }
 }
@@ -41,11 +40,8 @@ export const getSingleOrder = async (orderId) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      data: {
-        orderId,
-      },
     }
-    const resp = axios.post('/orders/order', config)
+    const resp = await axios.post('/orders/order', { orderId }, config)
     return resp
   } catch (error) {
     return error.response
@@ -59,13 +55,12 @@ export const deliverOneTimeOrder = async (orderId, comment, attachments) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      data: {
-        orderId,
-        comment,
-        attachments,
-      },
     }
-    const resp = await axios.put('/orders/oneTime/deliver', config)
+    const resp = await axios.put(
+      '/orders/oneTime/deliver',
+      { orderId, comment, attachments },
+      config
+    )
     return resp
   } catch (error) {
     return error.response
@@ -79,12 +74,15 @@ export const cancelOneTimeOrder = async (orderId, reason) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      data: {
+    }
+    const resp = await axios.put(
+      '/orders/oneTime/cancel',
+      {
         orderId,
         reason,
       },
-    }
-    const resp = await axios.put('/orders/oneTime/cancel', config)
+      config
+    )
     return resp
   } catch (error) {
     return error.response

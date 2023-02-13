@@ -21,7 +21,7 @@ const ActiveOrdersScreen = () => {
     const resp = await getOrderCategoryWise('Active')
 
     if (resp.status === 200) {
-      fetchOrder(resp.data.data)
+      setOrders(resp.data.data)
     } else if (resp.status === 404) {
     } else if (resp.status === 401) {
     }
