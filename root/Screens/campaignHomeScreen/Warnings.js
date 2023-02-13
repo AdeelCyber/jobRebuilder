@@ -52,6 +52,13 @@ const Warnings = ({ navigation, route }) => {
     if (text === "Request") {
       getFreelancersData2();
     }
+    if (text === "chat") {
+      navigation.navigate("MessagesBox", {
+        userImg: personData.image,
+        userName: personData.name,
+        chatType: "Simple Chat",
+      });
+    }
   }
   const [input, setinput] = useState("");
 
