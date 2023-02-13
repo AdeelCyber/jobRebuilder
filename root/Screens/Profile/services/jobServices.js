@@ -23,12 +23,15 @@ export const getSpecificJob = async (clientId, roleId) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      data: {
+    }
+    const resp = await axios.post(
+      '/jobs/job',
+      {
         clientId,
         roleId,
       },
-    }
-    const resp = await axios.post('/jobs/job', config)
+      config
+    )
     return resp
   } catch (error) {
     return error.response

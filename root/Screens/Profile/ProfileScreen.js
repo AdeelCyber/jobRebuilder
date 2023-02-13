@@ -61,15 +61,7 @@ const ProfileScreen = () => {
 
   const getData = async () => {
     const token = await AsyncStorage.getItem('@accessToken')
-    const Refreshtoken = await AsyncStorage.getItem('@refreshToken')
-    const user = await AsyncStorage.getItem('@userDetail')
-    const userDetail = JSON.parse(user)
-
     if (!token) {
-      contest.setaccessToken('')
-      contest.setrefreshToken('')
-      contest.setuserdetails('')
-      contest.setislogin(false)
       navigation.navigate('LoginScreen')
     }
   }

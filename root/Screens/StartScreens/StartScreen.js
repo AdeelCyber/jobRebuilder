@@ -37,7 +37,7 @@ const StartScreen = () => {
       contest.setrefreshToken(Refreshtoken)
       contest.setuserdetails(userDetail)
       contest.setislogin(true)
-      navigation.navigate('HomeService')
+      navigation.navigate('CampaignHome')
     }
   }
 

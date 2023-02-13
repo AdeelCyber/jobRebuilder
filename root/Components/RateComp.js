@@ -13,12 +13,16 @@ import MyText from './Text'
 import { Entypo } from '@expo/vector-icons'
 import GoldenStar from '../../assets/Svgs/GolderStart'
 import { AntDesign } from '@expo/vector-icons'
+import { TouchableOpacity } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 const RateComp = (props) => {
   const {
     theme: { colors },
   } = useContext(Context)
+
+  const navigation = useNavigation()
   return (
-    <View
+    <TouchableOpacity
       style={[
         {
           padding: 10,
@@ -29,6 +33,9 @@ const RateComp = (props) => {
         styles.shadow,
         props.style,
       ]}
+      onPress={() => {
+        navigation.navigate('ShowFreelancer', { id: props.id })
+      }}
     >
       {/* image heart in */}
       <View
@@ -100,7 +107,7 @@ const RateComp = (props) => {
         </View>
       </View>
       {/* image heart out*/}
-    </View>
+    </TouchableOpacity>
   )
 }
 
