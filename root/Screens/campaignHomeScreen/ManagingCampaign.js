@@ -34,6 +34,7 @@ import {
   getWarnings,
 } from "../Profile/services/FreeLancerServices";
 import CartContext from "../../Context/CartProvider";
+import BriefCase from "../../../assets/Svgs/BriefCase";
 
 function TodoComponent({ Title, desc, ...props }) {
   const [select, setselected] = useState(true);
@@ -217,6 +218,13 @@ const ManagingCampaign = ({ navigation, route }) => {
       img: background,
       itemStyle: 15,
       navigation: "Team",
+    },
+    {
+      icon: BriefCase,
+      text: "Roles Needed",
+      img: background,
+      itemStyle: 15,
+      navigation: "TeamRoles",
     },
   ]);
   const {
