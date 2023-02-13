@@ -42,7 +42,12 @@ const StartScreen = () => {
         >
           <ImageBackground
             source={require("../../../assets/img/work.png")}
-            style={{ width: "95%", height: "100%", marginLeft: 20 }}
+            style={{
+              width: "95%",
+              height: "100%",
+              marginLeft: 20,
+            }}
+            // blurRadius={0.75}
           >
             <View style={{ marginTop: 10 }}>
               <View
@@ -65,6 +70,7 @@ const StartScreen = () => {
                 style={{
                   color: "white",
                   fontSize: 16,
+                  fontWeight: "600",
                   marginTop: 10,
                 }}
               >
@@ -72,10 +78,11 @@ const StartScreen = () => {
               </MyText>
               <MyText
                 style={{
-                  color: "white",
+                  color: colors.white,
+                  fontWeight: "600",
                   fontSize: 10,
                   marginTop: 10,
-                  marginRight: 110,
+                  marginRight: 150,
                   textAlign: "justify",
                 }}
               >
@@ -162,9 +169,10 @@ const StartScreen = () => {
               </MyText>
               <MyText
                 style={{
+                  fontWeight: "600",
                   fontSize: 10,
                   marginTop: 10,
-                  marginRight: 110,
+                  marginRight: 150,
                   textAlign: "justify",
                 }}
               >
@@ -235,19 +243,21 @@ const StartScreen = () => {
 
               <MyText
                 style={{
-                  color: "white",
+                  color: colors.white,
                   fontSize: 16,
                   marginTop: 10,
+                  fontWeight: "600",
                 }}
               >
                 Invest in Startup
               </MyText>
               <MyText
                 style={{
-                  color: "white",
+                  color: colors.white,
+                  fontWeight: "600",
                   fontSize: 10,
                   marginTop: 10,
-                  marginRight: 110,
+                  marginRight: 150,
                   textAlign: "justify",
                 }}
               >

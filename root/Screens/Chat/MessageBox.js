@@ -257,7 +257,7 @@ const MessageBox = ({
     try {
       await StorageAccessFramework.createFileAsync(
         permissions.directoryUri,
-        file,
+        res.data,
         "application/pdf"
       )
         .then((r) => {
@@ -494,9 +494,9 @@ const MessageBox = ({
       {chatType === "group" ? (
         <FlatList
           data={msg}
-          ref={yourRef}
-          onContentSizeChange={() => yourRef.current.scrollToEnd()}
-          onLayout={() => yourRef.current.scrollToEnd()}
+          // ref={yourRef}
+          // onContentSizeChange={() => yourRef.current.scrollToEnd()}
+          // onLayout={() => yourRef.current.scrollToEnd()}
           keyExtractor={(item) => item._id}
           renderItem={({ item }) => (
             <View>
@@ -834,9 +834,9 @@ const MessageBox = ({
       ) : (
         <FlatList
           data={msg}
-          ref={yourRef}
-          onContentSizeChange={() => yourRef.current.scrollToEnd()}
-          onLayout={() => yourRef.current.scrollToEnd()}
+          // ref={yourRef}
+          // onContentSizeChange={() => yourRef.current.scrollToEnd()}
+          // onLayout={() => yourRef.current.scrollToEnd()}
           keyExtractor={(item) => item.key}
           renderItem={({ item }) => (
             <View>
@@ -1180,14 +1180,20 @@ const MessageBox = ({
                           >
                             Partnership Agreement
                           </Text>
-                          <Text
-                            style={{
-                              fontSize: 12,
-                              fontWeight: "500",
+                          <Pressable
+                            onPress={() => {
+                              getpdf(item.equityOrder.partnershipAgreement);
                             }}
                           >
-                            View
-                          </Text>
+                            <Text
+                              style={{
+                                fontSize: 12,
+                                fontWeight: "500",
+                              }}
+                            >
+                              View
+                            </Text>
+                          </Pressable>
                         </View>
                         <Pressable
                           style={{
@@ -1604,15 +1610,21 @@ const MessageBox = ({
                           >
                             Partnership Agreement
                           </Text>
-                          <Text
-                            style={{
-                              fontSize: 12,
-                              fontWeight: "500",
-                              color: colors.white,
+                          <Pressable
+                            onPress={() => {
+                              getpdf(item.equityOrder.partnershipAgreement);
                             }}
                           >
-                            View
-                          </Text>
+                            <Text
+                              style={{
+                                fontSize: 12,
+                                fontWeight: "500",
+                                color: colors.white,
+                              }}
+                            >
+                              View
+                            </Text>
+                          </Pressable>
                         </View>
                         <Pressable
                           style={{
