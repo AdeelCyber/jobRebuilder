@@ -25,6 +25,8 @@ import CompassIcon from '../../../assets/Svgs/CompassIcon'
 import ArrowRightIcon from '../../../assets/Svgs/ArrowRightIcon'
 import CustomHeader from '../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { CartProvider } from '../../Context/CartProvider'
 
 const ProfileScreen = () => {
   const navigation = useNavigation()
@@ -46,7 +48,10 @@ const ProfileScreen = () => {
   const ListItem = ({ profile, index }) => (
     <Pressable style={{ marginTop: 10 }}>
       <TouchableOpacity
-        onPress={() => {
+        onPress={async () => {
+          if (profile.navigate === 'LoginScreen') {
+            await AsyncStorage.removeItem('@accessToken')
+          }
           navigation.navigate(profile.navigate)
         }}
       >

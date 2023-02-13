@@ -7,6 +7,7 @@ export function CartProvider({ children }) {
   const [userdetails, setuserdetails] = useState([]);
   const [milestone, setmilestone] = useState([]);
   const [socket, setsocket] = useState();
+  const [islogin, setislogin] = React.useState(false);
 
   return (
     <CartContext.Provider
@@ -21,6 +22,8 @@ export function CartProvider({ children }) {
         setmilestone,
         socket,
         setsocket,
+        islogin,
+        setislogin,
       }}
     >
       {children}

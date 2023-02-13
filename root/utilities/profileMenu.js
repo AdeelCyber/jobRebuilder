@@ -51,7 +51,7 @@ export const profileMenu = [
     id: 9,
     title: 'Logout',
     icon: 'arrow-right',
-    navigate: 'SignIn',
+    navigate: 'LoginScreen',
   },
 ]
 

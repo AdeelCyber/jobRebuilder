@@ -15,7 +15,7 @@ import MyText from "../../Components/Text";
 
 import Icon from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useTogglePasswordVisibility } from "../../Components/useTogglePasswordVisibility";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -30,7 +30,10 @@ import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
 import * as Google from "expo-auth-session/providers/google";
 import * as Facebook from "expo-auth-session/providers/facebook";
+import { useLayoutEffect } from "react";
+
 const Login = () => {
+  const isFocused = useIsFocused();
   const {
     theme: { colors },
   } = useContext(Context);
@@ -40,10 +43,18 @@ const Login = () => {
   const { accessToken, setaccessToken } = useContext(CartProvider);
   const [refreshToken, setrefreshToken] = useState();
   const { userdetails, setuserdetails } = useContext(CartProvider);
+  const logged = useContext(CartProvider);
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
 
   const { socket, setsocket } = useContext(CartProvider);
+  useLayoutEffect(() => {
+    console.log("2 times");
+    console.log(userdetails);
+    if (logged.islogin) {
+      navigation.navigate("HomeService");
+    }
+  }, [navigation, isFocused]);
   const startsocket = useCallback(
     (accessToken) => {
       setsocket(
@@ -188,7 +199,8 @@ const Login = () => {
             text1: "You're Successfully Logged In",
             text2: ".",
           });
-          navigation.navigate("Message");
+          navigation.navigate("HomeService");
+          logged.setislogin(true);
         }
       } catch (error) {
         console.log(error.response.data);

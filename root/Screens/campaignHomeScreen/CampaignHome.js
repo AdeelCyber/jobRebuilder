@@ -13,6 +13,7 @@ import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import PopularComp from "../../Components/PopularComp";
 import RateComp from "../../Components/RateComp";
 import { getFreelancers } from "../Profile/services/FreeLancerServices";
+import { StackActions, NavigationActions } from "react-navigation";
 
 function CategoriesComp({ text, ...props }) {
   const [selected, setselected] = useState(false);
@@ -45,6 +46,10 @@ function CategoriesComp({ text, ...props }) {
 }
 
 const CampaignHome = ({ navigation, routes }) => {
+  const resetAction = StackActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName: "Events" })],
+  });
   //categories hook
   const [catgeories, setCategories] = useState([
     "UI/UX Design",

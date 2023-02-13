@@ -93,153 +93,137 @@ import OtpScreen from "./Screens/StartScreens/OtpScreen";
 import CheckoutSheet from "./Screens/Chat/paymentsheet";
 import CartContext from "./Context/CartProvider";
 
+//Navigation out
+
+// Creating Stacks
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
 // All stack Pages goes here
 const MyStack = () => {
   return (
-    <>
-      <Stack.Navigator
-        initialRouteName="StartScreen"
-        screenOptions={{ headerShown: false }}
-      >
-        <Stack.Screen name="CampaignHome" component={CampaignHome} />
-        <Stack.Screen
-          name="CampaignManagement"
-          component={CampaignManagement}
-        />
-        <Stack.Screen name="ManagingCampaign" component={ManagingCampaign} />
-        <Stack.Screen name="CampaignMenu" component={CampaignMenu} />
-        <Stack.Screen name="OverView" component={OverView} />
-        <Stack.Screen name="PartnerShipTerms" component={PartnerShipTerms} />
-        <Stack.Screen name="TeamRoles" component={TeamRoles} />
-        <Stack.Screen name="EditRoles" component={EditRoles} />
-        <Stack.Screen name="AddRoles" component={AddRoles} />
-        <Stack.Screen name="MileStone" component={MileStone} />
-        <Stack.Screen name="AddMileStone" component={AddMileStone} />
-        <Stack.Screen name="PitchDeck" component={PitchDeck} />
-        <Stack.Screen name="Team" component={Team} />
-        <Stack.Screen name="Todo" component={Todo} />
-        <Stack.Screen name="ViewMileStone" component={ViewMileStone} />
-        <Stack.Screen name="EditMileStone" component={EditMileStone} />
-        <Stack.Screen name="TodoTaskView" component={TodoTaskView} />
-        <Stack.Screen name="AddNewTask" component={AddNewTask} />
-        <Stack.Screen name="TeamWarnings" component={TeamWarnings} />
-        <Stack.Screen name="Warnings" component={Warnings} />
-        <Stack.Screen name="EditTask" component={EditTask} />
+    <Stack.Navigator
+      initialRouteName="StartScreen"
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen name="CampaignHome" component={CampaignHome} />
+      <Stack.Screen name="CampaignManagement" component={CampaignManagement} />
+      <Stack.Screen name="ManagingCampaign" component={ManagingCampaign} />
+      <Stack.Screen name="CampaignMenu" component={CampaignMenu} />
+      <Stack.Screen name="OverView" component={OverView} />
+      <Stack.Screen name="PartnerShipTerms" component={PartnerShipTerms} />
+      <Stack.Screen name="TeamRoles" component={TeamRoles} />
+      <Stack.Screen name="EditRoles" component={EditRoles} />
+      <Stack.Screen name="AddRoles" component={AddRoles} />
+      <Stack.Screen name="MileStone" component={MileStone} />
+      <Stack.Screen name="AddMileStone" component={AddMileStone} />
+      <Stack.Screen name="PitchDeck" component={PitchDeck} />
+      <Stack.Screen name="Team" component={Team} />
+      <Stack.Screen name="Todo" component={Todo} />
+      <Stack.Screen name="ViewMileStone" component={ViewMileStone} />
+      <Stack.Screen name="EditMileStone" component={EditMileStone} />
+      <Stack.Screen name="TodoTaskView" component={TodoTaskView} />
+      <Stack.Screen name="AddNewTask" component={AddNewTask} />
+      <Stack.Screen name="TeamWarnings" component={TeamWarnings} />
+      <Stack.Screen name="Warnings" component={Warnings} />
+      <Stack.Screen name="EditTask" component={EditTask} />
 
-        <Stack.Screen name="SignIn" component={SignIn} />
-        <Stack.Screen name="SignUp" component={Signup} />
-        <Stack.Screen name="Settings" component={SettingScreen} />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-        <Stack.Screen name="JobRequests" component={JobRequestScreen} />
-        <Stack.Screen
-          name="FinancialReport"
-          component={FinancialReportScreen}
-        />
-        <Stack.Screen name="PaymentMethod" component={PaymentMethodScreen} />
-        <Stack.Screen name="ChangeEmail" component={ChangeEmailScreen} />
-        <Stack.Screen
-          name="AddFinancialDetail"
-          component={AddFinancialScreen}
-        />
-        <Stack.Screen name="StartScreen" component={StartScreen} />
-        <Stack.Screen name="LoginScreen" component={Login} />
-        <Stack.Screen name="CreateAccount" component={CreateAccount} />
-        <Stack.Screen name="OtpScreen" component={OtpScreen} />
+      <Stack.Screen name="SignIn" component={SignIn} />
+      <Stack.Screen name="SignUp" component={Signup} />
+      <Stack.Screen name="Settings" component={SettingScreen} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="JobRequests" component={JobRequestScreen} />
+      <Stack.Screen name="FinancialReport" component={FinancialReportScreen} />
+      <Stack.Screen name="PaymentMethod" component={PaymentMethodScreen} />
+      <Stack.Screen name="ChangeEmail" component={ChangeEmailScreen} />
+      <Stack.Screen name="AddFinancialDetail" component={AddFinancialScreen} />
 
-        <Stack.Screen name="Message" component={Message} />
-        <Stack.Screen name="MessageBox" component={MessageBox} />
-        <Stack.Screen name="MessagesBox" component={MessagesBox} />
-        <Stack.Screen name="NewMessage" component={NewMessage} />
+      <Stack.Screen name="Message" component={Message} />
+      <Stack.Screen name="MessageBox" component={MessageBox} />
+      <Stack.Screen name="MessagesBox" component={MessagesBox} />
+      <Stack.Screen name="NewMessage" component={NewMessage} />
 
-        <Stack.Screen name="CreateGroup" component={CreateGroup} />
-        <Stack.Screen name="CreatingGroup" component={CreatingGroup} />
-        <Stack.Screen name="CreatingGroup1" component={CreatingGroup1} />
-        <Stack.Screen name="GroupChat" component={GroupChat} />
-        <Stack.Screen name="CustomOffer" component={CustomOffer} />
-        <Stack.Screen name="CheckoutSheet" component={CheckoutSheet} />
+      <Stack.Screen name="CreateGroup" component={CreateGroup} />
+      <Stack.Screen name="CreatingGroup" component={CreatingGroup} />
+      <Stack.Screen name="CreatingGroup1" component={CreatingGroup1} />
+      <Stack.Screen name="GroupChat" component={GroupChat} />
+      <Stack.Screen name="CustomOffer" component={CustomOffer} />
 
-        <Stack.Screen
-          name="BuildingStartupScreen1"
-          component={BuildingStartupScreen1}
-        />
+      <Stack.Screen
+        name="BuildingStartupScreen1"
+        component={BuildingStartupScreen1}
+      />
 
-        <Stack.Screen name="ProgressScreen" component={Progress} />
+      <Stack.Screen name="ProgressScreen" component={Progress} />
 
-        <Stack.Screen name="HomeService" component={HomeService} />
-        <Stack.Screen name="EditService" component={EditService} />
-        <Stack.Screen name="Portfolio" component={Portfolio} />
-        <Stack.Screen name="ViewPortfolio" component={ViewPortfolio} />
-        <Stack.Screen name="EditProfile" component={EditProfile} />
-        <Stack.Screen name="EditPortfolio" component={EditPortfolio} />
+      <Stack.Screen name="HomeService" component={HomeService} />
+      <Stack.Screen name="EditService" component={EditService} />
+      <Stack.Screen name="Portfolio" component={Portfolio} />
+      <Stack.Screen name="ViewPortfolio" component={ViewPortfolio} />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
+      <Stack.Screen name="EditPortfolio" component={EditPortfolio} />
 
-        <Stack.Screen
-          name="ActiveOrderDetail"
-          component={ActiveOrderDetailScreen}
-        />
-        <Stack.Screen
-          name="CancelledOrders"
-          component={CancelledOrdersScreen}
-        />
-        <Stack.Screen
-          name="CompletedOrderDetail"
-          component={CompletedOrderDetailScreen}
-        />
-        <Stack.Screen
-          name="ChangePhoneNumber"
-          component={ChangePhoneNumberScreen}
-        />
+      <Stack.Screen
+        name="ActiveOrderDetail"
+        component={ActiveOrderDetailScreen}
+      />
+      <Stack.Screen name="CancelledOrders" component={CancelledOrdersScreen} />
+      <Stack.Screen
+        name="CompletedOrderDetail"
+        component={CompletedOrderDetailScreen}
+      />
+      <Stack.Screen
+        name="ChangePhoneNumber"
+        component={ChangePhoneNumberScreen}
+      />
 
-        <Stack.Screen
-          name="CancelledOrderDetail"
-          component={CancelledOrderDetailScreen}
-        />
-        <Stack.Screen
-          name="PendingOrderDetail"
-          component={PendingOrderDetailScreen}
-        />
+      <Stack.Screen
+        name="CancelledOrderDetail"
+        component={CancelledOrderDetailScreen}
+      />
+      <Stack.Screen
+        name="PendingOrderDetail"
+        component={PendingOrderDetailScreen}
+      />
 
-        <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
-        <Stack.Screen name="DeleteAccount" component={DeleteAccountScreen} />
-        <Stack.Screen name="Dashboard" component={DashboardScreen} />
+      <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
+      <Stack.Screen name="DeleteAccount" component={DeleteAccountScreen} />
+      <Stack.Screen name="Dashboard" component={DashboardScreen} />
 
-        <Stack.Screen name="MyOrders" component={OrdersScreen} />
-        <Stack.Screen name="Explore" component={ExploreScreen} />
-        <Stack.Screen name="ManageJobs" component={ManageJobsScreen} />
-        <Stack.Screen name="DeliverProject" component={DeliverProjectScreen} />
-        <Stack.Screen name="AppliedJobs" component={AppliedJobsScreen} />
-        <Stack.Screen name="FreelancerWarnings" component={WarningsScreen} />
-        <Stack.Screen
-          name="PaymentAccounts"
-          component={PaymentAccountsScreen}
-        />
+      <Stack.Screen name="MyOrders" component={OrdersScreen} />
+      <Stack.Screen name="Explore" component={ExploreScreen} />
+      <Stack.Screen name="ManageJobs" component={ManageJobsScreen} />
+      <Stack.Screen name="DeliverProject" component={DeliverProjectScreen} />
+      <Stack.Screen name="AppliedJobs" component={AppliedJobsScreen} />
+      <Stack.Screen name="FreelancerWarnings" component={WarningsScreen} />
+      <Stack.Screen name="PaymentAccounts" component={PaymentAccountsScreen} />
 
-        <Stack.Screen
-          name="WarningDetail"
-          component={WarningReasonDetailScreen}
-        />
+      <Stack.Screen
+        name="WarningDetail"
+        component={WarningReasonDetailScreen}
+      />
 
-        <Stack.Screen
-          name="FreelancerProfile"
-          component={FreelancerProfileScreen}
-        />
-        <Stack.Screen
-          name="FreelancerDashboard"
-          component={FreelancerDashboardScreen}
-        />
-        <Stack.Screen name="Earnings" component={FreelancerEarningsScreen} />
-        <Stack.Screen
-          name="EarningsRecords"
-          component={FreelancerEarningRecordScreen}
-        />
-        <Stack.Screen
-          name="ExploreFreelancers"
-          component={ExploreFreelancerScreen}
-        />
-      </Stack.Navigator>
-    </>
+      <Stack.Screen
+        name="FreelancerProfile"
+        component={FreelancerProfileScreen}
+      />
+      <Stack.Screen
+        name="FreelancerDashboard"
+        component={FreelancerDashboardScreen}
+      />
+      <Stack.Screen name="Earnings" component={FreelancerEarningsScreen} />
+      <Stack.Screen
+        name="EarningsRecords"
+        component={FreelancerEarningRecordScreen}
+      />
+      <Stack.Screen
+        name="ExploreFreelancers"
+        component={ExploreFreelancerScreen}
+      />
+      <Stack.Screen name="StartScreen" component={StartScreen} />
+      <Stack.Screen name="LoginScreen" component={Login} />
+      <Stack.Screen name="CreateAccount" component={CreateAccount} />
+    </Stack.Navigator>
   );
 };
 
@@ -261,8 +245,13 @@ const Main = () => {
     theme: { colors },
   } = useContext(Context);
   const { accessToken, socket, setsocket } = useContext(CartProvider);
+
   const userDetails = useContext(CartContext);
   console.log("Gettted" + userDetails.userdetails.role);
+
+  // if (userDetails.userdetails.role) {
+  //   userDetails.setislogin(true);
+  // }
 
   const startsocket = useCallback(
     (accessToken) => {

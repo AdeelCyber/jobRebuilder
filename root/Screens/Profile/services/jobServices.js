@@ -16,7 +16,7 @@ export const getAvailableJobs = async () => {
   }
 }
 
-export const getSpecificJob = async (startupId, roleId) => {
+export const getSpecificJob = async (clientId, roleId) => {
   try {
     const token = await AsyncStorage.getItem('@accessToken')
     const config = {
@@ -24,7 +24,7 @@ export const getSpecificJob = async (startupId, roleId) => {
         Authorization: `Bearer ${token}`,
       },
       data: {
-        startupId,
+        clientId,
         roleId,
       },
     }
