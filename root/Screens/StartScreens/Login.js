@@ -210,7 +210,7 @@ const Login = () => {
             text1: "You're Successfully Logged In",
             text2: ".",
           });
-          navigation.navigate("HomeService");
+          navigation.navigate("CampaignHome");
           logged.setislogin(true);
         }
       } catch (error) {

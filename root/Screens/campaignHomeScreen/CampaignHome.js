@@ -1,29 +1,29 @@
-import { StyleSheet, Text, View, FlatList, ScrollView } from "react-native";
-import axios from "../../http/axiosSet";
+import { StyleSheet, Text, View, FlatList, ScrollView } from 'react-native'
+import axios from '../../http/axiosSet'
 
-import React, { useContext, useState, useEffect } from "react";
-import Context from "../../Context/Context";
-import CustomHeader from "../../Components/CustomHeader";
-import { Searchbar } from "react-native-paper";
-import SvgImport from "../../Components/SvgImport";
-import SettingIcon2 from "../../../assets/Svgs/SettingIcon2";
+import React, { useContext, useState, useEffect } from 'react'
+import Context from '../../Context/Context'
+import CustomHeader from '../../Components/CustomHeader'
+import { Searchbar } from 'react-native-paper'
+import SvgImport from '../../Components/SvgImport'
+import SettingIcon2 from '../../../assets/Svgs/SettingIcon2'
 
-import MyText from "../../Components/Text";
-import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
-import PopularComp from "../../Components/PopularComp";
-import RateComp from "../../Components/RateComp";
-import { getFreelancers } from "../Profile/services/FreeLancerServices";
-import { StackActions, NavigationActions } from "react-navigation";
+import MyText from '../../Components/Text'
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
+import PopularComp from '../../Components/PopularComp'
+import RateComp from '../../Components/RateComp'
+import { getFreelancers } from '../Profile/services/FreeLancerServices'
+import { StackActions, NavigationActions } from 'react-navigation'
 
 function CategoriesComp({ text, ...props }) {
-  const [selected, setselected] = useState(false);
+  const [selected, setselected] = useState(false)
   const {
     theme: { colors },
-  } = useContext(Context);
+  } = useContext(Context)
   return (
     <Pressable
       onPress={() => {
-        setselected(!selected);
+        setselected(!selected)
       }}
       style={[
         {
@@ -42,178 +42,178 @@ function CategoriesComp({ text, ...props }) {
         {text}
       </MyText>
     </Pressable>
-  );
+  )
 }
 
 const CampaignHome = ({ navigation, routes }) => {
   const resetAction = StackActions.reset({
     index: 0,
-    actions: [NavigationActions.navigate({ routeName: "Events" })],
-  });
+    actions: [NavigationActions.navigate({ routeName: 'Events' })],
+  })
   //categories hook
   const [catgeories, setCategories] = useState([
-    "UI/UX Design",
-    "Animations",
-    "Logo Design",
-    "Logo Design",
-  ]);
+    'UI/UX Design',
+    'Animations',
+    'Logo Design',
+    'Logo Design',
+  ])
   //Popular hook
   const [popularData, setPopularData] = useState([
     {
-      name: "Abdullah",
-      designation: "Ceo",
-      Price: "70.00",
-      Rating: "5.0",
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
       Image:
-        "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
     },
     {
-      name: "Abdullah",
-      designation: "Ceo",
-      Price: "70.00",
-      Rating: "5.0",
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
       Image:
-        "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
     },
     {
-      name: "Abdullah",
-      designation: "Ceo",
-      Price: "70.00",
-      Rating: "5.0",
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
       Image:
-        "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
     },
     {
-      name: "Abdullah",
-      designation: "Ceo",
-      Price: "70.00",
-      Rating: "5.0",
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
       Image:
-        "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
     },
     {
-      name: "Abdullah",
-      designation: "Ceo",
-      Price: "70.00",
-      Rating: "5.0",
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
       Image:
-        "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
     },
     {
-      name: "Abdullah",
-      designation: "Ceo",
-      Price: "70.00",
-      Rating: "5.0",
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
       Image:
-        "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
     },
-  ]);
+  ])
   // fixed Rate hook
   const [RateData, setRateData] = useState([
     {
-      name: "Abdullah",
-      designation: "Ceo",
-      Price: "70.00",
-      Rating: "5.0",
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
       Image:
-        "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
     },
     {
-      name: "Abdullah",
-      designation: "Ceo",
-      Price: "70.00",
-      Rating: "5.0",
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
       Image:
-        "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
     },
     {
-      name: "Abdullah",
-      designation: "Ceo",
-      Price: "70.00",
-      Rating: "5.0",
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
       Image:
-        "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
     },
     {
-      name: "Abdullah",
-      designation: "Ceo",
-      Price: "70.00",
-      Rating: "5.0",
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
       Image:
-        "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
     },
     {
-      name: "Abdullah",
-      designation: "Ceo",
-      Price: "70.00",
-      Rating: "5.0",
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
       Image:
-        "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
     },
-  ]);
+  ])
   const [EquityData, setEquityData] = useState([
     {
-      name: "Abdullah",
-      designation: "Ceo",
-      Price: "70.00",
-      Rating: "5.0",
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
       Image:
-        "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
     },
     {
-      name: "Abdullah",
-      designation: "Ceo",
-      Price: "70.00",
-      Rating: "5.0",
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
       Image:
-        "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
     },
     {
-      name: "Abdullah",
-      designation: "Ceo",
-      Price: "70.00",
-      Rating: "5.0",
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
       Image:
-        "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
     },
     {
-      name: "Abdullah",
-      designation: "Ceo",
-      Price: "70.00",
-      Rating: "5.0",
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
       Image:
-        "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
     },
     {
-      name: "Abdullah",
-      designation: "Ceo",
-      Price: "70.00",
-      Rating: "5.0",
+      name: 'Abdullah',
+      designation: 'Ceo',
+      Price: '70.00',
+      Rating: '5.0',
       Image:
-        "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
     },
-  ]);
+  ])
 
-  const [searchQuery, setSearchQuery] = React.useState(""); //searchbar query hook
+  const [searchQuery, setSearchQuery] = React.useState('') //searchbar query hook
   // Api call
   useEffect(() => {
     const getFreelancersData = async () => {
-      const resp = await getFreelancers();
+      const resp = await getFreelancers()
       // console.log(resp.data);
-      if (resp.data.status === "OK") {
-        setPopularData(resp.data.data);
-        setRateData(resp.data.data);
-        setEquityData(resp.data.data);
+      if (resp.data.status === 'OK') {
+        setPopularData(resp.data.data)
+        setRateData(resp.data.data)
+        setEquityData(resp.data.data)
       }
-    };
+    }
 
-    getFreelancersData();
-  }, []);
+    getFreelancersData()
+  }, [])
 
-  const onChangeSearch = (query) => setSearchQuery(query);
+  const onChangeSearch = (query) => setSearchQuery(query)
   const {
     theme: { colors },
-  } = useContext(Context);
+  } = useContext(Context)
   return (
     // main container
     <ScrollView
@@ -229,21 +229,21 @@ const CampaignHome = ({ navigation, routes }) => {
       {/*Seacrch bar and setting icon in  */}
       <View
         style={{
-          flexDirection: "row",
-          alignItems: "center",
-          width: "100%",
+          flexDirection: 'row',
+          alignItems: 'center',
+          width: '100%',
           marginTop: 20,
           paddingLeft: 13,
           paddingBottom: 10,
         }}
       >
         <Searchbar
-          placeholderTextColor={"#232323A1"}
-          placeholder="Search"
+          placeholderTextColor={'#232323A1'}
+          placeholder='Search'
           onChangeText={onChangeSearch}
           value={searchQuery}
           style={{
-            width: "80%",
+            width: '80%',
             color: colors.placeHolder,
             borderRadius: 6,
             backgroundColor: colors.white,
@@ -254,8 +254,8 @@ const CampaignHome = ({ navigation, routes }) => {
           style={[
             {
               backgroundColor: colors.white,
-              justifyContent: "center",
-              alignContent: "center",
+              justifyContent: 'center',
+              alignContent: 'center',
               borderRadius: 6,
               height: 52,
               width: 52,
@@ -266,14 +266,14 @@ const CampaignHome = ({ navigation, routes }) => {
             styles.shadow,
           ]}
         >
-          <SvgImport svg={SettingIcon2} style={{ alignSelf: "center" }} />
+          <SvgImport svg={SettingIcon2} style={{ alignSelf: 'center' }} />
         </View>
         {/* seatch bar icon out */}
       </View>
       <View style={{ marginTop: 10, paddingLeft: 13 }}>
-        <MyText style={{ fontSize: 24, fontWeight: "700" }}>Categories</MyText>
+        <MyText style={{ fontSize: 24, fontWeight: '700' }}>Categories</MyText>
       </View>
-      <View style={{ width: "100%", marginTop: 4 }}>
+      <View style={{ width: '100%', marginTop: 4 }}>
         <FlatList
           horizontal
           data={catgeories}
@@ -292,11 +292,11 @@ const CampaignHome = ({ navigation, routes }) => {
         />
       </View>
       <View style={{ marginTop: 10, paddingLeft: 13 }}>
-        <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+        <MyText style={{ fontSize: 24, fontWeight: '700' }}>
           Most Popular
         </MyText>
       </View>
-      <View style={{ width: "100%", marginTop: 4 }}>
+      <View style={{ width: '100%', marginTop: 4 }}>
         <FlatList
           horizontal
           data={popularData}
@@ -323,15 +323,15 @@ const CampaignHome = ({ navigation, routes }) => {
       <View style={{ marginTop: 10, paddingLeft: 13, paddingRight: 15 }}>
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
-          <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+          <MyText style={{ fontSize: 24, fontWeight: '700' }}>
             Fixed Rate
           </MyText>
-          <MyText style={{ fontWeight: "500", fontSize: 10, color: "#8489FC" }}>
+          <MyText style={{ fontWeight: '500', fontSize: 10, color: '#8489FC' }}>
             See All
           </MyText>
         </View>
@@ -340,6 +340,7 @@ const CampaignHome = ({ navigation, routes }) => {
         {RateData.map((item, index) => (
           <RateComp
             name={item.name}
+            id={item._id}
             Price={item.hourlyRate}
             designation={item.jobTitle}
             Rating={item.rating}
@@ -349,7 +350,7 @@ const CampaignHome = ({ navigation, routes }) => {
         ))}
       </View>
       <View style={{ marginTop: 10, paddingLeft: 13 }}>
-        <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+        <MyText style={{ fontSize: 24, fontWeight: '700' }}>
           Work For Equity
         </MyText>
       </View>
@@ -358,6 +359,7 @@ const CampaignHome = ({ navigation, routes }) => {
           <RateComp
             name={item.name}
             Price={item.hourlyRate}
+            id={item._id}
             designation={item.jobTitle}
             Rating={item.rating}
             Image={item.avatar}
@@ -366,14 +368,14 @@ const CampaignHome = ({ navigation, routes }) => {
         ))}
       </View>
     </ScrollView>
-  );
-};
+  )
+}
 
-export default CampaignHome;
+export default CampaignHome
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -383,4 +385,4 @@ const styles = StyleSheet.create({
 
     elevation: 10,
   },
-});
+})
