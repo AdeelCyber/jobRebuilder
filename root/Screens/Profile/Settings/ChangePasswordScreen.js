@@ -15,6 +15,7 @@ import CustomHeader from '../../../Components/CustomHeader2'
 import { useNavigation } from '@react-navigation/native'
 import { changePassword } from '../services/settingsServices'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import Toast from 'react-native-toast-message'
 
 const ChangePasswordScreen = () => {
   const {
@@ -32,8 +33,21 @@ const ChangePasswordScreen = () => {
 
   const modifyPassword = async () => {
     const resp = await changePassword(password, confirmPassword)
+    console.log(resp)
     if (resp.status === 200) {
-      console.log('changed')
+      Toast.show({
+        topOffset: 60,
+        type: 'success',
+        text1: 'Password Changed',
+        text2: '.',
+      })
+    } else {
+      Toast.show({
+        topOffset: 60,
+        type: 'success',
+        text1: 'Wrong Password',
+        text2: '.',
+      })
     }
   }
 
@@ -109,7 +123,14 @@ const ChangePasswordScreen = () => {
             padding: 15,
             marginTop: 15,
             marginBottom: 40,
+            opacity:
+              confirmPassword.trim().length < 8 || password.trim().length < 8
+                ? 0.5
+                : 1,
           }}
+          disabled={
+            confirmPassword.trim().length < 8 || password.trim().length < 8
+          }
           onPress={() => {
             modifyPassword()
           }}

@@ -4,12 +4,29 @@ import MyText from '../../Components/Text'
 import { StyleSheet } from 'react-native'
 import Swiper from 'react-native-swiper'
 import { Image } from 'react-native'
+import CustomHeader from '../../Components/CustomHeader2'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 
 const ViewPortfolio = ({ route }) => {
   const { portfolioDetail } = route.params
-
+  const navigation = useNavigation()
   return (
     <View style={{ backgroundColor: 'white', height: 1000 }}>
+      <CustomHeader
+        Title='Viewing Portfolio'
+        style={{}}
+        nav={navigation}
+        icon={() => {
+          return (
+            <MaterialCommunityIcons
+              name='bell-circle'
+              size={28}
+              color='black'
+            />
+          )
+        }}
+      />
       <View
         style={{
           marginTop: 40,

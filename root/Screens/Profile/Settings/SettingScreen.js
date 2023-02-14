@@ -17,10 +17,42 @@ import PasswordChangeIcon from '../../../../assets/Svgs/PasswordChangeIcon'
 import ArrowRightIcon from '../../../../assets/Svgs/ArrowRightIcon'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { changeNotification } from '../services/settingsServices'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useEffect } from 'react'
+import Toast from 'react-native-toast-message'
 
 const SettingScreen = () => {
   const navigation = useNavigation()
   const [appNotification, setAppNotification] = useState(false)
+
+  const modifyNotification = async (e) => {
+    console.log(appNotification)
+    const resp = await changeNotification(e)
+    console.log(resp)
+    if (resp.status === 200) {
+      if (e) await AsyncStorage.setItem('@noti', 'true')
+      else await AsyncStorage.setItem('@noti', 'false')
+    } else {
+      Toast.show({
+        topOffset: 60,
+        type: 'success',
+        text1: 'Something went wrong',
+        text2: '.',
+      })
+    }
+  }
+
+  useEffect(() => {
+    getNotification()
+  }, [])
+
+  const getNotification = async () => {
+    const n = await AsyncStorage.getItem('@noti')
+    console.log('n', n)
+    if (n === 'true') setAppNotification(true)
+    else setAppNotification(false)
+  }
 
   const ListItem = ({ title, icon, isToggle, navigate }) => (
     <TouchableOpacity
@@ -68,8 +100,10 @@ const SettingScreen = () => {
               trackColor={{ false: '#000', true: '#000' }}
               thumbColor={appNotification ? colors.primary : '#f4f3f4'}
               ios_backgroundColor='#3e3e3e'
-              onValueChange={() => {
-                setAppNotification(!appNotification)
+              onValueChange={(e) => {
+                console.log('Val', e)
+                setAppNotification(e)
+                modifyNotification(e)
               }}
               value={appNotification}
             />

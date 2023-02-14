@@ -14,17 +14,18 @@ import MyText from '../../Components/Text'
 
 import Icon from '@expo/vector-icons/FontAwesome'
 import Icons from '@expo/vector-icons/FontAwesome5'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import Fontisto from '@expo/vector-icons/Fontisto'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import CartContext from '../../Context/CartProvider'
 
 const StartScreen = () => {
   const navigation = useNavigation()
+  const isFocused = useIsFocused()
   const contest = useContext(CartContext)
   React.useLayoutEffect(() => {
     getData()
-  }, [])
+  }, [isFocused])
 
   const getData = async () => {
     const token = await AsyncStorage.getItem('@accessToken')
@@ -37,7 +38,8 @@ const StartScreen = () => {
       contest.setrefreshToken(Refreshtoken)
       contest.setuserdetails(userDetail)
       contest.setislogin(true)
-      navigation.navigate('CampaignHome')
+      if (userDetail.role === 'Freelancer') navigation.navigate('HomeService')
+      else navigation.navigate('CampaignHome')
     }
   }
 

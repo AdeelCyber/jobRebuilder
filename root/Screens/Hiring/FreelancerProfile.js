@@ -29,8 +29,13 @@ import Portfolio from './Portfolio'
 import { getSpecificFreelancer } from '../Profile/services/FreeLancerServices'
 
 import axios from '../../http/axiosSet'
+import CustomHeader from '../../Components/CustomHeader2'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const FreeLancerProfile = ({ route }) => {
+  const [role, setRole] = useState()
+
   const navigation = useNavigation()
   const {
     theme: { colors },
@@ -55,7 +60,17 @@ const FreeLancerProfile = ({ route }) => {
 
   useEffect(() => {
     fetchFreelancer()
+    getUser()
   }, [])
+
+  const getUser = async () => {
+    const u = await AsyncStorage.getItem('@userDetail')
+    if (JSON.parse(u)?.role === 'Startup Owner') {
+      setRole('Startup')
+    } else {
+      setRole('User')
+    }
+  }
 
   const fetchFreelancer = async () => {
     const resp = await getSpecificFreelancer(id)
@@ -68,6 +83,20 @@ const FreeLancerProfile = ({ route }) => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <CustomHeader
+        Title=''
+        style={{}}
+        nav={navigation}
+        icon={() => {
+          return (
+            <MaterialCommunityIcons
+              name='bell-circle'
+              size={28}
+              color='black'
+            />
+          )
+        }}
+      />
       {/* User info */}
       <View
         style={{
@@ -134,32 +163,38 @@ const FreeLancerProfile = ({ route }) => {
                 </MyText>
               </MyText>
             </View>
-            <View style={{ marginTop: 15, flexDirection: 'row' }}>
-              <TouchableOpacity style={styles.btn}>
-                <MyText
-                  style={{ color: 'white', fontSize: 11, textAlign: 'center' }}
+            {role === 'Startup' && (
+              <View style={{ marginTop: 15, flexDirection: 'row' }}>
+                <TouchableOpacity style={styles.btn}>
+                  <MyText
+                    style={{
+                      color: 'white',
+                      fontSize: 11,
+                      textAlign: 'center',
+                    }}
+                  >
+                    {' '}
+                    Hire Me
+                  </MyText>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('MessagesBox', {
+                      userImg:
+                        axios.defaults.baseURL + freelancer?.userInfo?.avatar,
+                      userName: freelancer?.userInfo?.name,
+                      chatType: 'Simple Chat',
+                    })
+                  }}
+                  style={[styles.btn, { backgroundColor: 'white' }]}
                 >
-                  {' '}
-                  Hire Me
-                </MyText>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('MessagesBox', {
-                    userImg:
-                      axios.defaults.baseURL + freelancer?.userInfo?.avatar,
-                    userName: freelancer?.userInfo?.name,
-                    chatType: 'Simple Chat',
-                  })
-                }}
-                style={[styles.btn, { backgroundColor: 'white' }]}
-              >
-                <MyText style={{ fontSize: 11, textAlign: 'center' }}>
-                  {' '}
-                  Chats
-                </MyText>
-              </TouchableOpacity>
-            </View>
+                  <MyText style={{ fontSize: 11, textAlign: 'center' }}>
+                    {' '}
+                    Chats
+                  </MyText>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         </View>
       </View>

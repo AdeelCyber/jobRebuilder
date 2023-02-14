@@ -14,20 +14,90 @@ import CustomHeader from '../../../Components/CustomHeader2'
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { modifyEmail } from '../services/settingsServices'
+import { useEffect } from 'react'
+import Toast from 'react-native-toast-message'
+import { sendOTP, verifyOTP } from '../services/otpservice'
+import ReactNativeModal from 'react-native-modal'
 
 const ChangeEmailScreen = () => {
   const {
     theme: { colors },
   } = useContext(Context)
   const navigation = useNavigation()
+  const [isModalVisible, setModalVisible] = useState(false)
 
-  const [email, setEmail] = useState(async () => {
-    await AsyncStorage.getItem('@email')
-  })
+  const [email, setEmail] = useState('')
+  const [otp, setOTP] = useState('')
+
+  useEffect(() => {
+    getEmail()
+  }, [])
+
+  const getEmail = async () => {
+    const user = await AsyncStorage.getItem('@userDetail')
+    setEmail(JSON.parse(user).email)
+  }
+
+  const sendCode = async () => {
+    const resp = await sendOTP(email, 'email')
+    console.log('WWWW', resp)
+    if (resp.status === 200) {
+      setModalVisible(true)
+    } else {
+      Toast.show({
+        topOffset: 60,
+        type: 'success',
+        text1: 'Something went wrong',
+        text2: '.',
+      })
+      navigation.navigate('Settings')
+    }
+  }
+
+  const verify = async () => {
+    const resp = await verifyOTP(email, otp)
+    console.log(resp)
+    if (resp.status === 200) {
+      updateEmail()
+    } else {
+      Toast.show({
+        topOffset: 60,
+        type: 'success',
+        text1: 'Wrong OTP',
+        text2: '.',
+      })
+    }
+  }
 
   const updateEmail = async () => {
     const resp = await modifyEmail(email)
     if (resp.status === 200) {
+      Toast.show({
+        topOffset: 60,
+        type: 'success',
+        text1: 'Email Changed',
+        text2: '.',
+      })
+      const user = JSON.parse(await AsyncStorage.getItem('@userDetail'))
+      user.email = email
+      await AsyncStorage.setItem('@userDetail', JSON.stringify(user))
+      navigation.navigate('Settings')
+    } else if (resp.status === 422) {
+      Toast.show({
+        topOffset: 60,
+        type: 'success',
+        text1: 'Invalid Value',
+        text2: '.',
+      })
+    } else if (resp.status === 400 || resp.status === 401) {
+      navigation.navigate('LoginScreen')
+    } else {
+      Toast.show({
+        topOffset: 60,
+        type: 'success',
+        text1: 'Some error occured',
+        text2: '.',
+      })
       navigation.navigate('Settings')
     }
   }
@@ -82,7 +152,8 @@ const ChangeEmailScreen = () => {
 
         <TouchableOpacity
           labelStyle={{ color: '#fff' }}
-          onPress={updateEmail}
+          onPress={sendCode}
+          disabled={email.trim().length === 0}
           style={[styles.btn, { backgroundColor: colors.secondary }]}
         >
           <MyText
@@ -94,6 +165,76 @@ const ChangeEmailScreen = () => {
             Done
           </MyText>
         </TouchableOpacity>
+
+        <ReactNativeModal
+          transparent
+          isVisible={isModalVisible}
+          onBackdropPress={() => {
+            setModalVisible(!isModalVisible)
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: 'white',
+              borderRadius: 18,
+              padding: 35,
+              paddingBottom: 0,
+            }}
+          >
+            <MyText style={{ fontSize: 20, textAlign: 'center' }}>
+              Verify Email
+            </MyText>
+            <MyText
+              style={{ fontSize: 11, marginVertical: 10, textAlign: 'center' }}
+            >
+              Enter the OTP sent to {email} to verify your email
+            </MyText>
+            <View
+              style={[
+                styles.searchSection,
+                { width: '100%', marginHorizontal: 0 },
+              ]}
+            >
+              <TextInput
+                style={[styles.input, { width: '100%' }]}
+                placeholder='OTP'
+                underlineColorAndroid='transparent'
+                value={otp}
+                onChangeText={(e) => {
+                  setOTP(e)
+                }}
+              />
+              <FontAwesome
+                style={styles.searchIcon}
+                name='pencil'
+                size={20}
+                color={colors.secondaryText}
+              />
+            </View>
+
+            <TouchableOpacity
+              labelStyle={{ color: '#fff' }}
+              onPress={verify}
+              style={[
+                styles.btn,
+                {
+                  backgroundColor: colors.secondary,
+                  width: '100%',
+                  marginHorizontal: 0,
+                },
+              ]}
+            >
+              <MyText
+                style={{
+                  color: 'white',
+                  fontSize: 14,
+                }}
+              >
+                Done
+              </MyText>
+            </TouchableOpacity>
+          </View>
+        </ReactNativeModal>
       </View>
     </ScrollView>
   )
