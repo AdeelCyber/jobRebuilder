@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import MyText from '../../../Components/Text'
 import Context from '../../../Context/Context'
 import Icon from '@expo/vector-icons/FontAwesome'
@@ -18,6 +18,7 @@ import ArrowRightIcon from '../../../../assets/Svgs/ArrowRightIcon'
 import SmallArrowRight from '../../../../assets/Svgs/SmallArrowRight'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { getAvailableJobs } from '../services/jobServices'
 
 const JobRequestScreen = () => {
   const navigation = useNavigation()
@@ -26,7 +27,22 @@ const JobRequestScreen = () => {
     theme: { colors },
   } = useContext(Context)
 
-  const RequestBox = () => (
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  const [jobs, setJobs] = useState([])
+
+  const fetchData = async () => {
+    const resp = await getAvailableJobs()
+    if (resp.status === 200) {
+      setJobs(resp.data.data)
+    } else if (resp.status === 400 || resp.status === 401) {
+      navigation.navigate('LoginScreen')
+    }
+  }
+
+  const RequestBox = (props) => (
     <View style={styles.requestBox}>
       <View style={{ display: 'flex', flexDirection: 'row' }}>
         <Image

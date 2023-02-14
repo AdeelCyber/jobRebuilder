@@ -8,6 +8,7 @@ import CustomHeader from '../../../Components/CustomHeader'
 import SvgImport from '../../../Components/SvgImport'
 import DollarIcon from '../../../../assets/Svgs/DollarIcon'
 import { getOrderCategoryWise } from '../services/orderServices'
+import axios from '../../../http/axiosSet'
 
 const ActiveOrdersScreen = () => {
   const navigation = useNavigation()
@@ -37,7 +38,7 @@ const ActiveOrdersScreen = () => {
       <View>
         <Image
           source={{
-            uri: order.employer.avatar,
+            uri: axios.defaults.baseURL + order?.employer?.avatar,
           }}
           style={{ width: 36, height: 36 }}
         />
@@ -52,7 +53,7 @@ const ActiveOrdersScreen = () => {
       >
         <View>
           <MyText style={{ fontSize: 13, fontWeight: '500', marginBottom: 2 }}>
-            {order.employer.name}
+            {order?.employer?.name}
           </MyText>
           <MyText
             style={{
@@ -61,7 +62,7 @@ const ActiveOrdersScreen = () => {
               color: 'rgba(35, 35, 35, 0.5)',
             }}
           >
-            {order.jobTitle}
+            {order?.jobTitle}
           </MyText>
         </View>
         <View>
@@ -77,7 +78,7 @@ const ActiveOrdersScreen = () => {
             {/* <FontAwesome5 name='bitcoin' color='#FAD461' size={16} /> */}
             &nbsp; &nbsp;
             <MyText style={{ fontSize: 14, fontWeight: '600' }}>
-              ${order.totalPrice}
+              ${order?.totalPrice}
             </MyText>
           </MyText>
           <MyText
@@ -96,7 +97,7 @@ const ActiveOrdersScreen = () => {
             >
               {' '}
               {Math.ceil(
-                (new Date(order.deliveryTime) - new Date()) /
+                (new Date(order?.deliveryTime) - new Date()) /
                   (1000 * 60 * 60 * 24)
               )}
             </MyText>{' '}

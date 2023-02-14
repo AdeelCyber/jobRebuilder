@@ -105,3 +105,25 @@ export const uploadFileServer = async (formData) => {
     return error.response
   }
 }
+
+export const changeDeliveryStatus = async (orderId, status) => {
+  try {
+    const token = await AsyncStorage.getItem('@accessToken')
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const resp = await axios.put(
+      '/orders/oneTime/deliveryStatus/update',
+      {
+        orderId,
+        status,
+      },
+      config
+    )
+    return resp
+  } catch (error) {
+    return error.response
+  }
+}

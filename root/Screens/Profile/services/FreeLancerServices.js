@@ -403,3 +403,12 @@ export const getSpecificFreelancer = async (freelancerId) => {
     return error.response
   }
 }
+
+export const getExploreData = async () => {
+  try {
+    const resp = await axios.get('/startup/allStartups')
+    return resp
+  } catch (error) {
+    return error.response
+  }
+}

@@ -120,7 +120,7 @@ export const profileMenu2 = [
     id: 11,
     title: 'Logout',
     icon: 'arrow-right',
-    navigate: 'SignIn',
+    navigate: 'LoginScreen',
   },
 ]
 

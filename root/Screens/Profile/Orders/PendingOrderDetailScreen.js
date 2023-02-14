@@ -18,7 +18,13 @@ import { Entypo } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import ReactNativeModal from 'react-native-modal'
-import { cancelOneTimeOrder, getSingleOrder } from '../services/orderServices'
+import {
+  cancelOneTimeOrder,
+  changeDeliveryStatus,
+  getSingleOrder,
+} from '../services/orderServices'
+import axios from '../../../http/axiosSet'
+import Toast from 'react-native-toast-message'
 
 const PendingOrderDetailScreen = ({ route }) => {
   const navigation = useNavigation()
@@ -36,9 +42,30 @@ const PendingOrderDetailScreen = ({ route }) => {
     const resp = await cancelOneTimeOrder(orderId, reason)
     if (resp.status === 200) {
       setModalVisible(!isModalVisible)
+      Toast.show({
+        topOffset: 60,
+        type: 'success',
+        text1: 'Order Cancelled',
+        text2: '.',
+      })
       navigation.navigate('MyOrders')
-    } else if (resp.status === 401) {
-    } else if (resp.status === 400) {
+    } else if (resp.status === 401 || resp.status === 400) {
+      navigation.navigate('LoginScreen')
+    }
+  }
+
+  const markComplete = async () => {
+    const resp = await changeDeliveryStatus(orderId, 'Completed')
+    if (resp.status === 200) {
+      Toast.show({
+        topOffset: 60,
+        type: 'success',
+        text1: 'Order Completed',
+        text2: '.',
+      })
+      navigation.navigate('MyOrders')
+    } else if (resp.status === 400 || resp.status === 401) {
+      navigation.navigate('LoginScreen')
     }
   }
 
@@ -52,7 +79,9 @@ const PendingOrderDetailScreen = ({ route }) => {
     if (resp.status === 200) {
       setOrder(resp.data.data)
     } else if (resp.status === 401) {
+      navigation.navigate('LoginScreen')
     } else if (resp.status === 400) {
+      navigation.navigate('LoginScreen')
     }
   }
 
@@ -88,7 +117,7 @@ const PendingOrderDetailScreen = ({ route }) => {
           <View>
             <Image
               source={{
-                uri: order.employer.avatar,
+                uri: axios.defaults.baseURL + order?.employer?.avatar,
               }}
               style={{ width: 40, height: 40 }}
             />
@@ -105,7 +134,7 @@ const PendingOrderDetailScreen = ({ route }) => {
               <MyText
                 style={{ fontSize: 15, fontWeight: '500', marginBottom: 2 }}
               >
-                {order.employer.name}
+                {order?.employer?.name}
               </MyText>
               <MyText
                 style={{
@@ -114,7 +143,7 @@ const PendingOrderDetailScreen = ({ route }) => {
                   color: 'rgba(35, 35, 35, 0.5)',
                 }}
               >
-                {order.employer.email}
+                {order?.employer?.email}
               </MyText>
             </View>
             <View>
@@ -129,7 +158,7 @@ const PendingOrderDetailScreen = ({ route }) => {
                 <FontAwesome5 name='bitcoin' color='#FAD461' size={21} />
                 &nbsp; &nbsp;
                 <MyText style={{ fontSize: 18, fontWeight: '600' }}>
-                  ${order.totalPrice}
+                  ${order?.totalPrice}
                 </MyText>
               </MyText>
             </View>
@@ -150,7 +179,7 @@ const PendingOrderDetailScreen = ({ route }) => {
             <MyText style={styles.heading}>Title</MyText>
             <MyText style={styles.description}>One time job</MyText>
           </View>
-          <MyText style={styles.description}>{order.jobTitle}</MyText>
+          <MyText style={styles.description}>{order?.jobTitle}</MyText>
         </View>
 
         {/* Description */}
@@ -164,7 +193,7 @@ const PendingOrderDetailScreen = ({ route }) => {
           >
             <MyText style={styles.heading}>Description</MyText>
           </View>
-          <MyText style={styles.description}>{order.description}</MyText>
+          <MyText style={styles.description}>{order?.description}</MyText>
         </View>
 
         <View>
@@ -176,7 +205,7 @@ const PendingOrderDetailScreen = ({ route }) => {
           >
             <MyText style={styles.heading}>Message/Comment</MyText>
           </View>
-          <MyText style={styles.description}>{order.delivery.comment}</MyText>
+          {/* <MyText style={styles.description}>{order?.delivery?.comment}</MyText> */}
         </View>
 
         {/* Delivery Time */}
@@ -196,7 +225,7 @@ const PendingOrderDetailScreen = ({ route }) => {
               <MyText style={styles.heading}>Due Date</MyText>
             </View>
             <MyText style={styles.description}>
-              {order.deliveryTime.toLocaleDateString('default', {
+              {new Date(order.deliveryTime).toLocaleDateString('default', {
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric',
@@ -213,16 +242,16 @@ const PendingOrderDetailScreen = ({ route }) => {
               <MyText style={styles.heading}>Delivered On</MyText>
             </View>
             <MyText style={styles.description}>
-              {order.delivery.date.toLocaleDateString('default', {
+              {/* {new Date(order.delivery).date.toLocaleDateString('default', {
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric',
-              })}
+              })} */}
             </MyText>
           </View>
         </View>
 
-        <View style={{ flexDirection: 'row', marginBottom: 38 }}>
+        {/* <View style={{ flexDirection: 'row', marginBottom: 38 }}>
           <TouchableOpacity
             labelStyle={{ color: '#fff' }}
             style={[
@@ -269,11 +298,14 @@ const PendingOrderDetailScreen = ({ route }) => {
               &nbsp;&nbsp; Photo.jpg
             </MyText>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <TouchableOpacity
           labelStyle={{ color: '#fff' }}
           style={[styles.btn, { backgroundColor: colors.secondary }]}
+          onPress={() => {
+            markComplete()
+          }}
         >
           <MyText
             style={{

@@ -94,6 +94,7 @@ import CartProvider from './Context/CartProvider'
 import EditTask from './Screens/campaignHomeScreen/EditTask'
 import FreeLancerProfile from './Screens/Hiring/FreelancerProfile'
 import ViewPortfolioScreen from './Screens/Hiring/ViewPortfolio'
+import FreelancerTabBar from './Components/FreelancerTabBar'
 //Navigation out
 
 // Creating Stacks
@@ -105,7 +106,7 @@ const MyStack = () => {
   return (
     <>
       <Stack.Navigator
-        initialRouteName='CampaignHome'
+        initialRouteName='StartScreen'
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name='CampaignHome' component={CampaignHome} />
@@ -267,7 +268,8 @@ const Main = () => {
   const {
     theme: { colors },
   } = useContext(Context)
-  const { accessToken, socket, setsocket } = useContext(CartProvider)
+  const { accessToken, socket, setsocket, userdetails } =
+    useContext(CartProvider)
 
   const startsocket = useCallback(
     (accessToken) => {
@@ -285,6 +287,7 @@ const Main = () => {
 
   useEffect(() => {
     startsocket(accessToken)
+    console.log(userdetails)
   }, [accessToken])
 
   return (
@@ -299,7 +302,11 @@ const Main = () => {
       {/* <SignIn /> */}
       <NavigationContainer>
         <MyStack />
-        <TabBar show={accessToken} />
+        {userdetails?.role === 'Freelancer' ? (
+          <FreelancerTabBar />
+        ) : (
+          <TabBar show={accessToken} />
+        )}
       </NavigationContainer>
     </SafeAreaView>
   )

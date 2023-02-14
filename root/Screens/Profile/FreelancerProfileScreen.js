@@ -12,7 +12,7 @@ import Context from '../../Context/Context'
 import { profileMenu2 } from '../../utilities/profileMenu'
 import Icon from '@expo/vector-icons/FontAwesome'
 import MyText from '../../Components/Text'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import SvgImport from '../../Components/SvgImport'
 import HomeIcon from '../../../assets/Svgs/Home'
 import SettingIcon2 from '../../../assets/Svgs/Setting'
@@ -28,12 +28,35 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import EarningIcon from '../../../assets/Svgs/EarningIcon'
 import WarningIcon from '../../../assets/Svgs/WarningIcon'
 import ExploreIcon from '../../../assets/Svgs/ExploreIcon'
+import CartContext from '../../Context/CartProvider'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const FreelancerProfileScreen = () => {
+  const isFocused = useIsFocused()
   const navigation = useNavigation()
   const {
     theme: { colors },
   } = useContext(Context)
+
+  const {
+    userdetails,
+    setaccessToken,
+    setuserdetails,
+    setrefreshToken,
+    setislogin,
+  } = useContext(CartContext)
+
+  const contest = useContext(CartContext)
+  React.useLayoutEffect(() => {
+    getData()
+  }, [isFocused])
+
+  const getData = async () => {
+    const token = await AsyncStorage.getItem('@accessToken')
+    if (!token) {
+      navigation.navigate('LoginScreen')
+    }
+  }
 
   const icons = [
     <SvgImport svg={HomeIcon} />,
@@ -52,7 +75,16 @@ const FreelancerProfileScreen = () => {
   const ListItem = ({ profile, index }) => (
     <Pressable style={{ marginTop: 10 }}>
       <TouchableOpacity
-        onPress={() => {
+        onPress={async () => {
+          if (profile.navigate === 'LoginScreen') {
+            await AsyncStorage.removeItem('@accessToken')
+            await AsyncStorage.removeItem('@refreshToken')
+            await AsyncStorage.removeItem('@userDetail')
+            setuserdetails([])
+            setaccessToken('')
+            setrefreshToken('')
+            setislogin(false)
+          }
           navigation.navigate(profile.navigate)
         }}
       >

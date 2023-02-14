@@ -43,17 +43,6 @@ const ProfileScreen = () => {
     setislogin,
   } = useContext(CartContext)
 
-  const icons = [
-    <SvgImport svg={HomeIcon} />,
-    <SvgImport svg={SettingIcon2} />,
-    <SvgImport svg={PaymentCardIcon} />,
-    <SvgImport svg={CubeIcon} />,
-    <SvgImport svg={BagIcon} />,
-    <SvgImport svg={CrossIcon} />,
-    <SvgImport svg={CompassIcon} />,
-    <SvgImport svg={LogoutIcon} />,
-  ]
-
   const contest = useContext(CartContext)
   React.useLayoutEffect(() => {
     getData()
@@ -65,6 +54,16 @@ const ProfileScreen = () => {
       navigation.navigate('LoginScreen')
     }
   }
+  const icons = [
+    <SvgImport svg={HomeIcon} />,
+    <SvgImport svg={SettingIcon2} />,
+    <SvgImport svg={PaymentCardIcon} />,
+    <SvgImport svg={CubeIcon} />,
+    <SvgImport svg={BagIcon} />,
+    <SvgImport svg={CrossIcon} />,
+    <SvgImport svg={CompassIcon} />,
+    <SvgImport svg={LogoutIcon} />,
+  ]
 
   const ListItem = ({ profile, index }) => (
     <Pressable style={{ marginTop: 10 }}>

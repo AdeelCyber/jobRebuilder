@@ -14,7 +14,9 @@ import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader'
 import { getOrderCategoryWise, getOrders } from '../services/orderServices'
 
-const CancelledOrderDetailScreen = () => {
+import axios from '../../../http/axiosSet'
+
+const CompletedOrdersScreen = () => {
   const navigation = useNavigation()
 
   const [orders, setOrders] = useState([])
@@ -51,7 +53,7 @@ const CancelledOrderDetailScreen = () => {
         <View>
           <Image
             source={{
-              uri: order.employer.avatar,
+              uri: axios.defaults.baseURL + order?.employer?.avatar,
             }}
             style={{ width: 36, height: 36 }}
           />
@@ -68,7 +70,7 @@ const CancelledOrderDetailScreen = () => {
             <MyText
               style={{ fontSize: 13, fontWeight: '500', marginBottom: 2 }}
             >
-              {order.employer.name}
+              {order?.employer?.name}
             </MyText>
             <MyText
               style={{
@@ -77,7 +79,7 @@ const CancelledOrderDetailScreen = () => {
                 color: 'rgba(35, 35, 35, 0.5)',
               }}
             >
-              {order.jobTitle}
+              {order?.jobTitle}
             </MyText>
           </View>
           <View>
@@ -90,7 +92,7 @@ const CancelledOrderDetailScreen = () => {
               }}
             >
               <MyText style={{ fontSize: 15, fontWeight: '600' }}>
-                ${order.totalPrice}
+                ${order?.totalPrice}
               </MyText>
             </MyText>
             <MyText
@@ -104,7 +106,7 @@ const CancelledOrderDetailScreen = () => {
                 return (
                   <Icon
                     name='star'
-                    color={x + 1 <= order.rating ? 'yellow' : '#eeeeee'}
+                    color={x + 1 <= order?.rating ? 'yellow' : '#eeeeee'}
                   />
                 )
               })}
@@ -133,7 +135,7 @@ const CancelledOrderDetailScreen = () => {
               </MyText>
             </View>
             <MyText style={{ color: 'gray' }}>
-              {order.createdAt.toLocaleDateString('default', {
+              {new Date(order?.createdAt).toLocaleDateString('default', {
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric',
@@ -151,7 +153,7 @@ const CancelledOrderDetailScreen = () => {
               </MyText>
             </View>
             <MyText style={{ color: 'gray' }}>
-              {order.deliveryTime.toLocaleDateString('default', {
+              {new Date(order?.deliveryTime).toLocaleDateString('default', {
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric',
@@ -221,4 +223,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default CancelledOrderDetailScreen
+export default CompletedOrdersScreen

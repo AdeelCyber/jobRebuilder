@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, FlatList, ScrollView } from 'react-native'
 
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Context from '../../Context/Context'
 import CustomHeader from '../../Components/CustomHeader'
 import { Searchbar } from 'react-native-paper'
@@ -16,6 +16,8 @@ import HeartIcon from '../../../assets/Svgs/HeartIcon'
 import AIBrainIcon from '../../../assets/Svgs/AIBrainIcon'
 import SoftwareCompanyIcon from '../../../assets/Svgs/SoftwareCompanyIcon'
 import ConstructionIcon from '../../../assets/Svgs/ConstructionIcon'
+import { getExploreData } from './services/FreeLancerServices'
+import axios from '../../http/axiosSet'
 
 const ExploreScreen = ({ navigation, routes }) => {
   //categories hook
@@ -26,6 +28,9 @@ const ExploreScreen = ({ navigation, routes }) => {
     { icon: AIBrainIcon, text: 'Ai Tech' },
     { icon: HeartIcon, text: 'Liked' },
   ])
+  useEffect(() => {
+    fetchData()
+  }, [])
   //Popular hook
   const [popularCards, setPopularCards] = useState([
     {
@@ -54,6 +59,24 @@ const ExploreScreen = ({ navigation, routes }) => {
     },
   ])
 
+  const fetchData = async () => {
+    const resp = await getExploreData()
+    console.log(resp.data)
+
+    setExploreData(() => {
+      let result = resp.data.startups
+      const result2 = result.map((element) => {
+        element.src = Buildings
+        return element
+      })
+      console.log('result ', result2)
+      return result2
+    })
+    if (resp.status === 200) {
+    } else if (resp.status === 400 || resp.status === 401) {
+      navigation.navigate('LoginScreen')
+    }
+  }
   const [searchQuery, setSearchQuery] = React.useState('') //searchbar query hook
 
   const onChangeSearch = (query) => setSearchQuery(query)
@@ -61,6 +84,9 @@ const ExploreScreen = ({ navigation, routes }) => {
     theme: { colors },
   } = useContext(Context)
   const numCols = catgeories.length //for categories gapping
+
+  const [exploreData, setExploreData] = useState([])
+
   return (
     // main container
     <ScrollView
@@ -132,7 +158,9 @@ const ExploreScreen = ({ navigation, routes }) => {
             paddingRight: 4,
           }}
         >
-          <Text style={{ fontSize: 24, fontWeight: '700' }}>Recents</Text>
+          <Text style={{ fontSize: 24, fontWeight: '700' }}>
+            Join a business
+          </Text>
           <MyText
             style={{ fontWeight: '500', fontSize: 10, color: colors.lighttext }}
           >
@@ -143,16 +171,16 @@ const ExploreScreen = ({ navigation, routes }) => {
         <View style={{ width: '100%', marginTop: 10 }}>
           <FlatList
             horizontal
-            data={popularCards}
+            data={exploreData}
             showsHorizontalScrollIndicator={false}
             renderItem={({ item, index }) => (
               <HomePopular
-                Src={item.src}
-                title={item.title}
-                Logo={Logo}
-                raisedFunds={item.raisedFunds}
-                minInv={item.minInv}
-                ShareHolders={item.ShareHolders}
+                Src={Buildings}
+                title={item.businessName}
+                Logo={axios.defaults.baseURL + item.logo}
+                // raisedFunds={item.raisedFunds}
+                // minInv={item.minInv}
+                ShareHolders={item.budget}
                 style={{
                   marginLeft: index != 0 ? 20 : 0,
                   width: 200,
@@ -173,7 +201,9 @@ const ExploreScreen = ({ navigation, routes }) => {
             paddingRight: 4,
           }}
         >
-          <MyText style={{ fontSize: 24, fontWeight: '700' }}>Popular</MyText>
+          <MyText style={{ fontSize: 24, fontWeight: '700' }}>
+            Work as Freelancer
+          </MyText>
           <MyText
             style={{ fontWeight: '500', fontSize: 10, color: colors.lighttext }}
           >
@@ -184,16 +214,16 @@ const ExploreScreen = ({ navigation, routes }) => {
         <View style={{ width: '100%', marginTop: 10 }}>
           <FlatList
             horizontal
-            data={popularCards}
+            data={exploreData}
             showsHorizontalScrollIndicator={false}
             renderItem={({ item, index }) => (
               <HomePopular
-                Src={item.src}
-                title={item.title}
-                Logo={Logo}
-                raisedFunds={item.raisedFunds}
-                minInv={item.minInv}
-                ShareHolders={item.ShareHolders}
+                Src={Buildings}
+                title={item.businessName}
+                Logo={axios.defaults.baseURL + item.logo}
+                // raisedFunds={item.raisedFunds}
+                // minInv={item.minInv}
+                ShareHolders={item.budget}
                 style={{
                   marginLeft: index != 0 ? 20 : 0,
                   width: 200,

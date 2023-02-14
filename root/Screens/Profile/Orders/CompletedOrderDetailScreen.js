@@ -17,6 +17,7 @@ import { Entypo } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { getSingleOrder } from '../services/orderServices'
+import axios from '../../../http/axiosSet'
 
 const CompletedOrderDetailScreen = () => {
   const navigation = useNavigation()
@@ -39,7 +40,9 @@ const CompletedOrderDetailScreen = () => {
     if (resp.status === 200) {
       setOrder(resp.data.data)
     } else if (resp.status === 401) {
+      navigation.navigate('LoginScreen')
     } else if (resp.status === 400) {
+      navigation.navigate('LoginScreen')
     }
   }
 
@@ -141,7 +144,7 @@ const CompletedOrderDetailScreen = () => {
           <View>
             <Image
               source={{
-                uri: order.employer.avatar,
+                uri: axios.defaults.baseURL + order?.employer?.avatar,
               }}
               style={{ width: 40, height: 40 }}
             />
@@ -158,7 +161,7 @@ const CompletedOrderDetailScreen = () => {
               <MyText
                 style={{ fontSize: 15, fontWeight: '500', marginBottom: 2 }}
               >
-                {order.employer.name}
+                {order?.employer?.name}
               </MyText>
               <MyText
                 style={{
@@ -167,7 +170,7 @@ const CompletedOrderDetailScreen = () => {
                   color: 'rgba(35, 35, 35, 0.5)',
                 }}
               >
-                {order.employer.email}
+                {order?.employer?.email}
               </MyText>
             </View>
             <View>
@@ -182,7 +185,7 @@ const CompletedOrderDetailScreen = () => {
                 <FontAwesome5 name='bitcoin' color='#FAD461' size={21} />
                 &nbsp; &nbsp;
                 <MyText style={{ fontSize: 18, fontWeight: '600' }}>
-                  ${order.totalPrice}
+                  ${order?.totalPrice}
                 </MyText>
               </MyText>
             </View>
@@ -203,7 +206,7 @@ const CompletedOrderDetailScreen = () => {
             <MyText style={styles.heading}>Title</MyText>
             <MyText style={styles.description}>One time job</MyText>
           </View>
-          <MyText style={styles.description}>{order.jobTitle}</MyText>
+          <MyText style={styles.description}>{order?.jobTitle}</MyText>
         </View>
 
         {/* Description */}
@@ -217,7 +220,7 @@ const CompletedOrderDetailScreen = () => {
           >
             <MyText style={styles.heading}>Description</MyText>
           </View>
-          <MyText style={styles.description}>{order.description}</MyText>
+          <MyText style={styles.description}>{order?.description}</MyText>
         </View>
 
         {/* Cancelled Reason */}
@@ -231,7 +234,7 @@ const CompletedOrderDetailScreen = () => {
           >
             <MyText style={styles.heading}>Message/Comment</MyText>
           </View>
-          <MyText style={styles.description}>{order.delivery.comment}</MyText>
+          <MyText style={styles.description}>{order?.delivery?.comment}</MyText>
         </View>
 
         {/* Dates */}
@@ -252,7 +255,7 @@ const CompletedOrderDetailScreen = () => {
             </View>
             <MyText style={styles.description}>
               {' '}
-              {order.deliveryTime.toLocaleDateString('default', {
+              {new Date(order?.deliveryTime).toLocaleDateString('default', {
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric',
@@ -270,7 +273,7 @@ const CompletedOrderDetailScreen = () => {
             </View>
             <MyText style={styles.description}>
               {' '}
-              {order.delivery.date.toLocaleDateString('default', {
+              {new Date(order?.delivery).date.toLocaleDateString('default', {
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric',
@@ -279,7 +282,7 @@ const CompletedOrderDetailScreen = () => {
           </View>
         </View>
 
-        {order.delivery.attachments?.map((file, index) => {
+        {order?.delivery?.attachments?.map((file, index) => {
           return (
             <TouchableOpacity
               key={index}
@@ -315,12 +318,12 @@ const CompletedOrderDetailScreen = () => {
             <MyText style={styles.heading}>My Reviews</MyText>
           </View>
           <Review
-            avatar={order.review.avatar}
-            name={order.review.name}
-            rating={order.review.rating}
-            email={order.review.email}
-            date={order.review.date}
-            comment={order.review.comment}
+            avatar={order?.review?.avatar}
+            name={order?.review?.name}
+            rating={order?.review?.rating}
+            email={order?.review?.email}
+            date={order?.review?.date}
+            comment={order?.review?.comment}
           />
         </View>
       </View>

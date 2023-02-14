@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   ScrollView,
   StyleSheet,
@@ -14,12 +14,54 @@ import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import Earning from '../../../Components/Earning'
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons'
+import {
+  getWalletDetail,
+  sendWithDrawRequest,
+} from '../services/walletServices'
+import Toast from 'react-native-toast-message'
 
 const FreelancerEarningsScreen = () => {
   const navigation = useNavigation()
   const {
     theme: { colors },
   } = useContext(Context)
+
+  const [walletDetail, setWalletDetail] = useState({})
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  const fetchData = async () => {
+    const resp = await getWalletDetail()
+    if (resp.status === 200) {
+      setWalletDetail(resp.data.data)
+      console.log('wallet', resp.data.data)
+    } else if (resp.status === 401 || resp.status === 400) {
+      navigation.navigate('LoginScreen')
+    }
+  }
+
+  const sendRequest = async () => {
+    Toast.show({
+      topOffset: 60,
+      type: 'success',
+      text1: "You're Successfully Logged In",
+      text2: '.',
+    })
+
+    const resp = await sendWithDrawRequest()
+    if (resp.status === 200) {
+      Toast.show({
+        topOffset: 60,
+        type: 'success',
+        text1: 'Withdraw request has been sent',
+        text2: '.',
+      })
+    } else if (resp.status === 401 || resp.status === 400) {
+      navigation.navigate('LoginScreen')
+    }
+  }
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
@@ -45,19 +87,30 @@ const FreelancerEarningsScreen = () => {
         <Earning
           title='Net Income'
           subHeadingsDescriptions={[
-            'Earning in June',
+            `Earning this month`,
             'Active Jobs',
             'Pending Clearance',
             'Jobs Completed',
           ]}
           style={{ marginTop: 0, marginBottom: 28 }}
-          total='2405.00'
-          subHeadings={['$2045', '150', '1200$', '12']}
+          total={walletDetail.netIncome}
+          subHeadings={[
+            `$ ${walletDetail.earningsThisMonth}`,
+            walletDetail.activeJobs,
+            `$ ${walletDetail.pendingClearence}`,
+            walletDetail.jobsCompleted,
+          ]}
         />
         <TouchableOpacity
           labelStyle={{ color: '#fff' }}
-          style={styles.btn}
-          onPress={() => {}}
+          style={[
+            styles.btn,
+            { opacity: walletDetail.netIncome === 0 ? 0.5 : 1 },
+          ]}
+          disabled={walletDetail.netIncome === 0}
+          onPress={() => {
+            sendRequest()
+          }}
         >
           <MyText
             style={{
