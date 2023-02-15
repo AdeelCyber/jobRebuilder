@@ -44,7 +44,7 @@ const ChangePasswordScreen = () => {
     } else {
       Toast.show({
         topOffset: 60,
-        type: 'success',
+        type: 'error',
         text1: 'Wrong Password',
         text2: '.',
       })
