@@ -42,7 +42,7 @@ const Login = () => {
   const [password, setpassword] = useState('')
   const { accessToken, setaccessToken } = useContext(CartProvider)
   const [refreshToken, setrefreshToken] = useState()
-  const { userdetails, setuserdetails } = useContext(CartProvider)
+  const { userdetails, setuserdetails, setUserTab } = useContext(CartProvider)
   const logged = useContext(CartProvider)
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility()
@@ -115,6 +115,9 @@ const Login = () => {
             text1: 'You Successfully created the account',
             text2: '.',
           })
+
+          setUserTab(false)
+
           if (res.data.user.role === 'Freelancer') {
             navigation.navigate('HomeService')
           } else {
@@ -163,6 +166,8 @@ const Login = () => {
           } catch (error) {
             //console.log(error);
           }
+
+          setUserTab(false)
 
           Toast.show({
             topOffset: 60,
@@ -226,6 +231,8 @@ const Login = () => {
             text1: "You're Successfully Logged In",
             text2: '.',
           })
+
+          setUserTab(false)
 
           if (response.data.user.role === 'Freelancer') {
             navigation.navigate('HomeService')

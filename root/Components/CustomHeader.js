@@ -11,12 +11,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const CustomHeader = ({
   partOfDay = 'Morning',
-  imageSource = 'https://bit.ly/kent-c-dodds',
-  name = 'Abdullah',
+  imageSource = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-d1dpDq5AkEEY6j3428cbey9fdBYEbVk2xw&usqp=CAU',
+  name = 'User',
   Notifications = true,
 }) => {
   const [user, setUser] = useState()
-
+  const img =
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-d1dpDq5AkEEY6j3428cbey9fdBYEbVk2xw&usqp=CAU'
   useEffect(() => {
     getUser()
   }, [])
@@ -45,7 +46,9 @@ const CustomHeader = ({
     >
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Image
-          source={{ uri: axios.defaults.baseURL + user?.avatar }}
+          source={{
+            uri: user?.avatar ? axios.defaults.baseURL + user?.avatar : img,
+          }}
           style={{ width: 30, height: 30, borderRadius: 20, marginRight: 8 }}
         />
         <View>
@@ -55,7 +58,7 @@ const CustomHeader = ({
           <MyText
             style={{ color: colors.text, fontSize: 12, fontWeight: '700' }}
           >
-            {user?.name}
+            {user?.name ? user?.name : 'Guest User'}
           </MyText>
         </View>
       </View>

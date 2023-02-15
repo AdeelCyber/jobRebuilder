@@ -97,6 +97,7 @@ import ViewPortfolioScreen from './Screens/Hiring/ViewPortfolio'
 import FreelancerTabBar from './Components/FreelancerTabBar'
 import AvailableJobs from './Screens/Profile/Vacancy/AvailableJobs'
 import JobCareerDetailScreen from './Screens/Profile/Vacancy/JobCareerDetailScreen'
+import UserTabBar from './Components/UserTabBar'
 //Navigation out
 
 // Creating Stacks
@@ -276,7 +277,7 @@ const Main = () => {
   const {
     theme: { colors },
   } = useContext(Context)
-  const { accessToken, socket, setsocket, userdetails } =
+  const { accessToken, socket, setsocket, userdetails, userTab, setUserTab } =
     useContext(CartProvider)
 
   const startsocket = useCallback(
@@ -312,8 +313,10 @@ const Main = () => {
         <MyStack />
         {userdetails?.role === 'Freelancer' ? (
           <FreelancerTabBar />
-        ) : (
+        ) : userdetails?.role?.includes('Startup') ? (
           <TabBar show={accessToken} />
+        ) : (
+          <UserTabBar show={userTab} />
         )}
       </NavigationContainer>
     </SafeAreaView>

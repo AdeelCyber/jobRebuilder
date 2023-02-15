@@ -342,7 +342,8 @@ const StartScreen = () => {
               marginTop: 20,
             }}
             onPress={() => {
-              navigation.navigate('LoginScreen')
+              contest.setUserTab(true)
+              navigation.navigate('Explore')
             }}
           >
             <MyText
