@@ -175,6 +175,7 @@ const ExploreScreen = ({ navigation, routes }) => {
             showsHorizontalScrollIndicator={false}
             renderItem={({ item, index }) => (
               <HomePopular
+                id={item._id}
                 Src={Buildings}
                 title={item.businessName}
                 Logo={axios.defaults.baseURL + item.logo}
@@ -218,6 +219,7 @@ const ExploreScreen = ({ navigation, routes }) => {
             showsHorizontalScrollIndicator={false}
             renderItem={({ item, index }) => (
               <HomePopular
+                id={item._id}
                 Src={Buildings}
                 title={item.businessName}
                 Logo={axios.defaults.baseURL + item.logo}

@@ -5,19 +5,23 @@ import SvgImport from './SvgImport'
 import { AntDesign } from '@expo/vector-icons'
 import MyText from './Text'
 import arrow from '../../assets/Svgs/PopularArrow'
+import { TouchableOpacity } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 const HomePopular = ({
   Src,
   title,
+  id,
   label = 'IT Company',
   Logo = { Logo },
   ...props
 }) => {
+  const navigation = useNavigation()
   const {
     theme: { colors },
   } = useContext(Context)
   return (
-    <View
+    <TouchableOpacity
       style={[
         {
           justifyContent: 'center',
@@ -35,6 +39,9 @@ const HomePopular = ({
           ...props.style,
         },
       ]}
+      onPress={() => {
+        navigation.navigate('CampaignMenu', { id: id })
+      }}
     >
       <Image source={Src} style={{ maxWidth: '100%' }} />
       <View
@@ -144,7 +151,7 @@ const HomePopular = ({
 
         {/* <AntDesign name='arrowright' size={20} color='black' /> */}
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 

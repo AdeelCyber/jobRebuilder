@@ -109,7 +109,10 @@ const FreeLancerProfile = ({ route }) => {
         <View>
           <Image
             source={{
-              uri: axios.defaults.baseURL + freelancer?.userInfo?.avatar,
+              uri:
+                axios.defaults.baseURL +
+                'media/getimage/' +
+                freelancer?.userInfo?.avatar,
             }}
             style={{ width: 90, height: 90, borderRadius: 50 }}
           />

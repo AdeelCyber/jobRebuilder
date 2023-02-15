@@ -54,7 +54,10 @@ const FreelancerDashboardScreen = () => {
       <View>
         <Image
           source={{
-            uri: axios.defaults.baseURL + order?.employer?.avatar,
+            uri:
+              axios.defaults.baseURL +
+              'media/getimage/' +
+              order?.employer?.avatar,
           }}
           style={{ width: 36, height: 36 }}
         />

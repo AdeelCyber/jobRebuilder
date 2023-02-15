@@ -98,24 +98,24 @@ export const profileMenu2 = [
     icon: 'home',
     navigate: 'CancelledOrders',
   },
-  {
-    id: 8,
-    title: 'Applied Jobs',
-    icon: 'compass',
-    navigate: 'AppliedJobs',
-  },
+  // {
+  //   id: 8,
+  //   title: 'Applied Jobs',
+  //   icon: 'compass',
+  //   navigate: 'AppliedJobs',
+  // },
   {
     id: 9,
     title: 'Warnings',
     icon: 'compass',
     navigate: 'FreelancerWarnings',
   },
-  {
-    id: 10,
-    title: 'Explore Freelancers',
-    icon: 'compass',
-    navigate: 'ExploreFreelancers',
-  },
+  // {
+  //   id: 10,
+  //   title: 'Explore Freelancers',
+  //   icon: 'compass',
+  //   navigate: 'ExploreFreelancers',
+  // },
   {
     id: 11,
     title: 'Logout',

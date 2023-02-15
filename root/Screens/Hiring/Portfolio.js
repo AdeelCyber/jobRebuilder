@@ -4,6 +4,7 @@ import MyText from '../../Components/Text'
 import { Image } from 'react-native'
 import { ScrollView, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import axios from '../../http/axiosSet'
 
 const Portfolio = ({ portfolio }) => {
   const navigation = useNavigation()
@@ -24,7 +25,10 @@ const Portfolio = ({ portfolio }) => {
             >
               <Image
                 source={{
-                  uri: element.attachments[0],
+                  uri:
+                    axios.defaults.baseURL +
+                    'media/getimage/' +
+                    element.attachments[0],
                 }}
                 style={{ width: 170, height: 150, borderRadius: 10 }}
               />

@@ -137,7 +137,10 @@ const ActiveJobDetailScreen = ({ route }) => {
           <View>
             <Image
               source={{
-                uri: axios.defaults.baseURL + order?.employer?.avatar,
+                uri:
+                  axios.defaults.baseURL +
+                  'media/getimage/' +
+                  order?.employer?.avatar,
               }}
               style={{ width: 40, height: 40 }}
             />

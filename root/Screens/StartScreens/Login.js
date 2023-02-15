@@ -115,7 +115,12 @@ const Login = () => {
             text1: 'You Successfully created the account',
             text2: '.',
           })
-          navigation.navigate('Message')
+          if (res.data.user.role === 'Freelancer') {
+            navigation.navigate('HomeService')
+          } else {
+            navigation.navigate('CampaignHome')
+          }
+          logged.setislogin(true)
         }
       }
     } catch (err) {
@@ -165,7 +170,12 @@ const Login = () => {
             text1: "You're Successfully Logged In",
             text2: '.',
           })
-          navigation.navigate('Message')
+          if (res.data.user.role === 'Freelancer') {
+            navigation.navigate('HomeService')
+          } else {
+            navigation.navigate('CampaignHome')
+          }
+          logged.setislogin(true)
         }
       }
     } catch (err) {
@@ -184,6 +194,7 @@ const Login = () => {
     } else {
       try {
         const response = await userLogin(email, password)
+        console.log(response)
         //console.log(response.data);
         if (response.status == 200) {
           //console.log(response.data.user);
