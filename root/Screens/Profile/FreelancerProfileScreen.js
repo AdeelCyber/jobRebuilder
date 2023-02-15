@@ -30,6 +30,10 @@ import WarningIcon from '../../../assets/Svgs/WarningIcon'
 import ExploreIcon from '../../../assets/Svgs/ExploreIcon'
 import CartContext from '../../Context/CartProvider'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import axios from '../../http/axiosSet'
+import { useState } from 'react'
+import { getFreelancerProfile } from './services/FreeLancerServices'
+import { useEffect } from 'react'
 
 const FreelancerProfileScreen = () => {
   const isFocused = useIsFocused()
@@ -45,6 +49,20 @@ const FreelancerProfileScreen = () => {
     setrefreshToken,
     setislogin,
   } = useContext(CartContext)
+
+  const [profile, setProfile] = useState({})
+
+  useEffect(() => {
+    getProfile()
+  }, [])
+
+  const getProfile = async () => {
+    const resp = await getFreelancerProfile()
+    console.log(resp)
+    if (resp.status === 200) {
+      setProfile(resp.data.data)
+    }
+  }
 
   const contest = useContext(CartContext)
   React.useLayoutEffect(() => {
@@ -150,7 +168,10 @@ const FreelancerProfileScreen = () => {
           <Image
             style={{ height: 100, width: 100, borderRadius: 50 }}
             source={{
-              uri: 'https://banner2.cleanpng.com/20180625/req/kisspng-computer-icons-avatar-business-computer-software-user-avatar-5b3097fcae25c3.3909949015299112927133.jpg',
+              uri:
+                axios.defaults.baseURL +
+                'media/getimage/' +
+                userdetails?.avatar,
             }}
           />
         </View>
@@ -165,7 +186,7 @@ const FreelancerProfileScreen = () => {
               marginTop: 20,
             }}
           >
-            Shaheer Ahmed
+            {userdetails?.name}
           </MyText>
           <MyText
             style={{
@@ -175,7 +196,7 @@ const FreelancerProfileScreen = () => {
               fontSize: 14,
             }}
           >
-            Graphic Designer
+            {userdetails?.role}
           </MyText>
         </View>
 
@@ -189,7 +210,7 @@ const FreelancerProfileScreen = () => {
           <TouchableOpacity
             labelStyle={{ color: '#fff' }}
             onPress={() => {
-              navigation.navigate('ChangeProfile')
+              navigation.navigate('EditProfile', { userinfo: profile })
             }}
             style={{
               backgroundColor: colors.secondary,

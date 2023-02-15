@@ -412,3 +412,18 @@ export const getExploreData = async () => {
     return error.response
   }
 }
+
+export const getFreelancerProfile = async () => {
+  try {
+    const token = await AsyncStorage.getItem('@accessToken')
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const resp = await axios.get('/freelancer/profile', config)
+    return resp
+  } catch (error) {
+    return error.response
+  }
+}

@@ -95,6 +95,8 @@ import EditTask from './Screens/campaignHomeScreen/EditTask'
 import FreeLancerProfile from './Screens/Hiring/FreelancerProfile'
 import ViewPortfolioScreen from './Screens/Hiring/ViewPortfolio'
 import FreelancerTabBar from './Components/FreelancerTabBar'
+import AvailableJobs from './Screens/Profile/Vacancy/AvailableJobs'
+import JobCareerDetailScreen from './Screens/Profile/Vacancy/JobCareerDetailScreen'
 //Navigation out
 
 // Creating Stacks
@@ -114,6 +116,12 @@ const MyStack = () => {
           name='CampaignManagement'
           component={CampaignManagement}
         />
+        <Stack.Screen name='AvailableJobs' component={AvailableJobs} />
+        <Stack.Screen
+          name='JobCareerDetailScreen'
+          component={JobCareerDetailScreen}
+        />
+
         <Stack.Screen name='ManagingCampaign' component={ManagingCampaign} />
         <Stack.Screen name='CampaignMenu' component={CampaignMenu} />
         <Stack.Screen name='OverView' component={OverView} />

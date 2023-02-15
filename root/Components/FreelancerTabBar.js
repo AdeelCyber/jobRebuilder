@@ -60,7 +60,7 @@ const FreelancerTabBar = (props) => {
     } else if (index === 2) {
       navigation.navigate('Explore')
     } else if (index === 3) {
-      navigation.navigate('CampaignManagement')
+      navigation.navigate('AvailableJobs')
     } else if (index === 4) {
       navigation.navigate('FreelancerProfile')
     }

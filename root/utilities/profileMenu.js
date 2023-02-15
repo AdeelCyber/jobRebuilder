@@ -90,7 +90,7 @@ export const profileMenu2 = [
     id: 6,
     title: 'Project Management',
     icon: 'shopping-bag',
-    navigate: 'ProjectManagement',
+    navigate: 'CampaignManagement',
   },
   {
     id: 7,
