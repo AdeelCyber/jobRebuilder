@@ -19,6 +19,7 @@ import SmallArrowRight from '../../../../assets/Svgs/SmallArrowRight'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { getAvailableJobs } from '../services/jobServices'
+import axios from '../../../http/axiosSet'
 
 const JobRequestScreen = () => {
   const navigation = useNavigation()
@@ -33,27 +34,33 @@ const JobRequestScreen = () => {
 
   const [jobs, setJobs] = useState([])
 
+  const startupid = '63e291756fc91d001e0040a6'
+
   const fetchData = async () => {
-    const resp = await getAvailableJobs()
+    const resp = await getAvailableJobs(startupid)
     if (resp.status === 200) {
       setJobs(resp.data.data)
+      console.log(resp)
     } else if (resp.status === 400 || resp.status === 401) {
       navigation.navigate('LoginScreen')
     }
   }
 
-  const RequestBox = (props) => (
+  const RequestBox = ({ job }) => (
     <View style={styles.requestBox}>
       <View style={{ display: 'flex', flexDirection: 'row' }}>
         <Image
           style={{ height: 45, width: 45, borderRadius: 5 }}
           source={{
-            uri: 'https://img.freepik.com/premium-photo/portrait-handsome-anime-boy-avatar-computer-graphic-background-2d-illustration_67092-2000.jpg?w=2000',
+            uri:
+              axios.defaults.baseURL +
+              'media/getimage/' +
+              job?.freelancer.avatar,
           }}
         />
 
         <View style={{ paddingHorizontal: 15 }}>
-          <MyText style={{ fontSize: 10 }}>Conor Murphy</MyText>
+          <MyText style={{ fontSize: 10 }}>{job?.freelancer.name}</MyText>
           <MyText
             style={{
               color: colors.secondaryText,
@@ -62,7 +69,7 @@ const JobRequestScreen = () => {
               marginBottom: 4,
             }}
           >
-            UX/UI Designer
+            {job?.freelancer.JobTitle}
           </MyText>
           <MyText
             style={{
@@ -98,7 +105,7 @@ const JobRequestScreen = () => {
             }}
           >
             <SvgImport svg={MotoMobileIcon} />
-            <MyText style={{ fontSize: 11 }}> Moto Mobiles</MyText>
+            <MyText style={{ fontSize: 11 }}> {job?.startup?.name}</MyText>
             {/* <Icon name='compass' color='blue' />  */}
           </View>
         </View>
@@ -107,7 +114,7 @@ const JobRequestScreen = () => {
           <MyText
             style={{ paddingBottom: 10, fontWeight: '600', fontSize: 12 }}
           >
-            Applied For
+            Position
           </MyText>
           <MyText
             style={{
@@ -117,7 +124,7 @@ const JobRequestScreen = () => {
               alignItems: 'center',
             }}
           >
-            Moto Mobiles
+            {job?.startup?.position}
           </MyText>
         </View>
 
@@ -125,7 +132,7 @@ const JobRequestScreen = () => {
           <MyText
             style={{ paddingBottom: 10, fontWeight: '600', fontSize: 12 }}
           >
-            Applied For
+            Applied On
           </MyText>
           <MyText
             style={{
@@ -134,7 +141,11 @@ const JobRequestScreen = () => {
               alignItems: 'center',
             }}
           >
-            Moto Mobiles
+            {new Date(job?.appliedOn).toLocaleDateString('default', {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+            })}
           </MyText>
         </View>
       </View>
@@ -155,7 +166,7 @@ const JobRequestScreen = () => {
             justifyContent: 'center',
           }}
           onPress={() => {
-            navigation.navigate('JobDetails')
+            navigation.navigate('ShowFreelancer', { id: job?.freelancer?._id })
           }}
         >
           <MyText
@@ -182,6 +193,16 @@ const JobRequestScreen = () => {
               height: 19,
               justifyContent: 'center',
               alignItems: 'center',
+            }}
+            onPress={() => {
+              navigation.navigate('MessagesBox', {
+                userImg:
+                  axios.defaults.baseURL +
+                  'media/getimage/' +
+                  job?.freelancer.avatar,
+                userName: job?.freelancer.name,
+                chatType: 'Simple Chat',
+              })
             }}
           >
             <MyText
@@ -225,10 +246,9 @@ const JobRequestScreen = () => {
           },
         ]}
       >
-        <RequestBox />
-        <RequestBox />
-        <RequestBox />
-        <RequestBox />
+        {jobs?.map((job, index) => {
+          return <RequestBox job={job} key={index} />
+        })}
       </View>
     </ScrollView>
   )
