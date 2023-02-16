@@ -62,7 +62,7 @@ const ProfileScreen = () => {
     <SvgImport svg={CubeIcon} />,
     <SvgImport svg={BagIcon} />,
     <SvgImport svg={CrossIcon} />,
-    <SvgImport svg={CompassIcon} />,
+    // <SvgImport svg={CompassIcon} />,
     <SvgImport svg={LogoutIcon} />,
   ]
 

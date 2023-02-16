@@ -72,59 +72,60 @@ const WarningReasonDetailScreen = ({ route }) => {
           }}
         >
           <Image
-            style={{ height: 50, width: 50, borderRadius: 50, marginRight: 10 }}
+            style={{ height: 60, width: 60, borderRadius: 50, marginRight: 10 }}
             source={{
-              uri: axios.defaults.baseURL + warning.logo,
+              uri: axios.defaults.baseURL + 'media/getimage/' + warning.logo,
             }}
           />
-          <View>
-            <View style={{ marginRight: 18 }}>
-              <View
-                style={{
-                  borderBottomColor: '#eee',
-                  marginTop: 5,
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              flex: 1,
+            }}
+          >
+            <View>
+              <View>
+                <View
+                  style={{
+                    borderBottomColor: '#eee',
+                    marginTop: 5,
+                  }}
+                >
+                  <MyText
+                    style={{ marginBottom: 3, fontWeight: '500', fontSize: 15 }}
+                  >
+                    {warning.name}
+                  </MyText>
+                </View>
+                <MyText style={{ color: 'gray', fontSize: 12, marginTop: 10 }}>
+                  {warning.category}
+                </MyText>
+              </View>
+            </View>
+
+            <View>
+              <TouchableOpacity
+                labelStyle={{ color: '#fff' }}
+                style={styles.completedBadge}
+                onPress={() => {
+                  navigation.navigate('MessagesBox', {
+                    userImg: axios.defaults.baseURL + warning.logo,
+                    userName: warning.name,
+                    chatType: 'Simple Chat',
+                  })
                 }}
               >
                 <MyText
-                  style={{ marginBottom: 3, fontWeight: '500', fontSize: 15 }}
+                  style={{
+                    fontSize: 11,
+                    color: 'white',
+                  }}
                 >
-                  {warning.name}
+                  Chat
                 </MyText>
-              </View>
-              <MyText style={{ color: 'gray', fontSize: 12 }}>
-                {warning.category}
-              </MyText>
+              </TouchableOpacity>
             </View>
-          </View>
-
-          <View
-            style={{
-              display: 'flex',
-              alignItems: 'flex-end',
-              //   backgroundColor: 'red',
-              width: '55%',
-            }}
-          >
-            <TouchableOpacity
-              labelStyle={{ color: '#fff' }}
-              style={styles.completedBadge}
-              onPress={() => {
-                navigation.navigate('MessagesBox', {
-                  userImg: axios.defaults.baseURL + warning.logo,
-                  userName: warning.name,
-                  chatType: 'Simple Chat',
-                })
-              }}
-            >
-              <MyText
-                style={{
-                  fontSize: 11,
-                  color: 'white',
-                }}
-              >
-                Chat
-              </MyText>
-            </TouchableOpacity>
           </View>
         </View>
         <MyText style={styles.heading}>Reason</MyText>
@@ -167,7 +168,6 @@ const styles = StyleSheet.create({
     elevation: 15,
   },
   completedBadge: {
-    marginHorizontal: 18,
     backgroundColor: '#8489FC',
     borderRadius: 5,
     alignItems: 'center',

@@ -50,7 +50,7 @@ const OrdersScreen = () => {
         directionalOffsetThreshold: 60,
       }}
     >
-      <ScrollView style={{ backgroundColor: '#ffffff' }}>
+      <ScrollView style={{ backgroundColor: '#ffffff', height: '100%' }}>
         <CustomHeader
           Title='My Orders'
           nav={navigation}

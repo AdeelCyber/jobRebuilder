@@ -18,9 +18,12 @@ import SoftwareCompanyIcon from '../../../assets/Svgs/SoftwareCompanyIcon'
 import ConstructionIcon from '../../../assets/Svgs/ConstructionIcon'
 import { getExploreData } from './services/FreeLancerServices'
 import axios from '../../http/axiosSet'
+import { useIsFocused } from '@react-navigation/native'
+import Loader from '../../Components/Loader'
 
 const ExploreScreen = ({ navigation, routes }) => {
   //categories hook
+  const isFocused = useIsFocused()
   const [catgeories, setCategories] = useState([
     { icon: ConstructionIcon, text: 'Construction' },
     { icon: GraduationHat, text: 'Education' },
@@ -30,7 +33,7 @@ const ExploreScreen = ({ navigation, routes }) => {
   ])
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [isFocused])
   //Popular hook
   const [popularCards, setPopularCards] = useState([
     {
@@ -58,21 +61,26 @@ const ExploreScreen = ({ navigation, routes }) => {
       ShareHolders: 2560,
     },
   ])
+  const [loading, setLoading] = useState(true)
 
   const fetchData = async () => {
+    setLoading(true)
+    setExploreData([])
     const resp = await getExploreData()
+    setLoading(false)
+
     console.log(resp.data)
 
-    setExploreData(() => {
-      let result = resp.data.startups
-      const result2 = result.map((element) => {
-        element.src = Buildings
-        return element
-      })
-      console.log('result ', result2)
-      return result2
-    })
     if (resp.status === 200) {
+      setExploreData(() => {
+        let result = resp.data.startups
+        const result2 = result.map((element) => {
+          element.src = Buildings
+          return element
+        })
+        console.log('result ', result2)
+        return result2
+      })
     } else if (resp.status === 400 || resp.status === 401) {
       navigation.navigate('LoginScreen')
     }
@@ -100,142 +108,163 @@ const ExploreScreen = ({ navigation, routes }) => {
       <CustomHeader />
       {/* header out */}
 
-      {/*Seacrch bar and setting icon in  */}
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          width: '100%',
-          marginTop: 20,
-          paddingLeft: 10,
-        }}
-      >
-        <Searchbar
-          placeholder='Search'
-          onChangeText={onChangeSearch}
-          value={searchQuery}
-          style={{ width: '80%', color: colors.placeHolder, borderRadius: 20 }}
-        />
-        <View
-          style={{
-            backgroundColor: colors.secondary,
-            justifyContent: 'center',
-            alignContent: 'center',
-            borderRadius: 15,
-            height: 42,
-            width: 48,
-            marginLeft: 10,
-          }}
-        >
-          <SvgImport svg={SettingIcon} style={{ alignSelf: 'center' }} />
-        </View>
-        {/* seatch bar icon out */}
-      </View>
-      {/* Categories In */}
-      <View style={{ marginTop: 10 }}>
-        <MyText style={{ fontSize: 24, fontWeight: '700', paddingLeft: 10 }}>
-          Categories
-        </MyText>
-        <View style={{ width: '100%' }}>
-          <FlatList
-            horizontal
-            data={catgeories}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => (
-              <HomeCategories svg={item.icon} title={item.text} style={{}} />
-            )}
-          />
-        </View>
-      </View>
-      {/* Categories Out */}
-      {/* popular In */}
-      <View style={{ marginTop: '8%', paddingLeft: 10 }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingRight: 4,
-          }}
-        >
-          <Text style={{ fontSize: 24, fontWeight: '700' }}>
-            Join a business
-          </Text>
-          <MyText
-            style={{ fontWeight: '500', fontSize: 10, color: colors.lighttext }}
+      <Loader visible={loading} color='white' indicatorSize='large' />
+      {!loading && (
+        <>
+          {/*Seacrch bar and setting icon in  */}
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '100%',
+              marginTop: 20,
+              paddingLeft: 10,
+            }}
           >
-            See All
-          </MyText>
-        </View>
-
-        <View style={{ width: '100%', marginTop: 10 }}>
-          <FlatList
-            horizontal
-            data={exploreData}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => (
-              <HomePopular
-                id={item._id}
-                Src={Buildings}
-                title={item.businessName}
-                Logo={axios.defaults.baseURL + item.logo}
-                // raisedFunds={item.raisedFunds}
-                // minInv={item.minInv}
-                ShareHolders={item.budget}
-                style={{
-                  marginLeft: index != 0 ? 20 : 0,
-                  width: 200,
-                }}
+            <Searchbar
+              placeholder='Search'
+              onChangeText={onChangeSearch}
+              value={searchQuery}
+              style={{
+                width: '80%',
+                color: colors.placeHolder,
+                borderRadius: 20,
+              }}
+            />
+            <View
+              style={{
+                backgroundColor: colors.secondary,
+                justifyContent: 'center',
+                alignContent: 'center',
+                borderRadius: 15,
+                height: 42,
+                width: 48,
+                marginLeft: 10,
+              }}
+            >
+              <SvgImport svg={SettingIcon} style={{ alignSelf: 'center' }} />
+            </View>
+            {/* seatch bar icon out */}
+          </View>
+          {/* Categories In */}
+          <View style={{ marginTop: 10 }}>
+            <MyText
+              style={{ fontSize: 24, fontWeight: '700', paddingLeft: 10 }}
+            >
+              Categories
+            </MyText>
+            <View style={{ width: '100%' }}>
+              <FlatList
+                horizontal
+                data={catgeories}
+                showsHorizontalScrollIndicator={false}
+                renderItem={({ item, index }) => (
+                  <HomeCategories
+                    svg={item.icon}
+                    title={item.text}
+                    style={{}}
+                  />
+                )}
               />
-            )}
-          />
-        </View>
-      </View>
-      {/* popular Out */}
-      {/* Recents In  */}
-      <View style={{ marginTop: '8%', paddingLeft: 10 }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingRight: 4,
-          }}
-        >
-          <MyText style={{ fontSize: 24, fontWeight: '700' }}>
-            Work as Freelancer
-          </MyText>
-          <MyText
-            style={{ fontWeight: '500', fontSize: 10, color: colors.lighttext }}
-          >
-            See All
-          </MyText>
-        </View>
-
-        <View style={{ width: '100%', marginTop: 10 }}>
-          <FlatList
-            horizontal
-            data={exploreData}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => (
-              <HomePopular
-                id={item._id}
-                Src={Buildings}
-                title={item.businessName}
-                Logo={axios.defaults.baseURL + item.logo}
-                // raisedFunds={item.raisedFunds}
-                // minInv={item.minInv}
-                ShareHolders={item.budget}
+            </View>
+          </View>
+          {/* Categories Out */}
+          {/* popular In */}
+          <View style={{ paddingLeft: 10 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingRight: 4,
+              }}
+            >
+              <Text style={{ fontSize: 24, fontWeight: '700' }}>
+                Join a business
+              </Text>
+              <MyText
                 style={{
-                  marginLeft: index != 0 ? 20 : 0,
-                  width: 200,
+                  fontWeight: '500',
+                  fontSize: 10,
+                  color: colors.lighttext,
                 }}
-              />
-            )}
-          />
-        </View>
-      </View>
+              >
+                See All
+              </MyText>
+            </View>
 
+            <View style={{ width: '100%', marginTop: 10 }}>
+              <FlatList
+                horizontal
+                data={exploreData}
+                showsHorizontalScrollIndicator={false}
+                renderItem={({ item, index }) => (
+                  <HomePopular
+                    id={item._id}
+                    Src={Buildings}
+                    title={item.businessName}
+                    Logo={axios.defaults.baseURL + item.logo}
+                    // raisedFunds={item.raisedFunds}
+                    // minInv={item.minInv}
+                    ShareHolders={item.budget}
+                    style={{
+                      width: 200,
+                    }}
+                  />
+                )}
+              />
+            </View>
+          </View>
+          {/* popular Out */}
+          {/* Recents In  */}
+          <View style={{ marginTop: '8%', paddingLeft: 10 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingRight: 4,
+              }}
+            >
+              <MyText style={{ fontSize: 24, fontWeight: '700' }}>
+                Work as Freelancer
+              </MyText>
+              <MyText
+                style={{
+                  fontWeight: '500',
+                  fontSize: 10,
+                  color: colors.lighttext,
+                }}
+              >
+                See All
+              </MyText>
+            </View>
+
+            <View style={{ width: '100%', marginTop: 10 }}>
+              <FlatList
+                horizontal
+                data={exploreData}
+                showsHorizontalScrollIndicator={false}
+                renderItem={({ item, index }) => (
+                  <HomePopular
+                    id={item._id}
+                    Src={Buildings}
+                    title={item.businessName}
+                    Logo={axios.defaults.baseURL + item.logo}
+                    // raisedFunds={item.raisedFunds}
+                    // minInv={item.minInv}
+                    ShareHolders={item.budget}
+                    style={{
+                      marginLeft: index != 0 ? 20 : 0,
+                      width: 200,
+                    }}
+                  />
+                )}
+              />
+            </View>
+          </View>
+        </>
+      )}
       {/* Recents Out */}
     </ScrollView>
   )

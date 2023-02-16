@@ -9,23 +9,31 @@ import {
   Image,
 } from 'react-native'
 
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { getWarnings } from '../services/warningServices'
 import axios from '../../../http/axiosSet'
+import Loader from '../../../Components/Loader'
+
 const WarningsScreen = () => {
   const navigation = useNavigation()
+  const isFocused = useIsFocused()
 
   const [warnings, setWarnings] = useState([])
   const [totalWarnings, setTotalWarnings] = useState([])
 
+  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
     fetchWarnings()
-  }, [])
+  }, [isFocused])
 
   const fetchWarnings = async () => {
+    setWarnings([])
+    setLoading(true)
     const resp = await getWarnings()
+    setLoading(false)
     if (resp.status === 200) {
       setWarnings(resp.data.data[0].warnings)
       setTotalWarnings(resp.data.data[0].warningsCount[0])
@@ -40,57 +48,54 @@ const WarningsScreen = () => {
 
   const RequestBox = (props) => (
     <View style={styles.requestBox}>
-      <View style={{ display: 'flex', flexDirection: 'row' }}>
-        <Image
-          style={{ height: 50, width: 50, borderRadius: 50 }}
-          source={{
-            uri: axios.defaults.baseURL + props.logo,
-          }}
-        />
-
-        <View style={{ paddingHorizontal: 15 }}>
-          <View
-            style={{
-              width: '79%',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
+      <View style={{ flexDirection: 'row' }}>
+        <View>
+          <Image
+            style={{ height: 60, width: 60, borderRadius: 50 }}
+            source={{
+              uri: axios.defaults.baseURL + 'media/getimage/' + props.logo,
             }}
+          />
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            flex: 1,
+          }}
+        >
+          <View>
+            <MyText style={{ fontSize: 15, marginLeft: 10 }}>
+              {props.name}
+            </MyText>
+            <MyText style={{ marginLeft: 10, marginTop: 10, color: 'gray' }}>
+              {props.category}
+            </MyText>
+          </View>
+
+          <TouchableOpacity
+            labelStyle={{ color: '#fff' }}
+            style={{
+              backgroundColor: '#F50303',
+              borderRadius: 4,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderTopRightRadius: 0,
+              height: 20,
+              paddingHorizontal: 15,
+              borderBottomRightRadius: 0,
+            }}
+            disabled
           >
-            <MyText style={{ fontSize: 15 }}>{props.name}</MyText>
-            <TouchableOpacity
-              labelStyle={{ color: '#fff' }}
+            <MyText
               style={{
-                backgroundColor: '#F50303',
-                borderRadius: 4,
-                width: 80,
-                height: 19,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderTopRightRadius: 0,
-                borderBottomRightRadius: 0,
+                color: 'white',
+                fontSize: 10,
               }}
             >
-              <MyText
-                style={{
-                  color: 'white',
-                  fontSize: 10,
-                }}
-              >
-                {totalWarnings} Warnings
-              </MyText>
-            </TouchableOpacity>
-          </View>
-          <MyText
-            style={{
-              color: colors.secondaryText,
-              fontSize: 11,
-              marginTop: 6,
-              marginBottom: 4,
-            }}
-          >
-            {props.category}
-          </MyText>
+              {totalWarnings} Warnings
+            </MyText>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -114,7 +119,7 @@ const WarningsScreen = () => {
           </MyText>
         </View>
 
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: 'row', paddingRight: 10 }}>
           <TouchableOpacity
             labelStyle={{ color: '#fff' }}
             onPress={() => {
@@ -150,6 +155,14 @@ const WarningsScreen = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}
+            onPress={() => {
+              navigation.navigate('MessagesBox', {
+                userImg:
+                  axios.defaults.baseURL + 'media/getimage/' + props.logo,
+                userName: props?.name,
+                chatType: 'Simple Chat',
+              })
+            }}
           >
             <MyText
               style={{
@@ -181,6 +194,7 @@ const WarningsScreen = () => {
           )
         }}
       />
+      <Loader visible={loading} color='white' indicatorSize='large' />
       <View
         style={[
           styles.container,
@@ -216,7 +230,7 @@ const styles = StyleSheet.create({
 
   requestBox: {
     borderRadius: 10,
-    paddingHorizontal: 10,
+    paddingLeft: 10,
     paddingTop: 8,
     paddingBottom: 15,
     marginBottom: 16,

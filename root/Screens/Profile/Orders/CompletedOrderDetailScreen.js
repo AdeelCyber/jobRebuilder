@@ -14,10 +14,11 @@ import Icon from '@expo/vector-icons/FontAwesome'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import { Entypo } from '@expo/vector-icons'
 
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { getSingleOrder } from '../services/orderServices'
 import axios from '../../../http/axiosSet'
+import Loader from '../../../Components/Loader'
 
 const CompletedOrderDetailScreen = () => {
   const navigation = useNavigation()
@@ -30,13 +31,18 @@ const CompletedOrderDetailScreen = () => {
 
   const { orderId } = route.params
 
+  const isFocused = useIsFocused()
+
+  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
     fetchOrder()
-  }, [])
+  }, [isFocused])
 
   const fetchOrder = async () => {
+    setLoading(true)
     const resp = await getSingleOrder(orderId)
-
+    setLoading(false)
     if (resp.status === 200) {
       setOrder(resp.data.data)
     } else if (resp.status === 401) {
@@ -44,6 +50,10 @@ const CompletedOrderDetailScreen = () => {
     } else if (resp.status === 400) {
       navigation.navigate('LoginScreen')
     }
+  }
+
+  if (loading) {
+    return <Loader visible={loading} color='white' indicatorSize='large' />
   }
 
   const Review = ({ avatar, email, name, rating, date, comment }) => (

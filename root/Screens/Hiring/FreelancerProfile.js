@@ -184,7 +184,9 @@ const FreeLancerProfile = ({ route }) => {
                   onPress={() => {
                     navigation.navigate('MessagesBox', {
                       userImg:
-                        axios.defaults.baseURL + freelancer?.userInfo?.avatar,
+                        axios.defaults.baseURL +
+                        'media/getimage/' +
+                        freelancer?.userInfo?.avatar,
                       userName: freelancer?.userInfo?.name,
                       chatType: 'Simple Chat',
                     })

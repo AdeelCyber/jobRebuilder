@@ -3,29 +3,38 @@ import { StyleSheet, View, TouchableOpacity, Image } from 'react-native'
 import MyText from '../../../Components/Text'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader'
 import SvgImport from '../../../Components/SvgImport'
 import DollarIcon from '../../../../assets/Svgs/DollarIcon'
 import { getOrderCategoryWise } from '../services/orderServices'
 import axios from '../../../http/axiosSet'
+import Loader from '../../../Components/Loader'
 
 const ActiveOrdersScreen = () => {
   const navigation = useNavigation()
 
   const [orders, setOrders] = useState([])
+  const isFocused = useIsFocused()
   useEffect(() => {
     fetchOrder()
-  }, [])
+  }, [isFocused])
+
+  const [loading, setLoading] = useState(true)
 
   const fetchOrder = async () => {
+    setLoading(true)
     const resp = await getOrderCategoryWise('Active')
-
+    setLoading(false)
     if (resp.status === 200) {
       setOrders(resp.data.data)
     } else if (resp.status === 404) {
     } else if (resp.status === 401) {
     }
+  }
+
+  if (loading) {
+    return <Loader visible={loading} color='white' indicatorSize='large' />
   }
 
   const OrderItem = ({ order }) => (
@@ -113,26 +122,44 @@ const ActiveOrdersScreen = () => {
 
   return (
     <View style={{ marginTop: 33 }}>
-      <View
-        style={{
-          paddingBottom: 10,
-          borderBottomColor: '#eee',
-        }}
-      >
-        <MyText style={styles.heading}>Due in next few days</MyText>
-      </View>
-      {orders?.map((order) => {
-        return <OrderItem key={order._id} order={order} />
-      })}
-      {/* <OrderItem /> */}
-      <View
-        style={{
-          paddingBottom: 10,
-          borderBottomColor: '#eee',
-        }}
-      >
-        {/* <MyText style={styles.heading}>Due this month</MyText> */}
-      </View>
+      {orders?.length !== 0 ? (
+        <>
+          <View
+            style={{
+              paddingBottom: 10,
+              borderBottomColor: '#eee',
+            }}
+          >
+            <MyText style={styles.heading}>Due in next few days</MyText>
+          </View>
+          {orders?.map((order) => {
+            return <OrderItem key={order._id} order={order} />
+          })}
+          {/* <OrderItem /> */}
+          <View
+            style={{
+              paddingBottom: 10,
+              borderBottomColor: '#eee',
+            }}
+          >
+            {/* <MyText style={styles.heading}>Due this month</MyText> */}
+          </View>
+        </>
+      ) : (
+        <View>
+          <MyText
+            style={{
+              fontSize: 20,
+              fontWeight: '700',
+              color: 'red',
+              marginTop: 12,
+              textAlign: 'center',
+            }}
+          >
+            No orders
+          </MyText>
+        </View>
+      )}
     </View>
   )
 }

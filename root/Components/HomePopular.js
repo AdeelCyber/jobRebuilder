@@ -26,17 +26,21 @@ const HomePopular = ({
         {
           justifyContent: 'center',
           alignItems: 'center',
-
-          elevation: 10,
-          shadowColor: '#000',
-
           borderRadius: 10,
           paddingBottom: 5,
           marginVertical: 17,
-        },
-        {
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 2,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+
+          elevation: 7,
+          margin: 5,
           backgroundColor: colors.white,
-          ...props.style,
+          width: 200,
         },
       ]}
       onPress={() => {

@@ -10,7 +10,7 @@ import MyText from '../../../Components/Text'
 import Context from '../../../Context/Context'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader'
 import Earning from '../../../Components/Earning'
 import { getOrderCategoryWise } from '../services/orderServices'
@@ -18,8 +18,13 @@ import axios from '../../../http/axiosSet'
 import SvgImport from '../../../Components/SvgImport'
 import DollarIcon from '../../../../assets/Svgs/DollarIcon'
 import { getWalletDetail } from '../services/walletServices'
+import Loader from '../../../Components/Loader'
 const FreelancerDashboardScreen = () => {
   const navigation = useNavigation()
+  const isFocused = useIsFocused()
+
+  const [loading, setLoading] = useState(true)
+
   const {
     theme: { colors },
   } = useContext(Context)
@@ -28,13 +33,16 @@ const FreelancerDashboardScreen = () => {
 
   useEffect(() => {
     fetchOrder()
-  }, [])
+  }, [isFocused])
 
   const [walletDetail, setWalletDetail] = useState({})
 
   const fetchOrder = async () => {
+    setLoading(true)
     const resp = await getOrderCategoryWise('Active')
     const resp2 = await getWalletDetail()
+    setLoading(false)
+
     setWalletDetail(resp2.data.data)
 
     if (resp.status === 200) {
@@ -131,58 +139,77 @@ const FreelancerDashboardScreen = () => {
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader />
 
-      <View
-        style={[
-          styles.container,
-          {
-            backgroundColor: colors.background,
-            paddingTop: 40,
-            padding: 23,
-          },
-        ]}
-      >
-        <MyText style={{ fontSize: 17, marginBottom: 12 }}>My Dashboard</MyText>
-        {/* Top */}
-        <Earning
-          title='Net Income'
-          subHeadingsDescriptions={[
-            `Earning this month`,
-            'Active Jobs',
-            'Pending Clearance',
-            'Jobs Completed',
+      <Loader visible={loading} color='white' indicatorSize='large' />
+      {!loading && (
+        <View
+          style={[
+            styles.container,
+            {
+              backgroundColor: colors.background,
+              paddingTop: 40,
+              padding: 23,
+            },
           ]}
-          style={{ marginTop: 0, marginBottom: 28 }}
-          total={walletDetail.netIncome}
-          subHeadings={[
-            `$ ${walletDetail.earningsThisMonth}`,
-            walletDetail.activeJobs,
-            `$ ${walletDetail.pendingClearence}`,
-            walletDetail.jobsCompleted,
-          ]}
-        />
+        >
+          <MyText style={{ fontSize: 17, marginBottom: 12 }}>
+            My Dashboard
+          </MyText>
+          {/* Top */}
+          <Earning
+            title='Net Income'
+            subHeadingsDescriptions={[
+              `Earning this month`,
+              'Active Jobs',
+              'Pending Clearance',
+              'Jobs Completed',
+            ]}
+            style={{ marginTop: 0, marginBottom: 28 }}
+            total={walletDetail.netIncome}
+            subHeadings={[
+              `$ ${walletDetail.earningsThisMonth}`,
+              walletDetail.activeJobs,
+              `$ ${walletDetail.pendingClearence}`,
+              walletDetail.jobsCompleted,
+            ]}
+          />
 
-        {/* Mid */}
+          {/* Mid */}
 
-        {/* Last */}
+          {/* Last */}
 
-        <View>
-          {/* Heading */}
-          <View
-            style={{
-              paddingBottom: 10,
-              borderBottomColor: '#eee',
-              marginBottom: 26,
-            }}
-          >
-            <MyText style={[styles.heading, { color: colors.text }]}>
-              Active Jobs
-            </MyText>
+          <View>
+            {/* Heading */}
+            <View
+              style={{
+                paddingBottom: 10,
+                borderBottomColor: '#eee',
+                marginBottom: 26,
+              }}
+            >
+              <MyText style={[styles.heading, { color: colors.text }]}>
+                Active Jobs
+              </MyText>
+            </View>
+            {!loading && orders.length === 0 && (
+              <View>
+                <MyText
+                  style={{
+                    textAlign: 'center',
+                    fontSize: 20,
+                    color: 'red',
+                    fontWeight: '700',
+                  }}
+                >
+                  No Jobs{' '}
+                </MyText>
+              </View>
+            )}
+            {orders?.map((order, index) => {
+              return <OrderItem order={order} key={index} />
+            })}
           </View>
-          {orders?.map((order, index) => {
-            return <OrderItem order={order} key={index} />
-          })}
         </View>
-      </View>
+      )}
     </ScrollView>
   )
 }

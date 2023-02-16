@@ -2,7 +2,7 @@ import { View, Text, ScrollView } from 'react-native'
 import React, { useEffect } from 'react'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { Searchbar } from 'react-native-paper'
 import SvgImport from '../../../Components/SvgImport'
 import SettingIcon2 from '../../../../assets/Svgs/Setting'
@@ -19,6 +19,7 @@ import { TouchableOpacity } from 'react-native'
 import { Image } from 'react-native'
 import { getCareerJobs } from '../services/jobServices'
 import axios from '../../../http/axiosSet'
+import Loader from '../../../Components/Loader'
 const AvailableJobs = () => {
   const [catgeories, setCategories] = useState([
     'All',
@@ -27,16 +28,22 @@ const AvailableJobs = () => {
     'Web Developer',
     'SEO',
   ])
+  const isFocused = useIsFocused()
+
+  const [loading, setLoading] = useState(true)
 
   const [jobs, setJobs] = useState([])
 
   useEffect(() => {
     getData()
-  }, [])
+  }, [isFocused])
 
   const getData = async () => {
+    setLoading(true)
+    setJobs([])
     const resp = await getCareerJobs()
-    console.log(resp)
+    setLoading(false)
+
     if (resp.status === 200) {
       setJobs(resp.data.data)
     } else if (resp.status === 400 || resp.status === 401) {
@@ -176,7 +183,6 @@ const AvailableJobs = () => {
       style={{
         flex: 1,
         backgroundColor: '#ffffff',
-        paddingLeft: 15,
       }}
     >
       <CustomHeader
@@ -193,6 +199,8 @@ const AvailableJobs = () => {
           )
         }}
       />
+      <Loader visible={loading} color='white' indicatorSize='large' />
+
       <View>
         <View
           style={{

@@ -144,7 +144,7 @@ const CancelledOrderDetailScreen = ({ route }) => {
             <MyText style={styles.heading}>Title</MyText>
             <MyText style={styles.description}>One time job</MyText>
           </View>
-          <MyText style={styles.description}>{order?.jobTItle}</MyText>
+          <MyText style={styles.description}>{order?.jobTitle}</MyText>
         </View>
 
         {/* Description */}
@@ -209,7 +209,7 @@ const CancelledOrderDetailScreen = ({ route }) => {
           </View>
         </View>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           labelStyle={{ color: '#fff' }}
           style={{
             backgroundColor: '#E8E8E8',
@@ -231,7 +231,7 @@ const CancelledOrderDetailScreen = ({ route }) => {
           >
             <Entypo name='attachment' size={14} /> &nbsp;&nbsp; Attachment
           </MyText>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </ScrollView>
   )
