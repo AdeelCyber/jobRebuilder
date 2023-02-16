@@ -24,7 +24,7 @@ import moment from "moment";
 import { getChats } from "../Profile/services/MessageServices";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/MaterialIcons";
-
+import Loader from "../../Components/Loader";
 const CreateGroup = ({ navigation }) => {
   const {
     theme: { colors },
@@ -99,17 +99,7 @@ const CreateGroup = ({ navigation }) => {
 
   if (getcondition) {
     return (
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          paddingTop: 30,
-        }}
-      >
-        <ActivityIndicator animating={true} color={colors.Bluish} />
-
-        <MyText>Loading..</MyText>
-      </View>
+      <Loader visible={getcondition} color="white" indicatorSize="large" />
     );
   }
 
@@ -187,6 +177,7 @@ const CreateGroup = ({ navigation }) => {
           <Icon
             name="cancel"
             size={20}
+            style={{ position: "absolute", left: 300 }}
             onPress={() => {
               setsearch(false);
             }}
@@ -321,6 +312,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     height: 50,
+    width: 340,
     borderRadius: 10,
     flexDirection: "row",
     backgroundColor: "#E5E5E5",

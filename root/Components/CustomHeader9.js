@@ -10,6 +10,7 @@ const CustomHeader9 = ({
   icon1 = () => (
     <MaterialCommunityIcons name="bell-circle" size={30} color="black" />
   ),
+  icon2 = () => <Entypo name="chevron-left" size={24} color="black" />,
   Title = "Edit Services",
   ...props
 }) => {
@@ -44,7 +45,7 @@ const CustomHeader9 = ({
         onPress={handleNav}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Entypo name="chevron-left" size={24} color="black" />
+          {icon2()}
         </View>
       </Pressable>
       {/* Text View in */}

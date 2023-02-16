@@ -32,7 +32,7 @@ import CartProvider from "../../Context/CartProvider";
 import { getProfile } from "../Profile/services/ProfileServices";
 import moment from "moment";
 import { useIsFocused } from "@react-navigation/native";
-
+import Loader from "../../Components/Loader";
 const HomeService = ({ route }) => {
   const {
     theme: { colors },
@@ -68,24 +68,14 @@ const HomeService = ({ route }) => {
 
   if (getcondition) {
     return (
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          paddingTop: 30,
-        }}
-      >
-        <ActivityIndicator animating={true} color={colors.Bluish} />
-
-        <MyText>Loading..</MyText>
-      </View>
+      <Loader visible={getcondition} color="white" indicatorSize="large" />
     );
   }
 
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
       <View style={[styles.container]}>
-        <CustomHeader9 Title="" nav={navigation} />
+        <CustomHeader9 icon2={() => {}} Title="" nav={navigation} />
         <UserInfo />
         <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
           <ScrollView

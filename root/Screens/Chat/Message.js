@@ -12,6 +12,8 @@ import {
   TextInput,
   Pressable,
 } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
+
 import { Container, Msgs } from "../../Components/MessageStyles";
 import Context from "../../Context/Context";
 import MyText from "../../Components/Text";
@@ -26,7 +28,7 @@ import { SearchBar } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { getChats } from "../Profile/services/MessageServices";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import Loader from "../../Components/Loader";
 const Message = ({ navigation }) => {
   const {
     theme: { colors },
@@ -41,11 +43,14 @@ const Message = ({ navigation }) => {
   const [getcolor, setcolor] = useState("red");
   const [search, setsearch] = useState(false);
   const [searching, setsearching] = useState();
+  const isFocused = useIsFocused();
+  const [useronline, setuseronline] = useState({});
+  const [getuser, setuser] = useState({});
 
   const onRefresh = async () => {
     try {
       const res = await getChats(accessToken);
-      //console.log(res.data.chats);
+      console.log(res.data.chats);
 
       setchat(res.data.chats);
       setchat2(res.data.chats);
@@ -57,10 +62,16 @@ const Message = ({ navigation }) => {
       res.data.chats.forEach((e) =>
         getusers.forEach((e2) => {
           if (e.chatid === e2.userID) {
-            setcolor("green");
+            // console.log("jhj", e2.userID);
+
+            // console.log("jhj", e.chatid);
+            setuser(e.chatid);
+            //console.log(getuser);
+            // setuseronline({ ...useronline, getuser });
           }
         })
       );
+      // console.log(getuser);
 
       setcondition(false);
     } catch (err) {
@@ -86,7 +97,7 @@ const Message = ({ navigation }) => {
       setusers(users);
     });
     onRefresh();
-  }, []);
+  }, [isFocused]);
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = chat2.filter((item) => {
@@ -125,17 +136,7 @@ const Message = ({ navigation }) => {
 
   if (getcondition) {
     return (
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          paddingTop: 30,
-        }}
-      >
-        <ActivityIndicator animating={true} color={colors.Bluish} />
-
-        <MyText>Loading..</MyText>
-      </View>
+      <Loader visible={getcondition} color="white" indicatorSize="large" />
     );
   }
 
@@ -145,7 +146,7 @@ const Message = ({ navigation }) => {
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <AntDesign
             name="search1"
-            size={18}
+            size={22}
             color="black"
             onPress={() => {
               setsearch(true);
@@ -179,6 +180,7 @@ const Message = ({ navigation }) => {
           <Icon
             name="cancel"
             size={20}
+            style={{ position: "absolute", left: 300 }}
             onPress={() => {
               setsearch(false);
             }}
@@ -213,7 +215,7 @@ const Message = ({ navigation }) => {
                     userName: item.chatname,
                     chatType: item.chatType,
                     members: item.members,
-                    online: getcolor === "green" ? "online" : "offline",
+                    online: getuser === item.chatid ? "online" : "offline",
                   })
                 }
               >
@@ -236,7 +238,8 @@ const Message = ({ navigation }) => {
                       borderRadius: 100,
                       marginLeft: 40,
 
-                      backgroundColor: getcolor,
+                      backgroundColor:
+                        getuser === item.chatid ? "green" : "red",
                       alignSelf: "flex-end",
                       position: "absolute",
                       bottom: 19,
@@ -264,13 +267,12 @@ const Message = ({ navigation }) => {
                     }}
                     numberOfLines={2}
                   >
-                    {/* {item.lastMessage?.sender.name
+                    {item.lastMessage?.sender.name
                       ? item.lastMessage?.sender.name +
                         ": " +
                         item.lastMessage?.message.message
-                    : */}
-                    {item.lastMessage?.message.attachments ||
-                    item.lastMessage?.message.equity
+                      : item.lastMessage?.message.attachments ||
+                        item.lastMessage?.message.equity
                       ? "Offer Message"
                       : item.lastMessage?.message.message}
                   </Text>
@@ -351,10 +353,12 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     height: 50,
+    width: 340,
     borderRadius: 10,
     flexDirection: "row",
     backgroundColor: "#E5E5E5",
     alignItems: "center",
     paddingHorizontal: 20,
+    marginBottom: 20,
   },
 });

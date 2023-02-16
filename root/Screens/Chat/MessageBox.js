@@ -36,9 +36,9 @@ import {
   sendMessagess,
   sendMessagessInGroup,
 } from "../Profile/services/MessageServices";
-import { set } from "react-native-reanimated";
 import * as ImagePicker from "expo-image-picker";
 import {
+  downloadFile,
   fileGet,
   fileUpload,
   imageUpload,
@@ -136,14 +136,24 @@ const MessageBox = ({
     setdoc(result.uri);
     const pdf = await fileUpload(result.uri);
     const p = JSON.parse(pdf.body);
-
-    var obj = {};
-    (obj["createdAt"] = Date.now()),
-      (obj["file"] = doc),
-      (obj["text"] = p.filename),
-      (obj["user"] = {
-        _id: "me",
-      });
+    if (chatType === "group") {
+      var obj = {};
+      (obj["createdAt"] = Date.now()),
+        (obj["file"] = doc),
+        (obj["sender"] = userImg),
+        (obj["text"] = p.filename),
+        (obj["user"] = {
+          _id: "me",
+        });
+    } else {
+      var obj = {};
+      (obj["createdAt"] = Date.now()),
+        (obj["file"] = doc),
+        (obj["text"] = p.filename),
+        (obj["user"] = {
+          _id: "me",
+        });
+    }
 
     setmsg([...msg, obj]);
     sendMessage(p.filename, "file");
@@ -459,22 +469,28 @@ const MessageBox = ({
           </MyText>
 
           {chatType === "group" ? (
-            <FlatList
-              data={members}
-              keyExtractor={(item) => item.id}
-              horizontal={true}
-              style={{ alignSelf: "flex-start" }}
-              renderItem={({ item }) => (
-                <View style={{ marginTop: 5 }}>
-                  <Image
-                    style={{ width: 24, height: 24, borderRadius: 50 }}
-                    source={{
-                      uri: `https://stepdev.up.railway.app/media/getimage/${item.avatar}`,
-                    }}
-                  />
-                </View>
-              )}
-            />
+            <Pressable
+              onPress={() => {
+                navigation.navigate("NewMessage", { members: members });
+              }}
+            >
+              <FlatList
+                data={members}
+                keyExtractor={(item) => item.id}
+                horizontal={true}
+                style={{ alignSelf: "flex-start", width: 66 }}
+                renderItem={({ item }) => (
+                  <View style={{ marginTop: 5, width: 19 }}>
+                    <Image
+                      style={{ width: 24, height: 24, borderRadius: 50 }}
+                      source={{
+                        uri: "https://www.shutterstock.com/image-vector/user-login-authenticate-icon-human-260nw-1365533969.jpg",
+                      }}
+                    />
+                  </View>
+                )}
+              />
+            </Pressable>
           ) : (
             <MyText
               style={{
@@ -634,7 +650,14 @@ const MessageBox = ({
                         >
                           <Pressable
                             onPress={() => {
-                              getpdf(item.file);
+                              downloadFile(
+                                `https://stepdev.up.railway.app/media/getFile/${item.file}`
+                              );
+                              Toast.show({
+                                topOffset: 60,
+                                type: "success",
+                                text1: "Downloading...",
+                              });
                             }}
                           >
                             <Image
@@ -786,7 +809,14 @@ const MessageBox = ({
                         >
                           <Pressable
                             onPress={() => {
-                              getpdf(item.file);
+                              downloadFile(
+                                `https://stepdev.up.railway.app/media/getFile/${item.file}`
+                              );
+                              Toast.show({
+                                topOffset: 60,
+                                type: "success",
+                                text1: "Downloading...",
+                              });
                             }}
                           >
                             <Image
@@ -917,7 +947,14 @@ const MessageBox = ({
                       >
                         <Pressable
                           onPress={() => {
-                            getpdf(item.file);
+                            downloadFile(
+                              `https://stepdev.up.railway.app/media/getFile/${item.file}`
+                            );
+                            Toast.show({
+                              topOffset: 60,
+                              type: "success",
+                              text1: "Downloading...",
+                            });
                           }}
                         >
                           <Image
@@ -1182,7 +1219,14 @@ const MessageBox = ({
                           </Text>
                           <Pressable
                             onPress={() => {
-                              getpdf(item.equityOrder.partnershipAgreement);
+                              downloadFile(
+                                `https://stepdev.up.railway.app/media/getFile/${item.equityOrder.partnershipAgreement}`
+                              );
+                              Toast.show({
+                                topOffset: 60,
+                                type: "success",
+                                text1: "Downloading...",
+                              });
                             }}
                           >
                             <Text
@@ -1351,7 +1395,14 @@ const MessageBox = ({
                       >
                         <Pressable
                           onPress={() => {
-                            getpdf(item.file);
+                            downloadFile(
+                              `https://stepdev.up.railway.app/media/getFile/${item.file}`
+                            );
+                            Toast.show({
+                              topOffset: 60,
+                              type: "success",
+                              text1: "Downloading...",
+                            });
                           }}
                         >
                           <Image
@@ -1612,7 +1663,14 @@ const MessageBox = ({
                           </Text>
                           <Pressable
                             onPress={() => {
-                              getpdf(item.equityOrder.partnershipAgreement);
+                              downloadFile(
+                                `https://stepdev.up.railway.app/media/getFile/${item.equityOrder.partnershipAgreement}`
+                              );
+                              Toast.show({
+                                topOffset: 60,
+                                type: "success",
+                                text1: "Downloading...",
+                              });
                             }}
                           >
                             <Text

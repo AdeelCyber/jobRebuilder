@@ -38,8 +38,7 @@ import moment from "moment";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { getChats } from "../Profile/services/MessageServices";
-import { check } from "yargs";
-
+import Loader from "../../Components/Loader";
 const CreatingGroup = ({ navigation }) => {
   const {
     theme: { colors },
@@ -57,17 +56,19 @@ const CreatingGroup = ({ navigation }) => {
 
   const onRefresh = async () => {
     const res = await getChats(accessToken);
-    //console.log(res.data.chats);
+    const r = res.data.chats.filter((item) => item.chatType.match("simple"));
 
-    setchat(res.data.chats);
-    setchat2(res.data.chats);
+    console.log(r);
+
+    setchat(r);
+    setchat2(r);
 
     setcondition(false);
   };
 
   useEffect(() => {
     onRefresh();
-  }, [members, memberstodis]);
+  }, []);
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = chat2.filter((item) => {
@@ -83,21 +84,16 @@ const CreatingGroup = ({ navigation }) => {
       setchat(chat2);
     }
   };
-  const check = (item) => {};
+  const deleteItem = (index) => {
+    console.log(index);
+    const r = chat.filter((i, e) => e != index);
+
+    setchat(r);
+  };
 
   if (getcondition) {
     return (
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          paddingTop: 30,
-        }}
-      >
-        <ActivityIndicator animating={true} color={colors.Bluish} />
-
-        <MyText>Loading..</MyText>
-      </View>
+      <Loader visible={getcondition} color="white" indicatorSize="large" />
     );
   }
 
@@ -132,6 +128,7 @@ const CreatingGroup = ({ navigation }) => {
           <Icon
             name="cancel"
             size={20}
+            style={{ position: "absolute", left: 300 }}
             onPress={() => {
               setsearch(false);
             }}
@@ -156,7 +153,7 @@ const CreatingGroup = ({ navigation }) => {
       <Container>
         {chat && (
           <FlatList
-            data={chat && chat.filter((item) => item.chatType.match("simple"))}
+            data={chat}
             keyExtractor={(item, index) => {
               return index.toString();
             }}
@@ -187,6 +184,7 @@ const CreatingGroup = ({ navigation }) => {
                           console.log(item);
                           setmemberstodis([...memberstodis, item]);
                           setmembers([...members, item.chatid]);
+                          deleteItem(index);
                         }}
                       >
                         <MyText
@@ -217,10 +215,10 @@ const CreatingGroup = ({ navigation }) => {
             marginLeft: 20,
             margin: 10,
             marginBottom: 10,
-            marginTop: 10,
+            marginTop: 5,
           }}
         >
-          Members
+          Participants
         </MyText>
       </View>
       {memberstodis && (
@@ -229,47 +227,17 @@ const CreatingGroup = ({ navigation }) => {
           keyExtractor={(item, index) => {
             return index.toString();
           }}
-          renderItem={({ item, index }) => (
-            <Card>
-              <UserInfo>
-                <UserImgWrapper>
-                  <UserInfoText>
-                    <UserImg
-                      source={{
-                        uri: `https://stepdev.up.railway.app/media/getimage/${item.chatavatar}`,
-                      }}
-                    />
-                  </UserInfoText>
-                </UserImgWrapper>
-                <TextSection>
-                  <UserInfoText>
-                    <UserName>{item.chatname}</UserName>
-
-                    <Pressable
-                      style={{
-                        height: 25,
-                        width: 25,
-                        borderRadius: 50,
-                        backgroundColor: colors.Bluish,
-                      }}
-                      onPress={() => {}}
-                    >
-                      <MyText
-                        style={{
-                          fontSize: 16,
-                          color: colors.white,
-                          alignSelf: "center",
-                          margin: 1,
-                        }}
-                      >
-                        -
-                      </MyText>
-                    </Pressable>
-                  </UserInfoText>
-                  <MessageText>{item.Role}</MessageText>
-                </TextSection>
-              </UserInfo>
-            </Card>
+          horizontal={true}
+          style={{ alignSelf: "flex-start" }}
+          renderItem={({ item }) => (
+            <View style={{ marginRight: 5, marginLeft: 10 }}>
+              <Image
+                style={{ width: 40, height: 40, borderRadius: 50 }}
+                source={{
+                  uri: `https://stepdev.up.railway.app/media/getimage/${item.chatavatar}`,
+                }}
+              />
+            </View>
           )}
         />
       )}
@@ -312,6 +280,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     height: 50,
+    width: 340,
     marginTop: 7,
     borderRadius: 10,
     flexDirection: "row",

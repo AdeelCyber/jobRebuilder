@@ -141,7 +141,20 @@ const CustomOffer = ({ route }) => {
 
     //console.log(res.data);
   };
+  // socket.on("private message", (data) => {
+  //   const { content, from } = data;
+  //   console.log(content);
+  //   // console.log(from);
 
+  //   var obj = {};
+  //   (obj["createdAt"] = Date.now()),
+  //     (obj[`${content.messageType}`] = content.msgcontent),
+  //     (obj["user"] = {
+  //       _id: "other",
+  //     });
+
+  //   setmsg([...msg, obj]);
+  // });
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
       <View style={[styles.container]}>
@@ -305,7 +318,12 @@ const CustomOffer = ({ route }) => {
                 Delivery Time
               </MyText>
 
-              <View style={styles.SectionStyle}>
+              <View
+                style={[
+                  styles.SectionStyle,
+                  { position: "absolute", left: 205 },
+                ]}
+              >
                 <TextInput
                   style={styles.inputStyle2}
                   onChangeText={(duedate) => setduedate(duedate)}
@@ -343,12 +361,12 @@ const CustomOffer = ({ route }) => {
             <Pressable
               style={{
                 backgroundColor: colors.Bluish,
-                width: 345,
+                width: 330,
                 height: 58,
                 borderRadius: 10,
                 justifyContent: "center",
                 alignItems: "center",
-                marginTop: 30,
+                marginTop: 50,
               }}
               onPress={() => {
                 oneTimeOffer();
@@ -561,7 +579,7 @@ const CustomOffer = ({ route }) => {
             <Pressable
               style={{
                 backgroundColor: colors.Bluish,
-                width: 345,
+                width: 335,
                 height: 58,
                 borderRadius: 10,
                 justifyContent: "center",
@@ -618,7 +636,7 @@ const styles = StyleSheet.create({
   },
   Section: {
     height: 160,
-    width: 340,
+    width: 330,
     borderWidth: 1,
     borderRadius: 5,
   },
@@ -632,6 +650,7 @@ const styles = StyleSheet.create({
   SectionStyle: {
     flexDirection: "row",
     height: 47,
+    width: "100%",
     marginTop: 2,
     marginBottom: 5,
   },

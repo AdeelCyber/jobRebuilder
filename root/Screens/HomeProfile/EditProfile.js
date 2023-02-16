@@ -27,6 +27,7 @@ import CartProvider from "../../Context/CartProvider";
 import Toast from "react-native-toast-message";
 import { imageUpload } from "../Profile/services/fileServices";
 import { editProfile } from "../Profile/services/ProfileServices";
+import Loader from "../../Components/Loader";
 const EditProfile = ({ route }) => {
   const {
     theme: { colors },
@@ -169,17 +170,7 @@ const EditProfile = ({ route }) => {
   };
   if (getcondition) {
     return (
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          paddingTop: 30,
-        }}
-      >
-        <ActivityIndicator animating={true} color={colors.Bluish} />
-
-        <MyText>Loading..</MyText>
-      </View>
+      <Loader visible={getcondition} color="white" indicatorSize="large" />
     );
   }
 

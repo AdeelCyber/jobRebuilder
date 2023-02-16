@@ -36,7 +36,7 @@ import { title } from "process";
 import * as ImagePicker from "expo-image-picker";
 import Toast from "react-native-toast-message";
 import { imageUpload } from "../Profile/services/fileServices";
-
+import Loader from "../../Components/Loader";
 const CreatingGroup1 = ({ navigation, route }) => {
   const {
     theme: { colors },
@@ -140,22 +140,12 @@ const CreatingGroup1 = ({ navigation, route }) => {
 
   if (getcondition) {
     return (
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          paddingTop: 30,
-        }}
-      >
-        <ActivityIndicator animating={true} color={colors.Bluish} />
-
-        <MyText>Loading..</MyText>
-      </View>
+      <Loader visible={getcondition} color="white" indicatorSize="large" />
     );
   }
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <CustomHeader5 />
+      <CustomHeader5 icon1={() => {}} />
 
       <View style={{ alignSelf: "flex-start" }}>
         <MyText

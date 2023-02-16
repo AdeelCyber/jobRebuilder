@@ -30,6 +30,8 @@ import {
   getMessagesGroup,
 } from "../Profile/services/MessageServices";
 import MessageBox from "./MessageBox";
+import Loader from "../../Components/Loader";
+import { useIsFocused } from "@react-navigation/native";
 
 const MessagesBox = ({ route }) => {
   const navigation = useNavigation();
@@ -41,6 +43,7 @@ const MessagesBox = ({ route }) => {
   const [message, setMessage] = useState([]);
   const [messages, setMessages] = useState([]);
   //const messages = useRef();
+  const isFocused = useIsFocused();
 
   const { id, userImg, userName, chatType, members, online } =
     route.params != undefined ? route.params : {};
@@ -67,21 +70,11 @@ const MessagesBox = ({ route }) => {
 
   useEffect(() => {
     getMsg();
-  }, [getcondition]);
+  }, [isFocused]);
 
   if (getcondition) {
     return (
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          paddingTop: 30,
-        }}
-      >
-        <ActivityIndicator animating={true} color={colors.Bluish} />
-
-        <MyText>Loading..</MyText>
-      </View>
+      <Loader visible={getcondition} color="white" indicatorSize="large" />
     );
   }
   return (

@@ -30,6 +30,7 @@ import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
 import * as Google from "expo-auth-session/providers/google";
 import * as Facebook from "expo-auth-session/providers/facebook";
+import Loader from "../../Components/Loader";
 const Login = () => {
   const {
     theme: { colors },
@@ -40,6 +41,8 @@ const Login = () => {
   const { accessToken, setaccessToken } = useContext(CartProvider);
   const [refreshToken, setrefreshToken] = useState();
   const { userdetails, setuserdetails } = useContext(CartProvider);
+  const [getcondition, setcondition] = useState(false);
+
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
 
@@ -158,6 +161,7 @@ const Login = () => {
         text2: "Please fill all the fields",
       });
     } else {
+      setcondition(true);
       try {
         const response = await userLogin(email, password);
         //console.log(response.data);
@@ -181,6 +185,7 @@ const Login = () => {
           } catch (error) {
             //console.log(error);
           }
+          setcondition(false);
 
           Toast.show({
             topOffset: 60,
@@ -191,12 +196,15 @@ const Login = () => {
           navigation.navigate("Message");
         }
       } catch (error) {
+        setcondition(false);
+
         console.log(error.response.data);
         Toast.show({
           topOffset: 60,
           type: "error",
-          text1: error.response.data.error.message,
-          text2: error.response.data.error.name,
+          text1: error.response.data.errors[0].email
+            ? error.response.data.errors[0].email
+            : error.response.data.errors[0].password,
         });
       }
     }
@@ -313,14 +321,22 @@ const Login = () => {
                   login();
                 }}
               >
-                <MyText
-                  style={{
-                    color: colors.white,
-                    fontSize: 16,
-                  }}
-                >
-                  Login
-                </MyText>
+                {getcondition ? (
+                  <Loader
+                    visible={getcondition}
+                    color="white"
+                    indicatorSize="large"
+                  />
+                ) : (
+                  <MyText
+                    style={{
+                      color: colors.white,
+                      fontSize: 16,
+                    }}
+                  >
+                    Login
+                  </MyText>
+                )}
               </Pressable>
               <View style={{ alignItems: "center", marginTop: 20 }}>
                 <MyText
