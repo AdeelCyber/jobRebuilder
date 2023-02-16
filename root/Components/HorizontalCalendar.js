@@ -85,7 +85,7 @@ export default function HorizontalCalendar({ selectedDate, setSelectedDate }) {
         { paddingBottom: 16, paddingLeft: 4, paddingRight: 16 },
       ]}
       showsHorizontalScrollIndicator={false}
-      initialScrollIndex={dates.length - 8}
+      // initialScrollIndex={dates.length - 1}
       getItemLayout={(_, index) => ({
         length: ITEM_WIDTH,
         offset: ITEM_OFFSET * index,
