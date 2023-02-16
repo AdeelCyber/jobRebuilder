@@ -6,6 +6,7 @@ import {
   ScrollView,
   Pressable,
   TextInput,
+  ToastAndroid,
 } from "react-native";
 
 import React, { useContext, useState, useEffect } from "react";
@@ -42,12 +43,15 @@ const AddMileStone = ({ navigation, route }) => {
 
     if (resp.data.status === "OK") {
       route.params.set(resp.data.milestones);
+      ToastAndroid.show("Success", ToastAndroid.SHORT);
+      navigation.goBack();
+    } else {
+      ToastAndroid.show("Failed", ToastAndroid.SHORT);
     }
   };
   function handlePress(text) {
     if (text === "Add Mile Stone") {
       getFreelancersData();
-      navigation.goBack();
     }
   }
 

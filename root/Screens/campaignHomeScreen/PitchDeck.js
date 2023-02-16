@@ -6,6 +6,7 @@ import {
   ScrollView,
   Pressable,
   PermissionsAndroid,
+  ToastAndroid,
 } from "react-native";
 
 import React, { useContext, useState } from "react";
@@ -58,6 +59,7 @@ const PitchDeck = ({ navigation, route }) => {
       result.uri.length
     );
     console.log("filename", filename);
+    ToastAndroid.show("File Uploaded", ToastAndroid.SHORT);
     setchanged({ ...changed, file: filename });
   };
   //upload out
@@ -118,11 +120,12 @@ const PitchDeck = ({ navigation, route }) => {
                 borderRadius: 10,
                 flexDirection: "row",
               }}
-              onPress={() =>
+              onPress={() => {
                 downloadFile(
                   `https://stepdev.up.railway.app/media/getFile/${data.startup.pitchDeck}`
-                )
-              }
+                );
+                ToastAndroid.show("Downloading...", ToastAndroid.SHORT);
+              }}
             >
               <SvgImport svg={pdf} />
               <MyText
