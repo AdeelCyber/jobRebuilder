@@ -25,7 +25,14 @@ const CampaignCard = ({ ...props }) => {
         }}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <SvgImport svg={props.Logo} style={{ width: "100%" }} />
+          <View>
+            <Image
+              source={{
+                uri: `http://stepdev.up.railway.app/media/getImage/${props.Logo}`,
+              }}
+              style={{ width: 18, height: 18 }}
+            />
+          </View>
           <View style={{ marginLeft: 8 }}>
             <MyText
               style={{ color: colors.text, fontSize: 12, fontWeight: "700" }}
