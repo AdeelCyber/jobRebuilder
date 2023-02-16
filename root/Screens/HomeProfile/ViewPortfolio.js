@@ -58,25 +58,25 @@ const ViewPortfolio = ({ route }) => {
           <MyText style={[styles.header, { marginLeft: 30, marginRight: 5 }]}>
             Portfolio Details
           </MyText>
-          <View
+          <Pressable
             style={{
               marginTop: 33,
-              height: 16,
-              width: 16,
+              height: 18,
+              width: 18,
               borderRadius: 50,
               padding: 1,
               backgroundColor: colors.Bluish,
             }}
+            onPress={() => {
+              navigation.navigate("EditPortfolio", { portfolio: portfolio });
+            }}
           >
             <MaterialCommunityIcons
               name="pencil"
-              size={14}
+              size={16}
               color={colors.white}
-              onPress={() => {
-                navigation.navigate("EditPortfolio", { portfolio: portfolio });
-              }}
             />
-          </View>
+          </Pressable>
           <AntDesign
             name="delete"
             size={22}
@@ -114,22 +114,25 @@ const ViewPortfolio = ({ route }) => {
           <MyText style={[styles.header, { marginLeft: 30, marginRight: 5 }]}>
             Attachments
           </MyText>
-          <View
+          <Pressable
             style={{
               marginTop: 33,
-              height: 16,
-              width: 16,
+              height: 18,
+              width: 18,
               borderRadius: 50,
               padding: 1,
               backgroundColor: colors.Bluish,
             }}
+            onPress={() => {
+              navigation.navigate("EditPortfolio", { portfolio: portfolio });
+            }}
           >
             <MaterialCommunityIcons
               name="pencil"
-              size={14}
+              size={16}
               color={colors.white}
             />
-          </View>
+          </Pressable>
         </View>
         <View
           style={{

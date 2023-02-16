@@ -19,6 +19,7 @@ import CustomHeader9 from "../../Components/CustomHeader9";
 import CartProvider from "../../Context/CartProvider";
 import { editPortfolio } from "../Profile/services/ProfileServices";
 import Toast from "react-native-toast-message";
+import { Entypo } from "@expo/vector-icons";
 
 const EditPortfolio = ({ route }) => {
   const {
@@ -30,7 +31,9 @@ const EditPortfolio = ({ route }) => {
   const [projname, setprojname] = useState(portfolio.title);
   const [projdesc, setprojdesc] = useState(portfolio.description);
   const { accessToken } = useContext(CartProvider);
-  const [images, setimages] = useState();
+
+  const [images, setimages] = useState([]);
+  const [attachments, setattachments] = useState(portfolio.attachments);
 
   const pickImg = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -43,24 +46,37 @@ const EditPortfolio = ({ route }) => {
     console.log(result.assets);
 
     if (!result.canceled) {
-      setimages(result.assets);
+      for (var i in result.assets) {
+        // console.log(result.assets[i].uri);
+        setimages([...images, result.assets[i].uri]);
+      }
     }
   };
+  const deleteItem = (index) => {
+    console.log(index);
+    const r = attachments.filter((i, e) => e != index);
+
+    setattachments(r);
+  };
+  const deleteItem2 = (index) => {
+    const r = images.filter((i, e) => e != index);
+
+    setimages(r);
+  };
+  useEffect(() => {
+    console.log(portfolio);
+  }, []);
 
   const portfolioedit = async () => {
-    var img = [];
-    for (var i in images) {
-      img[i] = images[i].uri;
-    }
-
-    var imgg = img.concat(portfolio.attachments);
+    const img = attachments.concat(images);
+    console.log(img);
     var portfolioid = portfolio._id;
     const res = await editPortfolio(
       accessToken,
       portfolioid,
       projname,
       projdesc,
-      imgg
+      img
     );
     if (res.status == 200) {
       Toast.show({
@@ -133,13 +149,13 @@ const EditPortfolio = ({ route }) => {
         <MyText style={[styles.header, { margin: 30 }]}>Add Attachments</MyText>
         {portfolio && (
           <FlatList
-            data={portfolio.attachments}
+            data={attachments}
             style={{ alignSelf: "flex-start", marginLeft: 30, marginRight: 30 }}
             numColumns={2}
             columnWrapperStyle={{ flexWrap: "wrap" }}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <View
                 style={{
                   height: 140,
@@ -152,11 +168,22 @@ const EditPortfolio = ({ route }) => {
                   shadowColor: colors.Bluish,
                 }}
               >
-                <Image
-                  source={{ uri: item }}
-                  resizeMode="contain"
-                  style={{ height: 139, width: 160, borderRadius: 10 }}
-                />
+                <View style={{ flexDirection: "row" }}>
+                  <Image
+                    source={{ uri: item }}
+                    resizeMode="contain"
+                    style={{ height: 139, width: 160, borderRadius: 10 }}
+                  />
+                  <Entypo
+                    name="circle-with-cross"
+                    size={20}
+                    style={{ position: "absolute", left: 130, top: 5 }}
+                    color={colors.white}
+                    onPress={() => {
+                      deleteItem(index);
+                    }}
+                  />
+                </View>
               </View>
             )}
           />
@@ -169,24 +196,32 @@ const EditPortfolio = ({ route }) => {
             columnWrapperStyle={{ flexWrap: "wrap" }}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <View
                 style={{
                   height: 140,
                   width: 160,
-                  shadowOffset: { width: 0, height: 1 },
-                  shadowOpacity: 1,
-                  shadowRadius: 1,
                   elevation: 7,
                   margin: 3,
                   shadowColor: colors.Bluish,
                 }}
               >
-                <Image
-                  source={{ uri: item.uri }}
-                  resizeMode="contain"
-                  style={{ height: 139, width: 160, borderRadius: 10 }}
-                />
+                <View style={{ flexDirection: "row" }}>
+                  <Image
+                    source={{ uri: item }}
+                    resizeMode="contain"
+                    style={{ height: 139, width: 160, borderRadius: 10 }}
+                  />
+                  <Entypo
+                    name="circle-with-cross"
+                    size={20}
+                    style={{ position: "absolute", left: 130, top: 5 }}
+                    color={colors.white}
+                    onPress={() => {
+                      deleteItem2(index);
+                    }}
+                  />
+                </View>
               </View>
             )}
           />

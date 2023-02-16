@@ -10,7 +10,9 @@ import {
   TextInput,
   FlatList,
   Modal,
+  ActivityIndicator,
 } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 
 import Context from "../../Context/Context";
 import MyText from "../../Components/Text";
@@ -23,8 +25,8 @@ import { Entypo, AntDesign, Ionicons } from "@expo/vector-icons";
 
 import CartProvider from "../../Context/CartProvider";
 import Toast from "react-native-toast-message";
-import { editProfile } from "../Profile/services/ProfileServices";
 import { imageUpload } from "../Profile/services/fileServices";
+import { editProfile } from "../Profile/services/ProfileServices";
 const EditProfile = ({ route }) => {
   const {
     theme: { colors },
@@ -46,6 +48,7 @@ const EditProfile = ({ route }) => {
     "Fixed Rate " + userinfo.userInfo.role
   );
   const [logo, setlogo] = useState(userinfo.userInfo.avatar);
+  const [getcondition, setcondition] = useState(false);
   // const pickImg = async () => {
   //   let result = await ImagePicker.launchImageLibraryAsync({
   //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -72,7 +75,17 @@ const EditProfile = ({ route }) => {
 
     if (!result.canceled) {
       setimage(result.assets[0].uri);
+      setcondition(true);
       const img = await imageUpload(result.assets[0].uri);
+      if (img.status == 200) {
+        setcondition(false);
+        Toast.show({
+          topOffset: 60,
+          type: "success",
+          text1: "Image Upated Successfully",
+          text2: ".",
+        });
+      }
       console.log(img);
       setlogo(JSON.parse(img.body));
     }
@@ -94,28 +107,81 @@ const EditProfile = ({ route }) => {
     }
   };
   const profileedit = async () => {
-    const res = await editProfile(
-      accessToken,
-      name,
-      job,
-      city,
-      country,
-      language,
-      work,
-      about,
-      logo.filename
-    );
-    console.log(res.data);
-    if (res.status == 200) {
-      Toast.show({
-        topOffset: 60,
-        type: "success",
-        text1: "Upated Successfully",
-        text2: ".",
-      });
-      navigation.navigate("HomeService");
+    setcondition(true);
+
+    if (logo.filename != undefined) {
+      try {
+        const res = await editProfile(
+          accessToken,
+          name,
+          job,
+          city,
+          country,
+          language,
+          work,
+          about,
+          logo.filename
+        );
+        console.log(res);
+        if (res.status == 200) {
+          setcondition(false);
+
+          Toast.show({
+            topOffset: 60,
+            type: "success",
+            text1: "Upated Successfully",
+            text2: ".",
+          });
+          navigation.navigate("HomeService");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      try {
+        const res = await editProfile(
+          accessToken,
+          name,
+          job,
+          city,
+          country,
+          language,
+          work,
+          about,
+          logo
+        );
+        console.log(res.status);
+        if (res.status == 200) {
+          setcondition(false);
+
+          Toast.show({
+            topOffset: 60,
+            type: "success",
+            text1: "Upated Successfully",
+            text2: ".",
+          });
+          navigation.navigate("HomeService");
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
+  if (getcondition) {
+    return (
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          paddingTop: 30,
+        }}
+      >
+        <ActivityIndicator animating={true} color={colors.Bluish} />
+
+        <MyText>Loading..</MyText>
+      </View>
+    );
+  }
 
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
@@ -436,7 +502,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: 58,
     borderWidth: 1,
-    width: 361,
+    width: 350,
     borderRadius: 10,
     marginTop: 14,
     marginBottom: 5,

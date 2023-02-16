@@ -136,29 +136,21 @@ const PersonalInfo = () => {
           />
         </View>
         <View style={styles.SectionStyle}>
-          <DropDownPicker
-            style={[styles.inputStyle, { borderColor: "#EEEEEE" }]}
-            textStyle={{ color: "#ACA9A9" }}
+          <TextInput
+            style={styles.inputStyle}
+            onChangeText={(value2) => setValue2(value2)}
             placeholder="Country"
-            open={open2}
-            value={value2}
-            items={items2}
-            setOpen={setOpen2}
-            setValue={setValue2}
-            setItems={setItems2}
+            placeholderTextColor="#ACA9A9"
+            underlineColorAndroid="#f000"
           />
         </View>
         <View style={styles.SectionStyle}>
-          <DropDownPicker
-            style={[styles.inputStyle, { borderColor: "#EEEEEE" }]}
-            textStyle={{ color: "#ACA9A9" }}
+          <TextInput
+            style={styles.inputStyle}
+            onChangeText={(value3) => setValue3(value3)}
             placeholder="City"
-            open={open3}
-            value={value3}
-            items={items3}
-            setOpen={setOpen3}
-            setValue={setValue3}
-            setItems={setItems3}
+            placeholderTextColor="#ACA9A9"
+            underlineColorAndroid="#f000"
           />
         </View>
         <View style={styles.SectionStyle}>

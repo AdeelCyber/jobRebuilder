@@ -10,6 +10,7 @@ import {
   Image,
   Modal,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 
 import Context from "../../Context/Context";
@@ -17,7 +18,6 @@ import CustomHeader6 from "../../Components/CustomHeader6";
 import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
 import MyText from "../../Components/Text";
 import { Entypo, AntDesign, Ionicons } from "@expo/vector-icons";
-import { ScrollView } from "react-native-gesture-handler";
 import DropDownPicker from "react-native-dropdown-picker";
 import * as ImagePicker from "expo-image-picker";
 import Checkbox from "expo-checkbox";
@@ -1139,6 +1139,8 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     const [searching, setSearching] = useState(false);
 
     const membershere = async (search) => {
+      setsearch(search);
+
       try {
         const members = await getmembers(accessToken, search);
         console.log(members.data.data);
@@ -1344,7 +1346,11 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                     renderItem={({ item }) => (
                       <View style={{ flex: 1 }}>
                         <Pressable
-                          style={{ height: 20, borderWidth: 1, margin: 3 }}
+                          style={{
+                            height: 20,
+                            borderWidth: 1,
+                            margin: 3,
+                          }}
                           onPress={() => {
                             console.log(item._id);
                             setSelected(item._id);
@@ -1459,53 +1465,68 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             {searching && (
               <View
                 style={[
-                  { backgroundColor: "#EEEEEE", width: 330, borderRadius: 5 },
+                  {
+                    backgroundColor: colors.white,
+                    borderColor: colors.iconGray,
+                    borderWidth: 0.4,
+                    width: 330,
+                    borderRadius: 5,
+                    flex: 1,
+                  },
                 ]}
               >
-                {getmember?.length ? (
-                  getmember.map((item) => {
-                    return (
-                      <Pressable
-                        style={[styles.SectionStyle]}
-                        onPress={() => {
-                          console.log(item._id);
-                          setSelected(item._id);
-                          setsearch(item.name);
-                          setSearching(false);
-                        }}
-                      >
-                        <Text
-                          style={{
-                            padding: 4,
-                            alignSelf: "center",
-                            alignItems: "center",
-                            margin: 6,
+                <ScrollView style={{ flex: 1 }}>
+                  {getmember?.length ? (
+                    getmember.map((item) => {
+                      return (
+                        <Pressable
+                          style={[
+                            styles.SectionStyle,
+                            {
+                              borderBottomWidth: 0.4,
+                              borderColor: colors.iconGray,
+                            },
+                          ]}
+                          onPress={() => {
+                            console.log(item._id);
+                            setSelected(item._id);
+                            setsearch(item.name);
+                            setSearching(false);
                           }}
                         >
-                          {item.name}
-                        </Text>
-                      </Pressable>
-                    );
-                  })
-                ) : (
-                  <Pressable
-                    style={styles.noResultView}
-                    onPress={() => {
-                      setSearching(false);
-                    }}
-                  >
-                    <Text
-                      style={{
-                        padding: 4,
-                        alignSelf: "center",
-                        alignItems: "center",
-                        margin: 6,
+                          <Text
+                            style={{
+                              padding: 4,
+                              alignSelf: "center",
+                              alignItems: "center",
+                              margin: 6,
+                            }}
+                          >
+                            {item.name}
+                          </Text>
+                        </Pressable>
+                      );
+                    })
+                  ) : (
+                    <Pressable
+                      style={styles.noResultView}
+                      onPress={() => {
+                        setSearching(false);
                       }}
                     >
-                      No search items matched
-                    </Text>
-                  </Pressable>
-                )}
+                      <Text
+                        style={{
+                          padding: 4,
+                          alignSelf: "center",
+                          alignItems: "center",
+                          margin: 6,
+                        }}
+                      >
+                        No search items matched
+                      </Text>
+                    </Pressable>
+                  )}
+                </ScrollView>
               </View>
             )}
 
@@ -1597,6 +1618,9 @@ const BuildingStartupScreen1 = ({ navigation }) => {
 
     const [partnershipTerms, setpartnershipTerms] = useState();
     const [rolelist, setrolelist] = useState([]);
+    const [getmodalvisible, setModalVisible] = useState(false);
+    const [getmodalvisible1, setModalVisible1] = useState(false);
+
     const step3 = async () => {
       try {
         const res = await step3startup(
@@ -1654,6 +1678,63 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               { backgroundColor: colors.background, margin: 30 },
             ]}
           >
+            <Modal animationType="fade" visible={getmodalvisible}>
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <View
+                    style={{
+                      borderBottomWidth: 1,
+                      padding: 5,
+                      marginBottom: 20,
+                      borderColor: "#23232380",
+
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <MyText
+                      style={{
+                        fontSize: 14,
+                        fontWeight: "400",
+                        marginRight: 50,
+                        color: "#23232380",
+                      }}
+                    >
+                      More Info (Roles)
+                    </MyText>
+                    <Entypo
+                      name="circle-with-cross"
+                      size={20}
+                      color="#232323AB"
+                      onPress={() => {
+                        setModalVisible(false);
+                      }}
+                    />
+                  </View>
+                  <MyText
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "500",
+                    }}
+                  >
+                    Roles Description
+                  </MyText>
+                  <MyText
+                    style={{
+                      fontSize: 11,
+                      fontWeight: "500",
+                      marginTop: 6,
+                      marginBottom: 6,
+                    }}
+                  >
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Etiam venenatis sit amet risus a bibendum. Integer a nibh
+                    feugiat, congue nunc ac, auctor tortor. Nam luctus libero
+                    sed tortor luctus, sit amet po
+                  </MyText>
+                </View>
+              </View>
+            </Modal>
             <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
               <Pressable
                 style={{
@@ -1712,7 +1793,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 </MyText>
               </Pressable>
             </View>
-
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
@@ -1722,7 +1802,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 keyboardType="default"
               />
             </View>
-
             <View style={styles.SectionStyle2}>
               <TextInput
                 style={styles.inputStyle2}
@@ -1743,12 +1822,13 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   paddingRight: 8,
                   paddingTop: 10,
                 }}
-                onPress={() => {}}
+                onPress={() => {
+                  setModalVisible(true);
+                }}
               >
                 <AntDesign name="questioncircleo" size={20} color="#232323AB" />
               </Pressable>
             </View>
-
             <MyText
               style={{
                 fontSize: 16,
@@ -1761,7 +1841,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             >
               For this Role
             </MyText>
-
             <View style={styles.SectionStyle}>
               <DropDownPicker
                 style={[styles.inputStyle, { borderColor: "#EEEEEE" }]}
@@ -1932,6 +2011,63 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               { backgroundColor: colors.background, margin: 30 },
             ]}
           >
+            <Modal animationType="fade" visible={getmodalvisible1}>
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <View
+                    style={{
+                      borderBottomWidth: 1,
+                      padding: 5,
+                      marginBottom: 20,
+                      borderColor: "#23232380",
+
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <MyText
+                      style={{
+                        fontSize: 14,
+                        fontWeight: "400",
+                        marginRight: 50,
+                        color: "#23232380",
+                      }}
+                    >
+                      More Info (Partnership Terms)
+                    </MyText>
+                    <Entypo
+                      name="circle-with-cross"
+                      size={20}
+                      color="#232323AB"
+                      onPress={() => {
+                        setModalVisible1(false);
+                      }}
+                    />
+                  </View>
+                  <MyText
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "500",
+                    }}
+                  >
+                    Partnership Description
+                  </MyText>
+                  <MyText
+                    style={{
+                      fontSize: 11,
+                      fontWeight: "500",
+                      marginTop: 6,
+                      marginBottom: 6,
+                    }}
+                  >
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Etiam venenatis sit amet risus a bibendum. Integer a nibh
+                    feugiat, congue nunc ac, auctor tortor. Nam luctus libero
+                    sed tortor luctus, sit amet po
+                  </MyText>
+                </View>
+              </View>
+            </Modal>
             <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
               <Pressable
                 style={{
@@ -2011,7 +2147,9 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   paddingRight: 8,
                   paddingTop: 10,
                 }}
-                onPress={() => {}}
+                onPress={() => {
+                  setModalVisible1(true);
+                }}
               >
                 <AntDesign name="questioncircleo" size={20} color="#232323AB" />
               </Pressable>
@@ -2181,7 +2319,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                     }}
                   >
                     <AntDesign
-                      name="calender"
+                      name="calendar"
                       size={13}
                       color="#A1A1A1"
                       style={{ marginRight: 3 }}

@@ -85,6 +85,7 @@ export const editServices = async (
   value,
   skillsofuser
 ) => {
+  console.log(accessToken);
   const config = {
     headers: {
       Authorization: `bearer ${accessToken}`,
@@ -195,7 +196,7 @@ export const editProfile = async (
   about,
   image
 ) => {
-  console.log(image);
+  console.log(name);
   const config = {
     headers: {
       Authorization: `bearer ${accessToken}`,
@@ -206,10 +207,10 @@ export const editProfile = async (
       "/freelancer/profile/aboutMe/update",
       {
         name: name,
-        jobTitle: job,
-        city: city,
-        country: country,
         language: language,
+        country: country,
+        city: city,
+        jobTitle: job,
         hoursPerWeek: work,
         hourlyRate: work,
         aboutMe: about,

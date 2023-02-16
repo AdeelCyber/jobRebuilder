@@ -26,19 +26,20 @@ import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
 import { editServices } from "../Profile/services/ProfileServices";
 import Toast from "react-native-toast-message";
+import { useIsFocused } from "@react-navigation/native";
 
 const EditService = ({ route }) => {
   const {
     theme: { colors },
   } = useContext(Context);
-  const { userinfo } = route.params != undefined ? route.params : {};
+  const { userinfo, screen } = route.params != undefined ? route.params : {};
 
   const navigation = useNavigation();
-  const [description, setdescription] = useState(true);
+  const [description, setdescription] = useState(false);
   const [skills, setskills] = useState(false);
   const [rates, setrates] = useState(false);
   //const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(userinfo?.services.hourlyRate);
+  const [value2, setValue] = useState(`${userinfo?.services.hourlyRate}`);
   const [userdesc, setuserdesc] = useState(userinfo?.services.description);
 
   const [skillsofuser, setskillsofuser] = useState(userinfo?.services.skills);
@@ -52,8 +53,9 @@ const EditService = ({ route }) => {
     setskillsofuser(r);
   };
   const edit = async (n) => {
-    const res = await editServices(accessToken, userdesc, value, skillsofuser);
-    // console.log(res.data);
+    const res = await editServices(accessToken, userdesc, value2, skillsofuser);
+    console.log(res.status);
+    console.log(res.data);
     if (res.status == 201) {
       Toast.show({
         topOffset: 60,
@@ -61,8 +63,21 @@ const EditService = ({ route }) => {
         text1: "Updated Successfully",
         text2: ".",
       });
+      navigation.navigate("HomeService");
     }
   };
+  useEffect(() => {
+    console.log(screen);
+    if (screen === "skill") {
+      setskills(true);
+    }
+    if (screen === "desc") {
+      setdescription(true);
+    }
+    if (screen === "rate") {
+      setrates(true);
+    }
+  }, []);
 
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
@@ -207,8 +222,9 @@ const EditService = ({ route }) => {
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
-                value={value}
-                onChangeText={(value) => setValue(value)}
+                keyboardType="number-pad"
+                value={value2}
+                onChangeText={(value2) => setValue(value2)}
               />
             </View>
             <Pressable
@@ -264,15 +280,13 @@ const EditService = ({ route }) => {
         {skills && (
           <View style={{ marginTop: 30 }}>
             <View
-              style={[
-                styles.box,
-                { height: 100, shadowColor: colors.Bluish, padding: 10 },
-              ]}
+              style={[styles.box, { shadowColor: colors.Bluish, padding: 10 }]}
             >
               <FlatList
                 data={skillsofuser}
                 keyExtractor={(item) => item.id}
                 numColumns={3}
+                style={{ height: 60 }}
                 renderItem={({ item, index }) => (
                   <View
                     style={{
@@ -299,22 +313,19 @@ const EditService = ({ route }) => {
                       </MyText>
                       <TouchableOpacity
                         style={{
-                          justifyContent: "flex-end",
-                          alignItems: "flex-end",
+                          position: "absolute",
+                          left: 70,
+                          top: 3,
                         }}
                         onPress={() => {
                           deleteItem(index);
                         }}
                       >
-                        <MyText
-                          style={{
-                            color: colors.white,
-                            fontSize: 9,
-                            margin: 5,
-                          }}
-                        >
-                          X
-                        </MyText>
+                        <Entypo
+                          name="circle-with-cross"
+                          size={15}
+                          color={colors.white}
+                        />
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -326,7 +337,7 @@ const EditService = ({ route }) => {
                   {
                     flexDirection: "row",
                     justifyContent: "space-evenly",
-                    height: 60,
+                    height: 100,
                   },
                 ]}
                 onChangeText={(userskill) => setuserskill(userskill)}
@@ -421,7 +432,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   box: {
-    height: 190,
+    height: 150,
     width: 345,
     borderRadius: 10,
     backgroundColor: "#EEEEEE",

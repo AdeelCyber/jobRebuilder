@@ -288,13 +288,14 @@ const Message = ({ navigation }) => {
                       setUnRead(false);
                     }}
                   >
-                    <Msgs style={{ marginLeft: 20, marginBottom: 5 }}>2</Msgs>
+                    {/* <Msgs style={{ marginLeft: 20, marginBottom: 5 }}>2</Msgs> */}
 
                     <MyText
                       style={{
                         fontWeight: "500",
                         fontSize: 9,
                         color: "#23232380",
+                        marginTop: 17,
                       }}
                     >
                       {moment(item.date).format("h:mm a")}

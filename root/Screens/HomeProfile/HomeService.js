@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import {
   Image,
   Pressable,
@@ -9,8 +9,10 @@ import {
   ImageBackground,
   TextInput,
   FlatList,
+  Text,
   ActivityIndicator,
 } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 
 import Context from "../../Context/Context";
 import MyText from "../../Components/Text";
@@ -29,12 +31,15 @@ import UserInfo from "../../Components/UserInfo";
 import CartProvider from "../../Context/CartProvider";
 import { getProfile } from "../Profile/services/ProfileServices";
 import moment from "moment";
+import { useIsFocused } from "@react-navigation/native";
+
 const HomeService = ({ route }) => {
   const {
     theme: { colors },
   } = useContext(Context);
   const navigation = useNavigation();
   const [getRating, setRating] = useState(5);
+  const isFocused = useIsFocused();
 
   const [skills, setskills] = useState([
     { id: 1, skill: "UI/UX Design" },
@@ -59,7 +64,7 @@ const HomeService = ({ route }) => {
   };
   useEffect(() => {
     getUser();
-  }, [getcondition]);
+  }, [isFocused]);
 
   if (getcondition) {
     return (
@@ -87,7 +92,7 @@ const HomeService = ({ route }) => {
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{
-              paddingHorizontal: 30,
+              paddingHorizontal: 20,
               alignItems: "center",
             }}
           >
@@ -267,7 +272,7 @@ const HomeService = ({ route }) => {
               >
                 <MyText
                   style={{
-                    fontSize: 14,
+                    fontSize: 15,
                     fontWeight: "700",
                     marginTop: 30,
                     marginLeft: 30,
@@ -275,49 +280,52 @@ const HomeService = ({ route }) => {
                 >
                   UI/UX Designer
                 </MyText>
-                <View
+                <Pressable
                   style={{
                     marginTop: 33,
-                    height: 16,
-                    width: 16,
+                    height: 18,
+                    width: 18,
                     borderRadius: 50,
                     padding: 1,
                     backgroundColor: colors.Bluish,
                   }}
+                  onPress={() => {
+                    navigation.navigate("EditService", {
+                      userinfo: userinfo,
+                      screen: "desc",
+                    });
+                  }}
                 >
                   <MaterialCommunityIcons
                     name="pencil"
-                    size={14}
+                    size={16}
                     color={colors.white}
-                    onPress={() => {
-                      navigation.navigate("EditService", {
-                        userinfo: userinfo,
-                      });
-                    }}
                   />
-                </View>
-                <View
+                </Pressable>
+                <Pressable
                   style={{
                     marginTop: 33,
                     marginLeft: 100,
-                    height: 16,
-                    width: 16,
+                    height: 18,
+                    width: 18,
                     borderRadius: 50,
                     padding: 1,
                     backgroundColor: colors.Bluish,
                   }}
+                  onPress={() => {
+                    navigation.navigate("EditService", {
+                      userinfo: userinfo,
+                      screen: "rate",
+                    });
+                  }}
                 >
                   <MaterialCommunityIcons
                     name="pencil"
-                    size={14}
+                    size={16}
                     color={colors.white}
-                    onPress={() => {
-                      navigation.navigate("EditService", {
-                        userinfo: userinfo,
-                      });
-                    }}
                   />
-                </View>
+                </Pressable>
+
                 <MyText
                   style={{
                     fontSize: 14,
@@ -330,7 +338,7 @@ const HomeService = ({ route }) => {
                 </MyText>
               </View>
               {userinfo && (
-                <MyText
+                <Text
                   style={{
                     fontSize: 11,
                     fontWeight: "400",
@@ -338,9 +346,11 @@ const HomeService = ({ route }) => {
                     margin: 30,
                     textAlign: "justify",
                   }}
+                  numberOfLines={6}
+                  ellipsizeMode="tail"
                 >
                   {userinfo?.services.description}
-                </MyText>
+                </Text>
               )}
             </View>
             <View
@@ -353,27 +363,28 @@ const HomeService = ({ route }) => {
               <MyText style={[styles.header, { marginRight: 10 }]}>
                 Skills
               </MyText>
-              <View
+              <Pressable
                 style={{
                   marginTop: 33,
-                  height: 16,
-                  width: 16,
+                  height: 18,
+                  width: 18,
                   borderRadius: 50,
                   padding: 1,
                   backgroundColor: colors.Bluish,
                 }}
+                onPress={() => {
+                  navigation.navigate("EditService", {
+                    userinfo: userinfo,
+                    screen: "skill",
+                  });
+                }}
               >
                 <MaterialCommunityIcons
                   name="pencil"
-                  size={14}
+                  size={16}
                   color={colors.white}
-                  onPress={() => {
-                    navigation.navigate("EditService", {
-                      userinfo: userinfo,
-                    });
-                  }}
                 />
-              </View>
+              </Pressable>
             </View>
             <View
               style={[
@@ -860,7 +871,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   header: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: "700",
     color: "#232323",
     alignSelf: "flex-start",

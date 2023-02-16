@@ -9,6 +9,7 @@ import {
   ImageBackground,
   TextInput,
   Modal,
+  ActivityIndicator,
 } from "react-native";
 
 import Context from "../../Context/Context";
@@ -29,6 +30,7 @@ const ProfilePic = () => {
   const [image, setimage] = useState();
   const [imagetosend, setimagetosend] = useState();
   const [getmodalvisible5, setModalVisible5] = useState(false);
+  const [getcondition, setcondition] = useState(false);
 
   const pickImg = async () => {
     setModalVisible5(false);
@@ -41,9 +43,12 @@ const ProfilePic = () => {
     console.log(result.assets);
 
     if (!result.canceled) {
+      setcondition(true);
+
       const img = await imageUpload(result.assets[0].uri);
       setimage(result.assets[0].uri);
       setimagetosend(JSON.parse(img.body));
+      setcondition(false);
     }
   };
   const takeSelfie = async () => {
@@ -57,9 +62,11 @@ const ProfilePic = () => {
     });
 
     if (!result.canceled) {
+      setcondition(true);
       const img = await imageUpload(result.assets[0].uri);
       setimage(result.assets[0].uri);
       setimagetosend(JSON.parse(img.body));
+      setcondition(false);
     }
   };
 
@@ -78,7 +85,21 @@ const ProfilePic = () => {
       console.log(error);
     }
   };
+  if (getcondition) {
+    return (
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          paddingTop: 30,
+        }}
+      >
+        <ActivityIndicator animating={true} color={colors.Bluish} />
 
+        <MyText>Loading..</MyText>
+      </View>
+    );
+  }
   return (
     <View
       style={[

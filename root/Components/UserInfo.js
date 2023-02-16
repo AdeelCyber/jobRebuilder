@@ -13,6 +13,7 @@ import {
 
 import Context from "../Context/Context";
 import MyText from "./Text";
+import { useIsFocused } from "@react-navigation/native";
 
 import Icon from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -33,6 +34,7 @@ const UserInfo = () => {
   const [userreviews, setuserreviews] = useState([]);
   var rate = [];
   const { accessToken } = useContext(CartProvider);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     const config = {
@@ -57,7 +59,7 @@ const UserInfo = () => {
       .catch((err) => {
         console.log("error", err);
       });
-  }, [getcondition]);
+  }, [isFocused]);
 
   if (getcondition) {
     return (
@@ -88,7 +90,7 @@ const UserInfo = () => {
           flexDirection: "row",
           paddingBottom: 40,
           borderBottomWidth: 1,
-          borderColor: "#23232380",
+          borderColor: "#ebebeb",
           width: 346,
           height: 140,
           marginTop: 17,
@@ -109,37 +111,38 @@ const UserInfo = () => {
                 fontSize: 20,
                 fontWeight: "700",
                 marginRight: 17,
-                marginLeft: 10,
+                marginLeft: 8,
               }}
             >
               {userinfo?.userInfo.name}
             </MyText>
-            <View
+            <Pressable
               style={{
-                marginLeft: 16,
-                height: 16,
-                width: 16,
+                marginLeft: 18,
+                height: 18,
+                width: 18,
                 borderRadius: 50,
                 padding: 1,
                 backgroundColor: colors.Bluish,
                 alignSelf: "flex-end",
+                marginBottom: 7,
+              }}
+              onPress={() => {
+                navigation.navigate("EditProfile", {
+                  userinfo: userinfo,
+                });
               }}
             >
               <MaterialCommunityIcons
                 name="pencil"
-                size={14}
+                size={16}
                 color={colors.white}
-                onPress={() => {
-                  navigation.navigate("EditProfile", {
-                    userinfo: userinfo,
-                  });
-                }}
               />
-            </View>
+            </Pressable>
             <MaterialCommunityIcons
               name="content-copy"
               size={25}
-              style={{ marginLeft: 3, alignSelf: "flex-end" }}
+              style={{ marginLeft: 3, marginTop: 0, alignSelf: "flex-end" }}
               color={colors.Bluish}
             />
           </View>

@@ -38,6 +38,7 @@ import moment from "moment";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { getChats } from "../Profile/services/MessageServices";
+import { check } from "yargs";
 
 const CreatingGroup = ({ navigation }) => {
   const {
@@ -46,6 +47,8 @@ const CreatingGroup = ({ navigation }) => {
   const { accessToken } = useContext(CartProvider);
   const [getcondition, setcondition] = useState(true);
   const [members, setmembers] = useState([]);
+  const [memberstodis, setmemberstodis] = useState([]);
+
   const [chat, setchat] = useState();
   const [selected, setselected] = useState(false);
   const [chat2, setchat2] = useState();
@@ -64,7 +67,7 @@ const CreatingGroup = ({ navigation }) => {
 
   useEffect(() => {
     onRefresh();
-  }, []);
+  }, [members, memberstodis]);
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = chat2.filter((item) => {
@@ -80,6 +83,7 @@ const CreatingGroup = ({ navigation }) => {
       setchat(chat2);
     }
   };
+  const check = (item) => {};
 
   if (getcondition) {
     return (
@@ -156,7 +160,7 @@ const CreatingGroup = ({ navigation }) => {
             keyExtractor={(item, index) => {
               return index.toString();
             }}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <Card>
                 <UserInfo>
                   <UserImgWrapper>
@@ -171,58 +175,31 @@ const CreatingGroup = ({ navigation }) => {
                   <TextSection>
                     <UserInfoText>
                       <UserName>{item.chatname}</UserName>
-                      {selected ? (
-                        <Pressable
+
+                      <Pressable
+                        style={{
+                          height: 25,
+                          width: 25,
+                          borderRadius: 50,
+                          backgroundColor: colors.Bluish,
+                        }}
+                        onPress={() => {
+                          console.log(item);
+                          setmemberstodis([...memberstodis, item]);
+                          setmembers([...members, item.chatid]);
+                        }}
+                      >
+                        <MyText
                           style={{
-                            height: 21,
-                            width: 21,
-                            borderRadius: 50,
-                            backgroundColor: "#13B887",
-                          }}
-                          onPress={() => {}}
-                        >
-                          <MyText
-                            style={{
-                              fontSize: 14,
-                              color: colors.white,
-                              alignSelf: "center",
-                              margin: 1,
-                            }}
-                          >
-                            -
-                          </MyText>
-                        </Pressable>
-                      ) : (
-                        <Pressable
-                          style={{
-                            height: 21,
-                            width: 21,
-                            borderRadius: 50,
-                            backgroundColor: colors.Bluish,
-                          }}
-                          onPress={() => {
-                            for (var i in members) {
-                              console.log(members[i]);
-                              //console.log(item.chatid);
-                              if (members[i] === item.chatid) {
-                                setselected(true);
-                              }
-                            }
-                            setmembers([...members, item.chatid]);
+                            fontSize: 16,
+                            color: colors.white,
+                            alignSelf: "center",
+                            margin: 1,
                           }}
                         >
-                          <MyText
-                            style={{
-                              fontSize: 14,
-                              color: colors.white,
-                              alignSelf: "center",
-                              margin: 1,
-                            }}
-                          >
-                            +
-                          </MyText>
-                        </Pressable>
-                      )}
+                          +
+                        </MyText>
+                      </Pressable>
                     </UserInfoText>
                     <MessageText>{item.Role}</MessageText>
                   </TextSection>
@@ -232,6 +209,71 @@ const CreatingGroup = ({ navigation }) => {
           />
         )}
       </Container>
+      <View style={{ alignSelf: "flex-start" }}>
+        <MyText
+          style={{
+            fontWeight: "700",
+            fontSize: 16,
+            marginLeft: 20,
+            margin: 10,
+            marginBottom: 10,
+            marginTop: 10,
+          }}
+        >
+          Members
+        </MyText>
+      </View>
+      {memberstodis && (
+        <FlatList
+          data={memberstodis}
+          keyExtractor={(item, index) => {
+            return index.toString();
+          }}
+          renderItem={({ item, index }) => (
+            <Card>
+              <UserInfo>
+                <UserImgWrapper>
+                  <UserInfoText>
+                    <UserImg
+                      source={{
+                        uri: `https://stepdev.up.railway.app/media/getimage/${item.chatavatar}`,
+                      }}
+                    />
+                  </UserInfoText>
+                </UserImgWrapper>
+                <TextSection>
+                  <UserInfoText>
+                    <UserName>{item.chatname}</UserName>
+
+                    <Pressable
+                      style={{
+                        height: 25,
+                        width: 25,
+                        borderRadius: 50,
+                        backgroundColor: colors.Bluish,
+                      }}
+                      onPress={() => {}}
+                    >
+                      <MyText
+                        style={{
+                          fontSize: 16,
+                          color: colors.white,
+                          alignSelf: "center",
+                          margin: 1,
+                        }}
+                      >
+                        -
+                      </MyText>
+                    </Pressable>
+                  </UserInfoText>
+                  <MessageText>{item.Role}</MessageText>
+                </TextSection>
+              </UserInfo>
+            </Card>
+          )}
+        />
+      )}
+
       <Pressable
         style={{
           backgroundColor: colors.Bluish,

@@ -111,7 +111,7 @@ const MessageBox = ({
           });
 
         setmsg([...msg, obj]);
-        sendMessage(i.filename, mediatype);
+        sendMessage(i.filename, "image");
       } else {
         var obj = {};
         (obj["createdAt"] = Date.now()),
@@ -122,7 +122,7 @@ const MessageBox = ({
           });
 
         setmsg([...msg, obj]);
-        sendMessage(i.filename, mediatype);
+        sendMessage(i.filename, "image");
       }
 
       // console.log(file.uri)
@@ -150,9 +150,9 @@ const MessageBox = ({
   };
 
   const sendMessage = async (message, type) => {
-    //console.log(type);
-    //console.log(message);
-    //console.log(id);
+    console.log(type);
+    console.log(message);
+    console.log(id);
 
     if (chatType === "group") {
       const res = await sendMessagessInGroup(accessToken, id, message, type);

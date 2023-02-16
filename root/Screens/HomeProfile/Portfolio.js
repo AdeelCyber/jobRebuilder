@@ -29,12 +29,11 @@ const Portfolio = () => {
   const [projdesc, setprojdesc] = useState();
 
   const { accessToken } = useContext(CartProvider);
-  const [images, setimages] = useState();
+  const [images, setimages] = useState([]);
 
   const pickImg = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
       allowsMultipleSelection: true,
       aspect: [10, 10],
       quality: 1,
@@ -42,18 +41,18 @@ const Portfolio = () => {
     console.log(result.assets);
 
     if (!result.canceled) {
-      setimages(result.assets);
+      for (var i in result.assets) {
+        console.log(result.assets[i].uri);
+        setimages([...images, result.assets[i].uri]);
+        console.log(images);
+      }
     }
   };
 
   const portfoliosend = async () => {
     console.log(projname);
-    var img = [];
-    for (var i in images) {
-      img[i] = images[i].uri;
-    }
-    console.log(img);
-    const res = await publishPortfolio(accessToken, projname, projdesc, img);
+
+    const res = await publishPortfolio(accessToken, projname, projdesc, images);
     if (res.status == 201) {
       Toast.show({
         topOffset: 60,
@@ -117,7 +116,7 @@ const Portfolio = () => {
                 }}
               >
                 <Image
-                  source={{ uri: item.uri }}
+                  source={{ uri: item }}
                   resizeMode="contain"
                   style={{ height: 139, width: 160, borderRadius: 10 }}
                 />

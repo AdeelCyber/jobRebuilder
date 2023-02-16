@@ -21,6 +21,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import DropDownPicker from "react-native-dropdown-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
+import { Entypo } from "@expo/vector-icons";
 
 const Skills = () => {
   const {
@@ -117,22 +118,19 @@ const Skills = () => {
                   </MyText>
                   <TouchableOpacity
                     style={{
-                      justifyContent: "flex-end",
-                      alignItems: "flex-end",
+                      position: "absolute",
+                      left: 70,
+                      top: 3,
                     }}
                     onPress={() => {
                       deleteItem(index);
                     }}
                   >
-                    <MyText
-                      style={{
-                        color: colors.white,
-                        fontSize: 9,
-                        margin: 5,
-                      }}
-                    >
-                      X
-                    </MyText>
+                    <Entypo
+                      name="circle-with-cross"
+                      size={15}
+                      color={colors.white}
+                    />
                   </TouchableOpacity>
                 </View>
               </View>
