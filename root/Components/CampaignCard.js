@@ -28,7 +28,7 @@ const CampaignCard = ({ ...props }) => {
           <View>
             <Image
               source={{
-                uri: `http://stepdev.up.railway.app/media/getImage/${props.Logo}`,
+                uri: `http://stepdev.up.railway.app/media/getImage/${props.data.startup.logo}`,
               }}
               style={{ width: 18, height: 18 }}
             />
