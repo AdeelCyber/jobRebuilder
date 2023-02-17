@@ -18,6 +18,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { sendOTP, verifyOTP } from '../services/otpservice'
 import Toast from 'react-native-toast-message'
 import ReactNativeModal from 'react-native-modal'
+import { ActivityIndicator } from 'react-native'
 
 const ChangePhoneNumberScreen = () => {
   const {
@@ -26,7 +27,9 @@ const ChangePhoneNumberScreen = () => {
   const navigation = useNavigation()
 
   const [phoneNumber, setPhoneNumber] = useState('')
-
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [loading2, setLoading2] = useState(false)
   useEffect(() => {
     getPhoneNumber()
   }, [])
@@ -41,9 +44,12 @@ const ChangePhoneNumberScreen = () => {
   const [isModalVisible, setModalVisible] = useState(false)
 
   const sendCode = async () => {
+    setLoading(true)
+
     console.log('Phonumber', phoneNumber)
     const resp = await sendOTP(phoneNumber, 'sms')
     console.log('WWWW', resp)
+    setLoading(false)
     if (resp.status === 200) {
       setModalVisible(true)
     } else {
@@ -58,7 +64,10 @@ const ChangePhoneNumberScreen = () => {
   }
 
   const verify = async () => {
+    setError('')
+    setLoading2(true)
     const resp = await verifyOTP(phoneNumber, otp)
+    setLoading2(false)
     console.log(resp)
     if (resp.status === 200) {
       changePhoneNumber()
@@ -163,18 +172,13 @@ const ChangePhoneNumberScreen = () => {
         </View>
 
         <TouchableOpacity
-          onPress={sendCode}
           labelStyle={{ color: '#fff' }}
-          style={{
-            marginHorizontal: 18,
-            backgroundColor: colors.secondary,
-            borderRadius: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: 15,
-            marginTop: 15,
-            marginBottom: 40,
-          }}
+          onPress={sendCode}
+          disabled={phoneNumber.trim().length === 0 || loading}
+          style={[
+            styles.btn,
+            { backgroundColor: colors.secondary, flexDirection: 'row' },
+          ]}
         >
           <MyText
             style={{
@@ -184,6 +188,13 @@ const ChangePhoneNumberScreen = () => {
           >
             Done
           </MyText>
+          {loading && (
+            <ActivityIndicator
+              size={15}
+              style={{ marginLeft: 10 }}
+              color='white'
+            />
+          )}
         </TouchableOpacity>
         <ReactNativeModal
           transparent
@@ -208,6 +219,18 @@ const ChangePhoneNumberScreen = () => {
             >
               Enter the OTP sent to {phoneNumber} to verify your phone number
             </MyText>
+            {error && (
+              <MyText
+                style={{
+                  fontSize: 15,
+                  marginVertical: 5,
+                  color: 'red',
+                  textAlign: 'center',
+                }}
+              >
+                {error}
+              </MyText>
+            )}
             <View
               style={[
                 styles.searchSection,
@@ -240,6 +263,7 @@ const ChangePhoneNumberScreen = () => {
                   backgroundColor: colors.secondary,
                   width: '100%',
                   marginHorizontal: 0,
+                  flexDirection: 'row',
                 },
               ]}
             >
@@ -251,6 +275,13 @@ const ChangePhoneNumberScreen = () => {
               >
                 Done
               </MyText>
+              {loading2 && (
+                <ActivityIndicator
+                  size={15}
+                  style={{ marginLeft: 10 }}
+                  color='white'
+                />
+              )}
             </TouchableOpacity>
           </View>
         </ReactNativeModal>
