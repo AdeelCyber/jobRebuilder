@@ -52,12 +52,12 @@ export const downloadFile = async (uri) => {
       console.log("donloaded");
 
       await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
-      FileSystem.getContentUriAsync(targetUri).then((cUri) => {
-        IntentLauncher.startActivityAsync("android.intent.action.VIEW", {
-          data: cUri.uri,
-          flags: 1,
-          type: "application/pdf",
-        });
+      const cUri = await FileSystem.getContentUriAsync(targetUri);
+
+      await IntentLauncher.startActivityAsync("android.intent.action.VIEW", {
+        data: cUri,
+        flags: 1,
+        type: "application/pdf",
       });
     }
   }
