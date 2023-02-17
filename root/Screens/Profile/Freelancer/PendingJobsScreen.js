@@ -10,22 +10,30 @@ import MyText from '../../../Components/Text'
 import Context from '../../../Context/Context'
 import Icon from '@expo/vector-icons/FontAwesome'
 
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader'
 import { getOrderCategoryWise } from '../services/orderServices'
 
 import axios from '../../../http/axiosSet'
+import Loader from '../../../Components/Loader'
 
 const PendingJobsScreen = () => {
   const navigation = useNavigation()
 
   const [orders, setOrders] = useState([])
+
+  const isFocused = useIsFocused()
+
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     fetchOrder()
-  }, [])
+  }, [isFocused])
 
   const fetchOrder = async () => {
+    setLoading(true)
+
     const resp = await getOrderCategoryWise('Pending')
+    setLoading(false)
 
     if (resp.status === 200) {
       setOrders(resp.data.data)
@@ -182,6 +190,10 @@ const PendingJobsScreen = () => {
       </View>
     </TouchableOpacity>
   )
+
+  if (loading) {
+    return <Loader visible={loading} color='white' indicatorSize='large' />
+  }
 
   return (
     <View style={{ marginTop: 33 }}>

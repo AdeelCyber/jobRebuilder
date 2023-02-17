@@ -103,16 +103,20 @@ const JobCareerDetailScreen = ({ route }) => {
               <TouchableOpacity
                 style={{
                   paddingVertical: 4,
-                  paddingHorizontal: 8,
+                  paddingHorizontal: 10,
                   borderRadius: 50,
                   borderWidth: 1,
                   borderColor: 'blue',
+                }}
+                onPress={() => {
+                  navigation.navigate('CampaignMenu', {
+                    id: job?.startupid,
+                  })
                 }}
               >
                 <MyText
                   style={{ fontSize: 16, textAlign: 'center', color: 'blue' }}
                 >
-                  {' '}
                   {'>'}
                 </MyText>
               </TouchableOpacity>

@@ -99,6 +99,7 @@ import FreelancerTabBar from './Components/FreelancerTabBar'
 import AvailableJobs from './Screens/Profile/Vacancy/AvailableJobs'
 import JobCareerDetailScreen from './Screens/Profile/Vacancy/JobCareerDetailScreen'
 import UserTabBar from './Components/UserTabBar'
+import ExploreAll from './Screens/Profile/ExploreAll'
 //Navigation out
 
 // Creating Stacks
@@ -125,6 +126,8 @@ const MyStack = () => {
         />
 
         <Stack.Screen name='ManagingCampaign' component={ManagingCampaign} />
+        <Stack.Screen name='ExploreAll' component={ExploreAll} />
+
         <Stack.Screen name='CampaignMenu' component={CampaignMenu} />
         <Stack.Screen name='OverView' component={OverView} />
         <Stack.Screen name='PartnerShipTerms' component={PartnerShipTerms} />
