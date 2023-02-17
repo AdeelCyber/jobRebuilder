@@ -239,7 +239,12 @@ const Team = ({ navigation, route }) => {
                   borderRadius: 8,
                   marginRight: 6,
                 }}
-                onPress={() => setModalSecondVisible(false)}
+                onPress={() => {
+                  setModalSecondVisible(false);
+                  navigation.navigate("ViewPortfolio", {
+                    userDetails: personData,
+                  });
+                }}
               >
                 <MyText
                   style={{
@@ -259,8 +264,16 @@ const Team = ({ navigation, route }) => {
                   borderRadius: 8,
                   marginLeft: 6,
                 }}
-                onPress={() => setModalSecondVisible(false)}
+                onPress={() => {
+                  setModalSecondVisible(false);
+                  navigation.navigate("MessagesBox", {
+                    userImg: personData.image,
+                    userName: personData.name,
+                    chatType: "Simple Chat",
+                  });
+                }}
               >
+                {/* ViewPortfolio */}
                 <MyText
                   style={{
                     fontSize: 10,

@@ -38,7 +38,7 @@ const CampaignMenu = ({ navigation, route }) => {
     const getFreelancersData = async () => {
       const resp = await getStartupDetails(id);
 
-      // console.log(resp.data);
+      console.log(resp.data);
       if (resp.data.status === "OK") {
         console.log("done");
 

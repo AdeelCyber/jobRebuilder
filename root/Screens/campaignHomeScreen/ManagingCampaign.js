@@ -239,8 +239,10 @@ const ManagingCampaign = ({ navigation, route }) => {
   useEffect(() => {
     const getFreelancersData = async () => {
       const resp = await getStartupDetails(id);
+      console.log(id);
 
-      // console.log(resp.data);
+      console.log(resp.data);
+
       if (resp.data.status === "OK") {
         console.log("done");
 
