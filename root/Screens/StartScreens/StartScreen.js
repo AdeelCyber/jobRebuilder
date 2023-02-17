@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext } from "react";
 import {
   Image,
   Pressable,
@@ -7,45 +7,45 @@ import {
   TouchableOpacity,
   View,
   ImageBackground,
-} from 'react-native'
+} from "react-native";
 
-import Context from '../../Context/Context'
-import MyText from '../../Components/Text'
+import Context from "../../Context/Context";
+import MyText from "../../Components/Text";
 
-import Icon from '@expo/vector-icons/FontAwesome'
-import Icons from '@expo/vector-icons/FontAwesome5'
-import { useIsFocused, useNavigation } from '@react-navigation/native'
-import Fontisto from '@expo/vector-icons/Fontisto'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import CartContext from '../../Context/CartProvider'
+import Icon from "@expo/vector-icons/FontAwesome";
+import Icons from "@expo/vector-icons/FontAwesome5";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import Fontisto from "@expo/vector-icons/Fontisto";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import CartContext from "../../Context/CartProvider";
 
 const StartScreen = () => {
-  const navigation = useNavigation()
-  const isFocused = useIsFocused()
-  const contest = useContext(CartContext)
+  const navigation = useNavigation();
+  const isFocused = useIsFocused();
+  const contest = useContext(CartContext);
   React.useLayoutEffect(() => {
-    getData()
-  }, [isFocused])
+    getData();
+  }, [isFocused]);
 
   const getData = async () => {
-    const token = await AsyncStorage.getItem('@accessToken')
-    const Refreshtoken = await AsyncStorage.getItem('@refreshToken')
-    const user = await AsyncStorage.getItem('@userDetail')
-    const userDetail = JSON.parse(user)
+    const token = await AsyncStorage.getItem("@accessToken");
+    const Refreshtoken = await AsyncStorage.getItem("@refreshToken");
+    const user = await AsyncStorage.getItem("@userDetail");
+    const userDetail = JSON.parse(user);
 
     if (token) {
-      contest.setaccessToken(token)
-      contest.setrefreshToken(Refreshtoken)
-      contest.setuserdetails(userDetail)
-      contest.setislogin(true)
-      if (userDetail.role === 'Freelancer') navigation.navigate('HomeService')
-      else navigation.navigate('CampaignHome')
+      contest.setaccessToken(token);
+      contest.setrefreshToken(Refreshtoken);
+      contest.setuserdetails(userDetail);
+      contest.setislogin(true);
+      if (userDetail.role === "Freelancer") navigation.navigate("HomeService");
+      else navigation.navigate("CampaignHome");
     }
-  }
+  };
 
   const {
     theme: { colors },
-  } = useContext(Context)
+  } = useContext(Context);
 
   return (
     <ScrollView>
@@ -54,9 +54,9 @@ const StartScreen = () => {
           style={{
             backgroundColor: colors.Bluish,
             borderRadius: 10,
-            width: '88%',
+            width: "88%",
             height: 230,
-            alignSelf: 'center',
+            alignSelf: "center",
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 1.5,
             shadowRadius: 2,
@@ -65,8 +65,8 @@ const StartScreen = () => {
           }}
         >
           <ImageBackground
-            source={require('../../../assets/img/work.png')}
-            style={{ width: '95%', height: '100%', marginLeft: 20 }}
+            source={require("../../../assets/img/work.png")}
+            style={{ width: "95%", height: "100%", marginLeft: 20 }}
           >
             <View style={{ marginTop: 10 }}>
               <View
@@ -78,18 +78,18 @@ const StartScreen = () => {
                 }}
               >
                 <Icon
-                  name='rocket'
+                  name="rocket"
                   size={25}
-                  color='#8489FC'
+                  color="#8489FC"
                   style={{ margin: 6 }}
                 />
               </View>
 
               <MyText
                 style={{
-                  color: 'white',
+                  color: "white",
                   fontSize: 16,
-                  fontWeight: '600',
+                  fontWeight: "600",
                   marginTop: 10,
                 }}
               >
@@ -97,11 +97,11 @@ const StartScreen = () => {
               </MyText>
               <MyText
                 style={{
-                  color: 'white',
+                  color: "white",
                   fontSize: 10,
                   marginTop: 10,
                   marginRight: 110,
-                  textAlign: 'justify',
+                  textAlign: "justify",
                 }}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.Etiam
@@ -114,12 +114,12 @@ const StartScreen = () => {
                 width: 90,
                 height: 33,
                 borderRadius: 5,
-                justifyContent: 'center',
-                alignItems: 'center',
+                justifyContent: "center",
+                alignItems: "center",
                 marginTop: 40,
               }}
               onPress={() => {
-                navigation.navigate('CreateAccount', { role: 'Startup Owner' })
+                navigation.navigate("CreateAccount", { role: "Startup Owner" });
               }}
             >
               <MyText
@@ -138,9 +138,9 @@ const StartScreen = () => {
           style={{
             backgroundColor: colors.white,
             borderRadius: 10,
-            width: '88%',
+            width: "88%",
             height: 230,
-            alignSelf: 'center',
+            alignSelf: "center",
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 1.5,
             shadowRadius: 2,
@@ -149,8 +149,8 @@ const StartScreen = () => {
           }}
         >
           <ImageBackground
-            source={require('../../../assets/img/working.jpg')}
-            style={{ width: '95%', height: '100%', marginLeft: 20 }}
+            source={require("../../../assets/img/working.jpg")}
+            style={{ width: "95%", height: "100%", marginLeft: 20 }}
           >
             <View style={{ marginTop: 10 }}>
               <View
@@ -166,11 +166,11 @@ const StartScreen = () => {
                 }}
               >
                 <Image
-                  source={require('../../../assets/img/desk.png')}
+                  source={require("../../../assets/img/desk.png")}
                   style={{
                     height: 25,
                     width: 25,
-                    alignSelf: 'center',
+                    alignSelf: "center",
                     margin: 6,
                   }}
                 />
@@ -180,18 +180,18 @@ const StartScreen = () => {
                 style={{
                   fontSize: 16,
                   marginTop: 10,
-                  fontWeight: 'bold',
+                  fontWeight: "bold",
                 }}
               >
                 Work for Equity / Fixed price
               </MyText>
               <MyText
                 style={{
-                  fontWeight: '600',
+                  fontWeight: "600",
                   fontSize: 10,
                   marginTop: 10,
                   marginRight: 110,
-                  textAlign: 'justify',
+                  textAlign: "justify",
                 }}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.Etiam
@@ -200,16 +200,16 @@ const StartScreen = () => {
             </View>
             <Pressable
               style={{
-                backgroundColor: '#ba55d3',
+                backgroundColor: "#ba55d3",
                 width: 90,
                 height: 33,
                 borderRadius: 5,
-                justifyContent: 'center',
-                alignItems: 'center',
+                justifyContent: "center",
+                alignItems: "center",
                 marginTop: 40,
               }}
               onPress={() => {
-                navigation.navigate('CreateAccount', { role: 'Freelancer' })
+                navigation.navigate("CreateAccount", { role: "Freelancer" });
               }}
             >
               <MyText
@@ -228,9 +228,9 @@ const StartScreen = () => {
           style={{
             backgroundColor: colors.Bluish,
             borderRadius: 10,
-            width: '88%',
+            width: "88%",
             height: 230,
-            alignSelf: 'center',
+            alignSelf: "center",
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 1.5,
             shadowRadius: 2,
@@ -239,8 +239,8 @@ const StartScreen = () => {
           }}
         >
           <ImageBackground
-            source={require('../../../assets/img/invest.png')}
-            style={{ width: '95%', height: '100%', marginLeft: 20 }}
+            source={require("../../../assets/img/invest.png")}
+            style={{ width: "95%", height: "100%", marginLeft: 20 }}
           >
             <View style={{ marginTop: 10 }}>
               <View
@@ -252,30 +252,30 @@ const StartScreen = () => {
                 }}
               >
                 <Icons
-                  name='coins'
+                  name="coins"
                   size={25}
-                  color='#8489FC'
+                  color="#8489FC"
                   style={{ margin: 6 }}
                 />
               </View>
 
               <MyText
                 style={{
-                  color: 'white',
+                  color: "white",
                   fontSize: 16,
                   marginTop: 10,
-                  fontWeight: '600',
+                  fontWeight: "600",
                 }}
               >
                 Invest in Startup
               </MyText>
               <MyText
                 style={{
-                  color: 'white',
+                  color: "white",
                   fontSize: 10,
                   marginTop: 10,
                   marginRight: 110,
-                  textAlign: 'justify',
+                  textAlign: "justify",
                 }}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.Etiam
@@ -288,24 +288,24 @@ const StartScreen = () => {
                 width: 100,
                 height: 33,
                 borderRadius: 5,
-                justifyContent: 'center',
-                alignItems: 'center',
+                justifyContent: "center",
+                alignItems: "center",
                 marginTop: 40,
               }}
               onPress={() => {
-                navigation.navigate('CreateAccount')
+                navigation.navigate("CreateAccount");
               }}
             >
               <View
                 style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
+                  flexDirection: "row",
+                  justifyContent: "space-between",
                 }}
               >
                 <Fontisto
-                  name='locked'
+                  name="locked"
                   size={13}
-                  color='#8489FC'
+                  color="#8489FC"
                   style={{ marginRight: 5 }}
                 />
                 <MyText
@@ -323,27 +323,28 @@ const StartScreen = () => {
 
         <View
           style={{
-            flexDirection: 'column',
-            width: '95%',
-            alignSelf: 'center',
+            flexDirection: "column",
+            width: "95%",
+            alignSelf: "center",
             paddingHorizontal: 10,
           }}
         >
           <Pressable
             style={{
               backgroundColor: colors.white,
-              width: '100%',
+              width: "100%",
               height: 50,
               borderWidth: 1,
               borderColor: colors.Bluish,
               borderRadius: 10,
-              justifyContent: 'center',
-              alignItems: 'center',
+              justifyContent: "center",
+              alignItems: "center",
               marginTop: 20,
+              marginBottom: 30,
             }}
             onPress={() => {
-              contest.setUserTab(true)
-              navigation.navigate('Explore')
+              contest.setUserTab(true);
+              navigation.navigate("Explore");
             }}
           >
             <MyText
@@ -357,13 +358,13 @@ const StartScreen = () => {
         </View>
       </View>
     </ScrollView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-})
+});
 
-export default StartScreen
+export default StartScreen;

@@ -10,10 +10,12 @@ import {
   TextInput,
   ActivityIndicator,
 } from "react-native";
+import Toast from "react-native-toast-message";
 
 import Context from "../Context/Context";
 import MyText from "./Text";
 import { useIsFocused } from "@react-navigation/native";
+import * as Clipboard from "expo-clipboard";
 
 import Icon from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -35,6 +37,19 @@ const UserInfo = () => {
   var rate = [];
   const { accessToken } = useContext(CartProvider);
   const isFocused = useIsFocused();
+  const [copiedText, setCopiedText] = useState("");
+  const copyToClipboard = async () => {
+    await Clipboard.setStringAsync(
+      `https://stepdev.up.railway.app/${userinfo?.userInfo.name}`
+    );
+    const t = await Clipboard.getStringAsync();
+    console.log(t);
+    Toast.show({
+      topOffset: 60,
+      type: "success",
+      text1: "Copied....",
+    });
+  };
 
   useEffect(() => {
     const config = {
@@ -144,6 +159,9 @@ const UserInfo = () => {
               size={25}
               style={{ marginLeft: 3, marginTop: 0, alignSelf: "flex-end" }}
               color={colors.Bluish}
+              onPress={() => {
+                copyToClipboard();
+              }}
             />
           </View>
           <MyText
@@ -174,6 +192,7 @@ const UserInfo = () => {
                 fontWeight: "500",
                 color: "#23232380",
                 marginRight: 16,
+                margin: 1,
               }}
             >
               Hr

@@ -51,17 +51,17 @@ const Login = () => {
 
   const { socket, setsocket } = useContext(CartProvider);
 
-  useLayoutEffect(() => {
-    console.log("2 times");
-    console.log(userdetails);
-    if (logged.islogin) {
-      if (userdetails.role === "Freelancer") {
-        navigation.navigate("HomeService");
-      } else {
-        navigation.navigate("CampaignHome");
-      }
-    }
-  }, [navigation, isFocused]);
+  // useLayoutEffect(() => {
+  //   console.log("2 times");
+  //   console.log(userdetails);
+  //   if (logged.islogin) {
+  //     if (userdetails?.role === "Freelancer") {
+  //       navigation.navigate("HomeService");
+  //     } else {
+  //       navigation.navigate("CampaignHome");
+  //     }
+  //   }
+  // }, [navigation, isFocused]);
   const startsocket = useCallback(
     (accessToken) => {
       setsocket(

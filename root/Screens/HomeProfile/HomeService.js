@@ -58,7 +58,7 @@ const HomeService = ({ route }) => {
   const { accessToken, userdetails } = useContext(CartProvider);
   const getUser = async () => {
     const res = await getProfile(accessToken);
-    console.log(res.data.data);
+    // console.log(res.data.data);
     setuserinfo(res.data.data);
     setcondition(false);
   };
@@ -330,7 +330,7 @@ const HomeService = ({ route }) => {
               {userinfo && (
                 <Text
                   style={{
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: "400",
                     color: "#23232380",
                     margin: 30,
