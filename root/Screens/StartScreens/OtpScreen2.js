@@ -52,6 +52,8 @@ const OtpScreen2 = ({ route }) => {
         });
       }
     } catch (err) {
+      setcondition(false);
+
       Toast.show({
         topOffset: 60,
         type: "error",
@@ -94,6 +96,8 @@ const OtpScreen2 = ({ route }) => {
             navigation.navigate("LoginScreen");
           }
         } catch (error) {
+          setcondition(false);
+
           console.log(error.response.data);
           Toast.show({
             topOffset: 60,
@@ -104,6 +108,8 @@ const OtpScreen2 = ({ route }) => {
         }
       }
     } catch (err) {
+      setcondition(false);
+
       Toast.show({
         topOffset: 60,
         type: "error",
