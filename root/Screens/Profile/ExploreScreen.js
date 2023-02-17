@@ -20,6 +20,7 @@ import { getExploreData } from './services/FreeLancerServices'
 import axios from '../../http/axiosSet'
 import { useIsFocused } from '@react-navigation/native'
 import Loader from '../../Components/Loader'
+import { TouchableOpacity } from 'react-native'
 
 const ExploreScreen = ({ navigation, routes }) => {
   //categories hook
@@ -81,11 +82,22 @@ const ExploreScreen = ({ navigation, routes }) => {
         console.log('result ', result2)
         return result2
       })
+
+      setExploreTempData(() => {
+        let result = resp.data.startups
+        const result2 = result.map((element) => {
+          element.src = Buildings
+          return element
+        })
+        console.log('result ', result2)
+        return result2
+      })
     } else if (resp.status === 400 || resp.status === 401) {
       navigation.navigate('LoginScreen')
     }
   }
   const [searchQuery, setSearchQuery] = React.useState('') //searchbar query hook
+  const [isSearch, setIsSearch] = React.useState(false) //searchbar query hook
 
   const onChangeSearch = (query) => setSearchQuery(query)
   const {
@@ -94,6 +106,29 @@ const ExploreScreen = ({ navigation, routes }) => {
   const numCols = catgeories.length //for categories gapping
 
   const [exploreData, setExploreData] = useState([])
+  const [exploreTempData, setExploreTempData] = useState([])
+
+  const searchResult = (s) => {
+    if (s.trim().length === 0) {
+      setExploreData(exploreTempData)
+      setIsSearch(false)
+    } else {
+      console.log(exploreData)
+      const result = exploreData?.filter((element) => {
+        return (
+          element.businessName.toLowerCase().includes(s.trim().toLowerCase()) ||
+          element.category.toLowerCase().includes(s.trim().toLowerCase())
+        )
+      })
+
+      if (result.length === 0) {
+        setExploreData([])
+      } else {
+        setIsSearch(true)
+        setExploreData(result)
+      }
+    }
+  }
 
   return (
     // main container
@@ -123,12 +158,15 @@ const ExploreScreen = ({ navigation, routes }) => {
           >
             <Searchbar
               placeholder='Search'
-              onChangeText={onChangeSearch}
-              value={searchQuery}
+              onChangeText={(e) => {
+                searchResult(e)
+              }}
               style={{
                 width: '80%',
                 color: colors.placeHolder,
                 borderRadius: 20,
+                backgroundColor: '#eeeeee',
+                borderRadius: 6,
               }}
             />
             <View
@@ -170,6 +208,7 @@ const ExploreScreen = ({ navigation, routes }) => {
           </View>
           {/* Categories Out */}
           {/* popular In */}
+
           <View style={{ paddingLeft: 10 }}>
             <View
               style={{
@@ -180,17 +219,29 @@ const ExploreScreen = ({ navigation, routes }) => {
               }}
             >
               <Text style={{ fontSize: 24, fontWeight: '700' }}>
-                Join a business
+                {isSearch || exploreData.length === 0
+                  ? 'Search Result'
+                  : 'Join a business'}
               </Text>
-              <MyText
-                style={{
-                  fontWeight: '500',
-                  fontSize: 10,
-                  color: colors.lighttext,
-                }}
-              >
-                See All
-              </MyText>
+              {!isSearch && (
+                <TouchableOpacity
+                  onPress={() => {
+                    console.log('Rayyan')
+                    navigation.navigate('ExploreAll', { exploreData })
+                  }}
+                >
+                  <MyText
+                    style={{
+                      fontWeight: '500',
+                      fontSize: 10,
+                      color: colors.lighttext,
+                      marginRight: 15,
+                    }}
+                  >
+                    See All
+                  </MyText>
+                </TouchableOpacity>
+              )}
             </View>
 
             <View style={{ width: '100%', marginTop: 10 }}>
@@ -217,52 +268,76 @@ const ExploreScreen = ({ navigation, routes }) => {
           </View>
           {/* popular Out */}
           {/* Recents In  */}
-          <View style={{ marginTop: '8%', paddingLeft: 10 }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                paddingRight: 4,
-              }}
-            >
-              <MyText style={{ fontSize: 24, fontWeight: '700' }}>
-                Work as Freelancer
-              </MyText>
-              <MyText
+          {!isSearch && exploreData.length !== 0 && (
+            <View style={{ marginTop: '8%', paddingLeft: 10 }}>
+              <View
                 style={{
-                  fontWeight: '500',
-                  fontSize: 10,
-                  color: colors.lighttext,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  paddingRight: 4,
                 }}
               >
-                See All
+                <MyText style={{ fontSize: 24, fontWeight: '700' }}>
+                  Work as Freelancer
+                </MyText>
+                <TouchableOpacity
+                  onPress={() => {
+                    console.log('Rayyan')
+                    navigation.navigate('ExploreAll', { exploreData })
+                  }}
+                >
+                  <MyText
+                    style={{
+                      fontWeight: '500',
+                      fontSize: 10,
+                      color: colors.lighttext,
+                      marginRight: 15,
+                    }}
+                  >
+                    See All
+                  </MyText>
+                </TouchableOpacity>
+              </View>
+
+              <View style={{ width: '100%', marginTop: 10 }}>
+                <FlatList
+                  horizontal
+                  data={exploreData}
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({ item, index }) => (
+                    <HomePopular
+                      id={item._id}
+                      Src={Buildings}
+                      title={item.businessName}
+                      Logo={axios.defaults.baseURL + item.logo}
+                      // raisedFunds={item.raisedFunds}
+                      // minInv={item.minInv}
+                      ShareHolders={item.budget}
+                      style={{
+                        marginLeft: index != 0 ? 20 : 0,
+                        width: 200,
+                      }}
+                    />
+                  )}
+                />
+              </View>
+            </View>
+          )}
+          {exploreData?.length === 0 && (
+            <View>
+              <MyText
+                style={{
+                  fontSize: 20,
+                  fontWeight: '700',
+                  color: 'red',
+                  textAlign: 'center',
+                }}
+              >
+                No Result Found
               </MyText>
             </View>
-
-            <View style={{ width: '100%', marginTop: 10 }}>
-              <FlatList
-                horizontal
-                data={exploreData}
-                showsHorizontalScrollIndicator={false}
-                renderItem={({ item, index }) => (
-                  <HomePopular
-                    id={item._id}
-                    Src={Buildings}
-                    title={item.businessName}
-                    Logo={axios.defaults.baseURL + item.logo}
-                    // raisedFunds={item.raisedFunds}
-                    // minInv={item.minInv}
-                    ShareHolders={item.budget}
-                    style={{
-                      marginLeft: index != 0 ? 20 : 0,
-                      width: 200,
-                    }}
-                  />
-                )}
-              />
-            </View>
-          </View>
+          )}
         </>
       )}
       {/* Recents Out */}
