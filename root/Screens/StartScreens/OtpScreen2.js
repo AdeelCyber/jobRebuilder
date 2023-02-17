@@ -20,7 +20,7 @@ import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
 import { sendOTP, verifyOTP } from "../Profile/services/otpservice";
 import { createaccount } from "../Profile/services/authenticationServices";
-
+import Loader from "../../Components/Loader";
 const OtpScreen2 = ({ route }) => {
   const {
     theme: { colors },
@@ -29,12 +29,21 @@ const OtpScreen2 = ({ route }) => {
   const { email, Phonenumber, password, name, role } =
     route.params != undefined ? route.params : {};
   const { accessToken } = useContext(CartProvider);
+  const [otp, setotp] = useState();
+  const [getverify, setverify] = useState(false);
+  const [getcondition, setcondition] = useState(false);
 
   const phoneverify = async (channel) => {
+    console.log("jkh");
+    console.log(Phonenumber);
+    setcondition(true);
     try {
       const res = await sendOTP(Phonenumber, channel);
+      console.log(res.data);
 
       if (res.status == 200) {
+        setverify(true);
+        setcondition(false);
         Toast.show({
           topOffset: 60,
           type: "success",
@@ -43,6 +52,8 @@ const OtpScreen2 = ({ route }) => {
         });
       }
     } catch (err) {
+      setcondition(false);
+
       Toast.show({
         topOffset: 60,
         type: "error",
@@ -52,10 +63,14 @@ const OtpScreen2 = ({ route }) => {
     }
   };
   const verifyotp = async (code) => {
+    console.log("hh");
+    setcondition(true);
     try {
       const res = await verifyOTP(Phonenumber, code);
+      console.log(res.status);
 
       if (res.status == 200) {
+        setcondition(false);
         Toast.show({
           topOffset: 60,
           type: "success",
@@ -81,6 +96,8 @@ const OtpScreen2 = ({ route }) => {
             navigation.navigate("LoginScreen");
           }
         } catch (error) {
+          setcondition(false);
+
           console.log(error.response.data);
           Toast.show({
             topOffset: 60,
@@ -91,6 +108,8 @@ const OtpScreen2 = ({ route }) => {
         }
       }
     } catch (err) {
+      setcondition(false);
+
       Toast.show({
         topOffset: 60,
         type: "error",
@@ -99,6 +118,11 @@ const OtpScreen2 = ({ route }) => {
       });
     }
   };
+  if (getcondition) {
+    return (
+      <Loader visible={getcondition} color="white" indicatorSize="large" />
+    );
+  }
 
   return (
     <ScrollView
@@ -139,7 +163,7 @@ const OtpScreen2 = ({ route }) => {
                 marginTop: 30,
               }}
             >
-              Verify you email
+              Verify your Phone number
             </MyText>
             <MyText
               style={{
@@ -150,14 +174,10 @@ const OtpScreen2 = ({ route }) => {
                 marginTop: 20,
               }}
             >
-              Send otp to mail
+              Send otp to number
             </MyText>
             <View style={{ marginTop: 30 }}>
-              <Pressable
-                onPress={() => {
-                  phoneverify("sms");
-                }}
-              >
+              {getverify ? (
                 <MyText
                   style={{
                     fontSize: 14,
@@ -167,9 +187,22 @@ const OtpScreen2 = ({ route }) => {
                     marginTop: 20,
                   }}
                 >
-                  Click here to send otp to you email
+                  We have sent the code verification on your number
+                  {Phonenumber}
                 </MyText>
-              </Pressable>
+              ) : (
+                <MyText
+                  style={{
+                    fontSize: 14,
+                    alignSelf: "center",
+                    color: colors.text,
+                    fontWeight: "400",
+                    marginTop: 20,
+                  }}
+                >
+                  Get OTP on your number {Phonenumber}
+                </MyText>
+              )}
               <View style={styles.SectionStyle}>
                 <TextInput
                   style={styles.inputStyle}
@@ -181,29 +214,55 @@ const OtpScreen2 = ({ route }) => {
                   returnKeyType="next"
                 />
               </View>
-              <Pressable
-                style={{
-                  backgroundColor: colors.Bluish,
-                  width: "100%",
-                  height: 50,
-                  borderRadius: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginTop: 20,
-                }}
-                onPress={() => {
-                  verifyotp(otp);
-                }}
-              >
-                <MyText
+              {getverify ? (
+                <Pressable
                   style={{
-                    color: colors.white,
-                    fontSize: 16,
+                    backgroundColor: colors.Bluish,
+                    width: "100%",
+                    height: 50,
+                    borderRadius: 10,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: 20,
+                  }}
+                  onPress={() => {
+                    verifyotp(otp);
                   }}
                 >
-                  Verify
-                </MyText>
-              </Pressable>
+                  <MyText
+                    style={{
+                      color: colors.white,
+                      fontSize: 16,
+                    }}
+                  >
+                    Verify
+                  </MyText>
+                </Pressable>
+              ) : (
+                <Pressable
+                  style={{
+                    backgroundColor: colors.Bluish,
+                    width: "100%",
+                    height: 50,
+                    borderRadius: 10,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: 20,
+                  }}
+                  onPress={() => {
+                    phoneverify("sms");
+                  }}
+                >
+                  <MyText
+                    style={{
+                      color: colors.white,
+                      fontSize: 16,
+                    }}
+                  >
+                    Get OTP
+                  </MyText>
+                </Pressable>
+              )}
             </View>
           </View>
         </ImageBackground>

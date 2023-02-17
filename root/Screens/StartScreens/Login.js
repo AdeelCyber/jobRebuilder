@@ -506,7 +506,7 @@ const Login = () => {
                   marginTop: 20,
                 }}
                 onPress={() => {
-                  navigation.navigate("CreateAccount");
+                  navigation.navigate("StartScreen");
                 }}
               >
                 <MyText

@@ -18,6 +18,7 @@ import { useEffect } from 'react'
 import Toast from 'react-native-toast-message'
 import { sendOTP, verifyOTP } from '../services/otpservice'
 import ReactNativeModal from 'react-native-modal'
+import { ActivityIndicator } from 'react-native'
 
 const ChangeEmailScreen = () => {
   const {
@@ -28,6 +29,9 @@ const ChangeEmailScreen = () => {
 
   const [email, setEmail] = useState('')
   const [otp, setOTP] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [loading2, setLoading2] = useState(false)
 
   useEffect(() => {
     getEmail()
@@ -39,7 +43,9 @@ const ChangeEmailScreen = () => {
   }
 
   const sendCode = async () => {
+    setLoading(true)
     const resp = await sendOTP(email, 'email')
+    setLoading(false)
     console.log('WWWW', resp)
     if (resp.status === 200) {
       setModalVisible(true)
@@ -55,17 +61,21 @@ const ChangeEmailScreen = () => {
   }
 
   const verify = async () => {
+    setError('')
+    setLoading2(true)
     const resp = await verifyOTP(email, otp)
     console.log(resp)
+    setLoading2(false)
     if (resp.status === 200) {
       updateEmail()
     } else {
-      Toast.show({
-        topOffset: 60,
-        type: 'success',
-        text1: 'Wrong OTP',
-        text2: '.',
-      })
+      // Toast.show({
+      //   topOffset: 60,
+      //   type: 'success',
+      //   text1: 'Wrong OTP',
+      //   text2: '.',
+      // })
+      setError('Wrong OTP')
     }
   }
 
@@ -153,8 +163,11 @@ const ChangeEmailScreen = () => {
         <TouchableOpacity
           labelStyle={{ color: '#fff' }}
           onPress={sendCode}
-          disabled={email.trim().length === 0}
-          style={[styles.btn, { backgroundColor: colors.secondary }]}
+          disabled={email.trim().length === 0 || loading}
+          style={[
+            styles.btn,
+            { backgroundColor: colors.secondary, flexDirection: 'row' },
+          ]}
         >
           <MyText
             style={{
@@ -164,6 +177,13 @@ const ChangeEmailScreen = () => {
           >
             Done
           </MyText>
+          {loading && (
+            <ActivityIndicator
+              size={15}
+              style={{ marginLeft: 10 }}
+              color='white'
+            />
+          )}
         </TouchableOpacity>
 
         <ReactNativeModal
@@ -171,6 +191,7 @@ const ChangeEmailScreen = () => {
           isVisible={isModalVisible}
           onBackdropPress={() => {
             setModalVisible(!isModalVisible)
+            setError('')
           }}
         >
           <View
@@ -189,6 +210,18 @@ const ChangeEmailScreen = () => {
             >
               Enter the OTP sent to {email} to verify your email
             </MyText>
+            {error && (
+              <MyText
+                style={{
+                  fontSize: 15,
+                  marginVertical: 5,
+                  color: 'red',
+                  textAlign: 'center',
+                }}
+              >
+                {error}
+              </MyText>
+            )}
             <View
               style={[
                 styles.searchSection,
@@ -221,6 +254,7 @@ const ChangeEmailScreen = () => {
                   backgroundColor: colors.secondary,
                   width: '100%',
                   marginHorizontal: 0,
+                  flexDirection: 'row',
                 },
               ]}
             >
@@ -232,6 +266,13 @@ const ChangeEmailScreen = () => {
               >
                 Done
               </MyText>
+              {loading2 && (
+                <ActivityIndicator
+                  size={15}
+                  style={{ marginLeft: 10 }}
+                  color='white'
+                />
+              )}
             </TouchableOpacity>
           </View>
         </ReactNativeModal>

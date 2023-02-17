@@ -49,6 +49,7 @@ import ViewPortfolio from './Screens/HomeProfile/ViewPortfolio'
 import EditProfile from './Screens/HomeProfile/EditProfile'
 import CustomOffer from './Screens/Chat/CustomOffer'
 import { io } from 'socket.io-client'
+import OtpScreen2 from './Screens/StartScreens/OtpScreen2'
 
 //screens out
 
@@ -161,6 +162,8 @@ const MyStack = () => {
         <Stack.Screen name='StartScreen' component={StartScreen} />
         <Stack.Screen name='LoginScreen' component={Login} />
         <Stack.Screen name='CreateAccount' component={CreateAccount} />
+        <Stack.Screen name='OtpScreen' component={OtpScreen} />
+        <Stack.Screen name='OtpScreen2' component={OtpScreen2} />
 
         <Stack.Screen name='Message' component={Message} />
         <Stack.Screen name='MessageBox' component={MessageBox} />
