@@ -21,10 +21,12 @@ import calender from "../../../assets/Svgs/Calender";
 import questionMark from "../../../assets/Svgs/QuestionMark";
 import { AddMileStones } from "../Profile/services/FreeLancerServices";
 import CartContext from "../../Context/CartProvider";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const AddMileStone = ({ navigation, route }) => {
   const contest = useContext(CartContext);
   const [data, setData] = useState(route.params.data);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   // console.log(data);
   const [commingData, setcommingData] = useState([]);
   const {
@@ -33,7 +35,7 @@ const AddMileStone = ({ navigation, route }) => {
   const [changed, setchanged] = useState({
     title: "",
     description: "",
-    dueDate: "2023-01-30",
+    dueDate: "",
   });
 
   // Api call
@@ -167,7 +169,7 @@ const AddMileStone = ({ navigation, route }) => {
             </Pressable>
             {/* Date View In */}
             <View style={{ marginTop: 10, width: "94%" }}>
-              <View
+              <Pressable
                 style={{
                   backgroundColor: "#EEEEEE",
                   flexDirection: "row",
@@ -177,20 +179,20 @@ const AddMileStone = ({ navigation, route }) => {
                   justifyContent: "center",
                   alignItems: "center",
                 }}
+                onPress={() => {
+                  setDatePickerVisibility(true);
+                }}
               >
                 <TextInput
                   style={{ width: "70%", height: "100%", padding: 5 }}
                   placeholderTextColor="#ACA9A9"
                   placeholder="Due Date"
                   value={changed.dueDate}
-                  onChangeText={(got) => {
-                    {
-                      setchanged({ ...changed, dueDate: got });
-                    }
-                  }}
+                  editable={false}
+                  selectTextOnFocus={false}
                 />
                 <SvgImport svg={calender} />
-              </View>
+              </Pressable>
             </View>
             {/* date out view above */}
           </View>
@@ -225,6 +227,17 @@ const AddMileStone = ({ navigation, route }) => {
           style={{ marginTop: 15, borderRadius: 10, paddingVertical: 18 }}
         />
       </View>
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={(e) => {
+          setchanged({ ...changed, dueDate: e.toISOString().split("T")[0] });
+          setDatePickerVisibility(false);
+        }}
+        onCancel={() => {
+          setDatePickerVisibility(false);
+        }}
+      />
     </View>
   );
 };

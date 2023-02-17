@@ -302,12 +302,9 @@ const EditTask = ({ navigation, route }) => {
                     style={{ width: "70%", height: "100%", padding: 5 }}
                     placeholderTextColor="#ACA9A9"
                     placeholder="Due Date"
-                    value={changed.dueDate}
-                    onChangeText={(got) => {
-                      {
-                        setchanged({ ...changed, dueDate: got });
-                      }
-                    }}
+                    value={changed.dueDate.substring(0, 10)}
+                    editable={false}
+                    selectTextOnFocus={false}
                   />
                   <SvgImport svg={calender} />
                 </View>

@@ -25,9 +25,12 @@ import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { EditMileStones } from "../Profile/services/FreeLancerServices";
 import CartContext from "../../Context/CartProvider";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const EditMileStone = ({ navigation, route }) => {
   const [data, setData] = useState(route.params.data);
+
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const [commingData, setcommingData] = useState([]);
 
@@ -39,6 +42,7 @@ const EditMileStone = ({ navigation, route }) => {
     title: data.title,
     description: data.description,
     progress: data.progress,
+    dueDate: data.dueDate,
   });
 
   async function handlePress(text) {
@@ -195,7 +199,7 @@ const EditMileStone = ({ navigation, route }) => {
               Due Date
             </MyText>
 
-            <View
+            <Pressable
               style={{
                 marginLeft: 10,
                 backgroundColor: colors.secondary,
@@ -207,14 +211,15 @@ const EditMileStone = ({ navigation, route }) => {
                 paddingVertical: 5,
                 paddingHorizontal: 8,
               }}
+              onPress={() => setDatePickerVisibility(true)}
             >
               <Feather name="calendar" size={24} color="white" />
               <MyText
                 style={{ color: colors.white, fontSize: 13, marginLeft: 5 }}
               >
-                {data.dueDate.slice(0, 10)}
+                {changed.dueDate.slice(0, 10)}
               </MyText>
-            </View>
+            </Pressable>
           </View>
         </View>
         {/* Inputs Out */}
@@ -243,6 +248,17 @@ const EditMileStone = ({ navigation, route }) => {
           style={{ width: "48%" }}
         />
       </View>
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={(e) => {
+          setchanged({ ...changed, dueDate: e.toISOString().split("T")[0] });
+          setDatePickerVisibility(false);
+        }}
+        onCancel={() => {
+          setDatePickerVisibility(false);
+        }}
+      />
     </View>
   );
 };
