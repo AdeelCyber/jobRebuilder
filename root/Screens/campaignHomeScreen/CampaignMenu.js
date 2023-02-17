@@ -90,7 +90,7 @@ const CampaignMenu = ({ navigation, route }) => {
       }}
     >
       {/* header */}
-      <CustomHeader2 nav={navigation} />
+      <CustomHeader2 nav={navigation} Title={data.startup.businessName} />
       {/* header out */}
       {/* card in */}
       <CampaignCard

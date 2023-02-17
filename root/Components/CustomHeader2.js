@@ -19,43 +19,45 @@ const CustomHeader = ({
     props.nav.goBack();
   };
   return (
-    <View
-      style={[
-        {
-          display: "flex",
-          flexDirection: "row",
-          width: "100%",
+    <>
+      <View
+        style={[
+          {
+            display: "flex",
+            flexDirection: "row",
+            width: "100%",
 
-          backgroundColor: colors.white,
+            backgroundColor: colors.white,
 
-          padding: 6,
-          paddingVertical: 15,
-          paddingHorizontal: 10,
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: 5,
-          borderBottomEndRadius: 15,
-          borderBottomStartRadius: 15,
-          paddingRight: 19,
-        },
-        styles.shadow,
+            padding: 6,
+            paddingVertical: 15,
+            paddingHorizontal: 10,
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: 5,
 
-        props.style,
-      ]}
-    >
-      <Pressable
-        style={{ flexDirection: "row", alignItems: "center" }}
-        onPress={handleNav}
+            paddingRight: 19,
+          },
+          // styles.shadow,
+
+          props.style,
+        ]}
       >
-        <Entypo name="chevron-left" size={22} color="black" />
-      </Pressable>
-      {/* Text View in */}
-      <View>
-        <MyText style={{ fontWeight: "700", fontSize: 16 }}>{Title}</MyText>
-      </View>
+        <Pressable
+          style={{ flexDirection: "row", alignItems: "center" }}
+          onPress={handleNav}
+        >
+          <Entypo name="chevron-left" size={22} color="black" />
+        </Pressable>
+        {/* Text View in */}
+        <View>
+          <MyText style={{ fontWeight: "700", fontSize: 16 }}>{Title}</MyText>
+        </View>
 
-      <View>{icon()}</View>
-    </View>
+        <View>{icon()}</View>
+      </View>
+      <View style={{ borderBottomWidth: 2, borderColor: "#70809060" }}></View>
+    </>
   );
 };
 

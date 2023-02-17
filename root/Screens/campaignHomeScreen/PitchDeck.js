@@ -89,7 +89,7 @@ const PitchDeck = ({ navigation, route }) => {
       >
         <View>
           {/* header */}
-          <CustomHeader2 nav={navigation} />
+          <CustomHeader2 nav={navigation} Title={data.startup.businessName} />
           {/* header out */}
           {/* card in */}
           <CampaignCard
