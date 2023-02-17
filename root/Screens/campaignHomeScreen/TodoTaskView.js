@@ -141,7 +141,6 @@ const TodoTaskView = ({ navigation, route }) => {
                 paddingRight: 30,
               }}
               textStyle={{ color: "#232323", fontSize: 14 }}
-              handlePress={handlePress}
               logo={true}
             />
           </View>

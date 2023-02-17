@@ -299,11 +299,9 @@ const AddNewTask = ({ navigation, route }) => {
                     placeholderTextColor="#ACA9A9"
                     placeholder="Due Date"
                     value={changed.dueDate.substring(0, 10)}
-                    onChangeText={(got) => {
-                      {
-                        setchanged({ ...changed, dueDate: got });
-                      }
-                    }}
+                    onChangeText={(got) => {}}
+                    editable={false}
+                    selectTextOnFocus={false}
                   />
                   <SvgImport svg={calender} />
                 </View>
@@ -358,6 +356,7 @@ const AddNewTask = ({ navigation, route }) => {
                 image={item.member.avatar}
                 text={item.member.name}
                 id={item.member._id}
+                present={true}
                 handlePress={handleArray}
                 style={{ width: "94%", marginVertical: 5 }}
               />
