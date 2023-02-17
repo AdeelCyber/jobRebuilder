@@ -24,22 +24,28 @@ const CampaignCard = ({ ...props }) => {
           alignItems: "center",
         }}
       >
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <View>
             <Image
               source={{
                 uri: `http://stepdev.up.railway.app/media/getImage/${props.data.startup.logo}`,
               }}
-              style={{ width: 22, height: 22, borderRadius: 13 }}
+              style={{ width: 24, height: 24, borderRadius: 13 }}
             />
           </View>
           <View style={{ marginLeft: 8 }}>
             <MyText
-              style={{ color: colors.text, fontSize: 12, fontWeight: "700" }}
+              style={{ color: colors.text, fontSize: 13, fontWeight: "700" }}
             >
               {props.title}
             </MyText>
-            <MyText style={{ color: colors.lighttext, fontSize: 10 }}>
+            <MyText style={{ color: colors.lighttext, fontSize: 11 }}>
               {props.niche}
             </MyText>
           </View>
