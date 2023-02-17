@@ -45,7 +45,15 @@ const ChangePhoneNumberScreen = () => {
 
   const sendCode = async () => {
     setLoading(true)
-
+    if (!phoneNumber.startsWith('+92')) {
+      Toast.show({
+        topOffset: 60,
+        type: 'error',
+        text1: 'Enter phone number with country code',
+        text2: '.',
+      })
+      return
+    }
     console.log('Phonumber', phoneNumber)
     const resp = await sendOTP(phoneNumber, 'sms')
     console.log('WWWW', resp)
