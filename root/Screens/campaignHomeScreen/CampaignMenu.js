@@ -140,7 +140,7 @@ const CampaignMenu = ({ navigation, route }) => {
                   color: colors.lighttext,
                   fontWeight: "500",
                   fontSize: 16,
-                  paddingHorizontal: 12,
+                  paddingHorizontal: 20,
                 }}
               >
                 Overview
