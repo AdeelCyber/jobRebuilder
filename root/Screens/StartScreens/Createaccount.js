@@ -133,7 +133,7 @@ const CreateAccount = ({ route }) => {
         text2: "It should be greater than 8 characters",
       });
     } else {
-      navigation.navigate("OtpScreen", {
+      navigation.navigate("OtpScreen2", {
         email: email,
         Phonenumber: Phonenumber,
         password: password,
@@ -245,7 +245,7 @@ const CreateAccount = ({ route }) => {
                   onChangeText={(Phonenumber) => setPhonenumber(Phonenumber)}
                   placeholder="Phone Number" //12345
                   placeholderTextColor="#ACA9A9"
-                  keyboardType="number-pad"
+                  // keyboardType="number-pad"
                   underlineColorAndroid="#f000"
                   returnKeyType="next"
                 />
