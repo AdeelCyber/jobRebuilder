@@ -211,8 +211,7 @@ const MileStone = ({ navigation, route }) => {
     }
   };
   return (
-    // main container
-    <ScrollView
+    <View
       style={{
         flex: 1,
         backgroundColor: colors.white,
@@ -221,82 +220,85 @@ const MileStone = ({ navigation, route }) => {
       {/* header */}
       <CustomHeader2 nav={navigation} Title={data.startup.businessName} />
       {/* header out */}
-      {/* card in */}
-      <CampaignCard
-        title={data.startup.businessName}
-        niche={data.startup.category}
-        Logo={data.startup.logo}
-        Thumbnail={Thumbnail}
-        modal={setModal}
-        show={show}
-        isPart={isPart}
-        undefinedd={undefinedd}
-        navigation={navigation}
-        data={data}
-      />
-      {/* card out */}
-      {/* Little nav in */}
-      <LittleNav style={{ marginTop: 10 }} title={"Milestones"} />
-      {/* Little nav out */}
-      {/* mile Stones in */}
-      <View style={{ paddingHorizontal: 12, marginTop: 10 }}>
-        {MileStones.map((item) => (
-          <MileStoneComponent
-            item={item}
-            style={{ marginVertical: 8 }}
-            modal={setModal}
-            data={setCurrentMileStone}
-            send={CurrentMileStone}
-            Credentials={data}
-            nav={navigation}
-          />
-        ))}
-      </View>
-      {/* mile Stones out */}
-      {/* Button in */}
-      {show ? (
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 10,
-          }}
-        >
-          <Buttons
-            color={colors.text}
-            text="+ Add new Item"
-            style={{ width: "50%", alignSelf: "center" }}
-            pass={handlePress}
-          />
+
+      <ScrollView>
+        {/* card in */}
+        <CampaignCard
+          title={data.startup.businessName}
+          niche={data.startup.category}
+          Logo={data.startup.logo}
+          Thumbnail={Thumbnail}
+          modal={setModal}
+          show={show}
+          isPart={isPart}
+          undefinedd={undefinedd}
+          navigation={navigation}
+          data={data}
+        />
+        {/* card out */}
+        {/* Little nav in */}
+        <LittleNav style={{ marginTop: 10 }} title={"Milestones"} />
+        {/* Little nav out */}
+        {/* mile Stones in */}
+        <View style={{ paddingHorizontal: 12, marginTop: 10 }}>
+          {MileStones.map((item) => (
+            <MileStoneComponent
+              item={item}
+              style={{ marginVertical: 8 }}
+              modal={setModal}
+              data={setCurrentMileStone}
+              send={CurrentMileStone}
+              Credentials={data}
+              nav={navigation}
+            />
+          ))}
         </View>
-      ) : undefinedd ? (
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 10,
-          }}
-        >
-          <Buttons
-            color={colors.text}
-            text="Register"
-            style={{ width: "50%", alignSelf: "center" }}
-            pass={handlePress}
-          />
-        </View>
-      ) : null}
-      <BottomPopup show={modal.modal1} setshow={setModal} />
-      <BottomPopup2
-        show={modal.modal2}
-        setshow={setModal}
-        nav={navigation}
-        data={CurrentMileStone}
-        set={updateMileStone}
-        mileStoneArray={data}
-        DeleteMileStone={DeleteMileStone}
-        visible={show}
-      />
-    </ScrollView>
+        {/* mile Stones out */}
+        {/* Button in */}
+        {show ? (
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 10,
+            }}
+          >
+            <Buttons
+              color={colors.text}
+              text="+ Add new Item"
+              style={{ width: "50%", alignSelf: "center" }}
+              pass={handlePress}
+            />
+          </View>
+        ) : undefinedd ? (
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 10,
+            }}
+          >
+            <Buttons
+              color={colors.text}
+              text="Register"
+              style={{ width: "50%", alignSelf: "center" }}
+              pass={handlePress}
+            />
+          </View>
+        ) : null}
+        <BottomPopup show={modal.modal1} setshow={setModal} />
+        <BottomPopup2
+          show={modal.modal2}
+          setshow={setModal}
+          nav={navigation}
+          data={CurrentMileStone}
+          set={updateMileStone}
+          mileStoneArray={data}
+          DeleteMileStone={DeleteMileStone}
+          visible={show}
+        />
+      </ScrollView>
+    </View>
   );
 };
 
