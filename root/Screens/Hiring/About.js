@@ -7,10 +7,11 @@ import { StyleSheet } from 'react-native'
 import ClockIcon from '../../../assets/Svgs/ClockIcon'
 import LanguageIcon from '../../../assets/Svgs/LanguageIcon'
 import ResponseIcon from '../../../assets/Svgs/ResponseIcon'
+import { ScrollView } from 'react-native'
 
 const About = ({ about }) => {
   return (
-    <View style={{ marginTop: 20 }}>
+    <ScrollView>
       <View style={styles.box}>
         <View>
           <MyText style={{ fontSize: 15, fontWeight: '600', marginBottom: 10 }}>
@@ -73,7 +74,7 @@ const About = ({ about }) => {
           </MyText>
         </View>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 

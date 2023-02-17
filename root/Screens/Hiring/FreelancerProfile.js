@@ -74,15 +74,18 @@ const FreeLancerProfile = ({ route }) => {
 
   const fetchFreelancer = async () => {
     const resp = await getSpecificFreelancer(id)
+    console.log(resp)
     if (resp.status === 200) {
-      setFreelancer(resp.data.data[0])
+      setFreelancer(resp.data.data)
     } else {
       navigation.navigate('CampaignHome')
     }
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <ScrollView
+      style={[styles.container, { backgroundColor: colors.background }]}
+    >
       <CustomHeader
         Title=''
         style={{}}
@@ -206,7 +209,8 @@ const FreeLancerProfile = ({ route }) => {
 
       <View
         style={{
-          borderTopColor: 'black',
+          borderTopColor: '#D1CECB',
+
           borderTopWidth: 0.4,
           paddingHorizontal: 25,
           paddingTop: 15,
@@ -251,19 +255,17 @@ const FreeLancerProfile = ({ route }) => {
           />
         </View>
 
-        <View style={{ backgroundColor: '#ffffff' }}>
-          {active === 1 && (
-            <Services
-              services={freelancer?.services}
-              jobTitle={freelancer?.about?.jobTitle}
-            />
-          )}
-          {active === 2 && <Portfolio portfolio={freelancer?.portfolio} />}
-          {active === 3 && <Reviews reviews={freelancer?.ratingAndReviews} />}
-          {active === 4 && <About about={freelancer?.about} />}
-        </View>
+        {active === 1 && (
+          <Services
+            services={freelancer?.services}
+            jobTitle={freelancer?.about?.jobTitle}
+          />
+        )}
+        {active === 2 && <Portfolio portfolio={freelancer?.portfolio} />}
+        {active === 3 && <Reviews reviews={freelancer?.ratingAndReviews} />}
+        {active === 4 && <About about={freelancer?.about} />}
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
