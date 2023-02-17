@@ -4,19 +4,24 @@ import Context from '../Context/Context'
 import SvgImport from './SvgImport'
 import { AntDesign } from '@expo/vector-icons'
 import MyText from './Text'
+import arrow from '../../assets/Svgs/PopularArrow'
+import { TouchableOpacity } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 const HomePopular = ({
   Src,
   title,
+  id,
   label = 'IT Company',
   Logo = { Logo },
   ...props
 }) => {
+  const navigation = useNavigation()
   const {
     theme: { colors },
   } = useContext(Context)
   return (
-    <View
+    <TouchableOpacity
       style={[
         {
           justifyContent: 'center',
@@ -34,6 +39,9 @@ const HomePopular = ({
           ...props.style,
         },
       ]}
+      onPress={() => {
+        navigation.navigate('CampaignMenu', { id: id })
+      }}
     >
       <Image source={Src} style={{ maxWidth: '100%' }} />
       <View
@@ -56,7 +64,8 @@ const HomePopular = ({
         </View>
         {/* label title view out */}
         <View>
-          <SvgImport svg={Logo} />
+          <Image source={{ uri: Logo }} />
+          {/* <SvgImport svg={Logo} /> */}
         </View>
       </View>
       {/* All investment paramenters in */}
@@ -73,31 +82,52 @@ const HomePopular = ({
         {/* 1 */}
         <View>
           <MyText
-            style={{ fontWeight: '500', fontSize: 7, color: colors.lighttext }}
+            style={{
+              fontWeight: '500',
+              fontSize: 10,
+              color: colors.lighttext,
+              textAlign: 'center',
+            }}
           >
-            Raised Funds
+            Stage
           </MyText>
-          <MyText style={{ fontWeight: '700', fontSize: 14 }}>
-            {props.raisedFunds}
+          <MyText
+            style={{ fontWeight: '700', fontSize: 14, textAlign: 'center' }}
+          >
+            {/* {props.raisedFunds} */}
+            Idea
           </MyText>
         </View>
         {/* 2 */}
         <View>
           <MyText
-            style={{ fontWeight: '500', fontSize: 7, color: colors.lighttext }}
+            style={{
+              fontWeight: '500',
+              fontSize: 10,
+              color: colors.lighttext,
+              textAlign: 'center',
+            }}
           >
-            Min.inv
+            Team
           </MyText>
-          <MyText style={{ fontWeight: '700', fontSize: 14 }}>
-            {props.minInv}
+          <MyText
+            style={{ fontWeight: '700', fontSize: 14, textAlign: 'center' }}
+          >
+            {/* {props.minInv} */}
+            Complete
           </MyText>
         </View>
         {/* 3 */}
         <View style={{ marginBottom: 20 }}>
           <MyText
-            style={{ fontWeight: '500', fontSize: 7, color: colors.lighttext }}
+            style={{
+              fontWeight: '500',
+              fontSize: 10,
+              color: colors.lighttext,
+              textAlign: 'center',
+            }}
           >
-            Share Holders
+            Budget
           </MyText>
           <MyText style={{ fontWeight: '700', fontSize: 14 }}>
             {props.ShareHolders}
@@ -112,12 +142,16 @@ const HomePopular = ({
           top: 10,
           justifyContent: 'center',
           alignItems: 'center',
-          borderRadius: 20,
+          borderRadius: 50,
+          padding: 7,
+          paddingVertical: 9,
         }}
       >
-        <AntDesign name='arrowright' size={20} color='black' />
+        <SvgImport svg={arrow} />
+
+        {/* <AntDesign name='arrowright' size={20} color='black' /> */}
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 

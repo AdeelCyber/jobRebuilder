@@ -189,7 +189,7 @@ const MileStone = ({ navigation, route }) => {
       navigation.navigate("AddMileStone", { data: data, set: updateMileStone });
     }
     if (text == "Register") {
-      navigation.navigate("LoginScreen");
+      navigation.navigate("StartScreen");
     }
   }
   let popupRef = React.useRef();
@@ -223,9 +223,9 @@ const MileStone = ({ navigation, route }) => {
       {/* header out */}
       {/* card in */}
       <CampaignCard
-        title={"MotoMobiles"}
-        niche={"Mobile Making and selling company."}
-        Logo={logo}
+        title={data.startup.businessName}
+        niche={data.startup.category}
+        Logo={data.startup.logo}
         Thumbnail={Thumbnail}
         modal={setModal}
         show={show}

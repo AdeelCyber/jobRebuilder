@@ -27,7 +27,7 @@ export const profileMenu = [
     id: 5,
     title: 'My Campaigns',
     icon: 'cube',
-    navigate: 'MyCampaigns',
+    navigate: 'CampaignManagement',
   },
   {
     id: 6,
@@ -41,17 +41,17 @@ export const profileMenu = [
     icon: 'home',
     navigate: 'CancelledOrders',
   },
-  {
-    id: 8,
-    title: 'Explore',
-    icon: 'compass',
-    navigate: 'Explore',
-  },
+  // {
+  //   id: 8,
+  //   title: 'Explore',
+  //   icon: 'compass',
+  //   navigate: 'Explore',
+  // },
   {
     id: 9,
     title: 'Logout',
     icon: 'arrow-right',
-    navigate: 'SignIn',
+    navigate: 'LoginScreen',
   },
 ]
 
@@ -90,7 +90,7 @@ export const profileMenu2 = [
     id: 6,
     title: 'Project Management',
     icon: 'shopping-bag',
-    navigate: 'ProjectManagement',
+    navigate: 'CampaignManagement',
   },
   {
     id: 7,
@@ -98,29 +98,29 @@ export const profileMenu2 = [
     icon: 'home',
     navigate: 'CancelledOrders',
   },
-  {
-    id: 8,
-    title: 'Applied Jobs',
-    icon: 'compass',
-    navigate: 'AppliedJobs',
-  },
+  // {
+  //   id: 8,
+  //   title: 'Applied Jobs',
+  //   icon: 'compass',
+  //   navigate: 'AppliedJobs',
+  // },
   {
     id: 9,
     title: 'Warnings',
     icon: 'compass',
     navigate: 'FreelancerWarnings',
   },
-  {
-    id: 10,
-    title: 'Explore Freelancers',
-    icon: 'compass',
-    navigate: 'ExploreFreelancers',
-  },
+  // {
+  //   id: 10,
+  //   title: 'Explore Freelancers',
+  //   icon: 'compass',
+  //   navigate: 'ExploreFreelancers',
+  // },
   {
     id: 11,
     title: 'Logout',
     icon: 'arrow-right',
-    navigate: 'SignIn',
+    navigate: 'LoginScreen',
   },
 ]
 

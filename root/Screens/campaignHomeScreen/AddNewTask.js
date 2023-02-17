@@ -6,6 +6,7 @@ import {
   ScrollView,
   Pressable,
   TextInput,
+  ToastAndroid,
 } from "react-native";
 
 import React, { useContext, useState, useEffect } from "react";
@@ -90,7 +91,10 @@ const AddNewTask = ({ navigation, route }) => {
     if (resp.data.status === "OK") {
       route.params.set(resp.data.todos.todos);
       // console.log("resp", resp.data);
+      ToastAndroid.show("Task Added", ToastAndroid.SHORT);
       navigation.goBack();
+    } else {
+      ToastAndroid.show("Error!", ToastAndroid.SHORT);
     }
   };
 

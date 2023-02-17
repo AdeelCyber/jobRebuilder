@@ -7,6 +7,7 @@ import {
   Pressable,
   TextInput,
   Image,
+  ToastAndroid,
 } from "react-native";
 
 import React, { useContext, useState } from "react";
@@ -52,6 +53,13 @@ const Warnings = ({ navigation, route }) => {
     if (text === "Request") {
       getFreelancersData2();
     }
+    if (text === "chat") {
+      navigation.navigate("MessagesBox", {
+        userImg: personData.image,
+        userName: personData.name,
+        chatType: "Simple Chat",
+      });
+    }
   }
   const [input, setinput] = useState("");
 
@@ -63,8 +71,11 @@ const Warnings = ({ navigation, route }) => {
     console.log(resp.data);
 
     if (resp.data.status === "OK") {
+      ToastAndroid.show("Submitted warning", ToastAndroid.SHORT);
       console.log("request send");
+      navigation.goBack();
     } else {
+      ToastAndroid.show("Request Nullified Some issue!", ToastAndroid.SHORT);
       console.log("request not send");
     }
   };
@@ -80,8 +91,11 @@ const Warnings = ({ navigation, route }) => {
     console.log(resp.data);
 
     if (resp.data.status === "OK") {
+      ToastAndroid.show("Warning Request Sent", ToastAndroid.SHORT);
       console.log("request send");
+      navigation.goBack();
     } else {
+      ToastAndroid.show("Request Nullified Some issue!", ToastAndroid.SHORT);
       console.log("request not send");
     }
   };

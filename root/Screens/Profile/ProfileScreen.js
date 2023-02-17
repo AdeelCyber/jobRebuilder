@@ -12,7 +12,7 @@ import Context from '../../Context/Context'
 import { profileMenu } from '../../utilities/profileMenu'
 import Icon from '@expo/vector-icons/FontAwesome'
 import MyText from '../../Components/Text'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import SvgImport from '../../Components/SvgImport'
 import HomeIcon from '../../../assets/Svgs/Home'
 import SettingIcon2 from '../../../assets/Svgs/Setting'
@@ -25,13 +25,36 @@ import CompassIcon from '../../../assets/Svgs/CompassIcon'
 import ArrowRightIcon from '../../../assets/Svgs/ArrowRightIcon'
 import CustomHeader from '../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import CartContext from '../../Context/CartProvider'
+import axios from '../../http/axiosSet'
 
 const ProfileScreen = () => {
+  const isFocused = useIsFocused()
   const navigation = useNavigation()
   const {
     theme: { colors },
   } = useContext(Context)
 
+  const {
+    userdetails,
+    setaccessToken,
+    setuserdetails,
+    setrefreshToken,
+    setislogin,
+  } = useContext(CartContext)
+
+  const contest = useContext(CartContext)
+  React.useLayoutEffect(() => {
+    getData()
+  }, [isFocused])
+
+  const getData = async () => {
+    const token = await AsyncStorage.getItem('@accessToken')
+    if (!token) {
+      navigation.navigate('LoginScreen')
+    }
+  }
   const icons = [
     <SvgImport svg={HomeIcon} />,
     <SvgImport svg={SettingIcon2} />,
@@ -46,7 +69,16 @@ const ProfileScreen = () => {
   const ListItem = ({ profile, index }) => (
     <Pressable style={{ marginTop: 10 }}>
       <TouchableOpacity
-        onPress={() => {
+        onPress={async () => {
+          if (profile.navigate === 'LoginScreen') {
+            await AsyncStorage.removeItem('@accessToken')
+            await AsyncStorage.removeItem('@refreshToken')
+            await AsyncStorage.removeItem('@userDetail')
+            setuserdetails([])
+            setaccessToken('')
+            setrefreshToken('')
+            setislogin(false)
+          }
           navigation.navigate(profile.navigate)
         }}
       >
@@ -112,7 +144,10 @@ const ProfileScreen = () => {
           <Image
             style={{ height: 100, width: 100, borderRadius: 50 }}
             source={{
-              uri: 'https://banner2.cleanpng.com/20180625/req/kisspng-computer-icons-avatar-business-computer-software-user-avatar-5b3097fcae25c3.3909949015299112927133.jpg',
+              uri:
+                axios.defaults.baseURL +
+                'media/getimage/' +
+                userdetails?.avatar,
             }}
           />
         </View>
@@ -127,7 +162,7 @@ const ProfileScreen = () => {
               marginTop: 20,
             }}
           >
-            Shaheer Ahmed
+            {userdetails?.name}
           </MyText>
         </View>
 

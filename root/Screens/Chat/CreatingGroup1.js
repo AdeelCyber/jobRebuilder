@@ -24,6 +24,8 @@ import {
   Msgs,
   Circle,
 } from "../../Components/MessageStyles";
+
+import Loader from "../../Components/Loader";
 import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
 import Context from "../../Context/Context";
@@ -32,11 +34,10 @@ import { GroupChats } from "../../Components/GroupChats";
 import MyText from "../../Components/Text";
 import { FontAwesome } from "@expo/vector-icons";
 import CustomHeader5 from "../../Components/CustomHeader5";
-import { title } from "process";
 import * as ImagePicker from "expo-image-picker";
 import Toast from "react-native-toast-message";
 import { imageUpload } from "../Profile/services/fileServices";
-import Loader from "../../Components/Loader";
+
 const CreatingGroup1 = ({ navigation, route }) => {
   const {
     theme: { colors },
@@ -99,7 +100,7 @@ const CreatingGroup1 = ({ navigation, route }) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     };
     const r = ["63c2f060badbb4001f79a4bc", "63c430c5badbb4001f79a4be"];

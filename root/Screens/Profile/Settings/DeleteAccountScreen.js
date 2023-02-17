@@ -14,6 +14,9 @@ import ReactNativeModal from 'react-native-modal'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { useNavigation } from '@react-navigation/native'
 import { deleteAccount } from '../services/settingsServices'
+import Toast from 'react-native-toast-message'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import CartProvider from '../../../Context/CartProvider'
 
 const DeleteAccountScreen = () => {
   const {
@@ -26,8 +29,41 @@ const DeleteAccountScreen = () => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
+  const {
+    userdetails,
+    setaccessToken,
+    setuserdetails,
+    setrefreshToken,
+    setislogin,
+  } = useContext(CartProvider)
+
   const accountDelete = async () => {
     const resp = await deleteAccount(password, confirmPassword)
+    console.log(resp)
+    if (resp.status === 200) {
+      Toast.show({
+        topOffset: 60,
+        type: 'success',
+        text1: 'Account Deleted',
+        text2: '.',
+      })
+      await AsyncStorage.removeItem('@accessToken')
+      await AsyncStorage.removeItem('@userDetail')
+      await AsyncStorage.removeItem('@refreshToken')
+      setaccessToken('')
+      setrefreshToken('')
+      setuserdetails([])
+      setislogin(false)
+
+      navigation.navigate('LoginScreen')
+    } else if (resp.status === 400) {
+      Toast.show({
+        topOffset: 60,
+        type: 'error',
+        text1: 'Password do not match',
+        text2: '.',
+      })
+    }
   }
 
   return (
@@ -102,7 +138,14 @@ const DeleteAccountScreen = () => {
             padding: 15,
             marginTop: 15,
             marginBottom: 40,
+            opacity:
+              confirmPassword.trim().length < 8 || password.trim().length < 8
+                ? 0.5
+                : 1,
           }}
+          disabled={
+            confirmPassword.trim().length < 8 || password.trim().length < 8
+          }
           onPress={() => {
             setModalVisible(!isModalVisible)
           }}
@@ -122,8 +165,7 @@ const DeleteAccountScreen = () => {
             style={{
               backgroundColor: 'white',
               borderRadius: 18,
-              paddingBottom: 50,
-              height: '25%',
+              paddingBottom: 30,
               padding: 35,
             }}
           >
@@ -180,7 +222,7 @@ const DeleteAccountScreen = () => {
                     width: 100,
                   }}
                   onPress={() => {
-                    deleteAccount()
+                    accountDelete()
                   }}
                 >
                   <MyText

@@ -1,25 +1,25 @@
-import axios from "../../../http/axiosSet";
+import axios from '../../../http/axiosSet'
 
 export const sendOTP = async (email, channel) => {
   try {
-    const resp = axios.post("/auth/sendOTP", {
+    const resp = await axios.post('/auth/sendOTP', {
       to: email,
       channel: channel,
-    });
-    return resp;
+    })
+    return resp
   } catch (error) {
-    return error.response;
+    return error.response
   }
-};
+}
 
 export const verifyOTP = async (email, code) => {
   try {
-    const resp = axios.post("/auth/verifyOTP", {
+    const resp = await axios.post('/auth/verifyOTP', {
       to: email,
       code: code,
-    });
-    return resp;
+    })
+    return resp
   } catch (error) {
-    return error.response;
+    return error.response
   }
-};
+}

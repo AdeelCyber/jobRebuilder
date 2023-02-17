@@ -13,16 +13,16 @@ import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { getSpecificWarning } from '../services/warningServices'
-
+import axios from '../../../http/axiosSet'
 const WarningReasonDetailScreen = ({ route }) => {
   const navigation = useNavigation()
-  const [warning, setWarning] = useState({})
+  // const [warning, setWarning] = useState({})
 
   useEffect(() => {
-    fetchWarning()
+    // fetchWarning()
   }, [])
 
-  const { warningId, startupId } = route.params
+  const { warning } = route.params
   const fetchWarning = async () => {
     const resp = await getSpecificWarning(startupId, warningId)
     if (resp.status === 200) {
@@ -74,7 +74,7 @@ const WarningReasonDetailScreen = ({ route }) => {
           <Image
             style={{ height: 50, width: 50, borderRadius: 50, marginRight: 10 }}
             source={{
-              uri: 'https://img.freepik.com/premium-photo/portrait-handsome-anime-boy-avatar-computer-graphic-background-2d-illustration_67092-2000.jpg?w=2000',
+              uri: axios.defaults.baseURL + warning.logo,
             }}
           />
           <View>
@@ -88,11 +88,11 @@ const WarningReasonDetailScreen = ({ route }) => {
                 <MyText
                   style={{ marginBottom: 3, fontWeight: '500', fontSize: 15 }}
                 >
-                  Moto Mobile
+                  {warning.name}
                 </MyText>
               </View>
               <MyText style={{ color: 'gray', fontSize: 12 }}>
-                Mobile Company
+                {warning.category}
               </MyText>
             </View>
           </View>
@@ -107,9 +107,14 @@ const WarningReasonDetailScreen = ({ route }) => {
           >
             <TouchableOpacity
               labelStyle={{ color: '#fff' }}
-              disabled={true}
               style={styles.completedBadge}
-              onPress={() => {}}
+              onPress={() => {
+                navigation.navigate('MessagesBox', {
+                  userImg: axios.defaults.baseURL + warning.logo,
+                  userName: warning.name,
+                  chatType: 'Simple Chat',
+                })
+              }}
             >
               <MyText
                 style={{
@@ -124,19 +129,7 @@ const WarningReasonDetailScreen = ({ route }) => {
         </View>
         <MyText style={styles.heading}>Reason</MyText>
         <MyText style={{ lineHeight: 20, color: 'gray' }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-          venenatissit amet risus a bibendum. Integer a nibh feugiat, congue
-          nunc a
-        </MyText>
-        <MyText style={{ lineHeight: 20, color: 'gray' }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-          venenatissit amet risus a bibendum. Integer a nibh feugiat, congue
-          nunc a
-        </MyText>
-        <MyText style={{ lineHeight: 20, color: 'gray' }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-          venenatissit amet risus a bibendum. Integer a nibh feugiat, congue
-          nunc a
+          {warning.warning.reason}
         </MyText>
       </View>
     </ScrollView>

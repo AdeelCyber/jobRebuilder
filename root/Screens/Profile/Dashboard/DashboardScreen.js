@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   ScrollView,
   StyleSheet,
@@ -16,6 +16,8 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { getOrders } from '../services/orderServices'
+import axios from '../../../http/axiosSet'
 
 const DashboardScreen = () => {
   const navigation = useNavigation()
@@ -23,17 +25,37 @@ const DashboardScreen = () => {
     theme: { colors },
   } = useContext(Context)
 
-  const OrderItem = () => (
+  const [orders, setOrders] = useState([])
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  const fetchData = async () => {
+    const resp = await getOrders()
+
+    if (resp.status === 200) {
+      setOrders(res.data.data)
+    } else if (resp.status === 400 || resp.status === 401) {
+      navigation.navigate('LoginScreen')
+    }
+  }
+
+  const OrderItem = ({ order }) => (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate('ActiveOrderDetail')
+        // navigation.navigate('ActiveOrderDetail')
       }}
+      disabled={true}
       style={styles.orderItem}
     >
       <View>
         <Image
           source={{
-            uri: 'https://banner2.cleanpng.com/20180625/req/kisspng-computer-icons-avatar-business-computer-software-user-avatar-5b3097fcae25c3.3909949015299112927133.jpg',
+            uri:
+              axios.defaults.baseURL +
+              'media/getimage/' +
+              order?.employer?.avatar,
           }}
           style={{ width: 36, height: 36 }}
         />
@@ -48,7 +70,7 @@ const DashboardScreen = () => {
       >
         <View>
           <MyText style={{ fontSize: 13, fontWeight: '500', marginBottom: 2 }}>
-            Phil Jones
+            {order?.employer?.name}
           </MyText>
           <MyText
             style={{
@@ -57,7 +79,7 @@ const DashboardScreen = () => {
               color: 'rgba(35, 35, 35, 0.5)',
             }}
           >
-            Logo Designing
+            {order?.jobTitle}
           </MyText>
         </View>
         <View>
@@ -71,7 +93,9 @@ const DashboardScreen = () => {
           >
             <FontAwesome5 name='bitcoin' color='#FAD461' size={16} />
             &nbsp; &nbsp;
-            <MyText style={{ fontSize: 14, fontWeight: '600' }}>$50</MyText>
+            <MyText style={{ fontSize: 14, fontWeight: '600' }}>
+              ${order?.totalPrice}
+            </MyText>
           </MyText>
           <MyText
             style={{
@@ -87,8 +111,10 @@ const DashboardScreen = () => {
                 fontWeight: '700',
               }}
             >
-              {' '}
-              2
+              {Math.ceil(
+                (new Date(order?.deliveryTime) - new Date()) /
+                  (1000 * 60 * 60 * 24)
+              )}
             </MyText>{' '}
             days
           </MyText>
@@ -279,10 +305,9 @@ const DashboardScreen = () => {
               Recent Orders
             </MyText>
           </View>
-
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
+          {orders?.map((order, index) => {
+            return <OrderItem key={index} />
+          })}
         </View>
       </View>
     </ScrollView>

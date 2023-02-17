@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   ScrollView,
   StyleSheet,
@@ -13,24 +13,51 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader'
 import Earning from '../../../Components/Earning'
-
+import { getOrderCategoryWise } from '../services/orderServices'
+import axios from '../../../http/axiosSet'
+import SvgImport from '../../../Components/SvgImport'
+import DollarIcon from '../../../../assets/Svgs/DollarIcon'
+import { getWalletDetail } from '../services/walletServices'
 const FreelancerDashboardScreen = () => {
   const navigation = useNavigation()
   const {
     theme: { colors },
   } = useContext(Context)
 
-  const OrderItem = () => (
+  const [orders, setOrders] = useState([])
+
+  useEffect(() => {
+    fetchOrder()
+  }, [])
+
+  const [walletDetail, setWalletDetail] = useState({})
+
+  const fetchOrder = async () => {
+    const resp = await getOrderCategoryWise('Active')
+    const resp2 = await getWalletDetail()
+    setWalletDetail(resp2.data.data)
+
+    if (resp.status === 200) {
+      setOrders(resp.data.data)
+    } else if (resp.status === 404) {
+    } else if (resp.status === 401) {
+    }
+  }
+
+  const OrderItem = ({ order }) => (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate('ActiveOrderDetail')
+        navigation.navigate('ActiveJobDetail', { orderId: order._id })
       }}
-      style={styles.orderItem}
+      style={[styles.orderItem]}
     >
       <View>
         <Image
           source={{
-            uri: 'https://banner2.cleanpng.com/20180625/req/kisspng-computer-icons-avatar-business-computer-software-user-avatar-5b3097fcae25c3.3909949015299112927133.jpg',
+            uri:
+              axios.defaults.baseURL +
+              'media/getimage/' +
+              order?.employer?.avatar,
           }}
           style={{ width: 36, height: 36 }}
         />
@@ -45,7 +72,7 @@ const FreelancerDashboardScreen = () => {
       >
         <View>
           <MyText style={{ fontSize: 13, fontWeight: '500', marginBottom: 2 }}>
-            Phil Jones
+            {order?.employer?.name}
           </MyText>
           <MyText
             style={{
@@ -54,7 +81,7 @@ const FreelancerDashboardScreen = () => {
               color: 'rgba(35, 35, 35, 0.5)',
             }}
           >
-            Logo Designing
+            {order?.jobTitle}
           </MyText>
         </View>
         <View>
@@ -66,9 +93,12 @@ const FreelancerDashboardScreen = () => {
               alignItems: 'center',
             }}
           >
-            <FontAwesome5 name='bitcoin' color='#FAD461' size={16} />
+            <SvgImport svg={DollarIcon} />
+            {/* <FontAwesome5 name='bitcoin' color='#FAD461' size={16} /> */}
             &nbsp; &nbsp;
-            <MyText style={{ fontSize: 14, fontWeight: '600' }}>$50</MyText>
+            <MyText style={{ fontSize: 14, fontWeight: '600' }}>
+              ${order?.totalPrice}
+            </MyText>
           </MyText>
           <MyText
             style={{
@@ -85,7 +115,10 @@ const FreelancerDashboardScreen = () => {
               }}
             >
               {' '}
-              2
+              {Math.ceil(
+                (new Date(order?.deliveryTime) - new Date()) /
+                  (1000 * 60 * 60 * 24)
+              )}
             </MyText>{' '}
             days
           </MyText>
@@ -111,15 +144,21 @@ const FreelancerDashboardScreen = () => {
         <MyText style={{ fontSize: 17, marginBottom: 12 }}>My Dashboard</MyText>
         {/* Top */}
         <Earning
-          title='Total Earnings'
+          title='Net Income'
           subHeadingsDescriptions={[
-            'Earning in June',
+            `Earning this month`,
             'Active Jobs',
             'Pending Clearance',
             'Jobs Completed',
           ]}
-          total='2405.00'
-          subHeadings={['$2045', '150', '1200$', '12']}
+          style={{ marginTop: 0, marginBottom: 28 }}
+          total={walletDetail.netIncome}
+          subHeadings={[
+            `$ ${walletDetail.earningsThisMonth}`,
+            walletDetail.activeJobs,
+            `$ ${walletDetail.pendingClearence}`,
+            walletDetail.jobsCompleted,
+          ]}
         />
 
         {/* Mid */}
@@ -139,10 +178,9 @@ const FreelancerDashboardScreen = () => {
               Active Jobs
             </MyText>
           </View>
-
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
+          {orders?.map((order, index) => {
+            return <OrderItem order={order} key={index} />
+          })}
         </View>
       </View>
     </ScrollView>

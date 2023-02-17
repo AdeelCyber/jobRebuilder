@@ -22,8 +22,12 @@ import {
   uploadFileServer,
 } from '../services/orderServices'
 import { upload } from '../../../Components/DownloadUpload'
-import { imageUpload } from '../../../Components/uploadNewFile'
+// import { imageUpload } from '../../../Components/uploadNewFile'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { fileUpload, imageUpload } from '../services/fileServices'
+import axios from '../../../http/axiosSet'
+
+import Toast from 'react-native-toast-message'
 
 const ActiveOrderDetailScreen = ({ route }) => {
   const navigation = useNavigation()
@@ -47,7 +51,16 @@ const ActiveOrderDetailScreen = ({ route }) => {
       return
     }
     const token = await AsyncStorage.getItem('@accessToken')
-    imageUpload(token, formData.uri)
+    if (
+      formData.name.includes('pdf') ||
+      formData.name.includes('doc') ||
+      formData.name.includes('docx') ||
+      formData.name.includes('txt') ||
+      formData.name.includes('ppt') ||
+      formData.name.includes('pptx')
+    )
+      fileUpload(formData.uri)
+    else imageUpload(formData.uri)
     setFileNameFromServer(formData.name)
   }
 
@@ -70,7 +83,9 @@ const ActiveOrderDetailScreen = ({ route }) => {
       const arrayTime = `${diffDays}${diffHours}`.split('').map(Number)
       setDeliveryDate(arrayTime)
     } else if (resp.status === 401) {
+      navigation.navigate('LoginScreen')
     } else if (resp.status === 400) {
+      navigation.navigate('LoginScreen')
     }
   }
 
@@ -78,9 +93,15 @@ const ActiveOrderDetailScreen = ({ route }) => {
     const resp = await cancelOneTimeOrder(orderId, reason)
     if (resp.status === 200) {
       setModalVisible(!isModalVisible)
+      Toast.show({
+        topOffset: 60,
+        type: 'success',
+        text1: 'Order Cancelled',
+        text2: '.',
+      })
       navigation.navigate('MyOrders')
-    } else if (resp.status === 401) {
-    } else if (resp.status === 400) {
+    } else if (resp.status === 401 || resp.status === 400) {
+      navigation.navigate('LoginScreen')
     }
   }
 
@@ -116,7 +137,10 @@ const ActiveOrderDetailScreen = ({ route }) => {
           <View>
             <Image
               source={{
-                uri: order.employer.avatar,
+                uri:
+                  axios.defaults.baseURL +
+                  'media/getimage/' +
+                  order?.employer?.avatar,
               }}
               style={{ width: 40, height: 40 }}
             />
@@ -133,7 +157,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
               <MyText
                 style={{ fontSize: 15, fontWeight: '500', marginBottom: 2 }}
               >
-                {order.employer.name}
+                {order?.employer?.name}
               </MyText>
               <MyText
                 style={{
@@ -142,7 +166,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
                   color: 'rgba(35, 35, 35, 0.5)',
                 }}
               >
-                {order.employer.email}
+                {order?.employer?.email}
               </MyText>
             </View>
             <View>
@@ -157,7 +181,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
                 <FontAwesome5 name='bitcoin' color='#FAD461' size={21} />
                 &nbsp; &nbsp;
                 <MyText style={{ fontSize: 18, fontWeight: '600' }}>
-                  ${order.totalPrice}
+                  ${order?.totalPrice}
                 </MyText>
               </MyText>
             </View>
@@ -178,7 +202,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
             <MyText style={styles.heading}>Title</MyText>
             <MyText style={styles.description}>One time job</MyText>
           </View>
-          <MyText style={styles.description}>{order.jobTitle}</MyText>
+          <MyText style={styles.description}>{order?.jobTitle}</MyText>
         </View>
 
         {/* Description */}
@@ -192,7 +216,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
           >
             <MyText style={styles.heading}>Description</MyText>
           </View>
-          <MyText style={styles.description}>{order.description}</MyText>
+          <MyText style={styles.description}>{order?.description}</MyText>
         </View>
 
         {/* Delivery Time */}
@@ -283,6 +307,16 @@ const ActiveOrderDetailScreen = ({ route }) => {
         <TouchableOpacity
           labelStyle={{ color: '#fff' }}
           style={[styles.btn, { backgroundColor: colors.secondary }]}
+          onPress={() => {
+            navigation.navigate('MessagesBox', {
+              userImg:
+                axios.defaults.baseURL +
+                'media/getimage/' +
+                order?.employer?.avatar,
+              userName: order?.employer?.name,
+              chatType: 'Simple Chat',
+            })
+          }}
         >
           <MyText
             style={{

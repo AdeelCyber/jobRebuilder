@@ -11,7 +11,7 @@ import { Toast } from 'react-native-toast-message/lib/src/Toast'
 import { StripeProvider } from '@stripe/stripe-react-native'
 import axios from './root/http/axiosSet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-
+import * as Linking from 'expo-linking'
 export default function App() {
   const {
     theme: { colors },
@@ -38,6 +38,21 @@ export default function App() {
 
   useEffect(() => {
     fetchPublishableKey()
+
+    const handleUrl = async (event) => {
+      console.log('Hello')
+      // const { url } = event
+      // const parsedUrl = await Linking.parse(url)
+
+      // console.log('event= ', event)
+      // console.log('URL', url)
+      // if (parsedUrl.path === 'stripe-redirect') {
+      //   const stripeUserId = parsedUrl.queryParams.stripe_user_id
+      //   setStripeAccountId(stripeUserId)
+      // }
+    }
+
+    Linking.addEventListener('url', handleUrl)
   }, [])
   return (
     <StripeProvider

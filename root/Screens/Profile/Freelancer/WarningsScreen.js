@@ -13,7 +13,7 @@ import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { getWarnings } from '../services/warningServices'
-
+import axios from '../../../http/axiosSet'
 const WarningsScreen = () => {
   const navigation = useNavigation()
 
@@ -44,14 +44,14 @@ const WarningsScreen = () => {
         <Image
           style={{ height: 50, width: 50, borderRadius: 50 }}
           source={{
-            uri: props.logo,
+            uri: axios.defaults.baseURL + props.logo,
           }}
         />
 
         <View style={{ paddingHorizontal: 15 }}>
           <View
             style={{
-              width: '82.6%',
+              width: '79%',
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -63,7 +63,7 @@ const WarningsScreen = () => {
               style={{
                 backgroundColor: '#F50303',
                 borderRadius: 4,
-                width: 83,
+                width: 80,
                 height: 19,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -106,7 +106,7 @@ const WarningsScreen = () => {
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <MyText style={{ marginBottom: 11 }}>Warned On</MyText>
           <MyText>
-            {props.warning.createdAt.toLocaleDateString('default', {
+            {new Date(props.warning?.createdAt).toLocaleDateString('default', {
               month: 'short',
               day: 'numeric',
               year: 'numeric',
@@ -119,8 +119,7 @@ const WarningsScreen = () => {
             labelStyle={{ color: '#fff' }}
             onPress={() => {
               navigation.navigate('WarningDetail', {
-                startupId: props.startupId,
-                warningId: props.warningId._id,
+                warning: props,
               })
             }}
             style={{

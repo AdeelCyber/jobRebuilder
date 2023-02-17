@@ -45,7 +45,6 @@ const TabBar = (props) => {
 
   const getToken = async () => {
     const token = await AsyncStorage.getItem('@accessToken')
-    console.log(token)
     if (token) {
       setIsToken(true)
     }
@@ -53,18 +52,18 @@ const TabBar = (props) => {
 
   const goToPage = (index) => {
     if (index === 0) {
-      navigation.navigate('HomeService')
-    } else if (index === 1) {
-      navigation.navigate('GroupChat')
-    } else if (index === 2) {
       navigation.navigate('CampaignHome')
+    } else if (index === 1) {
+      navigation.navigate('Message')
+    } else if (index === 2) {
+      navigation.navigate('CampaignManagement')
     } else if (index === 3) {
       navigation.navigate('Profile')
     }
   }
 
   return (
-    <View style={[styles.container, { display: isToken ? 'flex' : 'none' }]}>
+    <View style={[styles.container, { display: props.show ? 'flex' : 'none' }]}>
       <TouchableOpacity
         onPress={() => {
           setSelectedTab(0)

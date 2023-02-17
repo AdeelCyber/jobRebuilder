@@ -34,6 +34,7 @@ import {
   getWarnings,
 } from "../Profile/services/FreeLancerServices";
 import CartContext from "../../Context/CartProvider";
+import BriefCase from "../../../assets/Svgs/BriefCase";
 
 function TodoComponent({ Title, desc, ...props }) {
   const [select, setselected] = useState(true);
@@ -218,6 +219,13 @@ const ManagingCampaign = ({ navigation, route }) => {
       itemStyle: 15,
       navigation: "Team",
     },
+    {
+      icon: BriefCase,
+      text: "Roles Needed",
+      img: background,
+      itemStyle: 15,
+      navigation: "TeamRoles",
+    },
   ]);
   const {
     theme: { colors },
@@ -260,7 +268,7 @@ const ManagingCampaign = ({ navigation, route }) => {
     }
   }, [data]);
   const userDetails = useContext(CartContext);
-  console.log(userDetails.userdetails.role);
+  // console.log(userDetails.userdetails.role);
   const [undefinedd, setundefined] = useState(false);
   const [isPart, setispart] = useState(true);
   //second line of defence

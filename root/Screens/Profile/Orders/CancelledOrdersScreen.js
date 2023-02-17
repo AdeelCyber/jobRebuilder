@@ -17,6 +17,7 @@ import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { Entypo } from '@expo/vector-icons'
 import { getOrderCategoryWise } from '../services/orderServices'
+import axios from '../../../http/axiosSet'
 
 const CancelledOrdersScreen = () => {
   const navigation = useNavigation()
@@ -54,7 +55,10 @@ const CancelledOrdersScreen = () => {
         <View>
           <Image
             source={{
-              uri: order.employer.avatar,
+              uri:
+                axios.defaults.baseURL +
+                'media/getimage/' +
+                order?.employer?.avatar,
             }}
             style={{ width: 36, height: 36 }}
           />
@@ -71,7 +75,7 @@ const CancelledOrdersScreen = () => {
             <MyText
               style={{ fontSize: 13, fontWeight: '500', marginBottom: 2 }}
             >
-              {order.employer.name}
+              {order?.employer?.name}
             </MyText>
             <MyText
               style={{
@@ -80,7 +84,7 @@ const CancelledOrdersScreen = () => {
                 color: 'rgba(35, 35, 35, 0.5)',
               }}
             >
-              {order.jobTitle}
+              {order?.jobTitle}
             </MyText>
           </View>
           <View>
@@ -93,7 +97,7 @@ const CancelledOrdersScreen = () => {
               }}
             >
               <MyText style={{ fontSize: 15, fontWeight: '600' }}>
-                ${order.totalPrice}
+                ${order?.totalPrice}
               </MyText>
             </MyText>
             <MyText
@@ -134,7 +138,7 @@ const CancelledOrdersScreen = () => {
             </View>
             <MyText style={{ color: 'gray' }}>
               {' '}
-              {order.createdAt.toLocaleDateString('default', {
+              {new Date(order?.createdAt).toLocaleDateString('default', {
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric',
@@ -153,7 +157,7 @@ const CancelledOrdersScreen = () => {
             </View>
             <MyText style={{ color: 'gray' }}>
               {' '}
-              {order.deliveryTime.toLocaleDateString('default', {
+              {new Date(order?.deliveryTime).toLocaleDateString('default', {
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric',

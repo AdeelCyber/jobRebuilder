@@ -6,6 +6,7 @@ import {
   ScrollView,
   Pressable,
   TextInput,
+  ToastAndroid,
 } from "react-native";
 
 import React, { useContext, useState, useEffect } from "react";
@@ -37,13 +38,16 @@ const AddRoles = ({ navigation, route }) => {
     const resp = await addRoles(data.startup._id, changed);
 
     if (resp.data.status === "OK") {
+      ToastAndroid.show("Success", ToastAndroid.SHORT);
       route.params.set(resp.data.projectRoles.roles);
+      navigation.goBack();
+    } else {
+      ToastAndroid.show("Failed", ToastAndroid.SHORT);
     }
   };
   function handlePress(text) {
     if (text === "Add Role") {
       getFreelancersData();
-      navigation.goBack();
     }
   }
 

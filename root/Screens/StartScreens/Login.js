@@ -15,7 +15,7 @@ import MyText from "../../Components/Text";
 
 import Icon from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useTogglePasswordVisibility } from "../../Components/useTogglePasswordVisibility";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -26,12 +26,15 @@ import {
   creategoogle,
   userLogin,
 } from "../Profile/services/authenticationServices";
+import Loader from "../../Components/Loader";
 import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
 import * as Google from "expo-auth-session/providers/google";
 import * as Facebook from "expo-auth-session/providers/facebook";
-import Loader from "../../Components/Loader";
+import { useLayoutEffect } from "react";
+
 const Login = () => {
+  const isFocused = useIsFocused();
   const {
     theme: { colors },
   } = useContext(Context);
@@ -40,13 +43,25 @@ const Login = () => {
   const [password, setpassword] = useState("");
   const { accessToken, setaccessToken } = useContext(CartProvider);
   const [refreshToken, setrefreshToken] = useState();
-  const { userdetails, setuserdetails } = useContext(CartProvider);
+  const { userdetails, setuserdetails, setUserTab } = useContext(CartProvider);
+  const logged = useContext(CartProvider);
   const [getcondition, setcondition] = useState(false);
-
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
 
   const { socket, setsocket } = useContext(CartProvider);
+
+  useLayoutEffect(() => {
+    console.log("2 times");
+    console.log(userdetails);
+    if (logged.islogin) {
+      if (userdetails.role === "Freelancer") {
+        navigation.navigate("HomeService");
+      } else {
+        navigation.navigate("CampaignHome");
+      }
+    }
+  }, [navigation, isFocused]);
   const startsocket = useCallback(
     (accessToken) => {
       setsocket(
@@ -87,6 +102,10 @@ const Login = () => {
           try {
             await AsyncStorage.setItem("@accessToken", res.data.accessToken);
             await AsyncStorage.setItem("@refreshToken", res.data.refreshToken);
+            await AsyncStorage.setItem(
+              "@userDetail",
+              JSON.stringify(res.data.user)
+            );
 
             //console.log("done");
           } catch (error) {
@@ -98,7 +117,15 @@ const Login = () => {
             text1: "You Successfully created the account",
             text2: ".",
           });
-          navigation.navigate("Message");
+
+          setUserTab(false);
+
+          if (res.data.user.role === "Freelancer") {
+            navigation.navigate("HomeService");
+          } else {
+            navigation.navigate("CampaignHome");
+          }
+          logged.setislogin(true);
         }
       }
     } catch (err) {
@@ -132,11 +159,17 @@ const Login = () => {
           try {
             await AsyncStorage.setItem("@accessToken", res.data.accessToken);
             await AsyncStorage.setItem("@refreshToken", res.data.refreshToken);
+            await AsyncStorage.setItem(
+              "@userDetail",
+              JSON.stringify(res.data.user)
+            );
 
             //console.log("done");
           } catch (error) {
             //console.log(error);
           }
+
+          setUserTab(false);
 
           Toast.show({
             topOffset: 60,
@@ -144,7 +177,12 @@ const Login = () => {
             text1: "You're Successfully Logged In",
             text2: ".",
           });
-          navigation.navigate("Message");
+          if (res.data.user.role === "Freelancer") {
+            navigation.navigate("HomeService");
+          } else {
+            navigation.navigate("CampaignHome");
+          }
+          logged.setislogin(true);
         }
       }
     } catch (err) {
@@ -164,6 +202,7 @@ const Login = () => {
       setcondition(true);
       try {
         const response = await userLogin(email, password);
+        console.log(response);
         //console.log(response.data);
         if (response.status == 200) {
           //console.log(response.data.user);
@@ -180,8 +219,11 @@ const Login = () => {
               "@refreshToken",
               response.data.refreshToken
             );
-
-            //console.log("done");
+            await AsyncStorage.setItem(
+              "@userDetail",
+              JSON.stringify(response.data.user)
+            );
+            console.log("async setting" + JSON.stringify(response.data.user));
           } catch (error) {
             //console.log(error);
           }
@@ -193,7 +235,15 @@ const Login = () => {
             text1: "You're Successfully Logged In",
             text2: ".",
           });
-          navigation.navigate("Message");
+
+          setUserTab(false);
+
+          if (response.data.user.role === "Freelancer") {
+            navigation.navigate("HomeService");
+          } else {
+            navigation.navigate("CampaignHome");
+          }
+          logged.setislogin(true);
         }
       } catch (error) {
         setcondition(false);

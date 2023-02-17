@@ -17,6 +17,7 @@ import { Entypo } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { getSingleOrder } from '../services/orderServices'
+import axios from '../../../http/axiosSet'
 
 const CancelledOrderDetailScreen = ({ route }) => {
   const navigation = useNavigation()
@@ -34,7 +35,9 @@ const CancelledOrderDetailScreen = ({ route }) => {
     if (resp.status === 200) {
       setOrder(resp.data.data)
     } else if (resp.status === 401) {
+      navigation.navigate('LoginScreen')
     } else if (resp.status === 400) {
+      navigation.navigate('LoginScreen')
     }
   }
 
@@ -76,7 +79,10 @@ const CancelledOrderDetailScreen = ({ route }) => {
           <View>
             <Image
               source={{
-                uri: 'https://banner2.cleanpng.com/20180625/req/kisspng-computer-icons-avatar-business-computer-software-user-avatar-5b3097fcae25c3.3909949015299112927133.jpg',
+                uri:
+                  axios.defaults.baseURL +
+                  'media/getimage/' +
+                  order?.employer?.avatar,
               }}
               style={{ width: 40, height: 40 }}
             />
@@ -93,7 +99,7 @@ const CancelledOrderDetailScreen = ({ route }) => {
               <MyText
                 style={{ fontSize: 15, fontWeight: '500', marginBottom: 2 }}
               >
-                Phil Jones
+                {order?.employer?.name}
               </MyText>
               <MyText
                 style={{
@@ -102,7 +108,7 @@ const CancelledOrderDetailScreen = ({ route }) => {
                   color: 'rgba(35, 35, 35, 0.5)',
                 }}
               >
-                phil@gmail.com
+                {order?.employer?.email}
               </MyText>
             </View>
             <View>
@@ -116,7 +122,9 @@ const CancelledOrderDetailScreen = ({ route }) => {
               >
                 <FontAwesome5 name='bitcoin' color='#FAD461' size={21} />
                 &nbsp; &nbsp;
-                <MyText style={{ fontSize: 18, fontWeight: '600' }}>$50</MyText>
+                <MyText style={{ fontSize: 18, fontWeight: '600' }}>
+                  ${order?.totalPrice}
+                </MyText>
               </MyText>
             </View>
           </View>
@@ -136,7 +144,7 @@ const CancelledOrderDetailScreen = ({ route }) => {
             <MyText style={styles.heading}>Title</MyText>
             <MyText style={styles.description}>One time job</MyText>
           </View>
-          <MyText style={styles.description}>Make me a logo</MyText>
+          <MyText style={styles.description}>{order?.jobTItle}</MyText>
         </View>
 
         {/* Description */}
@@ -150,10 +158,7 @@ const CancelledOrderDetailScreen = ({ route }) => {
           >
             <MyText style={styles.heading}>Description</MyText>
           </View>
-          <MyText style={styles.description}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-            venenatis sit amet risus a bibendum.
-          </MyText>
+          <MyText style={styles.description}>{order?.description}</MyText>
         </View>
 
         {/* Cancelled Reason */}

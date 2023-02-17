@@ -15,14 +15,21 @@ import { Entypo } from '@expo/vector-icons'
 import SvgImport from '../../../Components/SvgImport'
 import UploadIcon from '../../../../assets/Svgs/UploadIcon'
 import * as DocumentPicker from 'expo-document-picker'
-import { uploadFileServer } from '../services/orderServices'
+import {
+  deliverOneTimeOrder,
+  uploadFileServer,
+} from '../services/orderServices'
+import { fileUpload } from '../services/fileServices'
+import Toast from 'react-native-toast-message'
 
 const DeliverProjectScreen = ({ route }) => {
   const navigation = useNavigation()
   const [comment, setComment] = useState('')
   const [file, setFile] = useState(null)
   const [fileNameFromServer, setFileNameFromServer] = useState('')
+  const [attachments, setAttachments] = useState([])
 
+  const { orderId } = route.params
   const {
     theme: { colors },
   } = useContext(Context)
@@ -34,23 +41,29 @@ const DeliverProjectScreen = ({ route }) => {
         throw new Error('File not selected')
       }
       setFile(result)
-      const formData = new FormData()
-      formData.append('file', {
-        uri: result.uri,
-        name: result.name,
-        type: result.type,
-      })
-      if (result.type !== 'success') {
-        return
-      }
+      const { body } = await fileUpload(result.uri)
+      console.log(JSON.parse(body))
 
-      const resp = await uploadFileServer(formData)
-      // console.log(resp.data.filename)
-      if (resp.status === 200) {
-        setFileNameFromServer(resp.data.filename)
-      }
+      setAttachments((prevItems) => {
+        return [...prevItems, JSON.parse(body).filename]
+      })
     } catch (error) {
       console.log(error.message)
+    }
+  }
+
+  const deliver = async () => {
+    const resp = await deliverOneTimeOrder(orderId, comment, attachments)
+    if (resp.status === 200) {
+      Toast.show({
+        topOffset: 60,
+        type: 'success',
+        text1: 'Order Cancelled',
+        text2: '.',
+      })
+      navigation.navigate('FreelancerProfile')
+    } else if (resp.status === 400 || resp.status === 401) {
+      navigation.navigate('LoginScreen')
     }
   }
 
@@ -72,6 +85,9 @@ const DeliverProjectScreen = ({ route }) => {
               paddingLeft: 15,
               marginLeft: 4,
               fontSize: 12,
+            }}
+            onChangeText={(e) => {
+              setComment(e)
             }}
             multiline={true}
             scrollEnabled={true}
@@ -107,7 +123,9 @@ const DeliverProjectScreen = ({ route }) => {
             styles.btn,
             { width: '100%', backgroundColor: colors.secondary },
           ]}
-          onPress={() => {}}
+          onPress={() => {
+            deliver()
+          }}
         >
           <MyText
             style={{

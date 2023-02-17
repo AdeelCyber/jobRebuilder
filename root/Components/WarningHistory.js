@@ -1,4 +1,11 @@
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  ToastAndroid,
+} from "react-native";
 
 import React, { useState, useContext } from "react";
 import Context from "../Context/Context";
@@ -12,6 +19,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import msg from "../../assets/Svgs/Message";
 import { WarnApprove } from "../Screens/Profile/services/FreeLancerServices";
+
 const WarningHistory = ({ designation, image, text, ...props }) => {
   const {
     theme: { colors },
@@ -24,6 +32,7 @@ const WarningHistory = ({ designation, image, text, ...props }) => {
 
     if (resp.data.status === "OK") {
       console.log("success warned");
+      ToastAndroid.show("Warning sent successfully", ToastAndroid.SHORT);
     }
   };
 

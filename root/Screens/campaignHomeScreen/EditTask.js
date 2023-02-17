@@ -6,6 +6,7 @@ import {
   ScrollView,
   Pressable,
   TextInput,
+  ToastAndroid,
 } from "react-native";
 
 import React, { useContext, useState, useEffect } from "react";
@@ -98,13 +99,16 @@ const EditTask = ({ navigation, route }) => {
 
     if (resp.data.status === "OK") {
       route.params.set(resp.data.todos.todos);
+      navigation.goBack();
+      ToastAndroid.show("Task Updated", ToastAndroid.SHORT);
+    } else {
+      ToastAndroid.show("Error", ToastAndroid.SHORT);
     }
   };
 
   function handlePress(text) {
     if (text === "Update") {
       getFreelancersData();
-      navigation.goBack();
     }
   }
   function handleArray(text, id, item) {

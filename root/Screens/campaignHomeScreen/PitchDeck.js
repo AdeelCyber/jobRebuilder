@@ -6,6 +6,7 @@ import {
   ScrollView,
   Pressable,
   PermissionsAndroid,
+  ToastAndroid,
 } from "react-native";
 
 import React, { useContext, useState } from "react";
@@ -58,6 +59,7 @@ const PitchDeck = ({ navigation, route }) => {
       result.uri.length
     );
     console.log("filename", filename);
+    ToastAndroid.show("File Uploaded", ToastAndroid.SHORT);
     setchanged({ ...changed, file: filename });
   };
   //upload out
@@ -91,9 +93,9 @@ const PitchDeck = ({ navigation, route }) => {
           {/* header out */}
           {/* card in */}
           <CampaignCard
-            title={"MotoMobiles"}
-            niche={"Mobile Making and selling company."}
-            Logo={logo}
+            title={data.startup.businessName}
+            niche={data.startup.category}
+            Logo={data.startup.logo}
             Thumbnail={Thumbnail}
             modal={setModal}
             navigation={navigation}
@@ -118,11 +120,12 @@ const PitchDeck = ({ navigation, route }) => {
                 borderRadius: 10,
                 flexDirection: "row",
               }}
-              onPress={() =>
+              onPress={() => {
                 downloadFile(
                   `https://stepdev.up.railway.app/media/getFile/${data.startup.pitchDeck}`
-                )
-              }
+                );
+                ToastAndroid.show("Downloading...", ToastAndroid.SHORT);
+              }}
             >
               <SvgImport svg={pdf} />
               <MyText

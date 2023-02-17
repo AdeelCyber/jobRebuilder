@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   ScrollView,
   StyleSheet,
@@ -12,19 +12,37 @@ import Icon from '@expo/vector-icons/FontAwesome'
 
 import { useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader'
+import { getOrderCategoryWise, getOrders } from '../services/orderServices'
+
+import axios from '../../../http/axiosSet'
 
 const CompletedJobsScreen = () => {
   const navigation = useNavigation()
+
+  const [orders, setOrders] = useState([])
+  useEffect(() => {
+    fetchOrder()
+  }, [])
+
+  const fetchOrder = async () => {
+    const resp = await getOrderCategoryWise('Completed')
+
+    if (resp.status === 200) {
+      setOrders(resp.data.data)
+    } else if (resp.status === 404) {
+    } else if (resp.status === 401) {
+    }
+  }
 
   const {
     theme: { colors },
   } = useContext(Context)
 
-  const OrderItem = () => (
+  const OrderItem = ({ order }) => (
     <TouchableOpacity
       style={styles.orderItem}
       onPress={() => {
-        navigation.navigate('CompletedOrderDetail')
+        navigation.navigate('CompletedOrderDetail', { orderId: order._id })
       }}
     >
       <View
@@ -35,7 +53,10 @@ const CompletedJobsScreen = () => {
         <View>
           <Image
             source={{
-              uri: 'https://banner2.cleanpng.com/20180625/req/kisspng-computer-icons-avatar-business-computer-software-user-avatar-5b3097fcae25c3.3909949015299112927133.jpg',
+              uri:
+                axios.defaults.baseURL +
+                'media/getimage/' +
+                order?.employer?.avatar,
             }}
             style={{ width: 36, height: 36 }}
           />
@@ -52,7 +73,7 @@ const CompletedJobsScreen = () => {
             <MyText
               style={{ fontSize: 13, fontWeight: '500', marginBottom: 2 }}
             >
-              Phil Jones
+              {order?.employer?.name}
             </MyText>
             <MyText
               style={{
@@ -61,7 +82,7 @@ const CompletedJobsScreen = () => {
                 color: 'rgba(35, 35, 35, 0.5)',
               }}
             >
-              Logo Designing
+              {order?.jobTitle}
             </MyText>
           </View>
           <View>
@@ -73,7 +94,9 @@ const CompletedJobsScreen = () => {
                 alignItems: 'center',
               }}
             >
-              <MyText style={{ fontSize: 15, fontWeight: '600' }}>$50</MyText>
+              <MyText style={{ fontSize: 15, fontWeight: '600' }}>
+                ${order?.totalPrice}
+              </MyText>
             </MyText>
             <MyText
               style={{
@@ -82,11 +105,14 @@ const CompletedJobsScreen = () => {
                 color: 'rgba(35, 35, 35, 0.5)',
               }}
             >
-              <Icon name='star' color='#eeeeee' />
-              <Icon name='star' color='#eeeeee' />
-              <Icon name='star' color='#eeeeee' />
-              <Icon name='star' color='#eeeeee' />
-              <Icon name='star' color='#eeeeee' />
+              {[...Array(5).keys()].map((x) => {
+                return (
+                  <Icon
+                    name='star'
+                    color={x + 1 <= order?.rating ? 'yellow' : '#eeeeee'}
+                  />
+                )
+              })}
             </MyText>
           </View>
         </View>
@@ -111,7 +137,13 @@ const CompletedJobsScreen = () => {
                 Due Date
               </MyText>
             </View>
-            <MyText style={{ color: 'gray' }}>25 Dec 2022</MyText>
+            <MyText style={{ color: 'gray' }}>
+              {new Date(order?.createdAt).toLocaleDateString('default', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </MyText>
           </View>
           <View>
             <View
@@ -123,7 +155,13 @@ const CompletedJobsScreen = () => {
                 Delivered On
               </MyText>
             </View>
-            <MyText style={{ color: 'gray' }}>23 Dec 2022</MyText>
+            <MyText style={{ color: 'gray' }}>
+              {new Date(order?.deliveryTime).toLocaleDateString('default', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </MyText>
           </View>
         </View>
 
@@ -150,12 +188,9 @@ const CompletedJobsScreen = () => {
 
   return (
     <View style={{ marginTop: 33 }}>
-      <OrderItem />
-      <OrderItem />
-      <OrderItem />
-      <OrderItem />
-      <OrderItem />
-      <OrderItem />
+      {orders?.map((order) => {
+        return <OrderItem key={order._id} order={order} />
+      })}
     </View>
   )
 }
