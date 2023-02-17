@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 
 import MyText from '../../Components/Text'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import Entypo from '@expo/vector-icons/Entypo'
 import StarRating from 'react-native-star-rating-widget'
 import Context from '../../Context/Context'
@@ -32,9 +32,13 @@ import axios from '../../http/axiosSet'
 import CustomHeader from '../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import Loader from '../../Components/Loader'
 
 const FreeLancerProfile = ({ route }) => {
   const [role, setRole] = useState()
+
+  const isFocused = useIsFocused()
+  const [loading, setLoading] = useState(true)
 
   const navigation = useNavigation()
   const {
@@ -61,7 +65,7 @@ const FreeLancerProfile = ({ route }) => {
   useEffect(() => {
     fetchFreelancer()
     getUser()
-  }, [])
+  }, [isFocused])
 
   const getUser = async () => {
     const u = await AsyncStorage.getItem('@userDetail')
@@ -73,13 +77,19 @@ const FreeLancerProfile = ({ route }) => {
   }
 
   const fetchFreelancer = async () => {
+    setLoading(true)
     const resp = await getSpecificFreelancer(id)
+    setLoading(false)
     console.log(resp)
     if (resp.status === 200) {
       setFreelancer(resp.data.data)
     } else {
       navigation.navigate('CampaignHome')
     }
+  }
+
+  if (loading) {
+    return <Loader visible={loading} color='white' indicatorSize='large' />
   }
 
   return (
