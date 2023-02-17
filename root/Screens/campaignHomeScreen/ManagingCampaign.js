@@ -35,6 +35,8 @@ import {
 } from "../Profile/services/FreeLancerServices";
 import CartContext from "../../Context/CartProvider";
 import BriefCase from "../../../assets/Svgs/BriefCase";
+import Loader from "../../Components/Loader";
+import { useIsFocused } from "@react-navigation/native";
 
 function TodoComponent({ Title, desc, ...props }) {
   const [select, setselected] = useState(true);
@@ -131,6 +133,7 @@ function TodoComponent({ Title, desc, ...props }) {
 }
 
 const ManagingCampaign = ({ navigation, route }) => {
+  const isFocused = useIsFocused();
   //fetch id params from previous screen into useState
 
   const [id, setid] = useState(route.params.id);
@@ -239,8 +242,10 @@ const ManagingCampaign = ({ navigation, route }) => {
   useEffect(() => {
     const getFreelancersData = async () => {
       const resp = await getStartupDetails(id);
+      console.log(id);
 
-      // console.log(resp.data);
+      console.log(resp.data);
+
       if (resp.data.status === "OK") {
         console.log("done");
 
@@ -253,7 +258,7 @@ const ManagingCampaign = ({ navigation, route }) => {
     };
 
     getFreelancersData();
-  }, []);
+  }, [isFocused]);
 
   useEffect(() => {
     if (data) {
@@ -304,60 +309,59 @@ const ManagingCampaign = ({ navigation, route }) => {
     };
 
     getFreelancersData();
-  }, []);
+  }, [isFocused]);
 
-  return (
-    Loaded &&
-    Loaded2 && (
-      <ScrollView
-        style={{
-          flex: 1,
-          backgroundColor: colors.white,
-        }}
-      >
-        <CustomHeader
-          Title="Beyond"
-          style={{ elevation: 0 }}
-          nav={navigation}
+  return Loaded && Loaded2 ? (
+    <ScrollView
+      style={{
+        flex: 1,
+        backgroundColor: colors.white,
+      }}
+    >
+      <CustomHeader Title="Beyond" style={{ elevation: 0 }} nav={navigation} />
+      <View style={{ marginTop: 10 }}>
+        <FlatList
+          horizontal
+          data={catgeories}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item, index }) => (
+            <HomeCategories
+              svg={item.icon}
+              title={item.text}
+              navigation={navigation}
+              screen={item.navigation}
+              data={data}
+              img={item.img}
+              show={show}
+              id={id}
+              isPart={isPart}
+              undefinedd={undefinedd}
+              style={{
+                marginHorizontal: 10,
+                marginLeft: index == 0 ? 20 : 0,
+              }}
+              itemStyle={item.itemStyle}
+            />
+          )}
         />
-        <View style={{ marginTop: 10 }}>
-          <FlatList
-            horizontal
-            data={catgeories}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => (
-              <HomeCategories
-                svg={item.icon}
-                title={item.text}
-                navigation={navigation}
-                screen={item.navigation}
-                data={data}
-                img={item.img}
-                show={show}
-                id={id}
-                isPart={isPart}
-                undefinedd={undefinedd}
-                style={{
-                  marginHorizontal: 10,
-                  marginLeft: index == 0 ? 20 : 0,
-                }}
-                itemStyle={item.itemStyle}
-              />
-            )}
-          />
-        </View>
-        <View style={{ paddingHorizontal: 23 }}>
-          {/* header heading */}
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              paddingRight: 4,
-              marginTop: 30,
-            }}
+      </View>
+      <View style={{ paddingHorizontal: 23 }}>
+        {/* header heading */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingRight: 4,
+            marginTop: 30,
+          }}
+        >
+          <MyText style={{ fontSize: 24, fontWeight: "700" }}>To Do</MyText>
+          <Pressable
+            onPress={() =>
+              navigation.navigate("Todo", { data: data, show: show })
+            }
           >
-            <MyText style={{ fontSize: 24, fontWeight: "700" }}>To Do</MyText>
             <MyText
               style={{
                 fontWeight: "500",
@@ -367,18 +371,58 @@ const ManagingCampaign = ({ navigation, route }) => {
             >
               View more
             </MyText>
-          </View>
-          {/* Todo Component */}
-          {Todo.map((item, index) => (
-            <TodoComponent
-              key={index}
-              Title={item.title}
-              desc={item.description}
-              members={item.members}
-              item={item}
-            />
-          ))}
+          </Pressable>
+        </View>
+        {/* Todo Component */}
+        {Todo.map((item, index) => (
+          <TodoComponent
+            key={index}
+            Title={item.title}
+            desc={item.description}
+            members={item.members}
+            item={item}
+          />
+        ))}
 
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingRight: 4,
+            marginTop: 30,
+          }}
+        >
+          <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            Team Members
+          </MyText>
+          <Pressable
+            onPress={() =>
+              navigation.navigate("Team", { data: data, show: show })
+            }
+          >
+            <MyText
+              style={{
+                fontWeight: "500",
+                fontSize: 10,
+                color: colors.lighttext,
+              }}
+            >
+              View more
+            </MyText>
+          </Pressable>
+        </View>
+
+        {members.map((item) => (
+          <TeamMemberCampaign
+            designation={item.position}
+            image={item.member.avatar}
+            text={item.member.name}
+            style={{ marginVertical: 12 }}
+          />
+        ))}
+
+        {show ? (
           <View
             style={{
               flexDirection: "row",
@@ -389,71 +433,39 @@ const ManagingCampaign = ({ navigation, route }) => {
             }}
           >
             <MyText style={{ fontSize: 24, fontWeight: "700" }}>
-              Team Members
+              Warnings
             </MyText>
-            <MyText
-              style={{
-                fontWeight: "500",
-                fontSize: 10,
-                color: colors.lighttext,
-              }}
+            <Pressable
+              onPress={() => navigation.navigate("TeamWarnings", { id: id })}
             >
-              View more
-            </MyText>
-          </View>
-
-          {members.map((item) => (
-            <TeamMemberCampaign
-              designation={item.position}
-              image={item.member.avatar}
-              text={item.member.name}
-              style={{ marginVertical: 12 }}
-            />
-          ))}
-
-          {show ? (
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                paddingRight: 4,
-                marginTop: 30,
-              }}
-            >
-              <MyText style={{ fontSize: 24, fontWeight: "700" }}>
-                Warnings
-              </MyText>
-              <Pressable
-                onPress={() => navigation.navigate("TeamWarnings", { id: id })}
+              <MyText
+                style={{
+                  fontWeight: "500",
+                  fontSize: 10,
+                  color: colors.lighttext,
+                }}
               >
-                <MyText
-                  style={{
-                    fontWeight: "500",
-                    fontSize: 10,
-                    color: colors.lighttext,
-                  }}
-                >
-                  View more
-                </MyText>
-              </Pressable>
-            </View>
-          ) : null}
+                View more
+              </MyText>
+            </Pressable>
+          </View>
+        ) : null}
 
-          {show
-            ? TeamWarning.map((item) => (
-                <TeamMemberWarning
-                  designation={item.warnings.warnedTo.jobTitle}
-                  image={item.warnings.warnedTo.avatar}
-                  text={item.warnings.warnedTo.name}
-                  Warnings={item.WarningCount}
-                  style={{ marginVertical: 12 }}
-                />
-              ))
-            : null}
-        </View>
-      </ScrollView>
-    )
+        {show
+          ? TeamWarning.map((item) => (
+              <TeamMemberWarning
+                designation={item.warnings.warnedTo.jobTitle}
+                image={item.warnings.warnedTo.avatar}
+                text={item.warnings.warnedTo.name}
+                Warnings={item.WarningCount}
+                style={{ marginVertical: 12 }}
+              />
+            ))
+          : null}
+      </View>
+    </ScrollView>
+  ) : (
+    <Loader visible={!Loaded && !Loaded2} color="white" indicatorSize="large" />
   );
 };
 

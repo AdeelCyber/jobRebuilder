@@ -9,6 +9,7 @@ import axios from '../../http/axiosSet'
 const Portfolio = ({ portfolio }) => {
   const navigation = useNavigation()
 
+  console.log(portfolio)
   return (
     <ScrollView style={{ marginTop: 20 }}>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
@@ -25,10 +26,7 @@ const Portfolio = ({ portfolio }) => {
             >
               <Image
                 source={{
-                  uri:
-                    axios.defaults.baseURL +
-                    'media/getimage/' +
-                    element.attachments[0],
+                  uri: element.attachments[0],
                 }}
                 style={{ width: 170, height: 150, borderRadius: 10 }}
               />

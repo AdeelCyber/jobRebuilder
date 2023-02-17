@@ -10,28 +10,37 @@ import MyText from '../../../Components/Text'
 import Context from '../../../Context/Context'
 import Icon from '@expo/vector-icons/FontAwesome'
 
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader'
 import { getOrderCategoryWise, getOrders } from '../services/orderServices'
 
 import axios from '../../../http/axiosSet'
+import Loader from '../../../Components/Loader'
 
 const CompletedOrdersScreen = () => {
   const navigation = useNavigation()
 
   const [orders, setOrders] = useState([])
+  const isFocused = useIsFocused()
   useEffect(() => {
     fetchOrder()
-  }, [])
+  }, [isFocused])
+
+  const [loading, setLoading] = useState(true)
 
   const fetchOrder = async () => {
-    const resp = await getOrderCategoryWise('Completed')
-
+    setLoading(true)
+    const resp = await getOrderCategoryWise('Active')
+    setLoading(false)
     if (resp.status === 200) {
       setOrders(resp.data.data)
     } else if (resp.status === 404) {
     } else if (resp.status === 401) {
     }
+  }
+
+  if (loading) {
+    return <Loader visible={loading} color='white' indicatorSize='large' />
   }
 
   const {
@@ -188,9 +197,27 @@ const CompletedOrdersScreen = () => {
 
   return (
     <View style={{ marginTop: 33 }}>
-      {orders?.map((order) => {
-        return <OrderItem key={order._id} order={order} />
-      })}
+      {orders?.length !== 0 ? (
+        <>
+          {orders?.map((order) => {
+            return <OrderItem key={order._id} order={order} />
+          })}
+        </>
+      ) : (
+        <View>
+          <MyText
+            style={{
+              fontSize: 20,
+              fontWeight: '700',
+              color: 'red',
+              marginTop: 12,
+              textAlign: 'center',
+            }}
+          >
+            No orders
+          </MyText>
+        </View>
+      )}
     </View>
   )
 }

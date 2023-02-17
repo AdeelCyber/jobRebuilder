@@ -10,7 +10,7 @@ import MyText from '../../../Components/Text'
 import Context from '../../../Context/Context'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import Earning from '../../../Components/Earning'
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons'
@@ -19,21 +19,27 @@ import {
   sendWithDrawRequest,
 } from '../services/walletServices'
 import Toast from 'react-native-toast-message'
+import Loader from '../../../Components/Loader'
 
 const FreelancerEarningsScreen = () => {
   const navigation = useNavigation()
   const {
     theme: { colors },
   } = useContext(Context)
+  const isFocused = useIsFocused()
+
+  const [loading, setLoading] = useState(true)
 
   const [walletDetail, setWalletDetail] = useState({})
 
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [isFocused])
 
   const fetchData = async () => {
+    setLoading(true)
     const resp = await getWalletDetail()
+    setLoading(false)
     if (resp.status === 200) {
       setWalletDetail(resp.data.data)
       console.log('wallet', resp.data.data)
@@ -73,72 +79,74 @@ const FreelancerEarningsScreen = () => {
           return <Feather name='info' size={20} color='black' />
         }}
       />
-
-      <View
-        style={[
-          styles.container,
-          {
-            backgroundColor: colors.background,
-            paddingTop: 30,
-            padding: 23,
-          },
-        ]}
-      >
-        <Earning
-          title='Net Income'
-          subHeadingsDescriptions={[
-            `Earning this month`,
-            'Active Jobs',
-            'Pending Clearance',
-            'Jobs Completed',
-          ]}
-          style={{ marginTop: 0, marginBottom: 28 }}
-          total={walletDetail.netIncome}
-          subHeadings={[
-            `$ ${walletDetail.earningsThisMonth}`,
-            walletDetail.activeJobs,
-            `$ ${walletDetail.pendingClearence}`,
-            walletDetail.jobsCompleted,
-          ]}
-        />
-        <TouchableOpacity
-          labelStyle={{ color: '#fff' }}
+      <Loader visible={loading} color='white' indicatorSize='large' />
+      {!loading && (
+        <View
           style={[
-            styles.btn,
-            { opacity: walletDetail.netIncome === 0 ? 0.5 : 1 },
+            styles.container,
+            {
+              backgroundColor: colors.background,
+              paddingTop: 30,
+              padding: 23,
+            },
           ]}
-          disabled={walletDetail.netIncome === 0}
-          onPress={() => {
-            sendRequest()
-          }}
         >
-          <MyText
-            style={{
-              fontSize: 16,
-              color: 'white',
+          <Earning
+            title='Net Income'
+            subHeadingsDescriptions={[
+              `Earning this month`,
+              'Active Jobs',
+              'Pending Clearance',
+              'Jobs Completed',
+            ]}
+            style={{ marginTop: 0, marginBottom: 28 }}
+            total={walletDetail.netIncome}
+            subHeadings={[
+              `$ ${walletDetail.earningsThisMonth}`,
+              walletDetail.activeJobs,
+              `$ ${walletDetail.pendingClearence}`,
+              walletDetail.jobsCompleted,
+            ]}
+          />
+          <TouchableOpacity
+            labelStyle={{ color: '#fff' }}
+            style={[
+              styles.btn,
+              { opacity: walletDetail.netIncome === 0 ? 0.5 : 1 },
+            ]}
+            disabled={walletDetail.netIncome === 0}
+            onPress={() => {
+              sendRequest()
             }}
           >
-            Withdrawal Request
-          </MyText>
-        </TouchableOpacity>
+            <MyText
+              style={{
+                fontSize: 16,
+                color: 'white',
+              }}
+            >
+              Withdrawal Request
+            </MyText>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          labelStyle={{ color: '#fff' }}
-          style={[styles.btn, { backgroundColor: '#BDFBFD' }]}
-          onPress={() => {
-            navigation.navigate('EarningsRecords')
-          }}
-        >
-          <MyText
-            style={{
-              fontSize: 16,
-              color: colors.text,
+          <TouchableOpacity
+            labelStyle={{ color: '#fff' }}
+            style={[styles.btn, { backgroundColor: '#BDFBFD' }]}
+            onPress={() => {
+              navigation.navigate('EarningsRecords')
             }}
           >
-            View Earnings Record
-          </MyText>
-        </TouchableOpacity>
-      </View>
+            <MyText
+              style={{
+                fontSize: 16,
+                color: colors.text,
+              }}
+            >
+              View Earnings Record
+            </MyText>
+          </TouchableOpacity>
+        </View>
+      )}
     </ScrollView>
   )
 }

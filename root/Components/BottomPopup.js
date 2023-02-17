@@ -22,7 +22,6 @@ const BottomPopup = (props) => {
   }, [props.show, open]);
 
   const handleit = (msg) => {
-    alert(msg);
     setopen(props.show);
   };
   return (

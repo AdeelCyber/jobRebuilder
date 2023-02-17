@@ -72,85 +72,82 @@ const TeamRoles = ({ navigation, route }) => {
     }
   };
   return (
-    // main container
-    <ScrollView
-      style={{
-        flex: 1,
-        backgroundColor: colors.white,
-      }}
-    >
+    <View style={{ flex: 1, backgroundColor: colors.white }}>
       {/* header */}
       <CustomHeader2 style={{ elevation: 0 }} nav={navigation} />
       {/* header out */}
-      {/* card in */}
-      <CampaignCard
-        title={data.startup.businessName}
-        niche={data.startup.category}
-        Logo={data.startup.logo}
-        Thumbnail={Thumbnail}
-        modal={setModal}
-        data={data}
-        navigation={navigation}
-        show={show}
-        isPart={isPart}
-        undefinedd={undefinedd}
-      />
-      {/* card out */}
-      {/* Little nav in */}
-      <LittleNav style={{ marginTop: 10 }} title={"Roles"} />
-      {/* Little nav out */}
-      {/* roles in */}
-      <View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            paddingHorizontal: 23,
-            marginTop: 15,
-          }}
-        >
-          <Text style={{ fontSize: 24, fontWeight: "700" }}>Team Roles</Text>
+
+      <ScrollView>
+        {/* card in */}
+        <CampaignCard
+          title={data.startup.businessName}
+          niche={data.startup.category}
+          Logo={data.startup.logo}
+          Thumbnail={Thumbnail}
+          modal={setModal}
+          data={data}
+          navigation={navigation}
+          show={show}
+          isPart={isPart}
+          undefinedd={undefinedd}
+        />
+        {/* card out */}
+        {/* Little nav in */}
+        <LittleNav style={{ marginTop: 10 }} title={"Roles"} />
+        {/* Little nav out */}
+        {/* roles in */}
+        <View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingHorizontal: 23,
+              marginTop: 15,
+            }}
+          >
+            <Text style={{ fontSize: 24, fontWeight: "700" }}>Team Roles</Text>
+          </View>
+          <View style={{ paddingHorizontal: 23 }}>
+            {Roles.map((item) => (
+              <RolesDropDown
+                Title={item.title}
+                desc={item.description}
+                nav={navigation}
+                handlePress={handlePress}
+                data={data}
+                item={item}
+                set={setRoles}
+                delete={DeleteRole}
+                show={show}
+                isPart={isPart}
+                undefinedd={undefinedd}
+                setmodal={setModal2}
+              />
+            ))}
+          </View>
         </View>
-        <View style={{ paddingHorizontal: 23 }}>
-          {Roles.map((item) => (
-            <RolesDropDown
-              Title={item.title}
-              desc={item.description}
-              nav={navigation}
-              handlePress={handlePress}
-              data={data}
-              item={item}
-              set={setRoles}
-              delete={DeleteRole}
-              show={show}
-              isPart={isPart}
-              undefinedd={undefinedd}
-              setmodal={setModal2}
+        {/* roles out */}
+        {/* Black Button */}
+        {show && (
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 10,
+            }}
+          >
+            <Buttons
+              color={colors.text}
+              text="+ Add new Item"
+              style={{ width: "50%", alignSelf: "center" }}
+              pass={handlePress}
             />
-          ))}
-        </View>
-      </View>
-      {/* roles out */}
-      {/* Black Button */}
-      {show && (
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 10,
-          }}
-        >
-          <Buttons
-            color={colors.text}
-            text="+ Add new Item"
-            style={{ width: "50%", alignSelf: "center" }}
-            pass={handlePress}
-          />
-        </View>
-      )}
-      <BottomPopup show={modal.modal1} setshow={setModal} />
-    </ScrollView>
+          </View>
+        )}
+        <BottomPopup show={modal.modal1} setshow={setModal} />
+      </ScrollView>
+    </View>
   );
 };
 

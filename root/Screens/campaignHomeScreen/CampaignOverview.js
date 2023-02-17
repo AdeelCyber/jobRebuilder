@@ -38,163 +38,164 @@ const OverView = ({ navigation, route }) => {
   ]);
   return (
     // main container
-    <ScrollView
-      style={{
-        flex: 1,
-        backgroundColor: colors.white,
-      }}
-    >
+    <View style={{ flex: 1, backgroundColor: colors.white }}>
       {/* header */}
-      <CustomHeader2 nav={navigation} />
+      <CustomHeader2 nav={navigation} Title={data.startup.businessName} />
       {/* header out */}
-      {/* card in */}
-      <CampaignCard
-        title={data.startup.businessName}
-        niche={data.startup.category}
-        Logo={logo}
-        Thumbnail={Thumbnail}
-        modal={setModal}
-        data={data}
-        navigation={navigation}
-        show={show}
-        isPart={isPart}
-        undefinedd={undefinedd}
-      />
-      {/* card out */}
-      {/* Little nav in */}
-      <LittleNav style={{ marginTop: 10 }} title={"OverView"} />
-      {/* Little nav out */}
-      {/* One unit system */}
-      <View>
-        <View
-          style={{
-            paddingHorizontal: 23,
-            marginTop: 15,
-            marginBottom: 25,
-          }}
-        >
-          <MyText style={{ fontSize: 24, fontWeight: "700" }}>
-            Problem Statement
-          </MyText>
-        </View>
+      <ScrollView>
+        {/* card in */}
+        <CampaignCard
+          title={data.startup.businessName}
+          niche={data.startup.category}
+          Logo={logo}
+          Thumbnail={Thumbnail}
+          modal={setModal}
+          data={data}
+          navigation={navigation}
+          show={show}
+          isPart={isPart}
+          undefinedd={undefinedd}
+        />
+        {/* card out */}
+        {/* Little nav in */}
+        <LittleNav style={{ marginTop: 10 }} title={"OverView"} />
+        {/* Little nav out */}
+        {/* One unit system */}
         <View>
-          <TickPara para={data.startup.problemStatement} />
-        </View>
-      </View>
-      {/* One unit system out */}
-      {/* One unit system */}
-      <View>
-        <View
-          style={{
-            paddingHorizontal: 23,
-
-            marginBottom: 25,
-          }}
-        >
-          <MyText style={{ fontSize: 24, fontWeight: "700" }}>
-            Impact Statement
-          </MyText>
-        </View>
-        <View>
-          <TickPara para={data.startup.impactStatement} />
-        </View>
-      </View>
-      {/* One unit system out */}
-      {/* One unit system */}
-      <View>
-        <View
-          style={{
-            paddingHorizontal: 23,
-
-            marginBottom: 25,
-          }}
-        >
-          <MyText style={{ fontSize: 24, fontWeight: "700" }}>
-            Competition
-          </MyText>
-        </View>
-        <View>
-          <TickPara para={data.startup.competition} />
-        </View>
-      </View>
-      {/* One unit system out */}
-      {/* One unit system */}
-      <View>
-        <View
-          style={{
-            paddingHorizontal: 23,
-
-            marginBottom: 25,
-          }}
-        >
-          <MyText style={{ fontSize: 24, fontWeight: "700" }}>
-            Story about investors
-          </MyText>
-        </View>
-        <View>
-          <TickPara para={data.startup.story} />
-        </View>
-      </View>
-      {/* One unit system out */}
-      {/* One unit system */}
-      <View>
-        <View
-          style={{
-            paddingHorizontal: 23,
-
-            marginBottom: 25,
-          }}
-        >
-          <MyText style={{ fontSize: 24, fontWeight: "700" }}>Location</MyText>
-        </View>
-        <View>
-          <TickPara para={data.startup.location} logo={Location} />
-        </View>
-      </View>
-      {/* One unit system out */}
-      {/* One unit system */}
-      <View>
-        <View
-          style={{
-            paddingHorizontal: 23,
-
-            marginBottom: 25,
-          }}
-        >
-          <MyText style={{ fontSize: 24, fontWeight: "700" }}>Budget</MyText>
-        </View>
-        <View>
-          <TickPara
-            para={"$ " + data.startup.budget}
-            logo={Budget}
-            textStyle={{
-              fontWeight: "700",
-              fontSize: 20,
-              color: "#232323BF",
-              lineHeight: 30,
+          <View
+            style={{
+              paddingHorizontal: 23,
+              marginTop: 15,
+              marginBottom: 25,
             }}
-          />
+          >
+            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+              Problem Statement
+            </MyText>
+          </View>
+          <View>
+            <TickPara para={data.startup.problemStatement} />
+          </View>
         </View>
-      </View>
-      {/* One unit system out */}
-      {/* One unit system */}
-      <View>
-        <View
-          style={{
-            paddingHorizontal: 23,
-
-            marginBottom: 25,
-          }}
-        >
-          <MyText style={{ fontSize: 24, fontWeight: "700" }}>Category</MyText>
-        </View>
+        {/* One unit system out */}
+        {/* One unit system */}
         <View>
-          <TickPara para={data.startup.category} logo={Category} />
+          <View
+            style={{
+              paddingHorizontal: 23,
+
+              marginBottom: 25,
+            }}
+          >
+            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+              Impact Statement
+            </MyText>
+          </View>
+          <View>
+            <TickPara para={data.startup.impactStatement} />
+          </View>
         </View>
-      </View>
-      {/* One unit system out */}
-      <BottomPopup show={modal.modal1} setshow={setModal} />
-    </ScrollView>
+        {/* One unit system out */}
+        {/* One unit system */}
+        <View>
+          <View
+            style={{
+              paddingHorizontal: 23,
+
+              marginBottom: 25,
+            }}
+          >
+            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+              Competition
+            </MyText>
+          </View>
+          <View>
+            <TickPara para={data.startup.competition} />
+          </View>
+        </View>
+        {/* One unit system out */}
+        {/* One unit system */}
+        <View>
+          <View
+            style={{
+              paddingHorizontal: 23,
+
+              marginBottom: 25,
+            }}
+          >
+            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+              Story about investors
+            </MyText>
+          </View>
+          <View>
+            <TickPara para={data.startup.story} />
+          </View>
+        </View>
+        {/* One unit system out */}
+        {/* One unit system */}
+        <View>
+          <View
+            style={{
+              paddingHorizontal: 23,
+
+              marginBottom: 25,
+            }}
+          >
+            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+              Location
+            </MyText>
+          </View>
+          <View>
+            <TickPara para={data.startup.location} logo={Location} />
+          </View>
+        </View>
+        {/* One unit system out */}
+        {/* One unit system */}
+        <View>
+          <View
+            style={{
+              paddingHorizontal: 23,
+
+              marginBottom: 25,
+            }}
+          >
+            <MyText style={{ fontSize: 24, fontWeight: "700" }}>Budget</MyText>
+          </View>
+          <View>
+            <TickPara
+              para={"$ " + data.startup.budget}
+              logo={Budget}
+              textStyle={{
+                fontWeight: "700",
+                fontSize: 20,
+                color: "#232323BF",
+                lineHeight: 30,
+              }}
+            />
+          </View>
+        </View>
+        {/* One unit system out */}
+        {/* One unit system */}
+        <View>
+          <View
+            style={{
+              paddingHorizontal: 23,
+
+              marginBottom: 25,
+            }}
+          >
+            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+              Category
+            </MyText>
+          </View>
+          <View>
+            <TickPara para={data.startup.category} logo={Category} />
+          </View>
+        </View>
+        {/* One unit system out */}
+        <BottomPopup show={modal.modal1} setshow={setModal} />
+      </ScrollView>
+    </View>
   );
 };
 

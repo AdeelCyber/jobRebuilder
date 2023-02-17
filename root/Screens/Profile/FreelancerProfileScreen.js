@@ -84,9 +84,9 @@ const FreelancerProfileScreen = () => {
     <SvgImport svg={BagIcon} />,
     <SvgImport svg={CubeIcon} />,
     <SvgImport svg={CrossIcon} />,
-    <SvgImport svg={BagIcon} />,
+    // <SvgImport svg={BagIcon} />,
     <SvgImport svg={WarningIcon} />,
-    <SvgImport svg={ExploreIcon} />,
+    // <SvgImport svg={ExploreIcon} />,
     <SvgImport svg={LogoutIcon} />,
   ]
 

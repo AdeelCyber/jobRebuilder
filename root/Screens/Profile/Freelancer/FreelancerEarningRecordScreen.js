@@ -10,14 +10,18 @@ import MyText from '../../../Components/Text'
 import Context from '../../../Context/Context'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import Earning from '../../../Components/Earning'
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 import { getWalletDetail } from '../services/walletServices'
+import Loader from '../../../Components/Loader'
 
 const FreelancerEarningRecordScreen = () => {
   const navigation = useNavigation()
+
+  const isFocused = useIsFocused()
+
   const {
     theme: { colors },
   } = useContext(Context)
@@ -26,10 +30,14 @@ const FreelancerEarningRecordScreen = () => {
 
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [isFocused])
+
+  const [loading, setLoading] = useState(true)
 
   const fetchData = async () => {
+    setLoading(true)
     const resp = await getWalletDetail()
+    setLoading(false)
     if (resp.status === 200) {
       setWalletDetail(resp.data.data)
       console.log('wallet', resp.data.data)
@@ -55,7 +63,6 @@ const FreelancerEarningRecordScreen = () => {
             backgroundColor: colors.secondary,
             borderRadius: 8,
             width: 53,
-            height: 64,
             paddingTop: 6,
             paddingBottom: 7,
             paddingHorizontal: 9,
@@ -115,40 +122,42 @@ const FreelancerEarningRecordScreen = () => {
           return <Feather name='info' size={20} color='black' />
         }}
       />
-
-      <View
-        style={[
-          styles.container,
-          {
-            backgroundColor: colors.background,
-            paddingTop: 30,
-            padding: 23,
-          },
-        ]}
-      >
-        <Earning
-          title='Net Income'
-          subHeadingsDescriptions={[
-            `Earning this month`,
-            'Active Jobs',
-            'Pending Clearance',
-            'Jobs Completed',
+      <Loader visible={loading} color='white' indicatorSize='large' />
+      {!loading && (
+        <View
+          style={[
+            styles.container,
+            {
+              backgroundColor: colors.background,
+              paddingTop: 30,
+              padding: 23,
+            },
           ]}
-          style={{ marginTop: 0, marginBottom: 28 }}
-          total={walletDetail.netIncome}
-          subHeadings={[
-            `$ ${walletDetail.earningsThisMonth}`,
-            walletDetail.activeJobs,
-            `$ ${walletDetail.pendingClearence}`,
-            walletDetail.jobsCompleted,
-          ]}
-        />
-        <EarningItem />
-        <EarningItem />
-        <EarningItem />
-        <EarningItem />
-        <EarningItem />
-      </View>
+        >
+          <Earning
+            title='Net Income'
+            subHeadingsDescriptions={[
+              `Earning this month`,
+              'Active Jobs',
+              'Pending Clearance',
+              'Jobs Completed',
+            ]}
+            style={{ marginTop: 0, marginBottom: 28 }}
+            total={walletDetail.netIncome}
+            subHeadings={[
+              `$ ${walletDetail.earningsThisMonth}`,
+              walletDetail.activeJobs,
+              `$ ${walletDetail.pendingClearence}`,
+              walletDetail.jobsCompleted,
+            ]}
+          />
+          <EarningItem />
+          <EarningItem />
+          <EarningItem />
+          <EarningItem />
+          <EarningItem />
+        </View>
+      )}
     </ScrollView>
   )
 }

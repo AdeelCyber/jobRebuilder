@@ -114,6 +114,7 @@ const EditTask = ({ navigation, route }) => {
   function handleArray(text, id, item) {
     if (text === "Add") {
       console.log("id add ", id);
+      ToastAndroid.show("Member Added", ToastAndroid.SHORT);
       console.log("member", member);
 
       setchanged({ ...changed, members: [...member, id] });
@@ -122,6 +123,7 @@ const EditTask = ({ navigation, route }) => {
     if (text === "Sub") {
       console.log("id sub ", id);
       console.log("member", member);
+      ToastAndroid.show("Member Removed", ToastAndroid.SHORT);
       setmember(member.filter((item) => item._id !== id));
       setchanged({ ...changed, members: member.filter((item) => item !== id) });
     }

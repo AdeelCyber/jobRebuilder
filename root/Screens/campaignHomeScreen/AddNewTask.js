@@ -107,6 +107,7 @@ const AddNewTask = ({ navigation, route }) => {
   function handleArray(text, id, item) {
     if (text === "Add") {
       console.log("id add ", id);
+      ToastAndroid.show("Member Added", ToastAndroid.SHORT);
       console.log("member", member);
 
       if (!member.includes(id)) {
@@ -117,6 +118,7 @@ const AddNewTask = ({ navigation, route }) => {
     }
     if (text === "Sub") {
       console.log("id sub ", id);
+      ToastAndroid.show("Member Removed", ToastAndroid.SHORT);
       console.log("member", member);
       setmember(member.filter((item) => item._id !== id));
       setchanged({ ...changed, members: member.filter((item) => item !== id) });

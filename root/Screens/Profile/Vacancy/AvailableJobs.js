@@ -2,7 +2,7 @@ import { View, Text, ScrollView } from 'react-native'
 import React, { useEffect } from 'react'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { Searchbar } from 'react-native-paper'
 import SvgImport from '../../../Components/SvgImport'
 import SettingIcon2 from '../../../../assets/Svgs/Setting'
@@ -19,6 +19,7 @@ import { TouchableOpacity } from 'react-native'
 import { Image } from 'react-native'
 import { getCareerJobs } from '../services/jobServices'
 import axios from '../../../http/axiosSet'
+import Loader from '../../../Components/Loader'
 const AvailableJobs = () => {
   const [catgeories, setCategories] = useState([
     'All',
@@ -27,20 +28,49 @@ const AvailableJobs = () => {
     'Web Developer',
     'SEO',
   ])
+  const isFocused = useIsFocused()
+
+  const [loading, setLoading] = useState(true)
 
   const [jobs, setJobs] = useState([])
+  const [tempJobs, setTempJobs] = useState([])
 
   useEffect(() => {
     getData()
-  }, [])
+  }, [isFocused])
+
+  const [error, setError] = useState(null)
 
   const getData = async () => {
+    setLoading(true)
+    setJobs([])
     const resp = await getCareerJobs()
-    console.log(resp)
+    setLoading(false)
+
     if (resp.status === 200) {
       setJobs(resp.data.data)
+      setTempJobs(resp.data.data)
     } else if (resp.status === 400 || resp.status === 401) {
       navigation.navigate('LoginScreen')
+    }
+  }
+
+  const searchResult = (s) => {
+    if (s.trim().length === 0) {
+      setJobs(tempJobs)
+    } else {
+      const result = tempJobs?.filter((element) => {
+        return (
+          element.businessName.toLowerCase().includes(s.trim().toLowerCase()) ||
+          element.role.type.toLowerCase().includes(s.trim().toLowerCase())
+        )
+      })
+
+      if (result.length === 0) {
+        setJobs([])
+      } else {
+        setJobs(result)
+      }
     }
   }
 
@@ -160,6 +190,11 @@ const AvailableJobs = () => {
         </View>
         <TouchableOpacity
           style={{ alignItems: 'flex-end', justifyContent: 'flex-end' }}
+          onPress={() => {
+            navigation.navigate('CampaignMenu', {
+              id: job?.startupid,
+            })
+          }}
         >
           <MyText style={{ fontWeight: '700' }}>View Campaign {'>>'} </MyText>
         </TouchableOpacity>
@@ -171,14 +206,12 @@ const AvailableJobs = () => {
   const {
     theme: { colors },
   } = useContext(GlobalContext)
+
+  if (loading) {
+    return <Loader visible={loading} color='white' indicatorSize='large' />
+  }
   return (
-    <ScrollView
-      style={{
-        flex: 1,
-        backgroundColor: '#ffffff',
-        paddingLeft: 15,
-      }}
-    >
+    <>
       <CustomHeader
         Title='Available Jobs'
         style={{}}
@@ -193,71 +226,98 @@ const AvailableJobs = () => {
           )
         }}
       />
-      <View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            width: '100%',
-            marginTop: 20,
-            paddingLeft: 10,
-          }}
-        >
-          <Searchbar
-            placeholder='Search'
-            // onChangeText={onChangeSearch}
-            // value={searchQuery}
-            style={{
-              width: '80%',
-              color: colors.placeHolder,
-              borderRadius: 20,
-            }}
-          />
-          <View
-            style={{
-              backgroundColor: colors.secondary,
-              justifyContent: 'center',
-              alignContent: 'center',
-              borderRadius: 15,
-              height: 42,
-              width: 48,
-              marginLeft: 10,
-            }}
-          >
-            <SvgImport
-              svg={ListIcon}
-              style={{ alignSelf: 'center', color: 'white' }}
-            />
-          </View>
-          {/* seatch bar icon out */}
-        </View>
-
-        <View style={{ width: '100%', marginTop: 4 }}>
-          <FlatList
-            horizontal
-            data={catgeories}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => (
-              <CategoriesComp
-                text={item}
-                style={{
-                  marginLeft: index == 0 ? 13 : 9,
-                  marginVertical: 15,
-                  elevation: 2,
-                  marginRight: index == catgeories.length - 1 ? 10 : 0,
-                }}
-              />
-            )}
-          />
-        </View>
+      <ScrollView
+        style={{
+          flex: 1,
+          backgroundColor: '#ffffff',
+        }}
+      >
+        <Loader visible={loading} color='white' indicatorSize='large' />
 
         <View>
-          {jobs?.map((job, index) => {
-            return <JobBox job={job} key={index} />
-          })}
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              width: '100%',
+              marginTop: 20,
+              paddingLeft: 10,
+            }}
+          >
+            <Searchbar
+              placeholder='Search'
+              onChangeText={(e) => {
+                searchResult(e)
+              }}
+              style={{
+                width: '80%',
+                color: colors.placeHolder,
+                borderRadius: 6,
+                backgroundColor: '#EEEEEE',
+              }}
+            />
+            <View
+              style={{
+                backgroundColor: colors.secondary,
+                justifyContent: 'center',
+                alignContent: 'center',
+                borderRadius: 15,
+                height: 42,
+                width: 48,
+                marginLeft: 10,
+              }}
+            >
+              <SvgImport
+                svg={ListIcon}
+                style={{ alignSelf: 'center', color: 'white' }}
+              />
+            </View>
+            {/* seatch bar icon out */}
+          </View>
+
+          <View style={{ width: '100%', marginTop: 4 }}>
+            <FlatList
+              horizontal
+              data={catgeories}
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item, index }) => (
+                <CategoriesComp
+                  text={item}
+                  style={{
+                    marginLeft: index == 0 ? 13 : 9,
+                    marginVertical: 15,
+                    elevation: 2,
+                    marginRight: index == catgeories.length - 1 ? 10 : 0,
+                  }}
+                />
+              )}
+            />
+          </View>
+
+          {jobs?.length === 0 && (
+            <View>
+              <MyText
+                style={{
+                  fontSize: 20,
+                  color: 'red',
+                  fontWeight: '700',
+                  textAlign: 'center',
+                  marginTop: 10,
+                }}
+              >
+                No Jobs Found
+              </MyText>
+            </View>
+          )}
+
+          <View>
+            {jobs?.map((job, index) => {
+              return <JobBox job={job} key={index} />
+            })}
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </>
   )
 }
 
@@ -277,7 +337,7 @@ const styles = StyleSheet.create({
     paddingTop: 13,
     paddingLeft: 13,
     paddingBottom: 14,
-    marginHorizontal: 10,
+    marginHorizontal: 20,
     paddingRight: 17,
     // borderWidth: 1,
     // borderColor: 'lightgray',

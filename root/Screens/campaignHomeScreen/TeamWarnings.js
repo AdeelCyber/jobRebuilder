@@ -28,6 +28,7 @@ import {
   getRequestedWarnings,
   getWarnings,
 } from "../Profile/services/FreeLancerServices";
+import Loader from "../../Components/Loader";
 
 const TeamWarnings = ({ navigation, route }) => {
   const [id, setid] = useState(route.params.id);
@@ -117,122 +118,125 @@ const TeamWarnings = ({ navigation, route }) => {
 
     getFreelancersData2();
   }, []);
-  return (
-    loading &&
-    loading2 && (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: colors.white,
-        }}
-      >
-        <CustomHeader2
-          Title="Warnings"
-          style={{ elevation: 0 }}
-          nav={navigation}
-        />
-        {/* main View */}
-        <View style={{ flex: 1 }}>
-          {/* Toggle */}
-          <View
+  return loading && loading2 ? (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: colors.white,
+      }}
+    >
+      <CustomHeader2
+        Title="Warnings"
+        style={{ elevation: 0 }}
+        nav={navigation}
+      />
+      {/* main View */}
+      <View style={{ flex: 1 }}>
+        {/* Toggle */}
+        <View
+          style={{
+            backgroundColor: "#EFEFEF",
+            paddingVertical: 5,
+
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: 100,
+            flexDirection: "row",
+
+            marginHorizontal: 20,
+          }}
+        >
+          <Pressable
             style={{
-              backgroundColor: "#EFEFEF",
-              paddingVertical: 5,
+              width: "48.5 %",
 
               justifyContent: "center",
               alignItems: "center",
-              borderRadius: 100,
-              flexDirection: "row",
-
-              marginHorizontal: 20,
+              paddingVertical: 18,
+              borderRadius: 50,
+              backgroundColor: TeamWarnings ? "#8489FC" : "#EFEFEF",
             }}
+            onPress={() => setTeamWarnings(true)}
           >
-            <Pressable
+            <MyText
               style={{
-                width: "48.5 %",
-
-                justifyContent: "center",
-                alignItems: "center",
-                paddingVertical: 18,
-                borderRadius: 50,
-                backgroundColor: TeamWarnings ? "#8489FC" : "#EFEFEF",
+                color: TeamWarnings ? colors.white : "#23232380",
+                fontWeight: "400",
+                fontSize: 14,
               }}
-              onPress={() => setTeamWarnings(true)}
             >
-              <MyText
-                style={{
-                  color: TeamWarnings ? colors.white : "#23232380",
-                  fontWeight: "400",
-                  fontSize: 14,
-                }}
-              >
-                Team Warning
-              </MyText>
-            </Pressable>
-            <Pressable
+              Team Warning
+            </MyText>
+          </Pressable>
+          <Pressable
+            style={{
+              width: "48.5%",
+
+              justifyContent: "center",
+              alignItems: "center",
+              paddingVertical: 18,
+              borderRadius: 50,
+              backgroundColor: !TeamWarnings ? "#8489FC" : "#EFEFEF",
+            }}
+            onPress={() => setTeamWarnings(false)}
+          >
+            <MyText
               style={{
-                width: "48.5%",
-
-                justifyContent: "center",
-                alignItems: "center",
-                paddingVertical: 18,
-                borderRadius: 50,
-                backgroundColor: !TeamWarnings ? "#8489FC" : "#EFEFEF",
+                color: !TeamWarnings ? colors.white : "#23232380",
+                fontWeight: "400",
+                fontSize: 14,
               }}
-              onPress={() => setTeamWarnings(false)}
             >
-              <MyText
-                style={{
-                  color: !TeamWarnings ? colors.white : "#23232380",
-                  fontWeight: "400",
-                  fontSize: 14,
-                }}
-              >
-                Warning History
-              </MyText>
-            </Pressable>
-          </View>
-          {/* Toggle out  */}
+              Warning History
+            </MyText>
+          </Pressable>
+        </View>
+        {/* Toggle out  */}
 
-          {TeamWarnings && (
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              style={{ marginTop: 30 }}
-            >
-              {TeamWarning.map((item) => (
-                <TeamMemberWarning
-                  designation={item.warnings.warnedTo.jobTitle}
-                  image={item.warnings.warnedTo.avatar}
-                  text={item.warnings.warnedTo.name}
-                  Warnings={item.WarningCount}
+        {TeamWarnings && (
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{ marginTop: 30 }}
+          >
+            {TeamWarning.map((item) => (
+              <TeamMemberWarning
+                designation={item.warnings.warnedTo.jobTitle}
+                image={item.warnings.warnedTo.avatar}
+                text={item.warnings.warnedTo.name}
+                Warnings={item.WarningCount}
+                style={{ marginVertical: 12, marginHorizontal: 20 }}
+              />
+            ))}
+          </ScrollView>
+        )}
+
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {!TeamWarnings && (
+            <View style={{ marginTop: 30 }}>
+              {WarningHistory.map((item) => (
+                <WarningHistoryComp
+                  designation={"Ceo"}
+                  image={item.warnedTo.avatar}
+                  text={item.warnedTo.name}
+                  requestedBy={item.warnedBy.name}
+                  requesterImage={item.warnedBy.avatar}
+                  desc={item.reason}
+                  startupid={id}
+                  warningid={item._id}
                   style={{ marginVertical: 12, marginHorizontal: 20 }}
                 />
               ))}
-            </ScrollView>
+            </View>
           )}
-
-          <ScrollView showsVerticalScrollIndicator={false}>
-            {!TeamWarnings && (
-              <View style={{ marginTop: 30 }}>
-                {WarningHistory.map((item) => (
-                  <WarningHistoryComp
-                    designation={"Ceo"}
-                    image={item.warnedTo.avatar}
-                    text={item.warnedTo.name}
-                    requestedBy={item.warnedBy.name}
-                    requesterImage={item.warnedBy.avatar}
-                    desc={item.reason}
-                    startupid={id}
-                    warningid={item._id}
-                    style={{ marginVertical: 12, marginHorizontal: 20 }}
-                  />
-                ))}
-              </View>
-            )}
-          </ScrollView>
-        </View>
+        </ScrollView>
       </View>
-    )
+    </View>
+  ) : (
+    <Loader
+      visible={!loading && !loading2}
+      color="white"
+      indicatorSize="large"
+    />
   );
 };
 

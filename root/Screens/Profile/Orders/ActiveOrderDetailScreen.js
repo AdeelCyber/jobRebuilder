@@ -12,7 +12,7 @@ import Context from '../../../Context/Context'
 import Icon from '@expo/vector-icons/FontAwesome'
 import { Entypo, FontAwesome5 } from '@expo/vector-icons'
 
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import ReactNativeModal from 'react-native-modal'
 import * as DocumentPicker from 'expo-document-picker'
@@ -28,6 +28,7 @@ import { fileUpload, imageUpload } from '../services/fileServices'
 import axios from '../../../http/axiosSet'
 
 import Toast from 'react-native-toast-message'
+import Loader from '../../../Components/Loader'
 
 const ActiveOrderDetailScreen = ({ route }) => {
   const navigation = useNavigation()
@@ -64,12 +65,19 @@ const ActiveOrderDetailScreen = ({ route }) => {
     setFileNameFromServer(formData.name)
   }
 
+  const isFocused = useIsFocused()
+
+  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
     fetchOrder()
-  }, [])
+  }, [isFocused])
 
   const fetchOrder = async () => {
+    setLoading(true)
+
     const resp = await getSingleOrder(orderId)
+    setLoading(false)
 
     if (resp.status === 200) {
       setOrder(resp.data.data)
@@ -105,6 +113,9 @@ const ActiveOrderDetailScreen = ({ route }) => {
     }
   }
 
+  if (loading) {
+    return <Loader visible={loading} color='white' indicatorSize='large' />
+  }
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader

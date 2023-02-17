@@ -20,6 +20,7 @@ import LittleNav from "../../Components/LittleNav";
 import BottomPopup from "../../Components/BottomPopup";
 import { getStartupDetails } from "../Profile/services/FreeLancerServices";
 import CartContext from "../../Context/CartProvider";
+import Loader from "../../Components/Loader";
 
 const CampaignMenu = ({ navigation, route }) => {
   const [show, setshow] = useState(false);
@@ -38,7 +39,7 @@ const CampaignMenu = ({ navigation, route }) => {
     const getFreelancersData = async () => {
       const resp = await getStartupDetails(id);
 
-      // console.log(resp.data);
+      console.log(resp.data);
       if (resp.data.status === "OK") {
         console.log("done");
 
@@ -80,18 +81,18 @@ const CampaignMenu = ({ navigation, route }) => {
     }
   }, []);
 
-  return (
-    Loaded && (
-      // main container
-      <ScrollView
-        style={{
-          flex: 1,
-          backgroundColor: colors.white,
-        }}
-      >
-        {/* header */}
-        <CustomHeader2 nav={navigation} />
-        {/* header out */}
+  return Loaded ? (
+    // main container
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: colors.white,
+      }}
+    >
+      {/* header */}
+      <CustomHeader2 nav={navigation} Title={data.startup.businessName} />
+      {/* header out */}
+      <ScrollView>
         {/* card in */}
         <CampaignCard
           title={data.startup.businessName}
@@ -234,7 +235,9 @@ const CampaignMenu = ({ navigation, route }) => {
         </Pressable>
         <BottomPopup show={modal.modal1} setshow={setModal} />
       </ScrollView>
-    )
+    </View>
+  ) : (
+    <Loader visible={!Loaded} color="white" indicatorSize="large" />
   );
 };
 

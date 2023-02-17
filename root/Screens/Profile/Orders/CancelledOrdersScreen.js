@@ -13,31 +13,38 @@ import Context from '../../../Context/Context'
 import Icon from '@expo/vector-icons/FontAwesome'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { Entypo } from '@expo/vector-icons'
 import { getOrderCategoryWise } from '../services/orderServices'
 import axios from '../../../http/axiosSet'
+import Loader from '../../../Components/Loader'
 
 const CancelledOrdersScreen = () => {
   const navigation = useNavigation()
   const {
     theme: { colors },
   } = useContext(Context)
+  const isFocused = useIsFocused()
 
+  const [loading, setLoading] = useState(true)
   const [orders, setOrders] = useState([])
   useEffect(() => {
     fetchOrder()
-  }, [])
+  }, [isFocused])
 
   const fetchOrder = async () => {
+    setLoading(true)
     const resp = await getOrderCategoryWise('Cancelled')
-
+    setLoading(false)
     if (resp.status === 200) {
       setOrders(resp.data.data)
     } else if (resp.status === 404) {
     } else if (resp.status === 401) {
     }
+  }
+  if (loading) {
+    return <Loader visible={loading} color='white' indicatorSize='large' />
   }
 
   const OrderItem = ({ order }) => (
