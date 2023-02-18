@@ -1,54 +1,54 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
   View,
   TouchableOpacity,
   Image,
-} from 'react-native'
-import MyText from '../../../Components/Text'
-import Context from '../../../Context/Context'
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
+} from "react-native";
+import MyText from "../../../Components/Text";
+import Context from "../../../Context/Context";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
-import { useIsFocused, useNavigation } from '@react-navigation/native'
-import CustomHeader from '../../../Components/CustomHeader2'
-import Earning from '../../../Components/Earning'
-import { Feather, MaterialCommunityIcons } from '@expo/vector-icons'
-import { getFunds, getWalletDetail } from '../services/walletServices'
-import Loader from '../../../Components/Loader'
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import CustomHeader from "../../../Components/CustomHeader2";
+import Earning from "../../../Components/Earning";
+import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import { getFunds, getWalletDetail } from "../services/walletServices";
+import Loader from "../../../Components/Loader";
 
 const FreelancerEarningRecordScreen = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
 
   const {
     theme: { colors },
-  } = useContext(Context)
+  } = useContext(Context);
 
-  const [walletDetail, setWalletDetail] = useState({})
-  const [funds, setFunds] = useState([])
+  const [walletDetail, setWalletDetail] = useState({});
+  const [funds, setFunds] = useState([]);
 
   useEffect(() => {
-    fetchData()
-  }, [isFocused])
+    fetchData();
+  }, [isFocused]);
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
-    setLoading(true)
-    const resp = await getWalletDetail()
-    const resp2 = await getFunds()
-    setLoading(false)
+    setLoading(true);
+    const resp = await getWalletDetail();
+    const resp2 = await getFunds();
+    setLoading(false);
     if (resp.status === 200) {
-      setWalletDetail(resp.data.data)
-      setFunds(resp2.data.data.clearedFunds)
+      setWalletDetail(resp.data.data);
+      setFunds(resp2.data.data.clearedFunds);
 
-      console.log('wallet', resp.data.data)
+      console.log("wallet", resp.data.data);
     } else if (resp.status === 401 || resp.status === 400) {
-      navigation.navigate('LoginScreen')
+      navigation.navigate("LoginScreen");
     }
-  }
+  };
 
   const EarningItem = ({ fund }) => (
     <TouchableOpacity
@@ -59,7 +59,7 @@ const FreelancerEarningRecordScreen = () => {
     >
       <View
         style={{
-          flexDirection: 'row',
+          flexDirection: "row",
         }}
       >
         <View
@@ -73,12 +73,14 @@ const FreelancerEarningRecordScreen = () => {
           }}
         >
           <MyText
-            style={{ color: colors.white, fontSize: 15, textAlign: 'center' }}
+            style={{ color: colors.white, fontSize: 15, textAlign: "center" }}
           >
-            &nbsp; {new Date(fund.clearedOn).getDay()} &nbsp;{' '}
-            {new Date(fund.clearedOn).toLocaleString('default', {
-              month: 'short',
-            })}{' '}
+            &nbsp; {new Date(fund.clearedOn).getDay()} &nbsp;
+            {new Date(fund.clearedOn)
+              .toLocaleString("default", {
+                month: "short",
+              })
+              .substring(0, 4)}
             {new Date(fund.clearedOn).getFullYear().toString().substr(-2)}
             {/* &nbsp;2&nbsp; Jan 22 */}
           </MyText>
@@ -86,16 +88,16 @@ const FreelancerEarningRecordScreen = () => {
         <View
           style={{
             padding: 9,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+            flexDirection: "row",
+            justifyContent: "space-between",
             // backgroundColor: 'red',
-            width: '85%',
+            width: "85%",
           }}
         >
           <View>
             <MyText style={{ fontSize: 16 }}>{fund.orderTitle}</MyText>
             <TouchableOpacity
-              labelStyle={{ color: '#fff' }}
+              labelStyle={{ color: "#fff" }}
               disabled={true}
               style={styles.cancelledBadge}
               onPress={() => {}}
@@ -103,7 +105,7 @@ const FreelancerEarningRecordScreen = () => {
               <MyText
                 style={{
                   fontSize: 11,
-                  color: 'white',
+                  color: "white",
                 }}
               >
                 Funds Cleared
@@ -111,29 +113,29 @@ const FreelancerEarningRecordScreen = () => {
             </TouchableOpacity>
           </View>
           <View>
-            <MyText style={{ fontSize: 15, textAlign: 'right' }}>
+            <MyText style={{ fontSize: 15, textAlign: "right" }}>
               ${fund.orderAmount}
             </MyText>
-            <MyText style={{ fontSize: 15, color: 'rgba(35, 35, 35, 0.7)' }}>
+            <MyText style={{ fontSize: 15, color: "rgba(35, 35, 35, 0.7)" }}>
               Amount
             </MyText>
           </View>
         </View>
       </View>
     </TouchableOpacity>
-  )
+  );
 
   return (
-    <ScrollView style={{ backgroundColor: '#ffffff' }}>
+    <ScrollView style={{ backgroundColor: "#ffffff" }}>
       <CustomHeader
         nav={navigation}
-        Title='Earnings Record'
+        Title="Earnings Record"
         style={{ marginBottom: 10 }}
         icon={() => {
-          return <Feather name='info' size={20} color='black' />
+          return <Feather name="info" size={20} color="black" />;
         }}
       />
-      <Loader visible={loading} color='white' indicatorSize='large' />
+      <Loader visible={loading} color="white" indicatorSize="large" />
       {!loading && (
         <View
           style={[
@@ -146,12 +148,12 @@ const FreelancerEarningRecordScreen = () => {
           ]}
         >
           <Earning
-            title='Net Income'
+            title="Net Income"
             subHeadingsDescriptions={[
               `Earning this month`,
-              'Active Jobs',
-              'Pending Clearance',
-              'Jobs Completed',
+              "Active Jobs",
+              "Pending Clearance",
+              "Jobs Completed",
             ]}
             style={{ marginTop: 0, marginBottom: 28 }}
             total={walletDetail.netIncome}
@@ -168,9 +170,9 @@ const FreelancerEarningRecordScreen = () => {
               <MyText
                 style={{
                   fontSize: 20,
-                  fontWeight: '700',
-                  color: 'red',
-                  textAlign: 'center',
+                  fontWeight: "700",
+                  color: "red",
+                  textAlign: "center",
                 }}
               >
                 No Funds Found
@@ -179,15 +181,15 @@ const FreelancerEarningRecordScreen = () => {
           )}
 
           {funds?.map((fund, index) => {
-            return <EarningItem key={index} fund={fund} />
+            return <EarningItem key={index} fund={fund} />;
           })}
         </View>
       )}
     </ScrollView>
-  )
-}
+  );
+};
 
-export default FreelancerEarningRecordScreen
+export default FreelancerEarningRecordScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -195,21 +197,21 @@ const styles = StyleSheet.create({
   },
 
   heading: {
-    fontWeight: '600',
+    fontWeight: "600",
     lineHeight: 30,
-    textAlign: 'left',
+    textAlign: "left",
     marginTop: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     fontSize: 17,
   },
   orderItem: {
     padding: 12,
     borderRadius: 10,
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 9,
-    backgroundColor: 'white',
-    shadowColor: '#878787',
+    backgroundColor: "white",
+    shadowColor: "#878787",
     shadowOffset: {
       width: 0,
       height: 6,
@@ -218,17 +220,17 @@ const styles = StyleSheet.create({
   },
 
   subheading: {
-    textAlign: 'center',
+    textAlign: "center",
   },
 
   subheadingdescription: {
-    color: 'rgba(35, 35, 35, 0.36);',
+    color: "rgba(35, 35, 35, 0.36);",
   },
   btn: {
-    backgroundColor: '#8489FC',
+    backgroundColor: "#8489FC",
     borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingTop: 20,
     paddingBottom: 20,
     marginBottom: 11,
@@ -236,11 +238,11 @@ const styles = StyleSheet.create({
   cancelledBadge: {
     marginTop: 11,
     width: 104,
-    backgroundColor: '#13B887',
+    backgroundColor: "#13B887",
     borderRadius: 5,
-    alignItems: 'center',
+    alignItems: "center",
     paddingTop: 4,
     paddingBottom: 4,
     paddingHorizontal: 15,
   },
-})
+});
