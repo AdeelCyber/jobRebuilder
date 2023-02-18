@@ -66,15 +66,18 @@ const OverView = ({ navigation, route }) => {
             style={{
               paddingHorizontal: 23,
               marginTop: 15,
-              marginBottom: 25,
+              marginBottom: 20,
             }}
           >
-            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            <MyText style={{ fontSize: 18, fontWeight: "700" }}>
               Problem Statement
             </MyText>
           </View>
           <View>
-            <TickPara para={data.startup.problemStatement} />
+            <TickPara
+              para={data.startup.problemStatement}
+              textStyle={{ fontSize: 15 }}
+            />
           </View>
         </View>
         {/* One unit system out */}
@@ -84,15 +87,18 @@ const OverView = ({ navigation, route }) => {
             style={{
               paddingHorizontal: 23,
 
-              marginBottom: 25,
+              marginBottom: 20,
             }}
           >
-            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            <MyText style={{ fontSize: 18, fontWeight: "700" }}>
               Impact Statement
             </MyText>
           </View>
           <View>
-            <TickPara para={data.startup.impactStatement} />
+            <TickPara
+              para={data.startup.impactStatement}
+              textStyle={{ fontSize: 15 }}
+            />
           </View>
         </View>
         {/* One unit system out */}
@@ -102,15 +108,18 @@ const OverView = ({ navigation, route }) => {
             style={{
               paddingHorizontal: 23,
 
-              marginBottom: 25,
+              marginBottom: 20,
             }}
           >
-            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            <MyText style={{ fontSize: 18, fontWeight: "700" }}>
               Competition
             </MyText>
           </View>
           <View>
-            <TickPara para={data.startup.competition} />
+            <TickPara
+              para={data.startup.competition}
+              textStyle={{ fontSize: 15 }}
+            />
           </View>
         </View>
         {/* One unit system out */}
@@ -120,15 +129,15 @@ const OverView = ({ navigation, route }) => {
             style={{
               paddingHorizontal: 23,
 
-              marginBottom: 25,
+              marginBottom: 20,
             }}
           >
-            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            <MyText style={{ fontSize: 18, fontWeight: "700" }}>
               Story about investors
             </MyText>
           </View>
           <View>
-            <TickPara para={data.startup.story} />
+            <TickPara para={data.startup.story} textStyle={{ fontSize: 15 }} />
           </View>
         </View>
         {/* One unit system out */}
@@ -138,15 +147,19 @@ const OverView = ({ navigation, route }) => {
             style={{
               paddingHorizontal: 23,
 
-              marginBottom: 25,
+              marginBottom: 20,
             }}
           >
-            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            <MyText style={{ fontSize: 18, fontWeight: "700" }}>
               Location
             </MyText>
           </View>
           <View>
-            <TickPara para={data.startup.location} logo={Location} />
+            <TickPara
+              para={data.startup.location}
+              logo={Location}
+              textStyle={{ fontSize: 15 }}
+            />
           </View>
         </View>
         {/* One unit system out */}
@@ -156,10 +169,10 @@ const OverView = ({ navigation, route }) => {
             style={{
               paddingHorizontal: 23,
 
-              marginBottom: 25,
+              marginBottom: 20,
             }}
           >
-            <MyText style={{ fontSize: 24, fontWeight: "700" }}>Budget</MyText>
+            <MyText style={{ fontSize: 18, fontWeight: "700" }}>Budget</MyText>
           </View>
           <View>
             <TickPara
@@ -181,10 +194,10 @@ const OverView = ({ navigation, route }) => {
             style={{
               paddingHorizontal: 23,
 
-              marginBottom: 25,
+              marginBottom: 20,
             }}
           >
-            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            <MyText style={{ fontSize: 18, fontWeight: "700" }}>
               Category
             </MyText>
           </View>
