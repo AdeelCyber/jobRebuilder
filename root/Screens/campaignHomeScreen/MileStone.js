@@ -103,18 +103,20 @@ function MileStoneComponent({ para, ...props }) {
               {props.item.title}
             </MyText>
           </Pressable>
-          <Pressable
-            onPress={() => {
-              props.modal((currents) => ({ ...currents, modal2: true }));
+          {props.show && (
+            <Pressable
+              onPress={() => {
+                props.modal((currents) => ({ ...currents, modal2: true }));
 
-              props.data({
-                ...props.item,
-                startupId: props.Credentials.startup._id,
-              });
-            }}
-          >
-            <Feather name="more-horizontal" size={24} color="#A1A1A1" />
-          </Pressable>
+                props.data({
+                  ...props.item,
+                  startupId: props.Credentials.startup._id,
+                });
+              }}
+            >
+              <Feather name="more-horizontal" size={24} color="#A1A1A1" />
+            </Pressable>
+          )}
         </View>
         {/* head off */}
         {/* lorem in */}
@@ -170,6 +172,7 @@ function useForceUpdate() {
 }
 const MileStone = ({ navigation, route }) => {
   const [show, setshow] = useState(route.params.show);
+  console.log("show", show);
   const [data, setData] = useState(route.params.data);
   const [isPart, setisPart] = useState(route.params.isPart);
   const [undefinedd, setundefined] = useState(route.params.undefinedd); //route.params.undefinedd
@@ -250,6 +253,7 @@ const MileStone = ({ navigation, route }) => {
               send={CurrentMileStone}
               Credentials={data}
               nav={navigation}
+              show={show}
             />
           ))}
         </View>

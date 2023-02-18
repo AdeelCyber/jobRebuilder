@@ -78,6 +78,7 @@ const CampaignMenu = ({ navigation, route }) => {
 
   useEffect(() => {
     if (userDetails.userdetails.role === "Startup Owner") {
+      console.log("startup owner");
       setshow(true);
     }
   }, []);
