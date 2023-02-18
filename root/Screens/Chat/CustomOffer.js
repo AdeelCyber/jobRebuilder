@@ -30,7 +30,7 @@ import moment from "moment";
 import Toast from "react-native-toast-message";
 import * as DocumentPicker from "expo-document-picker";
 import { fileUpload } from "../Profile/services/fileServices";
-
+import Loader from "../../Components/Loader";
 const CustomOffer = ({ route }) => {
   const {
     theme: { colors },
@@ -46,6 +46,7 @@ const CustomOffer = ({ route }) => {
   const [datePicker, setDatePicker] = useState(false);
   // const [date, setDate] = useState(new Date());
   const [getdoc, setdoc] = useState();
+  const [getcondition, setcondition] = useState(false);
   const [getdocinfo, setdocinfo] = useState();
   const onDateSelected = (event, value) => {
     setduedate(value);
@@ -62,6 +63,7 @@ const CustomOffer = ({ route }) => {
   };
 
   const oneTimeOffer = async () => {
+    setcondition(true);
     const onetime = await oneTimeOrder(
       accessToken,
       id,
@@ -72,6 +74,7 @@ const CustomOffer = ({ route }) => {
     );
     //console.log(onetime.data.data._id);
     if (onetime.status == 201) {
+      setcondition(false);
       sendMessage(onetime.data.data._id, "oneTimeOrder");
 
       Toast.show({
@@ -83,6 +86,7 @@ const CustomOffer = ({ route }) => {
 
       // navigation.navigate("MessagesBox", { order: onetime.data });
     } else {
+      setcondition(false);
       Toast.show({
         topOffset: 60,
         type: "error",
@@ -93,6 +97,7 @@ const CustomOffer = ({ route }) => {
   };
 
   const equityOffer = async () => {
+    setcondition(true);
     const equity = await equityOrder(
       accessToken,
       id,
@@ -103,6 +108,7 @@ const CustomOffer = ({ route }) => {
     );
     // console.log(equity);
     if (equity.status == 201) {
+      setcondition(false);
       sendMessage(equity.data.data._id, "equityOrder");
 
       Toast.show({
@@ -114,6 +120,7 @@ const CustomOffer = ({ route }) => {
 
       // navigation.navigate("MessagesBox", { order: onetime.data });
     } else {
+      setcondition(false);
       Toast.show({
         topOffset: 60,
         type: "error",
@@ -155,6 +162,12 @@ const CustomOffer = ({ route }) => {
 
   //   setmsg([...msg, obj]);
   // });
+  if (getcondition) {
+    return (
+      <Loader visible={getcondition} color="white" indicatorSize="large" />
+    );
+  }
+
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
       <View style={[styles.container]}>
@@ -273,7 +286,7 @@ const CustomOffer = ({ route }) => {
                 Total Price
               </MyText>
               <MyText
-                style={{ fontSize: 10, fontWeight: "400", marginLeft: 180 }}
+                style={{ fontSize: 10, fontWeight: "400", marginLeft: 100 }}
               >
                 US$
               </MyText>
@@ -321,7 +334,7 @@ const CustomOffer = ({ route }) => {
               <View
                 style={[
                   styles.SectionStyle,
-                  { position: "absolute", left: 205 },
+                  { position: "absolute", left: 180 },
                 ]}
               >
                 <TextInput
@@ -361,7 +374,7 @@ const CustomOffer = ({ route }) => {
             <Pressable
               style={{
                 backgroundColor: colors.Bluish,
-                width: 330,
+                width: 300,
                 height: 58,
                 borderRadius: 10,
                 justifyContent: "center",
@@ -466,7 +479,7 @@ const CustomOffer = ({ route }) => {
                 style={{
                   fontSize: 10,
                   fontWeight: "400",
-                  marginLeft: 120,
+                  marginLeft: 90,
                   margin: 5,
                 }}
               >
@@ -579,7 +592,7 @@ const CustomOffer = ({ route }) => {
             <Pressable
               style={{
                 backgroundColor: colors.Bluish,
-                width: 335,
+                width: 300,
                 height: 58,
                 borderRadius: 10,
                 justifyContent: "center",
@@ -636,7 +649,7 @@ const styles = StyleSheet.create({
   },
   Section: {
     height: 160,
-    width: 330,
+    width: 300,
     borderWidth: 1,
     borderRadius: 5,
   },

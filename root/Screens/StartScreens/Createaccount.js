@@ -8,10 +8,12 @@ import {
   View,
   ImageBackground,
   TextInput,
+  Text,
 } from "react-native";
 
 import Context from "../../Context/Context";
 import MyText from "../../Components/Text";
+import { CountryPicker } from "react-native-country-codes-picker";
 
 import Icon from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -40,7 +42,9 @@ const CreateAccount = ({ route }) => {
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
   const [googledis, setgoogledis] = useState();
-
+  const [show, setShow] = useState(false);
+  const [countryCode, setCountryCode] = useState("");
+  const [getcode, setcode] = useState(false);
   const [, , promptAsync] = Google.useIdTokenAuthRequest({
     expoClientId:
       "253459265127-bgal1cs5eb1c8bcb8suso891fg9mm06m.apps.googleusercontent.com",
@@ -109,6 +113,7 @@ const CreateAccount = ({ route }) => {
   };
 
   const signUp = async () => {
+    console.log(Phonenumber);
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 
     if (email == "" || password == "" || Phonenumber == "" || name == "") {
@@ -240,9 +245,52 @@ const CreateAccount = ({ route }) => {
                 </Pressable>
               </View>
               <View style={styles.SectionStyle}>
+                <TouchableOpacity
+                  onPress={() => setShow(true)}
+                  style={{
+                    width: "20%",
+                    height: 47,
+                    borderTopLeftRadius: 10,
+                    borderBottomLeftRadius: 10,
+                    backgroundColor: "#EEEEEE",
+                    padding: 10,
+                  }}
+                >
+                  {getcode ? (
+                    <Text
+                      style={{
+                        fontSize: 20,
+                      }}
+                    >
+                      {countryCode}
+                    </Text>
+                  ) : (
+                    <AntDesign
+                      name="caretdown"
+                      size={20}
+                      color={colors.iconGray}
+                      onPress={() => {
+                        setcode(true);
+                      }}
+                    />
+                  )}
+                </TouchableOpacity>
+                <CountryPicker
+                  show={show}
+                  // when picker button press you will get the country object with dial code
+                  pickerButtonOnPress={(item) => {
+                    setCountryCode(item.dial_code);
+                    setShow(false);
+                  }}
+                />
                 <TextInput
-                  style={styles.inputStyle}
-                  onChangeText={(Phonenumber) => setPhonenumber(Phonenumber)}
+                  style={[
+                    styles.inputStyle,
+                    { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 },
+                  ]}
+                  onChangeText={(Phonenumber) =>
+                    setPhonenumber(countryCode + Phonenumber)
+                  }
                   placeholder="Phone Number" //12345
                   placeholderTextColor="#ACA9A9"
                   // keyboardType="number-pad"
@@ -269,6 +317,8 @@ const CreateAccount = ({ route }) => {
                   //   name: name,
                   //   role: role,
                   // });
+                  //setPhonenumber(countryCode + Phonenumber);
+
                   signUp();
                 }}
               >
