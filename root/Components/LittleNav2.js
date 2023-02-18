@@ -5,17 +5,12 @@ import Context from "../Context/Context";
 import MyText from "./Text";
 import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-const LittleNav = ({
-  Switch = false,
-  chevron = false,
-  hamburger = true,
-  ...props
-}) => {
+const LittleNav2 = ({ chevron = false, hamburger = true, ...props }) => {
   const {
     theme: { colors },
   } = useContext(Context);
   return (
-    <Pressable
+    <View
       style={[
         {
           backgroundColor: colors.secondary,
@@ -27,16 +22,6 @@ const LittleNav = ({
         },
         props.style,
       ]}
-      onPress={() => {
-        Switch
-          ? props.navigation.navigate(props.page, {
-              data: props.data,
-              show: props.show,
-              isPart: props.isPart,
-              undefinedd: props.undefinedd,
-            })
-          : props.navigation.goBack();
-      }}
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         {hamburger && <Feather name="menu" size={24} color={colors.white} />}
@@ -53,17 +38,13 @@ const LittleNav = ({
       </View>
       {chevron && (
         <View>
-          {Switch ? (
-            <Entypo name="chevron-small-up" size={24} color={colors.white} />
-          ) : (
-            <Entypo name="chevron-small-down" size={24} color={colors.white} />
-          )}
+          <Entypo name="chevron-small-up" size={24} color={colors.white} />
         </View>
       )}
-    </Pressable>
+    </View>
   );
 };
 
-export default LittleNav;
+export default LittleNav2;
 
 const styles = StyleSheet.create({});

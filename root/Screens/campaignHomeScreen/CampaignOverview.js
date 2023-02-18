@@ -58,7 +58,12 @@ const OverView = ({ navigation, route }) => {
         />
         {/* card out */}
         {/* Little nav in */}
-        <LittleNav style={{ marginTop: 10 }} title={"OverView"} />
+        <LittleNav
+          style={{ marginTop: 10 }}
+          title={"OverView"}
+          navigation={navigation}
+          chevron={true}
+        />
         {/* Little nav out */}
         {/* One unit system */}
         <View>

@@ -57,6 +57,7 @@ const EditTask = ({ navigation, route }) => {
   console.log("changed", changed);
 
   const [search, setSearch] = useState("");
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const filteredData = (searchTerm) => {
     let temp = menu;
@@ -287,7 +288,7 @@ const EditTask = ({ navigation, route }) => {
                   </Pressable>
                 </View>
                 {/* 2 */}
-                <View
+                <Pressable
                   style={{
                     backgroundColor: "#EEEEEE",
                     flexDirection: "row",
@@ -296,6 +297,9 @@ const EditTask = ({ navigation, route }) => {
                     width: "48%",
                     justifyContent: "center",
                     alignItems: "center",
+                  }}
+                  onPress={() => {
+                    setDatePickerVisibility(true);
                   }}
                 >
                   <TextInput
@@ -307,7 +311,7 @@ const EditTask = ({ navigation, route }) => {
                     selectTextOnFocus={false}
                   />
                   <SvgImport svg={calender} />
-                </View>
+                </Pressable>
               </View>
               {/* date and attach out view above */}
               {/* Search Bar in */}
@@ -394,6 +398,18 @@ const EditTask = ({ navigation, route }) => {
           style={{ marginTop: 15, borderRadius: 10, paddingVertical: 18 }}
         />
       </View>
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={(e) => {
+          setchanged({ ...changed, dueDate: e.toISOString().split("T")[0] });
+          setDatePickerVisibility(false);
+        }}
+        onCancel={() => {
+          setDatePickerVisibility(false);
+        }}
+        minimumDate={new Date()}
+      />
     </View>
   );
 };

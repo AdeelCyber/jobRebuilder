@@ -240,7 +240,12 @@ const MileStone = ({ navigation, route }) => {
         />
         {/* card out */}
         {/* Little nav in */}
-        <LittleNav style={{ marginTop: 10 }} title={"Milestones"} />
+        <LittleNav
+          style={{ marginTop: 10 }}
+          title={"Milestones"}
+          navigation={navigation}
+          chevron={true}
+        />
         {/* Little nav out */}
         {/* mile Stones in */}
         <View style={{ paddingHorizontal: 12, marginTop: 10 }}>

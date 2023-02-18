@@ -93,7 +93,12 @@ const TeamRoles = ({ navigation, route }) => {
         />
         {/* card out */}
         {/* Little nav in */}
-        <LittleNav style={{ marginTop: 10 }} title={"Roles"} />
+        <LittleNav
+          style={{ marginTop: 10 }}
+          title={"Roles"}
+          navigation={navigation}
+          chevron={true}
+        />
         {/* Little nav out */}
         {/* roles in */}
         <View>

@@ -128,7 +128,13 @@ const MyStack = () => {
         <Stack.Screen name="ManagingCampaign" component={ManagingCampaign} />
         <Stack.Screen name="ExploreAll" component={ExploreAll} />
 
-        <Stack.Screen name="CampaignMenu" component={CampaignMenu} />
+        <Stack.Screen
+          name="CampaignMenu"
+          component={CampaignMenu}
+          options={{
+            animationEnabled: false,
+          }}
+        />
         <Stack.Screen name="OverView" component={OverView} />
         <Stack.Screen name="PartnerShipTerms" component={PartnerShipTerms} />
         <Stack.Screen name="TeamRoles" component={TeamRoles} />

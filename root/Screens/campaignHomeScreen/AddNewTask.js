@@ -26,10 +26,13 @@ import TeamMember from "../../Components/TeamMember";
 import * as DocumentPicker from "expo-document-picker";
 import { fileUpload } from "../Profile/services/fileServices";
 import { AddTodo } from "../Profile/services/FreeLancerServices";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const AddNewTask = ({ navigation, route }) => {
   const [data, setData] = useState(route.params.data);
   const [date, setDate] = useState(route.params.date);
+
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const {
     theme: { colors },
@@ -283,7 +286,7 @@ const AddNewTask = ({ navigation, route }) => {
                   </Pressable>
                 </View>
                 {/* 2 */}
-                <View
+                <Pressable
                   style={{
                     backgroundColor: "#EEEEEE",
                     flexDirection: "row",
@@ -292,6 +295,9 @@ const AddNewTask = ({ navigation, route }) => {
                     width: "48%",
                     justifyContent: "center",
                     alignItems: "center",
+                  }}
+                  onPress={() => {
+                    setDatePickerVisibility(true);
                   }}
                 >
                   <TextInput
@@ -304,7 +310,7 @@ const AddNewTask = ({ navigation, route }) => {
                     selectTextOnFocus={false}
                   />
                   <SvgImport svg={calender} />
-                </View>
+                </Pressable>
               </View>
               {/* date and attach out view above */}
               {/* Search Bar in */}
@@ -395,6 +401,18 @@ const AddNewTask = ({ navigation, route }) => {
           style={{ marginTop: 15, borderRadius: 10, paddingVertical: 18 }}
         />
       </View>
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={(e) => {
+          setchanged({ ...changed, dueDate: e.toISOString().split("T")[0] });
+          setDatePickerVisibility(false);
+        }}
+        onCancel={() => {
+          setDatePickerVisibility(false);
+        }}
+        minimumDate={new Date()}
+      />
     </View>
   );
 };

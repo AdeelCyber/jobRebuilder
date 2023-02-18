@@ -105,7 +105,12 @@ const PitchDeck = ({ navigation, route }) => {
           />
           {/* card out */}
           {/* Little nav in */}
-          <LittleNav style={{ marginTop: 10 }} title={"Pitch Deck"} />
+          <LittleNav
+            style={{ marginTop: 10 }}
+            title={"Pitch Deck"}
+            navigation={navigation}
+            chevron={true}
+          />
           {/* Little nav out */}
           {/* Upload View */}
 

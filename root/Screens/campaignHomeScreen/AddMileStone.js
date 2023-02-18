@@ -237,6 +237,7 @@ const AddMileStone = ({ navigation, route }) => {
         onCancel={() => {
           setDatePickerVisibility(false);
         }}
+        minimumDate={new Date()}
       />
     </View>
   );
