@@ -32,3 +32,23 @@ export const sendWithDrawRequest = async () => {
     return error.response
   }
 }
+
+export const getFunds = async (page, limit) => {
+  try {
+    const token = await AsyncStorage.getItem('@accessToken')
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    const resp = await axios.post(
+      '/freelancer/fundsCleared',
+      { page, limit },
+      config
+    )
+    return resp
+  } catch (error) {
+    return error.response
+  }
+}
