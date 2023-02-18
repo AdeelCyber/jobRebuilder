@@ -21,13 +21,7 @@ import { getCareerJobs } from '../services/jobServices'
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
 const AvailableJobs = () => {
-  const [catgeories, setCategories] = useState([
-    'All',
-    'Graphic Designer',
-    'SMM',
-    'Web Developer',
-    'SEO',
-  ])
+  const [catgeories, setCategories] = useState([])
   const isFocused = useIsFocused()
 
   const [loading, setLoading] = useState(true)
@@ -48,14 +42,36 @@ const AvailableJobs = () => {
     setLoading(false)
 
     if (resp.status === 200) {
-      setJobs(resp.data.data)
-      setTempJobs(resp.data.data)
+      setJobs(resp.data.data.aggCursor)
+      setTempJobs(resp.data.data.aggCursor)
+      setCategories(() => {
+        return ['All', ...resp.data.data.categories]
+      })
     } else if (resp.status === 400 || resp.status === 401) {
       navigation.navigate('LoginScreen')
     }
   }
 
-  const searchResult = (s) => {
+  const searchResult = (s, status) => {
+    if (status === true) {
+      if (s === 'All') {
+        setJobs(tempJobs)
+        return
+      } else {
+        console.log(s)
+        const result = tempJobs?.filter((element) => {
+          return element.role.position === s
+        })
+
+        if (result.length === 0) {
+          setJobs([])
+        } else {
+          setJobs(result)
+        }
+      }
+      return
+    }
+
     if (s.trim().length === 0) {
       setJobs(tempJobs)
     } else {
@@ -73,34 +89,40 @@ const AvailableJobs = () => {
       }
     }
   }
+  const [selected, setselected] = useState('All')
 
   function CategoriesComp({ text, ...props }) {
-    const [selected, setselected] = useState(false)
     const {
       theme: { colors },
     } = useContext(GlobalContext)
     return (
-      <Pressable
+      <TouchableOpacity
         onPress={() => {
-          setselected(!selected)
+          setselected(text)
+          searchResult(text, true)
         }}
         style={[
           {
             borderRadius: 5,
             paddingVertical: 15,
             paddingHorizontal: 20,
-            backgroundColor: selected ? colors.secondary : colors.white,
+
+            backgroundColor:
+              selected === text ? colors.secondary : colors.white,
           },
           { ...styles.shadow },
           props.style,
         ]}
       >
         <MyText
-          style={{ color: selected ? colors.white : colors.text, fontSize: 11 }}
+          style={{
+            color: selected === text ? colors.white : colors.text,
+            fontSize: 11,
+          }}
         >
           {text}
         </MyText>
-      </Pressable>
+      </TouchableOpacity>
     )
   }
 
@@ -211,10 +233,13 @@ const AvailableJobs = () => {
     return <Loader visible={loading} color='white' indicatorSize='large' />
   }
   return (
-    <>
+    <View style={{ backgroundColor: 'white', flex: 1 }}>
       <CustomHeader
         Title='Available Jobs'
-        style={{}}
+        style={{
+          elevation: 0,
+          borderRadius: 0,
+        }}
         nav={navigation}
         icon={() => {
           return (
@@ -247,7 +272,7 @@ const AvailableJobs = () => {
             <Searchbar
               placeholder='Search'
               onChangeText={(e) => {
-                searchResult(e)
+                searchResult(e, false)
               }}
               style={{
                 width: '80%',
@@ -317,7 +342,7 @@ const AvailableJobs = () => {
           </View>
         </View>
       </ScrollView>
-    </>
+    </View>
   )
 }
 

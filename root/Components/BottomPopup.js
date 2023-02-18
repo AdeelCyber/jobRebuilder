@@ -5,24 +5,31 @@ import {
   Modal,
   Pressable,
   Dimensions,
+  ToastAndroid,
 } from "react-native";
 import React, { useContext, useState, useEffect } from "react";
 import Context from "../Context/Context";
 import MyText from "./Text";
 import { MaterialIcons } from "@expo/vector-icons";
+import * as Clipboard from "expo-clipboard";
 const DeviceHeight = Dimensions.get("window").height;
 const BottomPopup = (props) => {
   const {
     theme: { colors },
   } = useContext(Context);
   const [open, setopen] = React.useState(props.show);
+  const copyToClipboard = async () => {
+    await Clipboard.setStringAsync("https://stepdev.up.railway.app/");
+  };
 
   useEffect(() => {
     setopen(props.show);
   }, [props.show, open]);
 
   const handleit = (msg) => {
+    ToastAndroid.show("Copied", ToastAndroid.SHORT);
     setopen(props.show);
+    copyToClipboard();
   };
   return (
     // modal in

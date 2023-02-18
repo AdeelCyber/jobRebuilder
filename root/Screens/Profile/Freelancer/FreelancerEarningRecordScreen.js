@@ -14,7 +14,7 @@ import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import Earning from '../../../Components/Earning'
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons'
-import { getWalletDetail } from '../services/walletServices'
+import { getFunds, getWalletDetail } from '../services/walletServices'
 import Loader from '../../../Components/Loader'
 
 const FreelancerEarningRecordScreen = () => {
@@ -27,6 +27,7 @@ const FreelancerEarningRecordScreen = () => {
   } = useContext(Context)
 
   const [walletDetail, setWalletDetail] = useState({})
+  const [funds, setFunds] = useState([])
 
   useEffect(() => {
     fetchData()
@@ -37,16 +38,19 @@ const FreelancerEarningRecordScreen = () => {
   const fetchData = async () => {
     setLoading(true)
     const resp = await getWalletDetail()
+    const resp2 = await getFunds()
     setLoading(false)
     if (resp.status === 200) {
       setWalletDetail(resp.data.data)
+      setFunds(resp2.data.data.clearedFunds)
+
       console.log('wallet', resp.data.data)
     } else if (resp.status === 401 || resp.status === 400) {
       navigation.navigate('LoginScreen')
     }
   }
 
-  const EarningItem = () => (
+  const EarningItem = ({ fund }) => (
     <TouchableOpacity
       onPress={() => {
         // navigation.navigate('ActiveOrderDetail')
@@ -71,7 +75,12 @@ const FreelancerEarningRecordScreen = () => {
           <MyText
             style={{ color: colors.white, fontSize: 15, textAlign: 'center' }}
           >
-            &nbsp;2&nbsp; Jan 22
+            &nbsp; {new Date(fund.clearedOn).getDay()} &nbsp;{' '}
+            {new Date(fund.clearedOn).toLocaleString('default', {
+              month: 'short',
+            })}{' '}
+            {new Date(fund.clearedOn).getFullYear().toString().substr(-2)}
+            {/* &nbsp;2&nbsp; Jan 22 */}
           </MyText>
         </View>
         <View
@@ -84,7 +93,7 @@ const FreelancerEarningRecordScreen = () => {
           }}
         >
           <View>
-            <MyText style={{ fontSize: 16 }}>Logo Design</MyText>
+            <MyText style={{ fontSize: 16 }}>{fund.orderTitle}</MyText>
             <TouchableOpacity
               labelStyle={{ color: '#fff' }}
               disabled={true}
@@ -102,7 +111,9 @@ const FreelancerEarningRecordScreen = () => {
             </TouchableOpacity>
           </View>
           <View>
-            <MyText style={{ fontSize: 15, textAlign: 'right' }}>$150</MyText>
+            <MyText style={{ fontSize: 15, textAlign: 'right' }}>
+              ${fund.orderAmount}
+            </MyText>
             <MyText style={{ fontSize: 15, color: 'rgba(35, 35, 35, 0.7)' }}>
               Amount
             </MyText>
@@ -151,11 +162,25 @@ const FreelancerEarningRecordScreen = () => {
               walletDetail.jobsCompleted,
             ]}
           />
-          <EarningItem />
-          <EarningItem />
-          <EarningItem />
-          <EarningItem />
-          <EarningItem />
+
+          {funds?.length === 0 && (
+            <View>
+              <MyText
+                style={{
+                  fontSize: 20,
+                  fontWeight: '700',
+                  color: 'red',
+                  textAlign: 'center',
+                }}
+              >
+                No Funds Found
+              </MyText>
+            </View>
+          )}
+
+          {funds?.map((fund, index) => {
+            return <EarningItem key={index} fund={fund} />
+          })}
         </View>
       )}
     </ScrollView>

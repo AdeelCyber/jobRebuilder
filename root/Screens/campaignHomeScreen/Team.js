@@ -7,6 +7,7 @@ import {
   Pressable,
   TouchableOpacity,
   Image,
+  ToastAndroid,
 } from "react-native";
 
 import React, { useContext, useState } from "react";
@@ -26,12 +27,16 @@ import DynamicButton from "../../Components/DynamicButton";
 import TeamItem from "../../Components/TeamItem";
 import ReactNativeModal from "react-native-modal";
 import RoundQuestionMark from "../../../assets/Svgs/RoundQuestionMark";
+import * as Clipboard from "expo-clipboard";
 
 const Team = ({ navigation, route }) => {
   const [show, setshow] = useState(route.params.show);
   const [data, setData] = useState(route.params.data);
   const [personData, setPersonData] = useState({});
   console.log(personData);
+  const copyToClipboard = async () => {
+    await Clipboard.setStringAsync("https://stepdev.up.railway.app/");
+  };
 
   const {
     theme: { colors },
@@ -41,6 +46,9 @@ const Team = ({ navigation, route }) => {
       setModalSecondVisible(true);
     } else if (text == "Send Warning") {
       setModalVisible(true);
+    } else if (text == "Copy Profile Url") {
+      ToastAndroid.show("Copied", ToastAndroid.SHORT);
+      copyToClipboard();
     }
   }
   const [menu, setmenu] = useState(data.startup.members);

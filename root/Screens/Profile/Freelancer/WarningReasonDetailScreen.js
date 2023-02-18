@@ -9,22 +9,31 @@ import {
   Image,
 } from 'react-native'
 
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { getSpecificWarning } from '../services/warningServices'
 import axios from '../../../http/axiosSet'
+import Loader from '../../../Components/Loader'
 const WarningReasonDetailScreen = ({ route }) => {
   const navigation = useNavigation()
   // const [warning, setWarning] = useState({})
 
+  const isFocused = useIsFocused()
+
+  const [loading, setLoading] = useState(false)
+
   useEffect(() => {
     // fetchWarning()
-  }, [])
+  }, [isFocused])
 
   const { warning } = route.params
   const fetchWarning = async () => {
+    setLoading(true)
+
     const resp = await getSpecificWarning(startupId, warningId)
+    setLoading(false)
+
     if (resp.status === 200) {
       setWarning(resp.data.data)
     } else if (resp.status === 404) {
@@ -35,6 +44,10 @@ const WarningReasonDetailScreen = ({ route }) => {
   const {
     theme: { colors },
   } = useContext(Context)
+
+  if (loading) {
+    return <Loader visible={loading} color='white' indicatorSize='large' />
+  }
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>

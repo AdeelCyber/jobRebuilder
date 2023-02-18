@@ -33,6 +33,7 @@ const CampaignMenu = ({ navigation, route }) => {
   const [data, setData] = useState("");
   const [Loaded, setLoaded] = useState(false);
   const [modal, setModal] = useState({ modal1: false, modal2: false });
+  const [page, setpage] = useState("OverView");
 
   // Api call
   useEffect(() => {
@@ -108,130 +109,184 @@ const CampaignMenu = ({ navigation, route }) => {
         />
         {/* card out */}
         {/* Little nav in */}
-        <LittleNav
-          style={{ marginTop: 10 }}
-          title={"Milestones"}
-          chevron={true}
-        />
+        <LittleNav style={{ marginTop: 10 }} title={page} chevron={true} />
         {/* Little nav out */}
         <View>
           {/* 1 */}
           <Pressable
-            onPress={() =>
+            onPress={() => {
               navigation.navigate("OverView", {
                 data: data,
                 show: show,
                 isPart: isPart,
                 undefinedd: undefinedd,
-              })
-            }
+              });
+              setpage("OverView");
+            }}
             style={{
               backgroundColor: colors.listback,
               paddingVertical: 15,
-              paddingHorizontal: 18,
             }}
           >
-            <MyText
-              style={{
-                color: colors.lighttext,
-                fontWeight: "500",
-                fontSize: 16,
-              }}
-            >
-              Overview
-            </MyText>
+            {page === "OverView" ? (
+              <LittleNav
+                title={"OverView"}
+                hamburger={false}
+                style={{ paddingHorizontal: 12 }}
+              />
+            ) : (
+              <MyText
+                style={{
+                  color: colors.lighttext,
+                  fontWeight: "500",
+                  fontSize: 16,
+                  paddingHorizontal: 20,
+                }}
+              >
+                Overview
+              </MyText>
+            )}
           </Pressable>
           {/* 2 */}
           <Pressable
-            onPress={() =>
+            onPress={() => {
               navigation.navigate("TeamRoles", {
                 data: data,
                 show: show,
                 isPart: isPart,
                 undefinedd: undefinedd,
-              })
-            }
+              }),
+                setpage("Role");
+            }}
             style={{
               backgroundColor: colors.listback,
               paddingVertical: 15,
-              paddingHorizontal: 18,
             }}
           >
-            <MyText
-              style={{
-                color: colors.lighttext,
-                fontWeight: "500",
-                fontSize: 16,
-              }}
-            >
-              Role
-            </MyText>
+            {page === "Role" ? (
+              <LittleNav
+                title={"Role"}
+                hamburger={false}
+                style={{ paddingHorizontal: 12 }}
+              />
+            ) : (
+              <MyText
+                style={{
+                  color: colors.lighttext,
+                  fontWeight: "500",
+                  fontSize: 16,
+                  paddingHorizontal: 20,
+                }}
+              >
+                Role
+              </MyText>
+            )}
           </Pressable>
           {/* 3 */}
           <Pressable
-            onPress={() =>
+            onPress={() => {
               navigation.navigate("PartnerShipTerms", {
                 data: data,
                 show: show,
                 isPart: isPart,
                 undefinedd: undefinedd,
-              })
-            }
+              });
+              setpage("Partnership Terms");
+            }}
             style={{
               backgroundColor: colors.listback,
               paddingVertical: 15,
-              paddingHorizontal: 18,
             }}
           >
-            <MyText
-              style={{
-                color: colors.lighttext,
-                fontWeight: "500",
-                fontSize: 16,
-              }}
-            >
-              Partnership Terms
-            </MyText>
+            {page === "Partnership Terms" ? (
+              <LittleNav
+                title={"Partnership Terms"}
+                hamburger={false}
+                style={{ paddingHorizontal: 12 }}
+              />
+            ) : (
+              <MyText
+                style={{
+                  color: colors.lighttext,
+                  fontWeight: "500",
+                  fontSize: 16,
+                  paddingHorizontal: 20,
+                }}
+              >
+                Partnership Terms
+              </MyText>
+            )}
           </Pressable>
         </View>
         {/* Little nav in */}
         <Pressable
-          onPress={() =>
+          onPress={() => {
             navigation.navigate("MileStone", {
               data: data,
               show: show,
               isPart: isPart,
               undefinedd: undefinedd,
-            })
-          }
+            });
+            setpage("MileStones");
+          }}
+          style={{
+            backgroundColor: colors.listback,
+            paddingVertical: 15,
+          }}
         >
-          <LittleNav
-            title={"Milestones"}
-            hamburger={false}
-            style={{ paddingHorizontal: 12 }}
-          />
+          {page === "MileStones" ? (
+            <LittleNav
+              title={"MileStones"}
+              hamburger={false}
+              style={{ paddingHorizontal: 12 }}
+            />
+          ) : (
+            <MyText
+              style={{
+                color: colors.lighttext,
+                fontWeight: "500",
+                fontSize: 16,
+                paddingHorizontal: 20,
+              }}
+            >
+              MileStones
+            </MyText>
+          )}
         </Pressable>
         {/* Little nav out */}
         <Pressable
-          onPress={() =>
+          onPress={() => {
             navigation.navigate("PitchDeck", {
               data: data,
               show: show,
               isPart: isPart,
               undefinedd: undefinedd,
-            })
-          }
+            });
+            setpage("PitchDeck");
+          }}
           style={{
             backgroundColor: colors.listback,
             paddingVertical: 15,
-            paddingHorizontal: 18,
           }}
         >
-          <MyText
-            style={{ color: colors.lighttext, fontWeight: "500", fontSize: 16 }}
-          >
-            Pitch deck
-          </MyText>
+          {page === "PitchDeck" ? (
+            <LittleNav
+              title={"PitchDeck"}
+              hamburger={false}
+              style={{ paddingHorizontal: 12 }}
+            />
+          ) : (
+            <MyText
+              style={{
+                color: colors.lighttext,
+                fontWeight: "500",
+                fontSize: 16,
+                paddingHorizontal: 20,
+              }}
+            >
+              PitchDeck
+            </MyText>
+          )}
         </Pressable>
         <BottomPopup show={modal.modal1} setshow={setModal} />
       </ScrollView>

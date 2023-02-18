@@ -60,7 +60,6 @@ const PitchDeck = ({ navigation, route }) => {
     );
     console.log("filename", filename);
     ToastAndroid.show("File Uploaded", ToastAndroid.SHORT);
-    setchanged({ ...changed, file: filename });
   };
   //upload out
 

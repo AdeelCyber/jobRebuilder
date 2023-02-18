@@ -40,14 +40,16 @@ const HomePopular = ({
           elevation: 7,
           margin: 5,
           backgroundColor: colors.white,
-          width: 200,
+          ...props.style,
         },
       ]}
       onPress={() => {
         navigation.navigate('CampaignMenu', { id: id })
       }}
     >
-      <Image source={Src} style={{ maxWidth: '100%' }} />
+      {props.w && <Image source={Src} style={{ width: '100%' }} />}
+      {!props.w && <Image source={Src} style={{ maxWidth: '100%' }} />}
+
       <View
         style={{
           flexDirection: 'row',

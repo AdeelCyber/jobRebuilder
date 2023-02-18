@@ -15,6 +15,7 @@ const TeamMember = ({ designation, image, text, ...props }) => {
   } = useContext(Context);
   const [open, setopen] = useState(false);
   const [select, setselected] = useState(true);
+  const [added, setadded] = useState(false);
   return (
     <View
       style={[
@@ -57,16 +58,25 @@ const TeamMember = ({ designation, image, text, ...props }) => {
       </View>
       {/* 2 */}
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Pressable
-          onPress={() => props.handlePress("Add", props.id, props.item)}
-        >
-          <AntDesign name="pluscircleo" size={21} color="black" />
-        </Pressable>
-        <Pressable
-          onPress={() => props.handlePress("Sub", props.id, props.item)}
-        >
-          <MaterialCommunityIcons name="delete" size={24} color="#E50505" />
-        </Pressable>
+        {!added ? (
+          <Pressable
+            onPress={() => {
+              props.handlePress("Add", props.id, props.item);
+              setadded(!added);
+            }}
+          >
+            <AntDesign name="pluscircleo" size={21} color="black" />
+          </Pressable>
+        ) : (
+          <Pressable
+            onPress={() => {
+              props.handlePress("Sub", props.id, props.item);
+              setadded(!added);
+            }}
+          >
+            <MaterialCommunityIcons name="delete" size={24} color="#E50505" />
+          </Pressable>
+        )}
       </View>
     </View>
   );
