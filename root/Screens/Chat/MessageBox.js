@@ -78,6 +78,7 @@ const MessageBox = ({
   const [docinfo, setdocinfo] = useState();
   const [getmodalvisible1, setModalVisible1] = useState(false);
   const [getmodalvisible2, setModalVisible2] = useState(false);
+  const yourRef = useRef();
 
   const [items, setItems] = useState([]);
   const [position, setposition] = useState();
@@ -286,6 +287,13 @@ const MessageBox = ({
     // console.log(chatType);
   }, []);
 
+  useEffect(() => {
+    yourRef.current.scrollToEnd({ animated: true });
+  }, []);
+  const handleContentSizeChange = () => [
+    yourRef.current.scrollToEnd({ animated: true }),
+  ];
+
   const icon = () => (
       <Entypo name="dots-three-vertical" size={24} color="black" />
     ),
@@ -325,7 +333,6 @@ const MessageBox = ({
       setmsg([...msg, obj]);
     });
   }
-  const yourRef = useRef(null);
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -510,8 +517,8 @@ const MessageBox = ({
       {chatType === "group" ? (
         <FlatList
           data={msg}
-          // ref={yourRef}
-          // onContentSizeChange={() => yourRef.current.scrollToEnd()}
+          ref={yourRef}
+          onContentSizeChange={handleContentSizeChange}
           // onLayout={() => yourRef.current.scrollToEnd()}
           keyExtractor={(item) => item._id}
           renderItem={({ item }) => (
@@ -864,8 +871,8 @@ const MessageBox = ({
       ) : (
         <FlatList
           data={msg}
-          // ref={yourRef}
-          // onContentSizeChange={() => yourRef.current.scrollToEnd()}
+          ref={yourRef}
+          onContentSizeChange={handleContentSizeChange}
           // onLayout={() => yourRef.current.scrollToEnd()}
           keyExtractor={(item) => item.key}
           renderItem={({ item }) => (

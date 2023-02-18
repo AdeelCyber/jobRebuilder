@@ -103,6 +103,7 @@ const FreelancerProfileScreen = () => {
             setrefreshToken('')
             setislogin(false)
           }
+          console.log(profile.navigate)
           navigation.navigate(profile.navigate)
         }}
       >

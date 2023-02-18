@@ -23,22 +23,8 @@ const PaymentMethodScreen = () => {
   const [route, setRoute] = useState('')
 
   useEffect(() => {
-    getInitialRoute()
-    const handleUrl = async (event) => {
-      console.log('Hello')
-      const { url } = event
-      const parsedUrl = await Linking.parse(url)
-
-      console.log('event= ', event)
-      console.log('URL', url)
-      if (parsedUrl.path === 'stripe-redirect') {
-        const stripeUserId = parsedUrl.queryParams.stripe_user_id
-        setStripeAccountId(stripeUserId)
-      }
-    }
-
+    // getInitialRoute()
     // Linking.addEventListener('url', handleUrl)
-
     // Linking.getInitialURL().then((url) => {
     //   if (url) {
     //     setInitialUrl(url)
@@ -49,47 +35,47 @@ const PaymentMethodScreen = () => {
     // }
   }, [])
 
-  // const goTo = async () => {
-  //   console.log('Before')
-  //   try {
-  //     var options = {
-  //       method: 'POST',
-  //       headers: {
-  //         Accept: 'application/json',
-  //         'Content-Type': 'application/json',
-  //         Origin: '',
-  //         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2UyN2RmZmJkMGVjNjAwMWUzYjBkZDIiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1OTUwODYxfQ.HgyEwPK-4Hup7bEFkSTG1EC8UG3u-MOvnrbDeHAgrLM`,
-  //       },
-  //     }
+  const goTo = async () => {
+    console.log('Before')
+    try {
+      var options = {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Origin: '',
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2UyN2RmZmJkMGVjNjAwMWUzYjBkZDIiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1OTUwODYxfQ.HgyEwPK-4Hup7bEFkSTG1EC8UG3u-MOvnrbDeHAgrLM`,
+        },
+      }
 
-  //     const resp = fetch(
-  //       `https://stepdev.up.railway.app/stripe/multiparty-express`,
-  //       options
-  //     )
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         Linking.openURL(data.url)
-  //       })
+      const resp = fetch(
+        `https://stepdev.up.railway.app/stripe/multiparty-express`,
+        options
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          Linking.openURL(data.url)
+        })
 
-  //     //     headers: {
-  //     //       Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2UyN2RmZmJkMGVjNjAwMWUzYjBkZDIiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1OTUwODYxfQ.HgyEwPK-4Hup7bEFkSTG1EC8UG3u-MOvnrbDeHAgrLM`,
-  //     //     },
-  //     //   }
-  //     //   const redirectUri = encodeURIComponent('myapp://myapp.com')
-  //     //   const { data } = await axios.post(
-  //     //     'https://stepdev.up.railway.app/stripe/multiparty-express',
-  //     //     config
-  //     //   )
-  //     //   console.log(data)
-  //   } catch (error) {
-  //     console.log(error.response)
-  //   }
-  // }
+      //     headers: {
+      //       Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2UyN2RmZmJkMGVjNjAwMWUzYjBkZDIiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1OTUwODYxfQ.HgyEwPK-4Hup7bEFkSTG1EC8UG3u-MOvnrbDeHAgrLM`,
+      //     },
+      //   }
+      //   const redirectUri = encodeURIComponent('myapp://myapp.com')
+      //   const { data } = await axios.post(
+      //     'https://stepdev.up.railway.app/stripe/multiparty-express',
+      //     config
+      //   )
+      //   console.log(data)
+    } catch (error) {
+      console.log(error.response)
+    }
+  }
 
-  setTimeout(async () => {
-    console.log('Hello wordsssss')
-    await Linking.openURL('myapp://myapp.com')
-  }, 5000)
+  // setTimeout(async () => {
+  //   console.log('Hello wordsssss')
+  //   await Linking.openURL('myapp://myapp.com')
+  // }, 20000)
 
   const handleURL = () => {
     console.log('Before launch')
@@ -121,7 +107,7 @@ const PaymentMethodScreen = () => {
       >
         <TouchableOpacity
           onPress={() => {
-            handleURL()
+            goTo()
           }}
           style={{
             backgroundColor: '#8489FC',
