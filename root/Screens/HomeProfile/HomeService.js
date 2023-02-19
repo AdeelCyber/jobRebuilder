@@ -435,6 +435,8 @@ const HomeService = ({ route }) => {
                   <View>
                     <Pressable
                       onPress={() => {
+                        //console.log(item.attachments);
+
                         navigation.navigate("ViewPortfolio", {
                           portfolio: item,
                         });
@@ -448,7 +450,9 @@ const HomeService = ({ route }) => {
                           marginBottom: 10,
                           marginRight: 5,
                         }}
-                        source={{ uri: item.attachments[0] }}
+                        source={{
+                          uri: `https://stepdev.up.railway.app/media/getimage/${item.attachments[0]}`,
+                        }}
                       />
                     </Pressable>
                   </View>
@@ -492,84 +496,89 @@ const HomeService = ({ route }) => {
           </View>
         )}
 
-        {reviews && (
-          <FlatList
-            data={userinfo?.ratingAndReviews}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <View
-                style={{
-                  marginTop: 20,
-                  height: 91,
-                  width: 345,
-                  borderRadius: 5,
-                  shadowColor: colors.Bluish,
-                  elevation: 6,
+        {reviews &&
+          (reviews?.length > 0 ? (
+            <FlatList
+              data={userinfo?.ratingAndReviews}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View
+                  style={{
+                    marginTop: 20,
+                    height: 91,
+                    width: 345,
+                    borderRadius: 5,
+                    shadowColor: colors.Bluish,
+                    elevation: 6,
 
-                  backgroundColor: "white",
-                }}
-              >
-                <View style={{ flexDirection: "row" }}>
-                  <Image
-                    style={{
-                      height: 32,
-                      width: 32,
-                      borderRadius: 50,
-                      margin: 15,
-                    }}
-                    source={{ uri: item.avatar }}
-                  />
-                  <View style={{ flexDirection: "column", marginTop: 15 }}>
-                    <MyText style={{ fontSize: 14, fontWeight: "700" }}>
-                      {item.name}
-                    </MyText>
-                    <View style={{ flexDirection: "row" }}>
-                      <StarRating
-                        rating={item.rating}
-                        starSize={14}
-                        style={{
-                          padding: 0,
-                          margin: 0,
-                          width: 10,
-                          alignSelf: "flex-start",
-                        }}
-                      />
-                      <MyText
-                        style={{
-                          fontSize: 10,
-                          fontWeight: "700",
-                          marginLeft: 50,
-                        }}
-                      >
-                        {item.rating}
+                    backgroundColor: "white",
+                  }}
+                >
+                  <View style={{ flexDirection: "row" }}>
+                    <Image
+                      style={{
+                        height: 32,
+                        width: 32,
+                        borderRadius: 50,
+                        margin: 15,
+                      }}
+                      source={{ uri: item.avatar }}
+                    />
+                    <View style={{ flexDirection: "column", marginTop: 15 }}>
+                      <MyText style={{ fontSize: 14, fontWeight: "700" }}>
+                        {item.name}
                       </MyText>
+                      <View style={{ flexDirection: "row" }}>
+                        <StarRating
+                          rating={item.rating}
+                          starSize={14}
+                          style={{
+                            padding: 0,
+                            margin: 0,
+                            width: 10,
+                            alignSelf: "flex-start",
+                          }}
+                        />
+                        <MyText
+                          style={{
+                            fontSize: 10,
+                            fontWeight: "700",
+                            marginLeft: 50,
+                          }}
+                        >
+                          {item.rating}
+                        </MyText>
+                        <MyText
+                          style={{
+                            fontSize: 10,
+                            fontWeight: "500",
+                            color: "#23232380",
+                            marginLeft: 150,
+                          }}
+                        >
+                          {moment(item.time).format("h:mm a")}
+                        </MyText>
+                      </View>
                       <MyText
                         style={{
                           fontSize: 10,
-                          fontWeight: "500",
+                          fontWeight: "400",
                           color: "#23232380",
-                          marginLeft: 150,
+                          marginRight: 90,
                         }}
                       >
-                        {moment(item.time).format("h:mm a")}
+                        {item.review}
                       </MyText>
                     </View>
-                    <MyText
-                      style={{
-                        fontSize: 10,
-                        fontWeight: "400",
-                        color: "#23232380",
-                        marginRight: 90,
-                      }}
-                    >
-                      {item.review}
-                    </MyText>
                   </View>
                 </View>
-              </View>
-            )}
-          />
-        )}
+              )}
+            />
+          ) : (
+            <View style={{ marginTop: 20 }}>
+              <MyText style={{ fontSize: 14 }}>No Reviews</MyText>
+            </View>
+          ))}
 
         {about && (
           <View style={{ marginBottom: 30 }}>

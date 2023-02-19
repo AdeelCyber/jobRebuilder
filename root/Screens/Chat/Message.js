@@ -187,132 +187,136 @@ const Message = ({ navigation }) => {
           />
         </View>
       )}
-      {chat ? (
-        <Container>
-          <FlatList
-            data={chat}
-            extraData={chat}
-            refreshing={getcondition}
-            refreshControl={
-              <RefreshControl refreshing={getcondition} onRefresh={onRefresh} />
-            }
-            keyExtractor={(item, index) => {
-              return index.toString();
-            }}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  borderBottomWidth: 1,
-                  borderColor: "#9DD0FF66",
-                  marginBottom: 10,
-                }}
-                onPress={() =>
-                  navigation.navigate("MessagesBox", {
-                    id: item.chatid,
-                    userImg: item.chatavatar,
-                    userName: item.chatname,
-                    chatType: item.chatType,
-                    members: item.members,
-                    online: getuser === item.chatid ? "online" : "offline",
-                  })
-                }
-              >
-                <View style={{ flexDirection: "row" }}>
-                  <Image
-                    style={{
-                      height: 51,
-                      width: 51,
-                      borderRadius: 50,
-                      alignItems: "center",
-                    }}
-                    source={{
-                      uri: `https://stepdev.up.railway.app/media/getimage/${item.chatavatar}`,
-                    }}
-                  />
+      {chat &&
+        (chat.length > 0 ? (
+          <Container>
+            <FlatList
+              data={chat}
+              extraData={chat}
+              refreshing={getcondition}
+              refreshControl={
+                <RefreshControl
+                  refreshing={getcondition}
+                  onRefresh={onRefresh}
+                />
+              }
+              keyExtractor={(item, index) => {
+                return index.toString();
+              }}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    borderBottomWidth: 1,
+                    borderColor: "#9DD0FF66",
+                    marginBottom: 10,
+                  }}
+                  onPress={() =>
+                    navigation.navigate("MessagesBox", {
+                      id: item.chatid,
+                      userImg: item.chatavatar,
+                      userName: item.chatname,
+                      chatType: item.chatType,
+                      members: item.members,
+                      online: getuser === item.chatid ? "online" : "offline",
+                    })
+                  }
+                >
+                  <View style={{ flexDirection: "row" }}>
+                    <Image
+                      style={{
+                        height: 51,
+                        width: 51,
+                        borderRadius: 50,
+                        alignItems: "center",
+                      }}
+                      source={{
+                        uri: `https://stepdev.up.railway.app/media/getimage/${item.chatavatar}`,
+                      }}
+                    />
+                    <View
+                      style={{
+                        height: 15,
+                        width: 15,
+                        borderRadius: 100,
+                        marginLeft: 40,
+
+                        backgroundColor:
+                          getuser === item.chatid ? "green" : "red",
+                        alignSelf: "flex-end",
+                        position: "absolute",
+                        bottom: 19,
+                      }}
+                    ></View>
+                  </View>
                   <View
                     style={{
-                      height: 15,
-                      width: 15,
-                      borderRadius: 100,
-                      marginLeft: 40,
-
-                      backgroundColor:
-                        getuser === item.chatid ? "green" : "red",
-                      alignSelf: "flex-end",
-                      position: "absolute",
-                      bottom: 19,
-                    }}
-                  ></View>
-                </View>
-                <View
-                  style={{
-                    flexDirection: "column",
-                    justifyContent: "flex-start",
-                    margin: 10,
-                    width: 210,
-                    height: 50,
-                    marginRight: 40,
-                  }}
-                >
-                  <MyText style={{ fontWeight: "700", fontSize: 14 }}>
-                    {item.chatname}
-                  </MyText>
-                  <Text
-                    style={{
-                      fontWeight: "400",
-                      fontSize: 13,
-                      color: "#23232380",
-                    }}
-                    numberOfLines={2}
-                  >
-                    {item.lastMessage?.sender.name
-                      ? item.lastMessage?.sender.name +
-                        ": " +
-                        item.lastMessage?.message.message
-                      : item.lastMessage?.message.attachments ||
-                        item.lastMessage?.message.equity
-                      ? "Offer Message"
-                      : item.lastMessage?.message.message}
-                  </Text>
-                </View>
-
-                <View
-                  style={{
-                    flexDirection: "column",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Pressable
-                    onPress={async () => {
-                      await setReadToFalse();
-                      setUnRead(false);
+                      flexDirection: "column",
+                      justifyContent: "flex-start",
+                      margin: 10,
+                      width: 210,
+                      height: 50,
+                      marginRight: 40,
                     }}
                   >
-                    {/* <Msgs style={{ marginLeft: 20, marginBottom: 5 }}>2</Msgs> */}
-
-                    <MyText
+                    <MyText style={{ fontWeight: "700", fontSize: 14 }}>
+                      {item.chatname}
+                    </MyText>
+                    <Text
                       style={{
-                        fontWeight: "500",
-                        fontSize: 9,
+                        fontWeight: "400",
+                        fontSize: 13,
                         color: "#23232380",
-                        marginTop: 17,
+                      }}
+                      numberOfLines={2}
+                    >
+                      {item.lastMessage?.sender.name
+                        ? item.lastMessage?.sender.name +
+                          ": " +
+                          item.lastMessage?.message.message
+                        : item.lastMessage?.message.attachments ||
+                          item.lastMessage?.message.equity
+                        ? "Offer Message"
+                        : item.lastMessage?.message.message}
+                    </Text>
+                  </View>
+
+                  <View
+                    style={{
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Pressable
+                      onPress={async () => {
+                        await setReadToFalse();
+                        setUnRead(false);
                       }}
                     >
-                      {moment(item.date).format("h:mm a")}
-                    </MyText>
-                  </Pressable>
-                </View>
-              </TouchableOpacity>
-            )}
-          />
-        </Container>
-      ) : (
-        <View>
-          <Text> No chats here</Text>
-        </View>
-      )}
+                      {/* <Msgs style={{ marginLeft: 20, marginBottom: 5 }}>2</Msgs> */}
+
+                      <MyText
+                        style={{
+                          fontWeight: "500",
+                          fontSize: 9,
+                          color: "#23232380",
+                          marginTop: 17,
+                        }}
+                      >
+                        {moment(item.date).format("h:mm a")}
+                      </MyText>
+                    </Pressable>
+                  </View>
+                </TouchableOpacity>
+              )}
+            />
+          </Container>
+        ) : (
+          <View style={{ marginTop: 20 }}>
+            <MyText style={{ fontSize: 14 }}>No Chats</MyText>
+          </View>
+        ))}
     </View>
   );
 };

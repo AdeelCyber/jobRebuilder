@@ -277,7 +277,7 @@ const Team = ({ navigation, route }) => {
                   navigation.navigate("MessagesBox", {
                     userImg: personData.image,
                     userName: personData.name,
-                    chatType: "Simple Chat",
+                    chatType: "simple",
                   });
                 }}
               >

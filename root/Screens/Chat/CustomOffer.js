@@ -63,29 +63,40 @@ const CustomOffer = ({ route }) => {
   };
 
   const oneTimeOffer = async () => {
-    setcondition(true);
-    const onetime = await oneTimeOrder(
-      accessToken,
-      id,
-      jobTitle,
-      description,
-      price,
-      moment(duedate).format("YYYY-MM-DD")
-    );
-    //console.log(onetime.data.data._id);
-    if (onetime.status == 201) {
-      setcondition(false);
-      sendMessage(onetime.data.data._id, "oneTimeOrder");
+    try {
+      setcondition(true);
 
-      Toast.show({
-        topOffset: 60,
-        type: "success",
-        text1: "Ordered Created Successfully",
-        text2: ".",
-      });
+      const onetime = await oneTimeOrder(
+        accessToken,
+        id,
+        jobTitle,
+        description,
+        price,
+        moment(duedate).format("YYYY-MM-DD")
+      );
+      //console.log(onetime.data.data._id);
+      if (onetime.status == 201) {
+        setcondition(false);
+        sendMessage(onetime.data.data._id, "oneTimeOrder");
 
-      // navigation.navigate("MessagesBox", { order: onetime.data });
-    } else {
+        Toast.show({
+          topOffset: 60,
+          type: "success",
+          text1: "Ordered Created Successfully",
+          text2: ".",
+        });
+        socket.emit("private message", {
+          to: id,
+          content: {
+            msgcontent: "oneTimeOrder",
+            messageType: onetime.data.data._id,
+          },
+        });
+
+        // navigation.navigate("MessagesBox", { order: onetime.data });
+      } else {
+      }
+    } catch (err) {
       setcondition(false);
       Toast.show({
         topOffset: 60,
@@ -97,29 +108,39 @@ const CustomOffer = ({ route }) => {
   };
 
   const equityOffer = async () => {
-    setcondition(true);
-    const equity = await equityOrder(
-      accessToken,
-      id,
-      jobTitle,
-      description,
-      price,
-      getdocinfo.filename
-    );
-    // console.log(equity);
-    if (equity.status == 201) {
-      setcondition(false);
-      sendMessage(equity.data.data._id, "equityOrder");
+    try {
+      setcondition(true);
+      const equity = await equityOrder(
+        accessToken,
+        id,
+        jobTitle,
+        description,
+        price,
+        getdocinfo.filename
+      );
+      // console.log(equity);
+      if (equity.status == 201) {
+        setcondition(false);
+        sendMessage(equity.data.data._id, "equityOrder");
+        socket.emit("private message", {
+          to: id,
+          content: {
+            msgcontent: "equityOrder",
+            messageType: equity.data.data._id,
+          },
+        });
 
-      Toast.show({
-        topOffset: 60,
-        type: "success",
-        text1: "Ordered Created Successfully",
-        text2: ".",
-      });
+        Toast.show({
+          topOffset: 60,
+          type: "success",
+          text1: "Ordered Created Successfully",
+          text2: ".",
+        });
 
-      // navigation.navigate("MessagesBox", { order: onetime.data });
-    } else {
+        // navigation.navigate("MessagesBox", { order: onetime.data });
+      } else {
+      }
+    } catch (err) {
       setcondition(false);
       Toast.show({
         topOffset: 60,
@@ -148,6 +169,19 @@ const CustomOffer = ({ route }) => {
 
     //console.log(res.data);
   };
+  socket.on("private message", (data) => {
+    const { content, from } = data;
+    console.log(content);
+    // console.log(from);
+
+    var obj = {};
+    (obj["createdAt"] = Date.now()),
+      (obj[`${content.messageType}`] = content.msgcontent),
+      (obj["user"] = {
+        _id: "other",
+      });
+  });
+
   // socket.on("private message", (data) => {
   //   const { content, from } = data;
   //   console.log(content);

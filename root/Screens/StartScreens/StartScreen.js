@@ -89,11 +89,11 @@ const StartScreen = () => {
                 style={{
                   color: "white",
                   fontSize: 16,
-                  fontWeight: "600",
+                  fontWeight: "bold",
                   marginTop: 10,
                 }}
               >
-                Build a Startup
+                Start a Business
               </MyText>
               <MyText
                 style={{
@@ -101,11 +101,12 @@ const StartScreen = () => {
                   fontSize: 10,
                   marginTop: 10,
                   marginRight: 110,
+                  fontWeight: "600",
                   textAlign: "justify",
                 }}
               >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.Etiam
-                elementum pharetra consectetur adipiscing elit.consectetur elit.
+                Break down your business idea{"\n"}Build a team Raise funds
+                (coming soon){"\n"}Hire an expert
               </MyText>
             </View>
             <Pressable
@@ -124,11 +125,11 @@ const StartScreen = () => {
             >
               <MyText
                 style={{
-                  color: colors.pink,
+                  color: "#ba55d3",
                   fontSize: 10,
                 }}
               >
-                Build
+                Start
               </MyText>
             </Pressable>
           </ImageBackground>
@@ -183,7 +184,7 @@ const StartScreen = () => {
                   fontWeight: "bold",
                 }}
               >
-                Work for Equity / Fixed price
+                Join a Business as Partner or{"\n"}Work as a Freelancer
               </MyText>
               <MyText
                 style={{
@@ -194,8 +195,8 @@ const StartScreen = () => {
                   textAlign: "justify",
                 }}
               >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.Etiam
-                elementum pharetra consectetur adipiscing elit.consectetur elit.
+                Work for equity (own part of the business){"\n"}Work for a fixed
+                rate
               </MyText>
             </View>
             <Pressable
@@ -264,10 +265,10 @@ const StartScreen = () => {
                   color: "white",
                   fontSize: 16,
                   marginTop: 10,
-                  fontWeight: "600",
+                  fontWeight: "bold",
                 }}
               >
-                Invest in Startup
+                Invest
               </MyText>
               <MyText
                 style={{
@@ -275,11 +276,11 @@ const StartScreen = () => {
                   fontSize: 10,
                   marginTop: 10,
                   marginRight: 110,
+                  marginBottom: 15,
                   textAlign: "justify",
                 }}
               >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.Etiam
-                elementum pharetra consectetur adipiscing elit.consectetur elit.
+                Invest in early-stage business{"\n"}Support new business
               </MyText>
             </View>
             <Pressable
@@ -293,7 +294,7 @@ const StartScreen = () => {
                 marginTop: 40,
               }}
               onPress={() => {
-                navigation.navigate("CreateAccount");
+                // navigation.navigate("CreateAccount");
               }}
             >
               <View

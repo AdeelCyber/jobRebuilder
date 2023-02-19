@@ -100,6 +100,7 @@ import AvailableJobs from "./Screens/Profile/Vacancy/AvailableJobs";
 import JobCareerDetailScreen from "./Screens/Profile/Vacancy/JobCareerDetailScreen";
 import UserTabBar from "./Components/UserTabBar";
 import ExploreAll from "./Screens/Profile/ExploreAll";
+import Forget from "./Screens/StartScreens/Forget";
 //Navigation out
 
 // Creating Stacks
@@ -167,6 +168,7 @@ const MyStack = () => {
         <Stack.Screen name="CreateAccount" component={CreateAccount} />
         <Stack.Screen name="OtpScreen" component={OtpScreen} />
         <Stack.Screen name="OtpScreen2" component={OtpScreen2} />
+        <Stack.Screen name="Forget" component={Forget} />
 
         <Stack.Screen name="Message" component={Message} />
         <Stack.Screen name="MessageBox" component={MessageBox} />

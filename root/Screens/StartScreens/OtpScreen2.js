@@ -64,8 +64,9 @@ const OtpScreen2 = ({ route }) => {
   };
   const verifyotp = async (code) => {
     console.log("hh");
-    setcondition(true);
     try {
+      setcondition(true);
+
       const res = await verifyOTP(Phonenumber, code);
       console.log(res.status);
 
@@ -118,6 +119,9 @@ const OtpScreen2 = ({ route }) => {
       });
     }
   };
+  useEffect(() => {
+    phoneverify("sms");
+  }, []);
   if (getcondition) {
     return (
       <Loader visible={getcondition} color="white" indicatorSize="large" />
@@ -177,32 +181,19 @@ const OtpScreen2 = ({ route }) => {
               Send otp to number
             </MyText>
             <View style={{ marginTop: 30 }}>
-              {getverify ? (
-                <MyText
-                  style={{
-                    fontSize: 14,
-                    alignSelf: "center",
-                    color: colors.text,
-                    fontWeight: "400",
-                    marginTop: 20,
-                  }}
-                >
-                  We have sent the code verification on your number
-                  {Phonenumber}
-                </MyText>
-              ) : (
-                <MyText
-                  style={{
-                    fontSize: 14,
-                    alignSelf: "center",
-                    color: colors.text,
-                    fontWeight: "400",
-                    marginTop: 20,
-                  }}
-                >
-                  Get OTP on your number {Phonenumber}
-                </MyText>
-              )}
+              <MyText
+                style={{
+                  fontSize: 14,
+                  alignSelf: "center",
+                  color: colors.text,
+                  fontWeight: "400",
+                  marginTop: 20,
+                }}
+              >
+                We have sent the code verification on your number
+                {Phonenumber}
+              </MyText>
+
               <View style={styles.SectionStyle}>
                 <TextInput
                   style={styles.inputStyle}
@@ -214,55 +205,29 @@ const OtpScreen2 = ({ route }) => {
                   returnKeyType="next"
                 />
               </View>
-              {getverify ? (
-                <Pressable
+              <TouchableOpacity
+                style={{
+                  backgroundColor: colors.Bluish,
+                  width: "100%",
+                  height: 50,
+                  borderRadius: 10,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 20,
+                }}
+                onPress={() => {
+                  verifyotp(otp);
+                }}
+              >
+                <MyText
                   style={{
-                    backgroundColor: colors.Bluish,
-                    width: "100%",
-                    height: 50,
-                    borderRadius: 10,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: 20,
-                  }}
-                  onPress={() => {
-                    verifyotp(otp);
+                    color: colors.white,
+                    fontSize: 16,
                   }}
                 >
-                  <MyText
-                    style={{
-                      color: colors.white,
-                      fontSize: 16,
-                    }}
-                  >
-                    Verify
-                  </MyText>
-                </Pressable>
-              ) : (
-                <Pressable
-                  style={{
-                    backgroundColor: colors.Bluish,
-                    width: "100%",
-                    height: 50,
-                    borderRadius: 10,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: 20,
-                  }}
-                  onPress={() => {
-                    phoneverify("sms");
-                  }}
-                >
-                  <MyText
-                    style={{
-                      color: colors.white,
-                      fontSize: 16,
-                    }}
-                  >
-                    Get OTP
-                  </MyText>
-                </Pressable>
-              )}
+                  Verify
+                </MyText>
+              </TouchableOpacity>
             </View>
           </View>
         </ImageBackground>

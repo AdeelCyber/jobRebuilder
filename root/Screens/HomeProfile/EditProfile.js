@@ -28,6 +28,8 @@ import Toast from "react-native-toast-message";
 import { imageUpload } from "../Profile/services/fileServices";
 import { editProfile } from "../Profile/services/ProfileServices";
 import Loader from "../../Components/Loader";
+import DropDownPicker from "react-native-dropdown-picker";
+
 const EditProfile = ({ route }) => {
   const {
     theme: { colors },
@@ -50,6 +52,12 @@ const EditProfile = ({ route }) => {
   );
   const [logo, setlogo] = useState(userinfo.userInfo.avatar);
   const [getcondition, setcondition] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: "Join a business (equity)", value: "Equity" },
+    { label: "Fixed Rate (Freelancer)", value: "Freelance" },
+  ]);
   // const pickImg = async () => {
   //   let result = await ImagePicker.launchImageLibraryAsync({
   //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -314,6 +322,31 @@ const EditProfile = ({ route }) => {
         <MyText style={{ fontSize: 14, fontWeight: "500", margin: 10 }}>
           Change Profile Picture
         </MyText>
+        <TouchableOpacity
+          style={{
+            backgroundColor: colors.Bluish,
+            width: 150,
+            height: 40,
+            borderRadius: 10,
+            justifyContent: "center",
+            alignItems: "center",
+            marginBottom: 10,
+            marginTop: 20,
+          }}
+          onPress={() => {
+            profileedit();
+          }}
+        >
+          <MyText
+            style={{
+              color: colors.white,
+              fontSize: 14,
+              fontWeight: "500",
+            }}
+          >
+            Save
+          </MyText>
+        </TouchableOpacity>
         <View style={styles.SectionStyle}>
           <TextInput
             style={[
@@ -417,6 +450,20 @@ const EditProfile = ({ route }) => {
           </Pressable>
         </View>
         <View style={styles.SectionStyle}>
+          <DropDownPicker
+            dropDownDirection="TOP"
+            style={[styles.inputStyle, { borderColor: "#EEEEEE" }]}
+            textStyle={{ color: "#ACA9A9" }}
+            placeholder={userinfo.userInfo.role}
+            open={open}
+            value={value}
+            items={items}
+            setOpen={setOpen}
+            setValue={setValue}
+            setItems={setItems}
+          />
+        </View>
+        {/* <View style={styles.SectionStyle}>
           <TextInput
             style={[
               styles.inputStyle,
@@ -432,7 +479,7 @@ const EditProfile = ({ route }) => {
           >
             <MaterialCommunityIcons name="pencil" size={22} color="#ACA9A9" />
           </Pressable>
-        </View>
+        </View> */}
         <View style={[styles.SectionStyle, { height: 135 }]}>
           <TextInput
             style={[
@@ -447,31 +494,6 @@ const EditProfile = ({ route }) => {
             numberOfLines={5}
           />
         </View>
-        <Pressable
-          style={{
-            backgroundColor: colors.Bluish,
-            width: 361,
-            height: 58,
-            borderRadius: 10,
-            justifyContent: "center",
-            alignItems: "center",
-            marginBottom: 10,
-            marginTop: 20,
-          }}
-          onPress={() => {
-            profileedit();
-          }}
-        >
-          <MyText
-            style={{
-              color: colors.white,
-              fontSize: 14,
-              fontWeight: "500",
-            }}
-          >
-            Done
-          </MyText>
-        </Pressable>
       </View>
     </ScrollView>
   );

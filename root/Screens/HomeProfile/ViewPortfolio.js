@@ -150,7 +150,9 @@ const ViewPortfolio = ({ route }) => {
             <Swiper showButtons={true} autoplay={true} autoplayTimeout={4}>
               {route.params?.portfolio.attachments.map((i) => (
                 <Image
-                  source={{ uri: i }}
+                  source={{
+                    uri: `https://stepdev.up.railway.app/media/getimage/${i}`,
+                  }}
                   resizeMode="contain"
                   style={{ height: 278, width: 350, borderRadius: 10 }}
                   key={i._id}

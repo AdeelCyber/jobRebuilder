@@ -51,6 +51,7 @@ import { startupNames } from "../Profile/services/startupServices";
 import SelectDropdown from "react-native-select-dropdown";
 import * as FileSystem from "expo-file-system";
 import { StorageAccessFramework } from "expo-file-system";
+import { useIsFocused } from "@react-navigation/native";
 
 const MessageBox = ({
   route,
@@ -79,6 +80,7 @@ const MessageBox = ({
   const [getmodalvisible1, setModalVisible1] = useState(false);
   const [getmodalvisible2, setModalVisible2] = useState(false);
   const yourRef = useRef();
+  const isFocused = useIsFocused();
 
   const [items, setItems] = useState([]);
   const [position, setposition] = useState();
@@ -289,7 +291,7 @@ const MessageBox = ({
 
   useEffect(() => {
     yourRef.current.scrollToEnd({ animated: true });
-  }, []);
+  }, [isFocused]);
   const handleContentSizeChange = () => [
     yourRef.current.scrollToEnd({ animated: true }),
   ];
@@ -1785,7 +1787,14 @@ const MessageBox = ({
             }}
           />
           <TextInput
-            style={{ marginRight: 170, fontSize: 11, fontWeight: "400" }}
+            style={{
+              marginRight: 10,
+              fontSize: 11,
+              fontWeight: "400",
+              width: 130,
+              flex: 1,
+            }}
+            multiline={true}
             placeholder="Type Message here"
             placeholderTextColor="#23232380"
             onChangeText={(message) => setMessage(message)}
@@ -1834,15 +1843,17 @@ const MessageBox = ({
           elevation: 3,
         }}
       >
-        <View style={{ flexDirection: "row" }}>
+        <TouchableOpacity
+          style={{ flexDirection: "row" }}
+          onPress={() => {
+            pickDocument();
+          }}
+        >
           <Entypo
             name="attachment"
             style={{ marginTop: 10, marginLeft: 20 }}
             size={15}
             color="#23232380"
-            onPress={() => {
-              pickDocument();
-            }}
           />
           <MyText
             style={{
@@ -1853,20 +1864,22 @@ const MessageBox = ({
           >
             Attach Files
           </MyText>
-        </View>
+        </TouchableOpacity>
 
         {chatType === "group" || userdetails.role === "Startup Owner" ? (
           <View></View>
         ) : (
-          <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity
+            style={{ flexDirection: "row" }}
+            onPress={() => {
+              navigation.navigate("CustomOffer", { id: id });
+            }}
+          >
             <AntDesign
               name="pluscircleo"
               style={{ marginTop: 10, marginLeft: 20 }}
               size={15}
               color="#23232380"
-              onPress={() => {
-                navigation.navigate("CustomOffer", { id: id });
-              }}
             />
             <MyText
               style={{
@@ -1877,7 +1890,7 @@ const MessageBox = ({
             >
               Create Order
             </MyText>
-          </View>
+          </TouchableOpacity>
         )}
       </View>
     </View>

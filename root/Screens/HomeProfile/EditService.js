@@ -27,7 +27,7 @@ import CartProvider from "../../Context/CartProvider";
 import { editServices } from "../Profile/services/ProfileServices";
 import Toast from "react-native-toast-message";
 import { useIsFocused } from "@react-navigation/native";
-
+import Loader from "../../Components/Loader";
 const EditService = ({ route }) => {
   const {
     theme: { colors },
@@ -46,17 +46,19 @@ const EditService = ({ route }) => {
 
   const { accessToken } = useContext(CartProvider);
   const [userskill, setuserskill] = useState();
-
+  const [getcondition, setcondition] = useState(false);
   const deleteItem = (index) => {
     const r = skillsofuser.filter((i, e) => e != index);
 
     setskillsofuser(r);
   };
   const edit = async (n) => {
+    setcondition(true);
     const res = await editServices(accessToken, userdesc, value2, skillsofuser);
     console.log(res.status);
     console.log(res.data);
     if (res.status == 201) {
+      setcondition(false);
       Toast.show({
         topOffset: 60,
         type: "success",
@@ -65,6 +67,7 @@ const EditService = ({ route }) => {
       });
       navigation.navigate("HomeService");
     }
+    setcondition(false);
   };
   useEffect(() => {
     console.log(screen);
@@ -78,7 +81,11 @@ const EditService = ({ route }) => {
       setrates(true);
     }
   }, []);
-
+  if (getcondition) {
+    return (
+      <Loader visible={getcondition} color="white" indicatorSize="large" />
+    );
+  }
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
       <CustomHeader9 nav={navigation} />
@@ -166,7 +173,7 @@ const EditService = ({ route }) => {
                 multiline={true}
               />
             </View>
-            <Pressable
+            <TouchableOpacity
               style={{
                 backgroundColor: colors.Bluish,
                 width: 345,
@@ -190,8 +197,8 @@ const EditService = ({ route }) => {
               >
                 Update
               </MyText>
-            </Pressable>
-            <Pressable
+            </TouchableOpacity>
+            <TouchableOpacity
               style={{
                 backgroundColor: colors.red,
                 width: 345,
@@ -214,7 +221,7 @@ const EditService = ({ route }) => {
               >
                 Cancel
               </MyText>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         )}
         {rates && (
@@ -227,7 +234,7 @@ const EditService = ({ route }) => {
                 onChangeText={(value2) => setValue(value2)}
               />
             </View>
-            <Pressable
+            <TouchableOpacity
               style={{
                 backgroundColor: colors.Bluish,
                 width: 345,
@@ -250,8 +257,8 @@ const EditService = ({ route }) => {
               >
                 Update
               </MyText>
-            </Pressable>
-            <Pressable
+            </TouchableOpacity>
+            <TouchableOpacity
               style={{
                 backgroundColor: colors.red,
                 width: 345,
@@ -274,7 +281,7 @@ const EditService = ({ route }) => {
               >
                 Cancel
               </MyText>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         )}
         {skills && (
@@ -348,7 +355,7 @@ const EditService = ({ route }) => {
                 }}
               />
             </View>
-            <Pressable
+            <TouchableOpacity
               style={{
                 backgroundColor: colors.Bluish,
                 width: 345,
@@ -371,8 +378,8 @@ const EditService = ({ route }) => {
               >
                 Update
               </MyText>
-            </Pressable>
-            <Pressable
+            </TouchableOpacity>
+            <TouchableOpacity
               style={{
                 backgroundColor: colors.red,
                 width: 345,
@@ -395,7 +402,7 @@ const EditService = ({ route }) => {
               >
                 Cancel
               </MyText>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         )}
       </View>

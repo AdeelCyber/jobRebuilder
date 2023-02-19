@@ -170,7 +170,7 @@ const CreateAccount = ({ route }) => {
                 borderRadius: 10,
                 justifyContent: "center",
                 alignItems: "center",
-                marginTop: 30,
+                marginBottom: 29,
               }}
               onPress={() => {
                 navigation.goBack();

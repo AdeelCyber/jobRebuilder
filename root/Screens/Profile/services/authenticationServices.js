@@ -63,3 +63,16 @@ export const createfacebook = async (data, role) => {
     return error.response;
   }
 };
+
+export const changePass = async (email, password, password2) => {
+  try {
+    const resp = axios.post("/auth/forgotPassword", {
+      email: email,
+      newPassword: password,
+      confirmPassword: password2,
+    });
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};

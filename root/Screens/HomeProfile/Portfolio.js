@@ -19,7 +19,8 @@ import * as ImagePicker from "expo-image-picker";
 import CartProvider from "../../Context/CartProvider";
 import { publishPortfolio } from "../Profile/services/ProfileServices";
 import Toast from "react-native-toast-message";
-
+import { imageUpload } from "../Profile/services/fileServices";
+import Loader from "../../Components/Loader";
 const Portfolio = () => {
   const {
     theme: { colors },
@@ -30,6 +31,7 @@ const Portfolio = () => {
 
   const { accessToken } = useContext(CartProvider);
   const [images, setimages] = useState([]);
+  const [getcondition, setcondition] = useState(false);
 
   const pickImg = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -38,12 +40,15 @@ const Portfolio = () => {
       aspect: [10, 10],
       quality: 1,
     });
-    console.log(result.assets);
+    // console.log(result.assets);
 
     if (!result.canceled) {
       for (var i in result.assets) {
         console.log(result.assets[i].uri);
-        setimages([...images, result.assets[i].uri]);
+        const img = await imageUpload(result.assets[i].uri);
+        const m = JSON.parse(img.body);
+        setimages([...images, m.filename]);
+
         console.log(images);
       }
     }
@@ -51,9 +56,11 @@ const Portfolio = () => {
 
   const portfoliosend = async () => {
     console.log(projname);
+    setcondition(true);
 
     const res = await publishPortfolio(accessToken, projname, projdesc, images);
     if (res.status == 201) {
+      setcondition(false);
       Toast.show({
         topOffset: 60,
         type: "success",
@@ -62,7 +69,13 @@ const Portfolio = () => {
       });
       navigation.navigate("HomeService");
     }
+    setcondition(false);
   };
+  if (getcondition) {
+    return (
+      <Loader visible={getcondition} color="white" indicatorSize="large" />
+    );
+  }
 
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
@@ -116,7 +129,9 @@ const Portfolio = () => {
                 }}
               >
                 <Image
-                  source={{ uri: item }}
+                  source={{
+                    uri: `https://stepdev.up.railway.app/media/getimage/${item}`,
+                  }}
                   resizeMode="contain"
                   style={{ height: 139, width: 160, borderRadius: 10 }}
                 />
@@ -174,7 +189,7 @@ const Portfolio = () => {
             </MyText>
           </Pressable>
         </View>
-        <Pressable
+        <TouchableOpacity
           style={{
             backgroundColor: colors.Bluish,
             width: 345,
@@ -197,7 +212,7 @@ const Portfolio = () => {
           >
             Publish
           </MyText>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );

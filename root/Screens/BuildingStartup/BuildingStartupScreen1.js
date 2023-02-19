@@ -12,7 +12,7 @@ import {
   ActivityIndicator,
   ScrollView,
 } from "react-native";
-
+import { CheckBox } from "react-native-elements";
 import Context from "../../Context/Context";
 import CustomHeader6 from "../../Components/CustomHeader6";
 import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
@@ -161,6 +161,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     const [getmodalvisible3, setModalVisible3] = useState(false);
     const [getmodalvisible4, setModalVisible4] = useState(false);
     const [getmodalvisible5, setModalVisible5] = useState(false);
+    const [getmodalvisible6, setModalVisible6] = useState(false);
 
     const pickImg = async () => {
       setModalVisible5(false);
@@ -328,24 +329,9 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                       marginBottom: 6,
                     }}
                   >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Etiam venenatis sit amet risus a bibendum. Integer a nibh
-                    feugiat, congue nunc ac, auctor tortor. Nam luctus libero
-                    sed tortor luctus, sit amet porttitor ex dignissim. Nam
-                    vitae sem tortor. Etiam in risus egestas, ultricies dui nec,
-                    tempor ante. Vestibulum eu imperdiet velit,
-                  </MyText>
-                  <MyText
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "700",
-                      marginTop: 6,
-                      marginBottom: 6,
-                      alignSelf: "flex-start",
-                      color: colors.Bluish,
-                    }}
-                  >
-                    Describe the specific need of your customer’s problem and
+                    Example topics:{"\n"}
+                    -What problem is your product/service solving?{"\n"}
+                    -Describe the specific need of your customer’s problem and
                     how your product/service solves it.
                   </MyText>
                 </View>
@@ -373,7 +359,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                         color: "#23232380",
                       }}
                     >
-                      More Info (Impact Statement)
+                      More Info (Market Research)
                     </MyText>
                     <Entypo
                       name="circle-with-cross"
@@ -384,15 +370,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                       }}
                     />
                   </View>
-                  <MyText
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "500",
-                      alignSelf: "flex-start",
-                    }}
-                  >
-                    How big is the market?
-                  </MyText>
+
                   <MyText
                     style={{
                       fontSize: 11,
@@ -401,24 +379,9 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                       marginBottom: 6,
                     }}
                   >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Etiam venenatis sit amet risus a bibendum. Integer a nibh
-                    feugiat, congue nunc ac, auctor tortor. Nam luctus libero
-                    sed tortor luctus, sit amet porttitor ex dignissim. Nam
-                    vitae sem tortor. Etiam in risus egestas, ultricies dui nec,
-                    tempor ante. Vestibulum eu imperdiet velit,
-                  </MyText>
-                  <MyText
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "700",
-                      marginTop: 6,
-                      marginBottom: 6,
-                      alignSelf: "flex-start",
-                      color: colors.Bluish,
-                    }}
-                  >
-                    How strong is the demand? How saturated is the market?
+                    Example topics:{"\n"}- How big is the market?{"\n"}- How
+                    strong is the demand?{"\n"}- How saturated is the market?
+                    {"\n"}
                   </MyText>
                 </View>
               </View>
@@ -463,18 +426,9 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                       alignSelf: "flex-start",
                     }}
                   >
-                    Competition details. SWOT analysis. Pros and cons of
-                    competitors.
+                    Competition
                   </MyText>
-                  <MyText
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "500",
-                      alignSelf: "flex-start",
-                    }}
-                  >
-                    What's unique about competitors and your business?
-                  </MyText>
+
                   <MyText
                     style={{
                       fontSize: 11,
@@ -483,24 +437,10 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                       marginBottom: 6,
                     }}
                   >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Etiam venenatis sit amet risus a bibendum. Integer a nibh
-                    feugiat, congue nunc ac, auctor tortor. Nam luctus libero
-                    sed tortor luctus, sit amet porttitor ex dignissim. Nam
-                    vitae sem tortor. Etiam in risus egestas, ultricies dui nec,
-                    tempor ante. Vestibulum eu imperdiet velit,
-                  </MyText>
-                  <MyText
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "700",
-                      marginTop: 6,
-                      marginBottom: 6,
-                      alignSelf: "flex-start",
-                      color: colors.Bluish,
-                    }}
-                  >
-                    Why would the customer choose you over your competitors?
+                    Example topics:{"\n"}- Competition details. SWOT analysis.
+                    {"\n"}- Pros and cons of competitors.{"\n"}- What’s unique
+                    about competitors and your business?{"\n"}- Why would the
+                    customer choose you over your competitors?{"\n"}
                   </MyText>
                 </View>
               </View>
@@ -527,7 +467,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                         color: "#23232380",
                       }}
                     >
-                      More Info (Tell a story)
+                      More Info (Business Details)
                     </MyText>
                     <Entypo
                       name="circle-with-cross"
@@ -538,16 +478,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                       }}
                     />
                   </View>
-                  <MyText
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "500",
-                      alignSelf: "flex-start",
-                    }}
-                  >
-                    Who's you Target audience? What are Price points of your
-                    products/services?
-                  </MyText>
 
                   <MyText
                     style={{
@@ -557,24 +487,56 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                       marginBottom: 6,
                     }}
                   >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Etiam venenatis sit amet risus a bibendum. Integer a nibh
-                    feugiat, congue nunc ac, auctor tortor. Nam luctus libero
-                    sed tortor luctus, sit amet porttitor ex dignissim. Nam
-                    vitae sem tortor. Etiam in risus egestas, ultricies dui nec,
-                    tempor ante. Vestibulum eu imperdiet velit,
+                    Example topics:{"\n"}- Target audience.{"\n"}- Price points
+                    of your products/services.{"\n"}- Criteria and constraints.
+                    {"\n"}- Brief Business plan.{"\n"}- Projections.{"\n"}
                   </MyText>
-                  <MyText
+                </View>
+              </View>
+            </Modal>
+            <Modal animationType="fade" visible={getmodalvisible6}>
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <View
                     style={{
-                      fontSize: 16,
-                      fontWeight: "700",
-                      marginTop: 6,
-                      marginBottom: 6,
-                      alignSelf: "flex-start",
-                      color: colors.Bluish,
+                      borderBottomWidth: 1,
+                      padding: 5,
+                      marginBottom: 20,
+                      borderColor: "#23232380",
+
+                      flexDirection: "row",
+                      justifyContent: "space-between",
                     }}
                   >
-                    Criteria and constraints. Brief Business plan. Projections.
+                    <MyText
+                      style={{
+                        fontSize: 14,
+                        fontWeight: "400",
+                        marginRight: 50,
+                        color: "#23232380",
+                      }}
+                    >
+                      More Info (Budget)
+                    </MyText>
+                    <Entypo
+                      name="circle-with-cross"
+                      size={20}
+                      color="#232323AB"
+                      onPress={() => {
+                        setModalVisible6(false);
+                      }}
+                    />
+                  </View>
+
+                  <MyText
+                    style={{
+                      fontSize: 11,
+                      fontWeight: "500",
+                      marginTop: 6,
+                      marginBottom: 6,
+                    }}
+                  >
+                    What is the estimated budget to launch this business?
                   </MyText>
                 </View>
               </View>
@@ -743,16 +705,30 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 underlineColorAndroid="#f000"
               />
             </View>
-
             <View style={styles.SectionStyle}>
               <TextInput
-                style={styles.inputStyle}
+                style={styles.inputStyle2}
                 onChangeText={(budget) => setBudget(budget)}
                 placeholder="Budget"
                 placeholderTextColor="#ACA9A9"
                 underlineColorAndroid="#f000"
               />
+              <Pressable
+                style={{
+                  backgroundColor: "#EEEEEE",
+                  borderTopRightRadius: 10,
+                  borderBottomRightRadius: 10,
+                  paddingRight: 8,
+                  paddingTop: 10,
+                }}
+                onPress={() => {
+                  setModalVisible6(true);
+                }}
+              >
+                <AntDesign name="questioncircleo" size={20} color="#232323AB" />
+              </Pressable>
             </View>
+
             <View style={styles.SectionStyle}>
               <DropDownPicker
                 style={[styles.inputStyle, { borderColor: "#EEEEEE" }]}
@@ -1172,7 +1148,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     const step2 = async () => {
       try {
         const res = await step2startup(accessToken, startupid, getusers);
-        //console.log(res.status);
+        console.log(res);
 
         if (res.status === 201) {
           setstartupid(res.data.startUp._id);
@@ -1459,7 +1435,15 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   padding: 8,
                 }}
               >
-                <AntDesign name="search1" size={18} color={colors.Bluish} />
+                <AntDesign
+                  name="closecircle"
+                  size={18}
+                  style={{ margin: 4 }}
+                  color={colors.Bluish}
+                  onPress={() => {
+                    setSearching(false);
+                  }}
+                />
               </Pressable>
             </View>
             {searching && (
@@ -1620,7 +1604,12 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     const [rolelist, setrolelist] = useState([]);
     const [getmodalvisible, setModalVisible] = useState(false);
     const [getmodalvisible1, setModalVisible1] = useState(false);
-
+    const [checkedItems, setCheckedItems] = useState(new Map());
+    const onCheck = (id) => {
+      const newCheckedItems = new Map(checkedItems);
+      newCheckedItems.set(id, !checkedItems.get(id));
+      setCheckedItems(newCheckedItems);
+    };
     const step3 = async () => {
       try {
         const res = await step3startup(
@@ -1654,11 +1643,18 @@ const BuildingStartupScreen1 = ({ navigation }) => {
       r[index].check = r[index].check ? !r[index].check : true;
       setrolelist(r);
     };
+    const renderItem = ({ item }) => (
+      <CheckBox
+        title={item.title}
+        checked={!!checkedItems.get(item.id)}
+        onPress={() => onCheck(item.id)}
+      />
+    );
 
     const sendRole = async () => {
       const res = await addStartupRole(accessToken, startupid, rolelist);
       console.log(res.data);
-      console.log(res.status);
+      console.log(res);
 
       if (res.status === 201) {
         Toast.show({
@@ -1700,7 +1696,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                         color: "#23232380",
                       }}
                     >
-                      More Info (Roles)
+                      More Info (Role)
                     </MyText>
                     <Entypo
                       name="circle-with-cross"
@@ -1717,7 +1713,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                       fontWeight: "500",
                     }}
                   >
-                    Roles Description
+                    Role Description
                   </MyText>
                   <MyText
                     style={{
@@ -1727,10 +1723,12 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                       marginBottom: 6,
                     }}
                   >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Etiam venenatis sit amet risus a bibendum. Integer a nibh
-                    feugiat, congue nunc ac, auctor tortor. Nam luctus libero
-                    sed tortor luctus, sit amet po
+                    Describe the job details such as:{"\n"}
+                    Skills.{"\n"}
+                    Specific tasks expected.{"\n"}
+                    Work hours expected.{"\n"}
+                    ”Price” if you would like to hire a freelancer for a one
+                    time job{"\n"}
                   </MyText>
                 </View>
               </View>
@@ -1866,10 +1864,12 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               }}
               onPress={() => {
                 var obj = {};
+
+                obj["id"] = Math.random();
+
                 obj["title"] = roles;
                 obj["description"] = rolesbrokendown;
                 obj["type"] = value2;
-                obj["check"] = false;
                 setrolelist([...rolelist, obj]);
                 setTermScreen(false);
                 setteamroleScreen(false);
@@ -1920,31 +1920,9 @@ const BuildingStartupScreen1 = ({ navigation }) => {
           >
             <FlatList
               data={rolelist}
+              style={{ width: 340 }}
+              renderItem={renderItem}
               keyExtractor={(item) => item.id}
-              renderItem={({ item, index }) => (
-                <View style={{ flex: 1 }}>
-                  <View style={styles.SectionStyle3}>
-                    <Checkbox
-                      style={{ margin: 14 }}
-                      value={item.check ? colors.Bluish : undefined}
-                      onValueChange={() => onChangeValue(item, index)}
-                      color={item.check ? colors.Bluish : undefined}
-                    />
-                    <MyText
-                      style={{
-                        fontSize: 14,
-                        fontWeight: "500",
-                        color: colors.text,
-                        ustifyContent: "center",
-                        alignItems: "center",
-                        marginLeft: 10,
-                      }}
-                    >
-                      {item.title}
-                    </MyText>
-                  </View>
-                </View>
-              )}
             />
 
             <Pressable
@@ -2060,10 +2038,13 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                       marginBottom: 6,
                     }}
                   >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Etiam venenatis sit amet risus a bibendum. Integer a nibh
-                    feugiat, congue nunc ac, auctor tortor. Nam luctus libero
-                    sed tortor luctus, sit amet po
+                    The full partnership agreement should be completed after
+                    discussions with the potential partner about their
+                    contribution to the business.{"\n"}Now, write general
+                    partnership terms such as:{"\n"}- Work hours expected per
+                    week or month.
+                    {"\n"}- Amount of shares willing to give.{"\n"}- Amount of
+                    money expected from each partner.{"\n"}
                   </MyText>
                 </View>
               </View>
@@ -2423,16 +2404,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                       }}
                     />
                   </View>
-                  <MyText
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "500",
-                    }}
-                  >
-                    Breakdown your progress into different levels of
-                    achievements that are going to take your business to success
-                    such as:
-                  </MyText>
+
                   <MyText
                     style={{
                       fontSize: 11,
@@ -2441,8 +2413,10 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                       marginBottom: 6,
                     }}
                   >
-                    - Idea 100% - Building a team 70% - Prototyping 30% -
-                    Funding 10%
+                    Breakdown your progress into different levels of
+                    achievements that are going to take your business to success
+                    such as:{"\n"}- Idea 100% {"\n"}-Building a team 70%{"\n"}-
+                    Prototyping 30%{"\n"}- Funding 10%
                   </MyText>
                 </View>
               </View>
@@ -2808,28 +2782,12 @@ const BuildingStartupScreen1 = ({ navigation }) => {
   };
 
   const publish = async () => {
-    try {
-      const res = await publishStartup(accessToken, startupid);
-      console.log(res.data);
-
-      if (res.status === 201) {
-        Toast.show({
-          topOffset: 60,
-          type: "success",
-          text1: "Your Startup has been published",
-          text2: "",
-        });
-      }
-    } catch (error) {
-      Toast.show({
-        topOffset: 60,
-        type: "error",
-        text1: "Something went wrong",
-        text2: ".",
-      });
-
-      console.log(error);
-    }
+    Toast.show({
+      topOffset: 60,
+      type: "success",
+      text1: "Your Startup has been sent to the admin for approval",
+      text2: "",
+    });
   };
 
   return (
@@ -2880,6 +2838,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             nextBtnText="Finish"
             previousBtnDisabled={true}
             onSubmit={publish}
+            finishBtnText="Publish"
           >
             <Screen5 />
           </ProgressStep>

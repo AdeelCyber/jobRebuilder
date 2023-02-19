@@ -20,7 +20,8 @@ import CartProvider from "../../Context/CartProvider";
 import { editPortfolio } from "../Profile/services/ProfileServices";
 import Toast from "react-native-toast-message";
 import { Entypo } from "@expo/vector-icons";
-
+import { imageUpload } from "../Profile/services/fileServices";
+import Loader from "../../Components/Loader";
 const EditPortfolio = ({ route }) => {
   const {
     theme: { colors },
@@ -31,7 +32,7 @@ const EditPortfolio = ({ route }) => {
   const [projname, setprojname] = useState(portfolio.title);
   const [projdesc, setprojdesc] = useState(portfolio.description);
   const { accessToken } = useContext(CartProvider);
-
+  const [getcondition, setcondition] = useState(false);
   const [images, setimages] = useState([]);
   const [attachments, setattachments] = useState(portfolio.attachments);
 
@@ -47,8 +48,14 @@ const EditPortfolio = ({ route }) => {
 
     if (!result.canceled) {
       for (var i in result.assets) {
+        const img = await imageUpload(result.assets[i].uri);
+
         // console.log(result.assets[i].uri);
-        setimages([...images, result.assets[i].uri]);
+        //setimages([...images, result.assets[i].uri]);
+        const m = JSON.parse(img.body);
+        setimages([...images, m.filename]);
+
+        console.log(images);
       }
     }
   };
@@ -70,6 +77,7 @@ const EditPortfolio = ({ route }) => {
   const portfolioedit = async () => {
     const img = attachments.concat(images);
     console.log(img);
+    setcondition(true);
     var portfolioid = portfolio._id;
     const res = await editPortfolio(
       accessToken,
@@ -79,6 +87,7 @@ const EditPortfolio = ({ route }) => {
       img
     );
     if (res.status == 200) {
+      setcondition(false);
       Toast.show({
         topOffset: 60,
         type: "success",
@@ -87,6 +96,7 @@ const EditPortfolio = ({ route }) => {
       });
       navigation.navigate("HomeService");
     }
+    setcondition(false);
 
     // const config = {
     //   headers: {
@@ -114,6 +124,11 @@ const EditPortfolio = ({ route }) => {
     //     console.log("error", err);
     //   });
   };
+  if (getcondition) {
+    return (
+      <Loader visible={getcondition} color="white" indicatorSize="large" />
+    );
+  }
 
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
@@ -170,7 +185,9 @@ const EditPortfolio = ({ route }) => {
               >
                 <View style={{ flexDirection: "row" }}>
                   <Image
-                    source={{ uri: item }}
+                    source={{
+                      uri: `https://stepdev.up.railway.app/media/getimage/${item}`,
+                    }}
                     resizeMode="contain"
                     style={{ height: 139, width: 160, borderRadius: 10 }}
                   />
@@ -208,7 +225,9 @@ const EditPortfolio = ({ route }) => {
               >
                 <View style={{ flexDirection: "row" }}>
                   <Image
-                    source={{ uri: item }}
+                    source={{
+                      uri: `https://stepdev.up.railway.app/media/getimage/${item}`,
+                    }}
                     resizeMode="contain"
                     style={{ height: 139, width: 160, borderRadius: 10 }}
                   />
@@ -276,7 +295,7 @@ const EditPortfolio = ({ route }) => {
             </MyText>
           </Pressable>
         </View>
-        <Pressable
+        <TouchableOpacity
           style={{
             backgroundColor: colors.Bluish,
             width: 345,
@@ -299,7 +318,7 @@ const EditPortfolio = ({ route }) => {
           >
             Edit
           </MyText>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );

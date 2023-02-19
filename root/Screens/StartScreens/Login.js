@@ -274,7 +274,7 @@ const Login = () => {
           }}
         >
           <View style={{ padding: 24 }}>
-            <Pressable
+            <TouchableOpacity
               style={{
                 backgroundColor: colors.Bluish,
                 width: 40,
@@ -282,14 +282,14 @@ const Login = () => {
                 borderRadius: 10,
                 justifyContent: "center",
                 alignItems: "center",
-                marginTop: 30,
+                marginBottom: 29,
               }}
               onPress={() => {
                 navigation.navigate("StartScreen");
               }}
             >
               <AntDesign name="arrowleft" size={20} color={colors.white} />
-            </Pressable>
+            </TouchableOpacity>
             <MyText
               style={{
                 fontSize: 24,
@@ -357,7 +357,7 @@ const Login = () => {
                   />
                 </Pressable>
               </View>
-              <Pressable
+              <TouchableOpacity
                 style={{
                   backgroundColor: colors.Bluish,
                   width: "100%",
@@ -387,8 +387,13 @@ const Login = () => {
                     Login
                   </MyText>
                 )}
-              </Pressable>
-              <View style={{ alignItems: "center", marginTop: 20 }}>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ alignItems: "center", marginTop: 20 }}
+                onPress={() => {
+                  navigation.navigate("Forget");
+                }}
+              >
                 <MyText
                   style={{
                     fontSize: 13,
@@ -397,7 +402,7 @@ const Login = () => {
                 >
                   Forget Password?
                 </MyText>
-              </View>
+              </TouchableOpacity>
               <View
                 style={{
                   flexDirection: "row",
@@ -424,7 +429,7 @@ const Login = () => {
                   style={{ flex: 1, height: 1, backgroundColor: "#ACA9A9" }}
                 />
               </View>
-              <Pressable
+              <TouchableOpacity
                 style={{
                   backgroundColor: colors.white,
                   width: "100%",
@@ -458,8 +463,8 @@ const Login = () => {
                     Continue with Google
                   </MyText>
                 </View>
-              </Pressable>
-              <Pressable
+              </TouchableOpacity>
+              <TouchableOpacity
                 style={{
                   backgroundColor: colors.white,
                   width: "100%",
@@ -493,8 +498,8 @@ const Login = () => {
                     Continue with Facebook
                   </MyText>
                 </View>
-              </Pressable>
-              <Pressable
+              </TouchableOpacity>
+              <TouchableOpacity
                 style={{
                   backgroundColor: colors.text,
                   width: "100%",
@@ -517,7 +522,7 @@ const Login = () => {
                 >
                   Create an Account
                 </MyText>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         </ImageBackground>
