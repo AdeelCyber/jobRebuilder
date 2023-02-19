@@ -169,14 +169,14 @@ const CampaignMenu = ({ navigation, route }) => {
                 isPart: isPart,
                 undefinedd: undefinedd,
               }),
-                setpage("Role");
+                setpage("TeamRoles");
             }}
             style={{
               backgroundColor: colors.listback,
               paddingVertical: 15,
             }}
           >
-            {page === "Role" ? (
+            {page === "TeamRoles" ? (
               <LittleNav2
                 title={"Role"}
                 hamburger={false}

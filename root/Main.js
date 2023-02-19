@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
   },
 });
 // in Patnership terms heading and fonts
-// 18 16 14 managing campaign remove dots and ticks
+// 18 15 13 managing campaign remove dots and ticks
 // Team roles headnings
 // Todo headings 3 dots removed
 // Calender heading

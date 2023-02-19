@@ -185,7 +185,7 @@ const OverView = ({ navigation, route }) => {
               logo={Budget}
               textStyle={{
                 fontWeight: "700",
-                fontSize: 20,
+                fontSize: 15,
                 color: "#232323BF",
                 lineHeight: 30,
               }}
@@ -207,7 +207,11 @@ const OverView = ({ navigation, route }) => {
             </MyText>
           </View>
           <View>
-            <TickPara para={data.startup.category} logo={Category} />
+            <TickPara
+              para={data.startup.category}
+              logo={Category}
+              textStyle={{ fontSize: 15 }}
+            />
           </View>
         </View>
         {/* One unit system out */}

@@ -111,7 +111,7 @@ const TeamRoles = ({ navigation, route }) => {
               marginTop: 15,
             }}
           >
-            <Text style={{ fontSize: 24, fontWeight: "700" }}>Team Roles</Text>
+            <Text style={{ fontSize: 18, fontWeight: "700" }}>Team Roles</Text>
           </View>
           <View style={{ paddingHorizontal: 23 }}>
             {Roles.map((item) => (
