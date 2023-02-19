@@ -59,7 +59,7 @@ import CheckoutSheet from "./Screens/Chat/paymentsheet";
 import ExploreAll from "./Screens/Profile/ExploreAll";
 import Forget from "./Screens/StartScreens/Forget";
 import OtpScreen from "./Screens/StartScreens/OtpScreen";
-import CheckoutSheet from "./Screens/Chat/paymentsheet";
+
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
@@ -102,7 +102,7 @@ import FreelancerTabBar from "./Components/FreelancerTabBar";
 import AvailableJobs from "./Screens/Profile/Vacancy/AvailableJobs";
 import JobCareerDetailScreen from "./Screens/Profile/Vacancy/JobCareerDetailScreen";
 import UserTabBar from "./Components/UserTabBar";
-import ExploreAll from "./Screens/Profile/ExploreAll";
+
 import ChangeProfileScreen from "./Screens/Profile/ChangeProfileScreen";
 //Navigation out
 
