@@ -14,7 +14,7 @@ import Icon from '@expo/vector-icons/FontAwesome'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import { Entypo } from '@expo/vector-icons'
 
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { getSingleOrder } from '../services/orderServices'
 import axios from '../../../http/axiosSet'
@@ -22,12 +22,12 @@ import axios from '../../../http/axiosSet'
 const CancelledOrderDetailScreen = ({ route }) => {
   const navigation = useNavigation()
   const [order, setOrder] = useState({})
-
+  const isFocused = useIsFocused()
   const { orderId } = route.params
 
   useEffect(() => {
     fetchOrder()
-  }, [])
+  }, [isFocused])
 
   const fetchOrder = async () => {
     const resp = await getSingleOrder(orderId)
@@ -173,8 +173,7 @@ const CancelledOrderDetailScreen = ({ route }) => {
             <MyText style={styles.heading}>Reason Of Cancellation</MyText>
           </View>
           <MyText style={styles.description}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-            venenatis sit amet risus a bibendum.
+            {order?.cancelledInfo?.reason}
           </MyText>
         </View>
 
@@ -194,7 +193,13 @@ const CancelledOrderDetailScreen = ({ route }) => {
             >
               <MyText style={styles.heading}>Due Date</MyText>
             </View>
-            <MyText style={styles.description}>25 Dec 2022</MyText>
+            <MyText style={styles.description}>
+              {new Date(order?.deliveryTime).toLocaleDateString('default', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </MyText>
           </View>
           <View>
             <View
@@ -205,7 +210,16 @@ const CancelledOrderDetailScreen = ({ route }) => {
             >
               <MyText style={styles.heading}>Cancelled On</MyText>
             </View>
-            <MyText style={styles.description}>23 Dec 2022</MyText>
+            <MyText style={styles.description}>
+              {new Date(order?.cancelledInfo?.reason).toLocaleDateString(
+                'default',
+                {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                }
+              )}
+            </MyText>
           </View>
         </View>
 

@@ -19,6 +19,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { getOrderCategoryWise, getOrders } from '../services/orderServices'
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
+import { getSpendingStartup } from '../services/walletServices'
+import { getAvailableJobs } from '../services/jobServices'
 
 const DashboardScreen = () => {
   const navigation = useNavigation()
@@ -27,6 +29,7 @@ const DashboardScreen = () => {
 
   const [totalJobRequests, setTotalJobRequests] = useState(0)
   const [totalOrders, setTotalOrder] = useState(0)
+  const [spending, setSpending] = useState(0)
 
   const {
     theme: { colors },
@@ -40,24 +43,31 @@ const DashboardScreen = () => {
   }, [isFocused])
 
   const fetchData = async () => {
+    const resp = getOrders()
+    const spendResp = getSpendingStartup()
+    const totalOrderResp = getOrderCategoryWise('Completed')
+    const totalJobResp = getAvailableJobs('abc')
+
     setLoading(true)
-    const resp = await getOrders()
-    if (resp.status === 200) {
-      setOrders(res.data.data)
-    } else if (resp.status === 400 || resp.status === 401) {
-      navigation.navigate('LoginScreen')
-    }
-
-    const totalOrderResp = await getOrderCategoryWise('Completed')
-    if (totalOrderResp.status === 200) {
-      setTotalOrder(totalOrderResp.data.data.length)
-    }
-
-    const totalJobResp = await getOrderCategoryWise('Completed')
-    if (totalJobResp.status === 200) {
-      setTotalJobRequests(totalJobResp.data.data.length)
-    }
-    setLoading(false)
+    Promise.all([resp, spendResp, totalOrderResp, totalJobResp]).then(
+      (responsesArr) => {
+        if (responsesArr[0].status === 200) {
+          setOrders(responsesArr[0].data.data)
+        } else if (resp.status === 400 || resp.status === 401) {
+          navigation.navigate('LoginScreen')
+        }
+        if (responsesArr[1].status === 200) {
+          setSpending(responsesArr[1].data.data.spendings)
+        }
+        if (responsesArr[2].status === 200) {
+          setTotalOrder(responsesArr[2].data.data.length)
+        }
+        if (responsesArr[3].status === 200) {
+          setTotalJobRequests(responsesArr[3].data.data.length)
+        }
+        setLoading(false)
+      }
+    )
   }
 
   const OrderItem = ({ order }) => (
@@ -194,7 +204,7 @@ const DashboardScreen = () => {
               marginBottom: 8,
             }}
           >
-            $ 5404.00
+            $ {spending}
           </MyText>
 
           <TouchableOpacity

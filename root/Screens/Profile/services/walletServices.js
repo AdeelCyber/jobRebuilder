@@ -52,3 +52,18 @@ export const getFunds = async (page, limit) => {
     return error.response
   }
 }
+
+export const getSpendingStartup = async () => {
+  try {
+    const token = await AsyncStorage.getItem('@accessToken')
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+
+    const resp = await axios.get('/wallet/startup', config)
+    return resp
+  } catch (error) {}
+}

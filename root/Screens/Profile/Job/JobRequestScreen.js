@@ -11,7 +11,7 @@ import {
   Image,
 } from 'react-native'
 
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import SvgImport from '../../../Components/SvgImport'
 import MotoMobileIcon from '../../../../assets/Svgs/MotoMobileIcon'
 import ArrowRightIcon from '../../../../assets/Svgs/ArrowRightIcon'
@@ -20,9 +20,11 @@ import CustomHeader from '../../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { getAvailableJobs } from '../services/jobServices'
 import axios from '../../../http/axiosSet'
+import Loader from '../../../Components/Loader'
 
 const JobRequestScreen = () => {
   const navigation = useNavigation()
+  const isFocused = useIsFocused()
 
   const {
     theme: { colors },
@@ -30,15 +32,18 @@ const JobRequestScreen = () => {
 
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [isFocused])
 
   const [jobs, setJobs] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const startupid = '63e291756fc91d001e0040a6'
 
   const fetchData = async () => {
+    setLoading(true)
     const resp = await getAvailableJobs(startupid)
     console.log(resp)
+    setLoading(false)
     if (resp.status === 200) {
       setJobs(resp.data.data)
       console.log('data', resp)
@@ -219,6 +224,10 @@ const JobRequestScreen = () => {
       </View>
     </View>
   )
+
+  if (loading) {
+    return <Loader visible={loading} color='white' indicatorSize='large' />
+  }
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>

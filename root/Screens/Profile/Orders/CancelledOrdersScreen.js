@@ -164,11 +164,14 @@ const CancelledOrdersScreen = () => {
             </View>
             <MyText style={{ color: 'gray' }}>
               {' '}
-              {new Date(order?.deliveryTime).toLocaleDateString('default', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-              })}
+              {new Date(order?.cancelledInfo?.date).toLocaleDateString(
+                'default',
+                {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                }
+              )}
             </MyText>
           </View>
         </View>
