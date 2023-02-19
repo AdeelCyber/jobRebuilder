@@ -70,7 +70,7 @@ function TodoComponent({ Title, desc, ...props }) {
         ]}
       >
         <View style={{ flexDirection: "row" }}>
-          <Pressable onPress={() => setselected(!select)}>
+          {/* <Pressable onPress={() => setselected(!select)}>
             {select ? (
               <SvgImport svg={tick} />
             ) : (
@@ -85,18 +85,18 @@ function TodoComponent({ Title, desc, ...props }) {
                 onPress={() => setselected(!select)}
               ></Pressable>
             )}
-          </Pressable>
-          <MyText style={{ marginLeft: 10, fontSize: 14, fontWeight: "500" }}>
+          </Pressable> */}
+          <MyText style={{ marginLeft: 16, fontSize: 14, fontWeight: "500" }}>
             {Title}
           </MyText>
         </View>
-        {
+        {/* {
           <Pressable onPress={() => setselected(!select)}>
             <Feather name="more-vertical" size={24} color="#A1A1A1" />
           </Pressable>
-        }
+        } */}
       </View>
-      <View style={{ marginLeft: 27.5, marginTop: 5, width: "85%" }}>
+      <View style={{ marginLeft: 16, marginTop: 5, width: "85%" }}>
         <MyText
           style={{ color: colors.lighttext, fontSize: 11, fontWeight: "400" }}
         >

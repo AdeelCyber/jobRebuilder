@@ -43,7 +43,7 @@ const TodoListItem = ({ Title, ...props }) => {
       }
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Pressable onPress={() => setselected(!select)}>
+        {/* <Pressable onPress={() => setselected(!select)}>
           {select ? (
             <SvgImport svg={tick} />
           ) : (
@@ -57,14 +57,14 @@ const TodoListItem = ({ Title, ...props }) => {
               onPress={() => setselected(!select)}
             ></Pressable>
           )}
-        </Pressable>
+        </Pressable> */}
         <MyText style={{ marginLeft: 10, fontSize: 14, fontWeight: "500" }}>
           {Title}
         </MyText>
       </View>
       {
         <Pressable onPress={() => setopen(!open)}>
-          <Feather name="more-vertical" size={20} color="#23232380" />
+          {/* <Feather name="more-vertical" size={20} color="#23232380" /> */}
         </Pressable>
       }
     </Pressable>
