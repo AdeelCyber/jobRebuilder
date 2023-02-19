@@ -451,3 +451,43 @@ export const Remove = async (startup, member) => {
     return error.response;
   }
 };
+//Pitch deck put
+// Task Put
+export const PitchDeckUpload = async (startup, data) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const resp = await axios.put(
+      "startup/updatePitchDeck",
+      {
+        startupid: startup,
+
+        pitchdeck: data,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+// Mile Stones Post Delete
+export const PitchDeckDelete = async (startup) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: { startupid: startup },
+    };
+    const resp = await axios.delete("/startup/deletePitchDeck", config);
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};

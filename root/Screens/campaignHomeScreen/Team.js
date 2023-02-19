@@ -304,6 +304,7 @@ const Team = ({ navigation, route }) => {
                     userImg: personData.image,
                     userName: personData.name,
                     chatType: "Simple Chat",
+                    id: personData.id,
                   });
                 }}
               >
