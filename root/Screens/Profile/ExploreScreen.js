@@ -219,11 +219,13 @@ const ExploreScreen = ({ navigation, routes }) => {
               }}
             >
               <Text style={{ fontSize: 24, fontWeight: '700' }}>
-                {isSearch || exploreData.length === 0
+                {isSearch
                   ? 'Search Result'
-                  : 'Join a business'}
+                  : exploreData.length !== 0
+                  ? 'Join a business'
+                  : ''}
               </Text>
-              {!isSearch && (
+              {!isSearch && exploreData.length !== 0 && (
                 <TouchableOpacity
                   onPress={() => {
                     navigation.navigate('ExploreAll', { exploreData })
