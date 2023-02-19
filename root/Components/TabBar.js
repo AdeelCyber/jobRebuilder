@@ -90,7 +90,12 @@ const TabBar = (props) => {
           index={1}
         />
       </TouchableOpacity>
-      <TouchableOpacity style={{ bottom: 15 }}>
+      <TouchableOpacity
+        style={{ bottom: 15 }}
+        onPress={() => {
+          navigation.navigate('BuildingStartupScreen1')
+        }}
+      >
         <SvgImport svg={PolygonIcon} />
         <View
           style={{

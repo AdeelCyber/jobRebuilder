@@ -114,7 +114,7 @@ const ExploreScreen = ({ navigation, routes }) => {
       setIsSearch(false)
     } else {
       console.log(exploreData)
-      const result = exploreData?.filter((element) => {
+      const result = exploreTempData?.filter((element) => {
         return (
           element.businessName.toLowerCase().includes(s.trim().toLowerCase()) ||
           element.category.toLowerCase().includes(s.trim().toLowerCase())
@@ -226,7 +226,6 @@ const ExploreScreen = ({ navigation, routes }) => {
               {!isSearch && (
                 <TouchableOpacity
                   onPress={() => {
-                    console.log('Rayyan')
                     navigation.navigate('ExploreAll', { exploreData })
                   }}
                 >
@@ -315,7 +314,6 @@ const ExploreScreen = ({ navigation, routes }) => {
                       // minInv={item.minInv}
                       ShareHolders={item.budget}
                       style={{
-                        marginLeft: index != 0 ? 20 : 0,
                         width: 200,
                       }}
                     />

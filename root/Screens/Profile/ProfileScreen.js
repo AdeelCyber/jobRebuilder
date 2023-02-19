@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import {
   Image,
   Pressable,
@@ -28,10 +28,13 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import CartContext from '../../Context/CartProvider'
 import axios from '../../http/axiosSet'
+import * as Linking from 'expo-linking'
+import Loader from '../../Components/Loader'
 
 const ProfileScreen = () => {
   const isFocused = useIsFocused()
   const navigation = useNavigation()
+  const [loading, setLoading] = useState(false)
   const {
     theme: { colors },
   } = useContext(Context)
@@ -66,6 +69,36 @@ const ProfileScreen = () => {
     <SvgImport svg={LogoutIcon} />,
   ]
 
+  const goTo = async () => {
+    console.log('Before')
+    const token = await AsyncStorage.getItem('@accessToken')
+    try {
+      var options = {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Origin: '',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      setLoading(true)
+
+      const resp = fetch(
+        `https://stepdev.up.railway.app/stripe/multiparty-express`,
+        options
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data)
+          setLoading(false)
+          Linking.openURL(data.url)
+        })
+    } catch (error) {
+      console.log(error.response)
+    }
+  }
+
   const ListItem = ({ profile, index }) => (
     <Pressable style={{ marginTop: 10 }}>
       <TouchableOpacity
@@ -78,6 +111,9 @@ const ProfileScreen = () => {
             setaccessToken('')
             setrefreshToken('')
             setislogin(false)
+          } else if (profile.navigate === 'PaymentMethod') {
+            goTo()
+            return
           }
           navigation.navigate(profile.navigate)
         }}
@@ -119,6 +155,7 @@ const ProfileScreen = () => {
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
+      <Loader visible={loading} color='white' indicatorSize='large' />
       <CustomHeader
         Title=''
         style={{ elevation: 0 }}

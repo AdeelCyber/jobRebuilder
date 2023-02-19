@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, FlatList, ScrollView } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native'
 import axios from '../../http/axiosSet'
 
 import React, { useContext, useState, useEffect } from 'react'
@@ -12,102 +19,153 @@ import MyText from '../../Components/Text'
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import PopularComp from '../../Components/PopularComp'
 import RateComp from '../../Components/RateComp'
-import { getFreelancers } from '../Profile/services/FreeLancerServices'
+import {
+  getFreelancerCategories,
+  getFreelancers,
+} from '../Profile/services/FreeLancerServices'
 import { StackActions, NavigationActions } from 'react-navigation'
-
-function CategoriesComp({ text, ...props }) {
-  const [selected, setselected] = useState(false)
-  const {
-    theme: { colors },
-  } = useContext(Context)
-  return (
-    <Pressable
-      onPress={() => {
-        setselected(!selected)
-      }}
-      style={[
-        {
-          borderRadius: 5,
-          paddingVertical: 15,
-          paddingHorizontal: 20,
-          backgroundColor: selected ? colors.secondary : colors.white,
-        },
-        { ...styles.shadow },
-        props.style,
-      ]}
-    >
-      <MyText
-        style={{ color: selected ? colors.white : colors.text, fontSize: 11 }}
-      >
-        {text}
-      </MyText>
-    </Pressable>
-  )
-}
+import Loader from '../../Components/Loader'
+import { useIsFocused } from '@react-navigation/native'
 
 const CampaignHome = ({ navigation, routes }) => {
+  const [selected, setselected] = useState(false)
+
+  const searchResult = (s, status) => {
+    if (status === true) {
+      if (s === 'All') {
+        setPopularData(popularTempData)
+        return
+      } else {
+        console.log(s)
+        const result = popularTempData?.filter((element) => {
+          return element.jobTitle === s
+        })
+
+        if (result.length === 0) {
+          setPopularData([])
+        } else {
+          setPopularData(result)
+        }
+      }
+      return
+    }
+
+    if (s.trim().length === 0) {
+      setPopularData(popularTempData)
+    } else {
+      const result = popularTempData?.filter((element) => {
+        return (
+          element.name.toLowerCase().includes(s.trim().toLowerCase()) ||
+          element.jobTitle.toLowerCase().includes(s.trim().toLowerCase())
+        )
+      })
+
+      if (result.length === 0) {
+        setPopularData([])
+      } else {
+        setPopularData(result)
+      }
+    }
+  }
+
+  function CategoriesComp({ text, ...props }) {
+    const {
+      theme: { colors },
+    } = useContext(Context)
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          setselected(text)
+          searchResult(text, true)
+        }}
+        style={[
+          {
+            borderRadius: 5,
+            paddingVertical: 15,
+            paddingHorizontal: 20,
+
+            backgroundColor:
+              selected === text ? colors.secondary : colors.white,
+          },
+          { ...styles.shadow },
+          props.style,
+        ]}
+      >
+        <MyText
+          style={{
+            color: selected === text ? colors.white : colors.text,
+            fontSize: 11,
+          }}
+        >
+          {text}
+        </MyText>
+      </TouchableOpacity>
+    )
+  }
+
   const resetAction = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName: 'Events' })],
   })
+  // loading
+
+  const [loading, setLoading] = useState(false)
   //categories hook
-  const [catgeories, setCategories] = useState([
-    'UI/UX Design',
-    'Animations',
-    'Logo Design',
-    'Logo Design',
-  ])
+  const [catgeories, setCategories] = useState([])
   //Popular hook
-  const [popularData, setPopularData] = useState([
-    {
-      name: 'Abdullah',
-      designation: 'Ceo',
-      Price: '70.00',
-      Rating: '5.0',
-      Image:
-        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
-    },
-    {
-      name: 'Abdullah',
-      designation: 'Ceo',
-      Price: '70.00',
-      Rating: '5.0',
-      Image:
-        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
-    },
-    {
-      name: 'Abdullah',
-      designation: 'Ceo',
-      Price: '70.00',
-      Rating: '5.0',
-      Image:
-        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
-    },
-    {
-      name: 'Abdullah',
-      designation: 'Ceo',
-      Price: '70.00',
-      Rating: '5.0',
-      Image:
-        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
-    },
-    {
-      name: 'Abdullah',
-      designation: 'Ceo',
-      Price: '70.00',
-      Rating: '5.0',
-      Image:
-        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
-    },
-    {
-      name: 'Abdullah',
-      designation: 'Ceo',
-      Price: '70.00',
-      Rating: '5.0',
-      Image:
-        'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
-    },
-  ])
+  // const [popularData, setPopularData] = useState([
+  //   {
+  //     name: 'Abdullah',
+  //     designation: 'Ceo',
+  //     Price: '70.00',
+  //     Rating: '5.0',
+  //     Image:
+  //       'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
+  //   },
+  //   {
+  //     name: 'Abdullah',
+  //     designation: 'Ceo',
+  //     Price: '70.00',
+  //     Rating: '5.0',
+  //     Image:
+  //       'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
+  //   },
+  //   {
+  //     name: 'Abdullah',
+  //     designation: 'Ceo',
+  //     Price: '70.00',
+  //     Rating: '5.0',
+  //     Image:
+  //       'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
+  //   },
+  //   {
+  //     name: 'Abdullah',
+  //     designation: 'Ceo',
+  //     Price: '70.00',
+  //     Rating: '5.0',
+  //     Image:
+  //       'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
+  //   },
+  //   {
+  //     name: 'Abdullah',
+  //     designation: 'Ceo',
+  //     Price: '70.00',
+  //     Rating: '5.0',
+  //     Image:
+  //       'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
+  //   },
+  //   {
+  //     name: 'Abdullah',
+  //     designation: 'Ceo',
+  //     Price: '70.00',
+  //     Rating: '5.0',
+  //     Image:
+  //       'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
+  //   },
+  // ])
+  const [popularData, setPopularData] = useState([])
+  const [popularTempData, setPopularTempData] = useState([])
+
   // fixed Rate hook
   const [RateData, setRateData] = useState([
     {
@@ -196,24 +254,40 @@ const CampaignHome = ({ navigation, routes }) => {
 
   const [searchQuery, setSearchQuery] = React.useState('') //searchbar query hook
   // Api call
-  useEffect(() => {
-    const getFreelancersData = async () => {
-      const resp = await getFreelancers()
-      // console.log(resp.data);
-      if (resp.data.status === 'OK') {
-        setPopularData(resp.data.data)
-        setRateData(resp.data.data)
-        setEquityData(resp.data.data)
-      }
-    }
 
+  const isFocused = useIsFocused()
+  useEffect(() => {
     getFreelancersData()
   }, [])
+
+  const getFreelancersData = async () => {
+    setLoading(true)
+    const resp = await getFreelancers()
+    const resp2 = await getFreelancerCategories()
+    setLoading(false)
+    // console.log(resp.data);
+    if (resp.data.status === 'OK') {
+      setPopularData(resp.data.data)
+      setPopularTempData(resp.data.data)
+      // setRateData(resp.data.data)
+      // setEquityData(resp.data.data)
+    }
+    if (resp2.status === 200) {
+      setCategories(() => {
+        return [{ title: 'All' }, ...resp2.data.data]
+      })
+    }
+  }
 
   const onChangeSearch = (query) => setSearchQuery(query)
   const {
     theme: { colors },
   } = useContext(Context)
+
+  if (loading) {
+    return <Loader visible={loading} color='white' indicatorSize='large' />
+  }
+
   return (
     // main container
     <ScrollView
@@ -240,8 +314,10 @@ const CampaignHome = ({ navigation, routes }) => {
         <Searchbar
           placeholderTextColor={'#232323A1'}
           placeholder='Search'
-          onChangeText={onChangeSearch}
-          value={searchQuery}
+          onChangeText={(e) => {
+            searchResult(e, false)
+          }}
+          // value={searchQuery}
           style={{
             width: '80%',
             color: colors.placeHolder,
@@ -280,7 +356,7 @@ const CampaignHome = ({ navigation, routes }) => {
           showsHorizontalScrollIndicator={false}
           renderItem={({ item, index }) => (
             <CategoriesComp
-              text={item}
+              text={item.title}
               style={{
                 marginLeft: index == 0 ? 13 : 9,
                 marginVertical: 15,
@@ -291,82 +367,102 @@ const CampaignHome = ({ navigation, routes }) => {
           )}
         />
       </View>
-      <View style={{ marginTop: 10, paddingLeft: 13 }}>
-        <MyText style={{ fontSize: 24, fontWeight: '700' }}>
-          Most Popular
-        </MyText>
-      </View>
-      <View style={{ width: '100%', marginTop: 4 }}>
-        <FlatList
-          horizontal
-          data={popularData}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({ item, index }) => (
-            <PopularComp
-              name={item.name}
-              Price={item.hourlyRate}
-              designation={item.jobTitle}
-              Rating={item.rating}
-              Image={item.avatar}
-              id={item._id}
-              nav={navigation}
-              style={{
-                marginLeft: index == 0 ? 13 : 9,
-                marginVertical: 15,
 
-                marginRight: index == popularData.length - 1 ? 10 : 0,
-              }}
-            />
-          )}
-        />
-      </View>
-      <View style={{ marginTop: 10, paddingLeft: 13, paddingRight: 15 }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <MyText style={{ fontSize: 24, fontWeight: '700' }}>
-            Fixed Rate
-          </MyText>
-          <MyText style={{ fontWeight: '500', fontSize: 10, color: '#8489FC' }}>
-            See All
+      {popularData?.length === 0 ? (
+        <View>
+          <MyText
+            style={{
+              fontSize: 20,
+              color: 'red',
+              textAlign: 'center',
+              fontWeight: '700',
+            }}
+          >
+            No Freelancer Found
           </MyText>
         </View>
-      </View>
-      <View style={{ paddingLeft: 17, paddingRight: 15 }}>
-        {RateData.map((item, index) => (
-          <RateComp
-            name={item.name}
-            id={item._id}
-            Price={item.hourlyRate}
-            designation={item.jobTitle}
-            Rating={item.rating}
-            Image={item.avatar}
-            style={{ marginVertical: 11 }}
-          />
-        ))}
-      </View>
-      <View style={{ marginTop: 10, paddingLeft: 13 }}>
-        <MyText style={{ fontSize: 24, fontWeight: '700' }}>
-          Work For Equity
-        </MyText>
-      </View>
-      <View style={{ paddingLeft: 17, paddingRight: 15 }}>
-        {EquityData.map((item, index) => (
-          <RateComp
-            name={item.name}
-            Price={item.hourlyRate}
-            id={item._id}
-            designation={item.jobTitle}
-            Rating={item.rating}
-            Image={item.avatar}
-            style={{ marginVertical: 11 }}
-          />
-        ))}
-      </View>
+      ) : (
+        <>
+          <View style={{ marginTop: 10, paddingLeft: 13 }}>
+            <MyText style={{ fontSize: 24, fontWeight: '700' }}>
+              Most Popular
+            </MyText>
+          </View>
+          <View style={{ width: '100%', marginTop: 4 }}>
+            <FlatList
+              horizontal
+              data={popularData}
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item, index }) => (
+                <PopularComp
+                  name={item.name}
+                  Price={item.hourlyRate}
+                  designation={item.jobTitle}
+                  Rating={item.rating}
+                  Image={item.avatar}
+                  id={item._id}
+                  nav={navigation}
+                  style={{
+                    marginLeft: index == 0 ? 13 : 9,
+                    marginVertical: 15,
+
+                    marginRight: index == popularData.length - 1 ? 10 : 0,
+                  }}
+                />
+              )}
+            />
+          </View>
+          <View style={{ marginTop: 10, paddingLeft: 13, paddingRight: 15 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <MyText style={{ fontSize: 24, fontWeight: '700' }}>
+                Fixed Rate
+              </MyText>
+              <MyText
+                style={{ fontWeight: '500', fontSize: 10, color: '#8489FC' }}
+              >
+                See All
+              </MyText>
+            </View>
+          </View>
+          <View style={{ paddingLeft: 17, paddingRight: 15 }}>
+            {popularData?.map((item, index) => (
+              <RateComp
+                name={item.name}
+                id={item._id}
+                Price={item.hourlyRate}
+                designation={item.jobTitle}
+                Rating={item.rating}
+                Image={item.avatar}
+                style={{ marginVertical: 11 }}
+              />
+            ))}
+          </View>
+          <View style={{ marginTop: 10, paddingLeft: 13 }}>
+            <MyText style={{ fontSize: 24, fontWeight: '700' }}>
+              Work For Equity
+            </MyText>
+          </View>
+          <View style={{ paddingLeft: 17, paddingRight: 15 }}>
+            {popularData?.map((item, index) => (
+              <RateComp
+                name={item.name}
+                Price={item.hourlyRate}
+                id={item._id}
+                designation={item.jobTitle}
+                Rating={item.rating}
+                Image={item.avatar}
+                style={{ marginVertical: 11 }}
+              />
+            ))}
+          </View>
+        </>
+      )}
     </ScrollView>
   )
 }

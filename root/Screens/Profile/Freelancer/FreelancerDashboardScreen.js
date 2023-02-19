@@ -200,7 +200,7 @@ const FreelancerDashboardScreen = () => {
                     fontWeight: '700',
                   }}
                 >
-                  No Jobs{' '}
+                  No Active Jobs{' '}
                 </MyText>
               </View>
             )}

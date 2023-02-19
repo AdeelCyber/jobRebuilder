@@ -17,7 +17,7 @@ import { getOrderCategoryWise } from '../services/orderServices'
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
 
-const PendingOrdersScreen = () => {
+const PendingOrdersScreen = (props) => {
   const navigation = useNavigation()
 
   const [orders, setOrders] = useState([])
@@ -30,10 +30,11 @@ const PendingOrdersScreen = () => {
 
   const fetchOrder = async () => {
     setLoading(true)
-    const resp = await getOrderCategoryWise('Active')
+    const resp = await getOrderCategoryWise('Pending')
     setLoading(false)
     if (resp.status === 200) {
       setOrders(resp.data.data)
+      props.fun(resp.data.data.length)
     } else if (resp.status === 404) {
     } else if (resp.status === 401) {
     }
@@ -210,7 +211,7 @@ const PendingOrdersScreen = () => {
               textAlign: 'center',
             }}
           >
-            No orders
+            No Pending orders
           </MyText>
         </View>
       )}

@@ -25,6 +25,12 @@ const OrdersScreen = () => {
     setCurrentPage(pageNumber)
   }
 
+  const [totalActiveJobs, setTotalActiveJobs] = useState(0)
+  const [totalPendingJobs, setTotalPendingJobs] = useState(0)
+  const [totalCompletedJobs, setTotalCompletedJobs] = useState(0)
+
+  const [buttons, setButtons] = useState(['Active', 'Pending', 'Completed'])
+
   const swipePage = (direction) => {
     if (direction === 'Right') {
       if (currentPage === 3) {
@@ -82,7 +88,54 @@ const OrdersScreen = () => {
           <View
             style={{ flexDirection: 'row', justifyContent: 'space-between' }}
           >
-            <TouchableOpacity
+            {buttons.map((button, index) => {
+              return (
+                <TouchableOpacity
+                  key={button}
+                  style={[
+                    styles.btn,
+                    {
+                      backgroundColor:
+                        currentPage === index + 1 ? colors.secondary : 'white',
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                    },
+                  ]}
+                  onPress={() => {
+                    switchPage(index + 1)
+                  }}
+                >
+                  <MyText
+                    style={{
+                      color: currentPage === index + 1 ? 'white' : colors.text,
+                      fontSize: 14,
+                    }}
+                  >
+                    {button}
+                  </MyText>
+                  <MyText
+                    style={{
+                      color: 'white',
+                      fontSize: 12,
+                      backgroundColor:
+                        currentPage === index + 1 ? 'black' : colors.secondary,
+                      paddingHorizontal: 7,
+                      paddingTop: 2,
+                      paddingBottom: 2,
+                      borderRadius: 50,
+                      marginLeft: 10,
+                    }}
+                  >
+                    {index + 1 === 1
+                      ? totalActiveJobs
+                      : index + 1 === 2
+                      ? totalPendingJobs
+                      : totalCompletedJobs}
+                  </MyText>
+                </TouchableOpacity>
+              )
+            })}
+            {/* <TouchableOpacity
               style={[
                 styles.btn,
                 {
@@ -118,7 +171,7 @@ const OrdersScreen = () => {
                   marginLeft: 10,
                 }}
               >
-                7
+                {totalActiveJobs}
               </MyText>
             </TouchableOpacity>
             <TouchableOpacity
@@ -157,7 +210,7 @@ const OrdersScreen = () => {
                   marginLeft: 10,
                 }}
               >
-                7
+                {totalPendingJobs}
               </MyText>
             </TouchableOpacity>
             <TouchableOpacity
@@ -196,15 +249,19 @@ const OrdersScreen = () => {
                   marginLeft: 10,
                 }}
               >
-                7
+                {totalCompletedJobs}
               </MyText>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
 
           {/* Page */}
-          {currentPage === 3 && <CompletedOrdersScreen />}
-          {currentPage === 2 && <PendingOrdersScreen />}
-          {currentPage === 1 && <ActiveOrdersScreen />}
+          {currentPage === 3 && (
+            <CompletedOrdersScreen fun={setTotalCompletedJobs} />
+          )}
+          {currentPage === 2 && (
+            <PendingOrdersScreen fun={setTotalPendingJobs} />
+          )}
+          {currentPage === 1 && <ActiveOrdersScreen fun={setTotalActiveJobs} />}
         </View>
       </ScrollView>
     </GestureRecognizer>
@@ -219,10 +276,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingTop: 9,
     paddingBottom: 9,
-    width: '32%',
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 17,
+    paddingHorizontal: 10,
   },
 })
 

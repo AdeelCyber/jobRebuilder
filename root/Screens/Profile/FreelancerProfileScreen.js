@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   Image,
   Pressable,
@@ -31,9 +31,9 @@ import ExploreIcon from '../../../assets/Svgs/ExploreIcon'
 import CartContext from '../../Context/CartProvider'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from '../../http/axiosSet'
-import { useState } from 'react'
 import { getFreelancerProfile } from './services/FreeLancerServices'
-import { useEffect } from 'react'
+import * as Linking from 'expo-linking'
+import Loader from '../../Components/Loader'
 
 const FreelancerProfileScreen = () => {
   const isFocused = useIsFocused()
@@ -41,6 +41,7 @@ const FreelancerProfileScreen = () => {
   const {
     theme: { colors },
   } = useContext(Context)
+  const [loading, setLoading] = useState(false)
 
   const {
     userdetails,
@@ -90,6 +91,36 @@ const FreelancerProfileScreen = () => {
     <SvgImport svg={LogoutIcon} />,
   ]
 
+  const goTo = async () => {
+    console.log('Before')
+    const token = await AsyncStorage.getItem('@accessToken')
+    try {
+      var options = {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Origin: '',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      setLoading(true)
+
+      const resp = fetch(
+        `https://stepdev.up.railway.app/stripe/multiparty-express`,
+        options
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data)
+          setLoading(false)
+          Linking.openURL(data.url)
+        })
+    } catch (error) {
+      console.log(error.response)
+    }
+  }
+
   const ListItem = ({ profile, index }) => (
     <Pressable style={{ marginTop: 10 }}>
       <TouchableOpacity
@@ -102,6 +133,9 @@ const FreelancerProfileScreen = () => {
             setaccessToken('')
             setrefreshToken('')
             setislogin(false)
+          } else if (profile.navigate === 'PaymentMethod') {
+            goTo()
+            return
           }
           console.log(profile.navigate)
           navigation.navigate(profile.navigate)
@@ -144,6 +178,7 @@ const FreelancerProfileScreen = () => {
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
+      <Loader visible={loading} color='white' indicatorSize='large' />
       <CustomHeader
         Title=''
         nav={navigation}

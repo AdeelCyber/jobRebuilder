@@ -14,9 +14,9 @@ import MyText from '../../Components/Text'
 import * as Linking from 'expo-linking'
 
 // import axios from '../../http/axiosSet'
-import axios from 'axios'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { CartProvider } from '../../Context/CartProvider'
+// import axios from 'axios'
+// import AsyncStorage from '@react-native-async-storage/async-storage'
+// import { CartProvider } from '../../Context/CartProvider'
 
 import { io } from 'socket.io-client'
 

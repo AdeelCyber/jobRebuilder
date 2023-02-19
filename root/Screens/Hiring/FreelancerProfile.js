@@ -220,7 +220,6 @@ const FreeLancerProfile = ({ route }) => {
       <View
         style={{
           borderTopColor: '#D1CECB',
-
           borderTopWidth: 0.4,
           paddingHorizontal: 25,
           paddingTop: 15,

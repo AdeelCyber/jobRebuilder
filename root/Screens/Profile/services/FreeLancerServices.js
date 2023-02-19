@@ -491,3 +491,12 @@ export const PitchDeckDelete = async (startup) => {
     return error.response;
   }
 };
+
+export const getFreelancerCategories = async () => {
+  try {
+    const resp = await axios.get("/skills");
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};

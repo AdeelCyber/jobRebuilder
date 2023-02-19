@@ -17,7 +17,7 @@ import { getOrderCategoryWise, getOrders } from '../services/orderServices'
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
 
-const CompletedJobsScreen = () => {
+const CompletedJobsScreen = (props) => {
   const navigation = useNavigation()
 
   const [orders, setOrders] = useState([])
@@ -38,6 +38,7 @@ const CompletedJobsScreen = () => {
 
     if (resp.status === 200) {
       setOrders(resp.data.data)
+      props.fun(resp.data.data.length)
     } else if (resp.status === 404) {
     } else if (resp.status === 401) {
     }
@@ -201,9 +202,28 @@ const CompletedJobsScreen = () => {
 
   return (
     <View style={{ marginTop: 33 }}>
-      {orders?.map((order) => {
-        return <OrderItem key={order._id} order={order} />
-      })}
+      {orders?.length === 0 && (
+        <View>
+          <MyText
+            style={{
+              fontSize: 20,
+              fontWeight: '700',
+              color: 'red',
+              marginTop: 12,
+              textAlign: 'center',
+            }}
+          >
+            No Completed Jobs
+          </MyText>
+        </View>
+      )}
+      {orders?.length !== 0 && (
+        <View>
+          {orders?.map((order) => {
+            return <OrderItem key={order._id} order={order} />
+          })}
+        </View>
+      )}
     </View>
   )
 }
