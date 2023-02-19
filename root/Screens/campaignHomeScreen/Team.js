@@ -132,7 +132,8 @@ const Team = ({ navigation, route }) => {
                   textAlign: "center",
                 }}
               >
-                Are tou sure you want to delete @shaheer from moto team?
+                Are tou sure you want to delete {personData.name} from{" "}
+                {data.startup.businessName} team?
               </MyText>
             </View>
 
