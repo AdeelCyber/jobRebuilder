@@ -12,7 +12,29 @@ const Portfolio = ({ portfolio }) => {
   console.log(portfolio)
   return (
     <ScrollView style={{ marginTop: 20 }}>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+      {portfolio?.length === 0 && (
+        <View>
+          <MyText
+            style={{
+              fontSize: 20,
+              color: 'red',
+              fontWeight: '700',
+              textAlign: 'center',
+              marginTop: 10,
+            }}
+          >
+            No Portfolio Found
+          </MyText>
+        </View>
+      )}
+
+      <View
+        style={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+        }}
+      >
         {portfolio?.map((element, index) => {
           return (
             <TouchableOpacity
@@ -22,13 +44,19 @@ const Portfolio = ({ portfolio }) => {
                   portfolioDetail: element,
                 })
               }}
-              style={{ marginRight: 10, marginBottom: 22 }}
+              style={{
+                marginRight: 10,
+                marginBottom: 22,
+                borderWidth: 1,
+                borderColor: '#eeeeee',
+                borderRadius: 10,
+              }}
             >
               <Image
                 source={{
                   uri: element.attachments[0],
                 }}
-                style={{ width: 170, height: 150, borderRadius: 10 }}
+                style={{ width: 160, height: 150, borderRadius: 10 }}
               />
             </TouchableOpacity>
           )

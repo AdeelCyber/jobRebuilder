@@ -38,9 +38,10 @@ const JobRequestScreen = () => {
 
   const fetchData = async () => {
     const resp = await getAvailableJobs(startupid)
+    console.log(resp)
     if (resp.status === 200) {
       setJobs(resp.data.data)
-      console.log(resp)
+      console.log('data', resp)
     } else if (resp.status === 400 || resp.status === 401) {
       navigation.navigate('LoginScreen')
     }
@@ -246,6 +247,21 @@ const JobRequestScreen = () => {
           },
         ]}
       >
+        {jobs?.length === 0 && (
+          <View>
+            <MyText
+              style={{
+                fontSize: 20,
+                color: 'red',
+                fontWeight: '700',
+                textAlign: 'center',
+                marginTop: 10,
+              }}
+            >
+              No Job Requests Found
+            </MyText>
+          </View>
+        )}
         {jobs?.map((job, index) => {
           return <RequestBox job={job} key={index} />
         })}

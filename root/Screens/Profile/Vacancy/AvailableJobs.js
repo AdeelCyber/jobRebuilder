@@ -194,13 +194,13 @@ const AvailableJobs = () => {
       >
         <View>
           <MyText style={{ fontSize: 13, fontWeight: '700' }}>Position</MyText>
-          <MyText style={{ fontSize: 16, color: 'gray', marginTop: 10 }}>
+          <MyText style={{ fontSize: 14, color: 'gray', marginTop: 10 }}>
             {job?.role.position}
           </MyText>
         </View>
         <View>
           <MyText style={{ fontSize: 13, fontWeight: '700' }}>Posted</MyText>
-          <MyText style={{ fontSize: 16, color: 'gray', marginTop: 10 }}>
+          <MyText style={{ fontSize: 14, color: 'gray', marginTop: 10 }}>
             {Math.abs(
               Math.ceil(
                 (new Date(job?.role.postedOn) - new Date()) /

@@ -82,17 +82,31 @@ const Reviews = ({ reviews }) => {
   )
 
   return (
-    <ScrollView
-      contentContainerStyle={{
-        minHeight: '100%',
+    <View
+      style={{
         marginTop: 20,
         paddingBottom: 40,
       }}
     >
+      {reviews.length === 0 && (
+        <View>
+          <MyText
+            style={{
+              fontSize: 20,
+              color: 'red',
+              fontWeight: '700',
+              textAlign: 'center',
+              marginTop: 10,
+            }}
+          >
+            No Reviews Found
+          </MyText>
+        </View>
+      )}
       {reviews?.map((element, index) => {
         return <Review review={element} key={index} />
       })}
-    </ScrollView>
+    </View>
   )
 }
 

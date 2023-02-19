@@ -11,11 +11,9 @@ import { getOrderCategoryWise } from '../services/orderServices'
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
 
-const ActiveJobsScreen = () => {
+const ActiveJobsScreen = (props) => {
   const navigation = useNavigation()
-
   const [orders, setOrders] = useState([])
-
   const isFocused = useIsFocused()
 
   const [loading, setLoading] = useState(true)
@@ -31,6 +29,8 @@ const ActiveJobsScreen = () => {
 
     if (resp.status === 200) {
       setOrders(resp.data.data)
+      props.fun(resp.data.data.length)
+      console.log(resp.data.data)
     } else if (resp.status === 404) {
     } else if (resp.status === 401) {
     }
@@ -125,17 +125,29 @@ const ActiveJobsScreen = () => {
 
   return (
     <View style={{ marginTop: 33 }}>
-      <View
-        style={{
-          paddingBottom: 10,
-          borderBottomColor: '#eee',
-        }}
-      >
-        <MyText style={styles.heading}>Due in next few days</MyText>
-      </View>
-      {orders?.map((order) => {
-        return <OrderItem key={order._id} order={order} />
-      })}
+      {orders?.length === 0 && (
+        <View>
+          <MyText
+            style={{
+              fontSize: 20,
+              fontWeight: '700',
+              color: 'red',
+              marginTop: 12,
+              textAlign: 'center',
+            }}
+          >
+            No Active Jobs
+          </MyText>
+        </View>
+      )}
+      {orders?.length !== 0 && (
+        <View>
+          <MyText style={styles.heading}>Due in next few days</MyText>
+          {orders?.map((order) => {
+            return <OrderItem key={order._id} order={order} />
+          })}
+        </View>
+      )}
       {/* <OrderItem /> */}
       <View
         style={{

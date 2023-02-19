@@ -101,6 +101,7 @@ import JobCareerDetailScreen from './Screens/Profile/Vacancy/JobCareerDetailScre
 import UserTabBar from './Components/UserTabBar'
 import ExploreAll from './Screens/Profile/ExploreAll'
 import ChangeProfileScreen from './Screens/Profile/ChangeProfileScreen'
+import AmountSpendScreen from './Screens/Profile/Dashboard/AmountSpentScreen'
 //Navigation out
 
 // Creating Stacks
@@ -154,25 +155,6 @@ const MyStack = () => {
         <Stack.Screen name='Warnings' component={Warnings} />
         <Stack.Screen name='EditTask' component={EditTask} />
 
-        <Stack.Screen name='CampaignMenu' component={CampaignMenu} />
-        <Stack.Screen name='OverView' component={OverView} />
-        <Stack.Screen name='PartnerShipTerms' component={PartnerShipTerms} />
-        <Stack.Screen name='TeamRoles' component={TeamRoles} />
-        <Stack.Screen name='EditRoles' component={EditRoles} />
-        <Stack.Screen name='AddRoles' component={AddRoles} />
-        <Stack.Screen name='MileStone' component={MileStone} />
-        <Stack.Screen name='AddMileStone' component={AddMileStone} />
-        <Stack.Screen name='PitchDeck' component={PitchDeck} />
-        <Stack.Screen name='Team' component={Team} />
-        <Stack.Screen name='Todo' component={Todo} />
-        <Stack.Screen name='ViewMileStone' component={ViewMileStone} />
-        <Stack.Screen name='EditMileStone' component={EditMileStone} />
-        <Stack.Screen name='TodoTaskView' component={TodoTaskView} />
-        <Stack.Screen name='AddNewTask' component={AddNewTask} />
-        <Stack.Screen name='TeamWarnings' component={TeamWarnings} />
-        <Stack.Screen name='Warnings' component={Warnings} />
-        <Stack.Screen name='EditTask' component={EditTask} />
-
         <Stack.Screen name='SignIn' component={SignIn} />
         <Stack.Screen name='SignUp' component={Signup} />
         <Stack.Screen name='Settings' component={SettingScreen} />
@@ -193,11 +175,13 @@ const MyStack = () => {
         <Stack.Screen name='CreateAccount' component={CreateAccount} />
         <Stack.Screen name='OtpScreen' component={OtpScreen} />
         <Stack.Screen name='OtpScreen2' component={OtpScreen2} />
+        <Stack.Screen name='AmountSpent' component={AmountSpendScreen} />
 
         <Stack.Screen name='Message' component={Message} />
         <Stack.Screen name='MessageBox' component={MessageBox} />
         <Stack.Screen name='MessagesBox' component={MessagesBox} />
         <Stack.Screen name='NewMessage' component={NewMessage} />
+        <Stack.Screen name='ExploreAll' component={ExploreAll} />
 
         <Stack.Screen name='CreateGroup' component={CreateGroup} />
         <Stack.Screen name='CreatingGroup' component={CreatingGroup} />

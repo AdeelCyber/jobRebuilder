@@ -1,99 +1,203 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   ScrollView,
   StyleSheet,
   View,
-  Switch,
   TouchableOpacity,
-  Text,
   Image,
 } from 'react-native'
 import MyText from '../../../Components/Text'
 import Context from '../../../Context/Context'
 import Icon from '@expo/vector-icons/FontAwesome'
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
+import { getOrderCategoryWise, getOrders } from '../services/orderServices'
+
+import axios from '../../../http/axiosSet'
+import Loader from '../../../Components/Loader'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-const AmountSpentScreen = () => {
+const AmountSpendScreen = () => {
   const navigation = useNavigation()
+
+  const [orders, setOrders] = useState([])
+  const isFocused = useIsFocused()
+  useEffect(() => {
+    fetchOrder()
+  }, [isFocused])
+
+  const [loading, setLoading] = useState(true)
+
+  const fetchOrder = async () => {
+    setLoading(true)
+    const resp = await getOrderCategoryWise('Active')
+    setLoading(false)
+    if (resp.status === 200) {
+      setOrders(resp.data.data)
+    } else if (resp.status === 404) {
+    } else if (resp.status === 401) {
+    }
+  }
+
+  if (loading) {
+    return <Loader visible={loading} color='white' indicatorSize='large' />
+  }
+
   const {
     theme: { colors },
   } = useContext(Context)
 
-  const OrderItem = () => (
-    <View style={styles.orderItem}>
-      <View>
-        <Image
-          source={{
-            uri: 'https://banner2.cleanpng.com/20180625/req/kisspng-computer-icons-avatar-business-computer-software-user-avatar-5b3097fcae25c3.3909949015299112927133.jpg',
-          }}
-          style={{ width: 36, height: 36 }}
-        />
-      </View>
+  const OrderItem = ({ order }) => (
+    <TouchableOpacity
+      style={styles.orderItem}
+      onPress={() => {
+        navigation.navigate('CompletedOrderDetail', { orderId: order._id })
+      }}
+    >
       <View
         style={{
-          marginLeft: 11,
-          flex: 1,
           flexDirection: 'row',
-          justifyContent: 'space-between',
         }}
       >
         <View>
-          <MyText style={{ fontSize: 13, fontWeight: '500', marginBottom: 2 }}>
-            Phil Jones
-          </MyText>
-          <MyText
-            style={{
-              fontSize: 11,
-              fontWeight: '500',
-              color: 'rgba(35, 35, 35, 0.5)',
+          <Image
+            source={{
+              uri:
+                axios.defaults.baseURL +
+                'media/getimage/' +
+                order?.employer?.avatar,
             }}
-          >
-            Logo Designing
-          </MyText>
+            style={{ width: 36, height: 36 }}
+          />
         </View>
-        <View>
-          <MyText
-            style={{
-              marginBottom: 3,
-              textAlign: 'right',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <FontAwesome5 name='bitcoin' color='#FAD461' size={16} />
-            &nbsp; &nbsp;
-            <MyText style={{ fontSize: 14, fontWeight: '600' }}>$50</MyText>
-          </MyText>
-          <MyText
-            style={{
-              fontSize: 11,
-              fontWeight: '500',
-              color: 'rgba(35, 35, 35, 0.5)',
-            }}
-          >
-            Delivery in
+        <View
+          style={{
+            marginLeft: 11,
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
+        >
+          <View>
+            <MyText
+              style={{ fontSize: 13, fontWeight: '500', marginBottom: 2 }}
+            >
+              {order?.employer?.name}
+            </MyText>
             <MyText
               style={{
                 fontSize: 11,
-                fontWeight: '700',
+                fontWeight: '500',
+                color: 'rgba(35, 35, 35, 0.5)',
               }}
             >
-              {' '}
-              2
-            </MyText>{' '}
-            days
-          </MyText>
+              {order?.jobTitle}
+            </MyText>
+          </View>
+          <View>
+            <MyText
+              style={{
+                marginBottom: 3,
+                textAlign: 'right',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <MyText style={{ fontSize: 15, fontWeight: '600' }}>
+                ${order?.totalPrice}
+              </MyText>
+            </MyText>
+            <MyText
+              style={{
+                fontSize: 11,
+                fontWeight: '500',
+                color: 'rgba(35, 35, 35, 0.5)',
+              }}
+            >
+              {[...Array(5).keys()].map((x) => {
+                return (
+                  <Icon
+                    name='star'
+                    color={x + 1 <= order?.rating ? 'yellow' : '#eeeeee'}
+                  />
+                )
+              })}
+            </MyText>
+          </View>
         </View>
       </View>
-    </View>
+
+      <View
+        style={{
+          marginTop: 17,
+          flexDirection: 'row',
+          marginBottom: 7,
+          justifyContent: 'space-between',
+        }}
+      >
+        <View style={{ flexDirection: 'row' }}>
+          <View style={{ marginRight: 18 }}>
+            <View
+              style={{
+                borderBottomColor: '#eee',
+              }}
+            >
+              <MyText style={{ marginBottom: 3, fontWeight: '500' }}>
+                Due Date
+              </MyText>
+            </View>
+            <MyText style={{ color: 'gray' }}>
+              {new Date(order?.createdAt).toLocaleDateString('default', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </MyText>
+          </View>
+          <View>
+            <View
+              style={{
+                borderBottomColor: '#eee',
+              }}
+            >
+              <MyText style={{ marginBottom: 3, fontWeight: '500' }}>
+                Delivered On
+              </MyText>
+            </View>
+            <MyText style={{ color: 'gray' }}>
+              {new Date(order?.deliveryTime).toLocaleDateString('default', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </MyText>
+          </View>
+        </View>
+
+        <View style={{ flexDirection: 'column-reverse' }}>
+          <TouchableOpacity
+            labelStyle={{ color: '#fff' }}
+            disabled={true}
+            style={styles.completedBadge}
+            onPress={() => {}}
+          >
+            <MyText
+              style={{
+                fontSize: 11,
+                color: 'white',
+              }}
+            >
+              Completed
+            </MyText>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </TouchableOpacity>
   )
 
   return (
-    <ScrollView style={{ backgroundColor: '#ffffff' }}>
+    <ScrollView style={{ height: '100%', backgroundColor: 'white' }}>
       <CustomHeader
         Title='Expenses'
         style={{ elevation: 0 }}
@@ -108,23 +212,28 @@ const AmountSpentScreen = () => {
         }}
         nav={navigation}
       />
-      <View
-        style={[
-          styles.container,
-          {
-            backgroundColor: colors.background,
-            paddingTop: 40,
-            padding: 23,
-          },
-        ]}
-      >
-        <View>
-          {/* Heading */}
-
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
-        </View>
+      <View>
+        {orders?.length !== 0 ? (
+          <>
+            {orders?.map((order) => {
+              return <OrderItem key={order._id} order={order} />
+            })}
+          </>
+        ) : (
+          <View>
+            <MyText
+              style={{
+                fontSize: 20,
+                fontWeight: '700',
+                color: 'red',
+                marginTop: 12,
+                textAlign: 'center',
+              }}
+            >
+              No orders
+            </MyText>
+          </View>
+        )}
       </View>
     </ScrollView>
   )
@@ -134,13 +243,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+
   orderItem: {
     paddingTop: 13,
     paddingLeft: 13,
-    paddingBottom: 14,
     paddingRight: 17,
     borderRadius: 10,
-    flexDirection: 'row',
     marginBottom: 9,
     backgroundColor: 'white',
     shadowColor: '#878787',
@@ -150,6 +258,16 @@ const styles = StyleSheet.create({
     },
     elevation: 15,
   },
+  completedBadge: {
+    marginHorizontal: 18,
+    backgroundColor: '#13B887',
+    borderRadius: 5,
+    width: '90%',
+    alignItems: 'center',
+    paddingTop: 4,
+    paddingBottom: 4,
+    paddingHorizontal: 15,
+  },
 })
 
-export default AmountSpentScreen
+export default AmountSpendScreen

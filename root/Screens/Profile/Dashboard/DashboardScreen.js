@@ -13,32 +13,51 @@ import Context from '../../../Context/Context'
 import Icon from '@expo/vector-icons/FontAwesome'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { getOrders } from '../services/orderServices'
+import { getOrderCategoryWise, getOrders } from '../services/orderServices'
 import axios from '../../../http/axiosSet'
+import Loader from '../../../Components/Loader'
 
 const DashboardScreen = () => {
   const navigation = useNavigation()
+
+  const isFocused = useIsFocused()
+
+  const [totalJobRequests, setTotalJobRequests] = useState(0)
+  const [totalOrders, setTotalOrder] = useState(0)
+
   const {
     theme: { colors },
   } = useContext(Context)
 
   const [orders, setOrders] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [isFocused])
 
   const fetchData = async () => {
+    setLoading(true)
     const resp = await getOrders()
-
     if (resp.status === 200) {
       setOrders(res.data.data)
     } else if (resp.status === 400 || resp.status === 401) {
       navigation.navigate('LoginScreen')
     }
+
+    const totalOrderResp = await getOrderCategoryWise('Completed')
+    if (totalOrderResp.status === 200) {
+      setTotalOrder(totalOrderResp.data.data.length)
+    }
+
+    const totalJobResp = await getOrderCategoryWise('Completed')
+    if (totalJobResp.status === 200) {
+      setTotalJobRequests(totalJobResp.data.data.length)
+    }
+    setLoading(false)
   }
 
   const OrderItem = ({ order }) => (
@@ -123,6 +142,10 @@ const DashboardScreen = () => {
     </TouchableOpacity>
   )
 
+  if (loading) {
+    return <Loader visible={loading} color='white' indicatorSize='large' />
+  }
+
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader
@@ -160,18 +183,18 @@ const DashboardScreen = () => {
             borderRadius: 15,
           }}
         >
+          <MyText style={{ fontSize: 24, color: 'white' }}>
+            Total Expenses
+          </MyText>
           <MyText
             style={{
-              color: colors.white,
-              fontSize: 24,
+              color: '#E9FC01',
+              fontSize: 20,
               fontWeight: '500',
               marginBottom: 8,
             }}
           >
             $ 5404.00
-          </MyText>
-          <MyText style={{ fontSize: 12, color: colors.secondary }}>
-            Total Amount Spent
           </MyText>
 
           <TouchableOpacity
@@ -234,7 +257,7 @@ const DashboardScreen = () => {
                   left: 25,
                 }}
               >
-                10
+                {totalJobRequests}
               </MyText>
               <MyText
                 style={{ fontSize: 13, fontWeight: '500', marginTop: -10 }}
@@ -279,7 +302,7 @@ const DashboardScreen = () => {
                   left: 25,
                 }}
               >
-                10
+                {totalOrders}
               </MyText>
               <MyText
                 style={{ fontSize: 13, fontWeight: '500', marginTop: -10 }}
@@ -305,6 +328,20 @@ const DashboardScreen = () => {
               Recent Orders
             </MyText>
           </View>
+          {orders?.length === 0 && (
+            <View>
+              <MyText
+                style={{
+                  fontSize: 20,
+                  color: 'red',
+                  fontWeight: '700',
+                  textAlign: 'center',
+                }}
+              >
+                No Recent Orders
+              </MyText>
+            </View>
+          )}
           {orders?.map((order, index) => {
             return <OrderItem key={index} />
           })}
