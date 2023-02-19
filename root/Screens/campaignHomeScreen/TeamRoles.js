@@ -93,7 +93,12 @@ const TeamRoles = ({ navigation, route }) => {
         />
         {/* card out */}
         {/* Little nav in */}
-        <LittleNav style={{ marginTop: 10 }} title={"Roles"} />
+        <LittleNav
+          style={{ marginTop: 10 }}
+          title={"Roles"}
+          navigation={navigation}
+          chevron={true}
+        />
         {/* Little nav out */}
         {/* roles in */}
         <View>
@@ -106,7 +111,7 @@ const TeamRoles = ({ navigation, route }) => {
               marginTop: 15,
             }}
           >
-            <Text style={{ fontSize: 24, fontWeight: "700" }}>Team Roles</Text>
+            <Text style={{ fontSize: 18, fontWeight: "700" }}>Team Roles</Text>
           </View>
           <View style={{ paddingHorizontal: 23 }}>
             {Roles.map((item) => (

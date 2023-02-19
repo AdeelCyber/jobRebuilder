@@ -17,7 +17,7 @@ import { getOrderCategoryWise, getOrders } from '../services/orderServices'
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
 
-const CompletedOrdersScreen = () => {
+const CompletedOrdersScreen = (props) => {
   const navigation = useNavigation()
 
   const [orders, setOrders] = useState([])
@@ -30,10 +30,11 @@ const CompletedOrdersScreen = () => {
 
   const fetchOrder = async () => {
     setLoading(true)
-    const resp = await getOrderCategoryWise('Active')
+    const resp = await getOrderCategoryWise('Completed')
     setLoading(false)
     if (resp.status === 200) {
       setOrders(resp.data.data)
+      props.fun(resp.data.data.length)
     } else if (resp.status === 404) {
     } else if (resp.status === 401) {
     }
@@ -214,7 +215,7 @@ const CompletedOrdersScreen = () => {
               textAlign: 'center',
             }}
           >
-            No orders
+            No Completed Orders
           </MyText>
         </View>
       )}

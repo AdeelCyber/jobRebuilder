@@ -43,7 +43,15 @@ const TeamItem = (props) => {
       <SvgImport svg={msg} style={{ marginTop: 8 }} />
       <Pressable
         style={{ position: "absolute", top: 10, right: 5 }}
-        onPress={() => setopen(!open)}
+        onPress={() => {
+          setopen(!open);
+          props.personData({
+            name: props.text,
+            designation: props.designation,
+            image: props.image,
+            id: props.id,
+          });
+        }}
       >
         <Feather name="more-vertical" size={20} color="#23232380" />
       </Pressable>

@@ -9,7 +9,7 @@ import {
   ToastAndroid,
 } from "react-native";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Context from "../../Context/Context";
 import CustomHeader2 from "../../Components/CustomHeader2";
 import { Searchbar } from "react-native-paper";
@@ -29,6 +29,10 @@ import BottomPopup from "../../Components/BottomPopup";
 import * as DocumentPicker from "expo-document-picker";
 import { fileUpload, downloadFile } from "../Profile/services/fileServices";
 import { log } from "react-native-reanimated";
+import {
+  PitchDeckDelete,
+  PitchDeckUpload,
+} from "../Profile/services/FreeLancerServices";
 
 const PitchDeck = ({ navigation, route }) => {
   const [data, setData] = useState(route.params.data);
@@ -36,6 +40,7 @@ const PitchDeck = ({ navigation, route }) => {
   const [modal, setModal] = useState({ modal1: false, modal2: false });
   const [isPart, setisPart] = useState(route.params.isPart);
   const [undefinedd, setundefined] = useState(route.params.undefinedd);
+  const [file, setfile] = useState(data.startup.pitchDeck);
   const {
     theme: { colors },
   } = useContext(Context);
@@ -47,20 +52,29 @@ const PitchDeck = ({ navigation, route }) => {
   const [fileNameFromServer, setFileNameFromServer] = useState("");
 
   //upload file
-  const [getdoc, setdoc] = useState("");
+  const [upload, setupload] = useState(false);
+  const [getdocinfo, setdocinfo] = useState();
 
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
 
-    setdoc(result.uri);
     const pdf = await fileUpload(result.uri);
-    var filename = result.uri.substring(
-      result.uri.lastIndexOf("/") + 1,
-      result.uri.length
-    );
-    console.log("filename", filename);
-    ToastAndroid.show("File Uploaded", ToastAndroid.SHORT);
+
+    setdocinfo(JSON.parse(pdf.body));
+
+    setupload(true);
   };
+
+  useEffect(() => {
+    if (upload) {
+      setfile(getdocinfo.filename);
+
+      console.log("pdf", getdocinfo.filename);
+      handleUpload();
+
+      setupload(false);
+    }
+  }, [upload]);
   //upload out
 
   // action on buttons
@@ -68,8 +82,36 @@ const PitchDeck = ({ navigation, route }) => {
     if (text === "Upload New") {
       pickDocument();
     }
+    if (text === "Delete") {
+      handleDelete();
+    }
   }
 
+  const handleUpload = async () => {
+    const resp = await PitchDeckUpload(data.startup._id, file);
+    console.log("resp", resp.data);
+    if (resp.data.status === "OK") {
+      ToastAndroid.show("Your file uploaded", ToastAndroid.SHORT);
+    } else {
+      ToastAndroid.show(
+        "There was an error uploading your file",
+        ToastAndroid.SHORT
+      );
+    }
+  };
+  const handleDelete = async () => {
+    const resp = await PitchDeckDelete(data.startup._id);
+    console.log("resp", resp.data);
+    if (resp.data.status === "OK") {
+      setfile("");
+      ToastAndroid.show("Your file deleted", ToastAndroid.SHORT);
+    } else {
+      ToastAndroid.show(
+        "There was an error deleting your file",
+        ToastAndroid.SHORT
+      );
+    }
+  };
   return (
     // main container
     <View
@@ -105,7 +147,12 @@ const PitchDeck = ({ navigation, route }) => {
           />
           {/* card out */}
           {/* Little nav in */}
-          <LittleNav style={{ marginTop: 10 }} title={"Pitch Deck"} />
+          <LittleNav
+            style={{ marginTop: 10 }}
+            title={"Pitch Deck"}
+            navigation={navigation}
+            chevron={true}
+          />
           {/* Little nav out */}
           {/* Upload View */}
 
@@ -121,7 +168,7 @@ const PitchDeck = ({ navigation, route }) => {
               }}
               onPress={() => {
                 downloadFile(
-                  `https://stepdev.up.railway.app/media/getFile/${data.startup.pitchDeck}`
+                  `https://stepdev.up.railway.app/media/getFile/${file}`
                 );
                 ToastAndroid.show("Downloading...", ToastAndroid.SHORT);
               }}
@@ -153,7 +200,7 @@ const PitchDeck = ({ navigation, route }) => {
           >
             <DynamicButton
               handlePress={handlePress}
-              text={"Cancel"}
+              text={"Delete"}
               color={"#FF0000"}
               textStyle={{ color: colors.white }}
               style={{ width: "48%", borderRadius: 15 }}

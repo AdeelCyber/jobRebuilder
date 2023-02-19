@@ -290,6 +290,7 @@ const Login = () => {
             >
               <AntDesign name="arrowleft" size={20} color={colors.white} />
             </TouchableOpacity>
+
             <MyText
               style={{
                 fontSize: 24,
@@ -511,7 +512,7 @@ const Login = () => {
                   marginTop: 20,
                 }}
                 onPress={() => {
-                  navigation.navigate("StartScreen");
+                  navigation.navigate("CreateAccount");
                 }}
               >
                 <MyText

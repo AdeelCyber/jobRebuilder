@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from '../../../http/axiosSet'
-
+import Axios from 'axios'
 export const getOrders = async () => {
   try {
     const token = await AsyncStorage.getItem('@accessToken')
@@ -9,9 +9,12 @@ export const getOrders = async () => {
         Authorization: `Bearer ${token}`,
       },
     }
-    const resp = await axios.get('/orders', config)
+    // console.log(axios.defaults.baseURL, 'orders')
+    const resp = await Axios.get(`${axios.defaults.baseURL}orders`, config)
+    // console.log('Orders', resp)
     return resp
   } catch (error) {
+    // console.log('Hello', error.response)
     return error.response
   }
 }
@@ -24,7 +27,11 @@ export const getOrderCategoryWise = async (category) => {
         Authorization: `Bearer ${token}`,
       },
     }
-    const resp = await axios.post('/orders/category', { category }, config)
+    const resp = await Axios.post(
+      `${axios.defaults.baseURL}orders/category`,
+      { category },
+      config
+    )
     console.log('Resp', resp)
     return resp
   } catch (error) {

@@ -55,6 +55,9 @@ import OtpScreen2 from "./Screens/StartScreens/OtpScreen2";
 
 //Navigation
 
+import CheckoutSheet from "./Screens/Chat/paymentsheet";
+import ExploreAll from "./Screens/Profile/ExploreAll";
+import Forget from "./Screens/StartScreens/Forget";
 import OtpScreen from "./Screens/StartScreens/OtpScreen";
 import CheckoutSheet from "./Screens/Chat/paymentsheet";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -100,7 +103,7 @@ import AvailableJobs from "./Screens/Profile/Vacancy/AvailableJobs";
 import JobCareerDetailScreen from "./Screens/Profile/Vacancy/JobCareerDetailScreen";
 import UserTabBar from "./Components/UserTabBar";
 import ExploreAll from "./Screens/Profile/ExploreAll";
-import Forget from "./Screens/StartScreens/Forget";
+import ChangeProfileScreen from "./Screens/Profile/ChangeProfileScreen";
 //Navigation out
 
 // Creating Stacks
@@ -127,9 +130,15 @@ const MyStack = () => {
         />
 
         <Stack.Screen name="ManagingCampaign" component={ManagingCampaign} />
-        <Stack.Screen name="ExploreAll" component={ExploreAll} />
+        <Stack.Screen name="ChangeProfile" component={ChangeProfileScreen} />
 
-        <Stack.Screen name="CampaignMenu" component={CampaignMenu} />
+        <Stack.Screen
+          name="CampaignMenu"
+          component={CampaignMenu}
+          options={{
+            animationEnabled: false,
+          }}
+        />
         <Stack.Screen name="OverView" component={OverView} />
         <Stack.Screen name="PartnerShipTerms" component={PartnerShipTerms} />
         <Stack.Screen name="TeamRoles" component={TeamRoles} />
@@ -290,24 +299,23 @@ const Main = () => {
   const { accessToken, socket, setsocket, userdetails, userTab, setUserTab } =
     useContext(CartProvider);
 
-  const startsocket = useCallback(
-    (accessToken) => {
-      setsocket(
-        io("https://stepdev.up.railway.app", {
-          autoConnect: false,
-          extraHeaders: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-      );
-    },
-    [socket]
-  );
+  const startsocket = () => {
+    setsocket(() => {
+      const s = io("https://stepdev.up.railway.app", {
+        autoConnect: false,
+        extraHeaders: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log("Socket server", s);
+      return s;
+    });
+  };
 
   useEffect(() => {
     startsocket(accessToken);
     console.log(userdetails);
-  }, [accessToken]);
+  }, []);
 
   return (
     <SafeAreaView
@@ -345,13 +353,10 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
   },
 });
-// text boxes in edit screen
-// Role Title ?  +  padding
-// Correct header
-// mileStone plus more icon color
-// Add mile Stone ? include
-// Ceo in Cards
-// ViewMile Stone padding
-// team roles padding + border radius  , paddingVertical in first input
-// TodoTaskView
-// Horizontal Calendar line
+// in Patnership terms heading and fonts
+// 18 15 13 managing campaign remove dots and ticks
+// Team roles headnings
+// Todo headings 3 dots removed
+// Calender heading
+// Todo Calender heading
+// fix warning pop up

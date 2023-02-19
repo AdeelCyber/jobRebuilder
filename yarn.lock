@@ -4769,9 +4769,9 @@ expo-auth-session@~3.8.0:
     invariant "^2.2.4"
     qs "6.9.1"
 
-expo-build-properties@~0.4.1:
+expo-build-properties@^0.4.1:
   version "0.4.1"
-  resolved "https://registry.npmjs.org/expo-build-properties/-/expo-build-properties-0.4.1.tgz"
+  resolved "https://registry.yarnpkg.com/expo-build-properties/-/expo-build-properties-0.4.1.tgz#f2511d281898657b225710051860d71c63b9ad5e"
   integrity sha512-Y492KoSfb8Jj5y8qA+J0Wu0HjuCmJuqCB7fxOAxqNDS5V8JJNUU9106ESDnlQ7xyxkjMlGmVZN1/oRUoC0zBJg==
   dependencies:
     ajv "^8.11.0"
@@ -4782,9 +4782,9 @@ expo-checkbox@~2.2.2:
   resolved "https://registry.npmjs.org/expo-checkbox/-/expo-checkbox-2.2.2.tgz"
   integrity sha512-0DXbeJdVAPfqiy+RBkGXHYU2dLxdpyaWAaV3+N+/xWEC2ilqrqCiSqsPcbFQer1f9qaqjNeDUi51qPuF5AgTIw==
 
-expo-clipboard@~4.0.1:
+expo-clipboard@^4.0.1:
   version "4.0.1"
-  resolved "https://registry.npmjs.org/expo-clipboard/-/expo-clipboard-4.0.1.tgz"
+  resolved "https://registry.yarnpkg.com/expo-clipboard/-/expo-clipboard-4.0.1.tgz#74385c2deacbfc75583ebb22e95067bd8f79a037"
   integrity sha512-ikVitSk8ltbbdmufQE/7+BpkDFU1hsLw5lhjEqknG6PHjtn4TP+ypMxKobBftU2VpFiz9O09bpRt86E8CzsJgQ==
 
 expo-constants@^14.0.2, expo-constants@~14.0.0, expo-constants@~14.0.2:
@@ -9124,6 +9124,11 @@ react-native-communications@2.2.1:
   version "2.2.1"
   resolved "https://registry.npmjs.org/react-native-communications/-/react-native-communications-2.2.1.tgz"
   integrity sha512-5+C0X9mopI0+qxyQHzOPEi5v5rxNBQjxydPPiKMQSlX1RBIcJ8uTcqUPssQ9Mo8p6c1IKIWJUSqCj4jAmD0qVQ==
+
+react-native-country-codes-picker@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-country-codes-picker/-/react-native-country-codes-picker-2.2.2.tgz#65e383cb652a2772ae0b4be4c73e92d48e6d30ba"
+  integrity sha512-uzao08Ki1Wk8V+3/EfrSyrWsrghhkYovL71GlilvvI3ZMrhQEHvHOzbo7WNvl+L5tJu/2enYYrNm/7qkWErsSA==
 
 react-native-dropdown-picker@^5.4.4:
   version "5.4.4"

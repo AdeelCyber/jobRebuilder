@@ -164,11 +164,14 @@ const CancelledOrdersScreen = () => {
             </View>
             <MyText style={{ color: 'gray' }}>
               {' '}
-              {new Date(order?.deliveryTime).toLocaleDateString('default', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-              })}
+              {new Date(order?.cancelledInfo?.date).toLocaleDateString(
+                'default',
+                {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                }
+              )}
             </MyText>
           </View>
         </View>
@@ -215,13 +218,29 @@ const CancelledOrdersScreen = () => {
           },
         ]}
       >
-        <View>
-          {/* Heading */}
+        {orders?.length === 0 ? (
+          <View>
+            <MyText
+              style={{
+                fontSize: 20,
+                fontWeight: '700',
+                color: 'red',
+                marginTop: 12,
+                textAlign: 'center',
+              }}
+            >
+              No Cancelled orders
+            </MyText>
+          </View>
+        ) : (
+          <View>
+            {/* Heading */}
 
-          {orders?.map((order) => {
-            return <OrderItem key={order._id} order={order} />
-          })}
-        </View>
+            {orders?.map((order) => {
+              return <OrderItem key={order._id} order={order} />
+            })}
+          </View>
+        )}
       </View>
     </ScrollView>
   )

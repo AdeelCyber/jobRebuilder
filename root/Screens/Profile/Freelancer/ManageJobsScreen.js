@@ -7,7 +7,7 @@ import Icon from '@expo/vector-icons/FontAwesome'
 import { useNavigation } from '@react-navigation/native'
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures'
 import PendingJobsScreen from './PendingJobsScreen'
-import CancelledJobsScreen from './CompletedJobsScreen'
+import CompletedJobsScreen from './CompletedJobsScreen'
 import ActiveJobsScreen from './ActiveJobsScreen'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons'
@@ -20,6 +20,11 @@ const ManageJobsScreen = () => {
   } = useContext(Context)
 
   const [currentPage, setCurrentPage] = useState(1)
+
+  const [totalActiveJobs, setTotalActiveJobs] = useState(0)
+  const [totalPendingJobs, setTotalPendingJobs] = useState(0)
+  const [totalCompletedJobs, setTotalCompletedJobs] = useState(0)
+  const [buttons, setButtons] = useState(['Active', 'Pending', 'Completed'])
 
   const switchPage = (pageNumber) => {
     setCurrentPage(pageNumber)
@@ -50,7 +55,7 @@ const ManageJobsScreen = () => {
         directionalOffsetThreshold: 60,
       }}
     >
-      <ScrollView style={{ backgroundColor: '#ffffff' }}>
+      <ScrollView style={{ backgroundColor: '#ffffff', height: '100%' }}>
         <CustomHeader
           nav={navigation}
           Title='Manage Jobs'
@@ -82,129 +87,63 @@ const ManageJobsScreen = () => {
           <View
             style={{ flexDirection: 'row', justifyContent: 'space-between' }}
           >
-            <TouchableOpacity
-              style={[
-                styles.btn,
-                {
-                  backgroundColor:
-                    currentPage === 1 ? colors.secondary : 'white',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                },
-              ]}
-              onPress={() => {
-                switchPage(1)
-              }}
-            >
-              <MyText
-                style={{
-                  color: currentPage === 1 ? 'white' : colors.text,
-                  fontSize: 14,
-                }}
-              >
-                Active
-              </MyText>
-              <MyText
-                style={{
-                  color: 'white',
-                  fontSize: 12,
-                  backgroundColor:
-                    currentPage === 1 ? 'black' : colors.secondary,
-                  paddingHorizontal: 7,
-                  paddingTop: 2,
-                  paddingBottom: 2,
-                  borderRadius: 50,
-                  marginRight: -15,
-                  marginLeft: 10,
-                }}
-              >
-                7
-              </MyText>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.btn,
-                {
-                  backgroundColor:
-                    currentPage === 2 ? colors.secondary : 'white',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                },
-              ]}
-              onPress={() => {
-                switchPage(2)
-              }}
-            >
-              <MyText
-                style={{
-                  color: currentPage === 2 ? 'white' : colors.text,
-                  fontSize: 14,
-                }}
-              >
-                Pending
-              </MyText>
-              <MyText
-                style={{
-                  color: 'white',
-                  fontSize: 12,
-                  backgroundColor:
-                    currentPage === 2 ? 'black' : colors.secondary,
-                  paddingHorizontal: 7,
-                  paddingTop: 2,
-                  paddingBottom: 2,
-                  borderRadius: 50,
-                  marginRight: -15,
-                  marginLeft: 10,
-                }}
-              >
-                7
-              </MyText>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.btn,
-                {
-                  backgroundColor:
-                    currentPage === 3 ? colors.secondary : 'white',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                },
-              ]}
-              onPress={() => {
-                switchPage(3)
-              }}
-            >
-              <MyText
-                style={{
-                  color: currentPage === 3 ? 'white' : colors.text,
-                  fontSize: 14,
-                }}
-              >
-                Completed
-              </MyText>
-              <MyText
-                style={{
-                  color: 'white',
-                  fontSize: 12,
-                  backgroundColor:
-                    currentPage === 3 ? 'black' : colors.secondary,
-                  paddingHorizontal: 7,
-                  paddingTop: 2,
-                  paddingBottom: 2,
-                  borderRadius: 50,
-                  marginRight: -15,
-                  marginLeft: 10,
-                }}
-              >
-                7
-              </MyText>
-            </TouchableOpacity>
+            {buttons.map((button, index) => {
+              return (
+                <TouchableOpacity
+                  key={button}
+                  style={[
+                    styles.btn,
+                    {
+                      backgroundColor:
+                        currentPage === index + 1 ? colors.secondary : 'white',
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                    },
+                  ]}
+                  onPress={() => {
+                    switchPage(index + 1)
+                  }}
+                >
+                  <MyText
+                    style={{
+                      color: currentPage === index + 1 ? 'white' : colors.text,
+                      fontSize: 14,
+                    }}
+                  >
+                    {button}
+                  </MyText>
+                  <MyText
+                    style={{
+                      color: 'white',
+                      fontSize: 12,
+                      backgroundColor:
+                        currentPage === index + 1 ? 'black' : colors.secondary,
+                      paddingHorizontal: 7,
+                      paddingTop: 2,
+                      paddingBottom: 2,
+                      borderRadius: 50,
+                      marginLeft: 10,
+                    }}
+                  >
+                    {index + 1 === 1
+                      ? totalActiveJobs
+                      : index + 1 === 2
+                      ? totalPendingJobs
+                      : totalCompletedJobs}
+                  </MyText>
+                </TouchableOpacity>
+              )
+            })}
           </View>
 
           {/* Page */}
-          {currentPage === 3 && <CancelledJobsScreen />}
-          {currentPage === 2 && <PendingJobsScreen />}
-          {currentPage === 1 && <ActiveJobsScreen />}
+          {currentPage === 3 && (
+            <CompletedJobsScreen fun={setTotalActiveJobs} />
+          )}
+          {currentPage === 2 && <PendingJobsScreen fun={setTotalPendingJobs} />}
+          {currentPage === 1 && (
+            <ActiveJobsScreen fun={setTotalCompletedJobs} />
+          )}
         </View>
       </ScrollView>
     </GestureRecognizer>
@@ -219,10 +158,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingTop: 9,
     paddingBottom: 9,
-    width: '32%',
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 17,
+    paddingHorizontal: 10,
   },
 })
 

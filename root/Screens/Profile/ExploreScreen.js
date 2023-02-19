@@ -114,7 +114,7 @@ const ExploreScreen = ({ navigation, routes }) => {
       setIsSearch(false)
     } else {
       console.log(exploreData)
-      const result = exploreData?.filter((element) => {
+      const result = exploreTempData?.filter((element) => {
         return (
           element.businessName.toLowerCase().includes(s.trim().toLowerCase()) ||
           element.category.toLowerCase().includes(s.trim().toLowerCase())
@@ -219,14 +219,15 @@ const ExploreScreen = ({ navigation, routes }) => {
               }}
             >
               <Text style={{ fontSize: 24, fontWeight: '700' }}>
-                {isSearch || exploreData.length === 0
+                {isSearch
                   ? 'Search Result'
-                  : 'Join a business'}
+                  : exploreData.length !== 0
+                  ? 'Join a business'
+                  : ''}
               </Text>
-              {!isSearch && (
+              {!isSearch && exploreData.length !== 0 && (
                 <TouchableOpacity
                   onPress={() => {
-                    console.log('Rayyan')
                     navigation.navigate('ExploreAll', { exploreData })
                   }}
                 >
@@ -315,7 +316,6 @@ const ExploreScreen = ({ navigation, routes }) => {
                       // minInv={item.minInv}
                       ShareHolders={item.budget}
                       style={{
-                        marginLeft: index != 0 ? 20 : 0,
                         width: 200,
                       }}
                     />

@@ -57,7 +57,12 @@ const PartnerShipTerms = ({ navigation, route }) => {
       />
       {/* card out */}
       {/* Little nav in */}
-      <LittleNav style={{ marginTop: 10 }} title={"PartnerShip Terms"} />
+      <LittleNav
+        style={{ marginTop: 10 }}
+        title={"PartnerShip Terms"}
+        navigation={navigation}
+        chevron={true}
+      />
       {/* Little nav out */}
       <View>
         <View

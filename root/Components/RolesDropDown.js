@@ -70,7 +70,7 @@ const RolesDropDown = ({ Title, desc, ...props }) => {
               ></Pressable>
             )}
           </Pressable>
-          <MyText style={{ marginLeft: 10, fontSize: 14, fontWeight: "500" }}>
+          <MyText style={{ marginLeft: 10, fontSize: 15, fontWeight: "500" }}>
             {Title}
           </MyText>
         </View>
@@ -90,7 +90,7 @@ const RolesDropDown = ({ Title, desc, ...props }) => {
             style={{
               color: colors.heighlight,
               fontWeight: "400",
-              fontSize: 11,
+              fontSize: 13,
               lineHeight: 14.32,
             }}
           >

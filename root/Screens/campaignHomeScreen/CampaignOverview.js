@@ -58,7 +58,12 @@ const OverView = ({ navigation, route }) => {
         />
         {/* card out */}
         {/* Little nav in */}
-        <LittleNav style={{ marginTop: 10 }} title={"OverView"} />
+        <LittleNav
+          style={{ marginTop: 10 }}
+          title={"OverView"}
+          navigation={navigation}
+          chevron={true}
+        />
         {/* Little nav out */}
         {/* One unit system */}
         <View>
@@ -66,15 +71,18 @@ const OverView = ({ navigation, route }) => {
             style={{
               paddingHorizontal: 23,
               marginTop: 15,
-              marginBottom: 25,
+              marginBottom: 20,
             }}
           >
-            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            <MyText style={{ fontSize: 18, fontWeight: "700" }}>
               Problem Statement
             </MyText>
           </View>
           <View>
-            <TickPara para={data.startup.problemStatement} />
+            <TickPara
+              para={data.startup.problemStatement}
+              textStyle={{ fontSize: 15 }}
+            />
           </View>
         </View>
         {/* One unit system out */}
@@ -84,15 +92,18 @@ const OverView = ({ navigation, route }) => {
             style={{
               paddingHorizontal: 23,
 
-              marginBottom: 25,
+              marginBottom: 20,
             }}
           >
-            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            <MyText style={{ fontSize: 18, fontWeight: "700" }}>
               Impact Statement
             </MyText>
           </View>
           <View>
-            <TickPara para={data.startup.impactStatement} />
+            <TickPara
+              para={data.startup.impactStatement}
+              textStyle={{ fontSize: 15 }}
+            />
           </View>
         </View>
         {/* One unit system out */}
@@ -102,15 +113,18 @@ const OverView = ({ navigation, route }) => {
             style={{
               paddingHorizontal: 23,
 
-              marginBottom: 25,
+              marginBottom: 20,
             }}
           >
-            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            <MyText style={{ fontSize: 18, fontWeight: "700" }}>
               Competition
             </MyText>
           </View>
           <View>
-            <TickPara para={data.startup.competition} />
+            <TickPara
+              para={data.startup.competition}
+              textStyle={{ fontSize: 15 }}
+            />
           </View>
         </View>
         {/* One unit system out */}
@@ -120,15 +134,15 @@ const OverView = ({ navigation, route }) => {
             style={{
               paddingHorizontal: 23,
 
-              marginBottom: 25,
+              marginBottom: 20,
             }}
           >
-            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            <MyText style={{ fontSize: 18, fontWeight: "700" }}>
               Story about investors
             </MyText>
           </View>
           <View>
-            <TickPara para={data.startup.story} />
+            <TickPara para={data.startup.story} textStyle={{ fontSize: 15 }} />
           </View>
         </View>
         {/* One unit system out */}
@@ -138,15 +152,19 @@ const OverView = ({ navigation, route }) => {
             style={{
               paddingHorizontal: 23,
 
-              marginBottom: 25,
+              marginBottom: 20,
             }}
           >
-            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            <MyText style={{ fontSize: 18, fontWeight: "700" }}>
               Location
             </MyText>
           </View>
           <View>
-            <TickPara para={data.startup.location} logo={Location} />
+            <TickPara
+              para={data.startup.location}
+              logo={Location}
+              textStyle={{ fontSize: 15 }}
+            />
           </View>
         </View>
         {/* One unit system out */}
@@ -156,10 +174,10 @@ const OverView = ({ navigation, route }) => {
             style={{
               paddingHorizontal: 23,
 
-              marginBottom: 25,
+              marginBottom: 20,
             }}
           >
-            <MyText style={{ fontSize: 24, fontWeight: "700" }}>Budget</MyText>
+            <MyText style={{ fontSize: 18, fontWeight: "700" }}>Budget</MyText>
           </View>
           <View>
             <TickPara
@@ -167,7 +185,7 @@ const OverView = ({ navigation, route }) => {
               logo={Budget}
               textStyle={{
                 fontWeight: "700",
-                fontSize: 20,
+                fontSize: 15,
                 color: "#232323BF",
                 lineHeight: 30,
               }}
@@ -181,15 +199,19 @@ const OverView = ({ navigation, route }) => {
             style={{
               paddingHorizontal: 23,
 
-              marginBottom: 25,
+              marginBottom: 20,
             }}
           >
-            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            <MyText style={{ fontSize: 18, fontWeight: "700" }}>
               Category
             </MyText>
           </View>
           <View>
-            <TickPara para={data.startup.category} logo={Category} />
+            <TickPara
+              para={data.startup.category}
+              logo={Category}
+              textStyle={{ fontSize: 15 }}
+            />
           </View>
         </View>
         {/* One unit system out */}

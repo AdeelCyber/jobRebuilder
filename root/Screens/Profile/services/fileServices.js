@@ -5,6 +5,7 @@ import * as FileSystem from "expo-file-system";
 import * as Permissions from "expo-permissions";
 import * as MediaLibrary from "expo-media-library";
 import * as IntentLauncher from "expo-intent-launcher";
+import { ToastAndroid } from "react-native";
 export const imageUpload = async (file) => {
   const uploadResult = await FileSystem.uploadAsync(
     "https://stepdev.up.railway.app/media/uploadfile",
@@ -36,6 +37,9 @@ export const downloadFile = async (uri) => {
     FileSystem.documentDirectory +
     uri.substring(uri.lastIndexOf("/") + 1, uri.length);
   console.log(targetUri);
+  if (uri.substring(uri.lastIndexOf("/") + 1, uri.length == "")) {
+    ToastAndroid.show("No file to download", ToastAndroid.SHORT);
+  }
 
   const downloadedFile = await FileSystem.downloadAsync(uri, targetUri);
 

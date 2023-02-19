@@ -14,7 +14,7 @@ import CustomHeader from '../../Components/CustomHeader2'
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 
-const ChangeProfileScreen = ({ navigation }) => {
+const ChangeProfileScreen = () => {
   const {
     theme: { colors },
   } = useContext(Context)

@@ -57,6 +57,7 @@ const Warnings = ({ navigation, route }) => {
       navigation.navigate("MessagesBox", {
         userImg: personData.image,
         userName: personData.name,
+        id: personData.id,
         chatType: "Simple Chat",
       });
     }

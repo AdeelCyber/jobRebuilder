@@ -17,6 +17,7 @@ import CampaignCard from "../../Components/CampaignCard";
 import logo from "../../../assets/Svgs/MotoMobileLogo";
 import Thumbnail from "../../../assets/img/Thumbnail.png";
 import LittleNav from "../../Components/LittleNav";
+import LittleNav2 from "../../Components/LittleNav2";
 import BottomPopup from "../../Components/BottomPopup";
 import { getStartupDetails } from "../Profile/services/FreeLancerServices";
 import CartContext from "../../Context/CartProvider";
@@ -78,6 +79,7 @@ const CampaignMenu = ({ navigation, route }) => {
 
   useEffect(() => {
     if (userDetails.userdetails.role === "Startup Owner") {
+      console.log("startup owner");
       setshow(true);
     }
   }, []);
@@ -109,7 +111,18 @@ const CampaignMenu = ({ navigation, route }) => {
         />
         {/* card out */}
         {/* Little nav in */}
-        <LittleNav style={{ marginTop: 10 }} title={page} chevron={true} />
+        <LittleNav
+          style={{ marginTop: 10 }}
+          title={page}
+          chevron={true}
+          navigation={navigation}
+          Switch={true}
+          page={page}
+          data={data}
+          show={show}
+          isPart={isPart}
+          undefinedd={undefinedd}
+        />
         {/* Little nav out */}
         <View>
           {/* 1 */}
@@ -129,7 +142,7 @@ const CampaignMenu = ({ navigation, route }) => {
             }}
           >
             {page === "OverView" ? (
-              <LittleNav
+              <LittleNav2
                 title={"OverView"}
                 hamburger={false}
                 style={{ paddingHorizontal: 12 }}
@@ -156,15 +169,15 @@ const CampaignMenu = ({ navigation, route }) => {
                 isPart: isPart,
                 undefinedd: undefinedd,
               }),
-                setpage("Role");
+                setpage("TeamRoles");
             }}
             style={{
               backgroundColor: colors.listback,
               paddingVertical: 15,
             }}
           >
-            {page === "Role" ? (
-              <LittleNav
+            {page === "TeamRoles" ? (
+              <LittleNav2
                 title={"Role"}
                 hamburger={false}
                 style={{ paddingHorizontal: 12 }}
@@ -199,7 +212,7 @@ const CampaignMenu = ({ navigation, route }) => {
             }}
           >
             {page === "Partnership Terms" ? (
-              <LittleNav
+              <LittleNav2
                 title={"Partnership Terms"}
                 hamburger={false}
                 style={{ paddingHorizontal: 12 }}
@@ -235,7 +248,7 @@ const CampaignMenu = ({ navigation, route }) => {
           }}
         >
           {page === "MileStones" ? (
-            <LittleNav
+            <LittleNav2
               title={"MileStones"}
               hamburger={false}
               style={{ paddingHorizontal: 12 }}
@@ -270,7 +283,7 @@ const CampaignMenu = ({ navigation, route }) => {
           }}
         >
           {page === "PitchDeck" ? (
-            <LittleNav
+            <LittleNav2
               title={"PitchDeck"}
               hamburger={false}
               style={{ paddingHorizontal: 12 }}

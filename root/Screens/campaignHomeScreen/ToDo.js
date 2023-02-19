@@ -37,6 +37,7 @@ const Todo = ({ navigation, route }) => {
   } = useContext(Context);
 
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [month, setMonth] = useState("January");
 
   const [Roles, setRoles] = useState([]);
 
@@ -49,6 +50,24 @@ const Todo = ({ navigation, route }) => {
   }
   useEffect(() => {
     if (data.todos[0] !== undefined) {
+      const month = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+
+      const d = new Date();
+      let name = month[d.getMonth()];
+      setMonth(name);
       console.log("OK 54");
       setRoles(data.todos[0].todos);
     } else {
@@ -70,7 +89,7 @@ const Todo = ({ navigation, route }) => {
         {/* header */}
         <CustomHeader2
           icon={() => <FontAwesome name="calendar" size={24} color="black" />}
-          Title="January"
+          Title={month}
           style={{ elevation: 0 }}
           nav={navigation}
         />

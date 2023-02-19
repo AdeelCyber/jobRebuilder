@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import CustomHeader from '../../Components/CustomHeader2'
 import { Feather } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
@@ -14,26 +14,53 @@ import MyText from '../../Components/Text'
 import * as Linking from 'expo-linking'
 
 // import axios from '../../http/axiosSet'
-import axios from 'axios'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+// import axios from 'axios'
+// import AsyncStorage from '@react-native-async-storage/async-storage'
+// import { CartProvider } from '../../Context/CartProvider'
+
+import { io } from 'socket.io-client'
 
 const PaymentMethodScreen = () => {
   const navigation = useNavigation()
   const [stripeURL, setStripeURL] = useState(null)
   const [route, setRoute] = useState('')
 
+  // const { socket } = useContext(CartProvider)
+
+  // useEffect(() =>
+
+  // {
+
+  //   // getInitialRoute()
+  //   // Linking.addEventListener('url', handleUrl)
+  //   // Linking.getInitialURL().then((url) => {
+  //   //   if (url) {
+  //   //     setInitialUrl(url)
+  //   //   }
+  //   // })
+  //   // return () => {
+  //   //   Linking.removeEventListener('url', handleUrl)
+  //   // }
+  // }, [])
+
   useEffect(() => {
-    // getInitialRoute()
-    // Linking.addEventListener('url', handleUrl)
-    // Linking.getInitialURL().then((url) => {
-    //   if (url) {
-    //     setInitialUrl(url)
-    //   }
-    // })
-    // return () => {
-    //   Linking.removeEventListener('url', handleUrl)
-    // }
+    let socket = io('https://stepdev.up.railway.app', {
+      autoConnect: true,
+      extraHeaders: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2UyOGU2MzZmYzkxZDAwMWUwMDQwNTIiLCJyb2xlIjoiRnJlZWxhbmNlciIsImVtYWlsIjoic3VsZW1hbkBnbWFpbC5jb20iLCJpYXQiOjE2NzY3NTkyODR9.y0VPwrzNfUe3ZH3PNJxfVqPP0Xf3HKdwk21SAJgne3E`,
+      },
+    })
+
+    console.log(socket)
+
+    socket.on('account-connected-event', (data) => {
+      console.log('Data is here', data)
+    })
   }, [])
+
+  // socket.on('account-connected-event', (data) => {
+  //   console.log('Data is here2', data)
+  // })
 
   const goTo = async () => {
     console.log('Before')

@@ -28,11 +28,13 @@ import { fileUpload } from "../Profile/services/fileServices";
 import { AddTodo, EditTodo } from "../Profile/services/FreeLancerServices";
 import { log } from "react-native-reanimated";
 import { useIsFocused } from "@react-navigation/native";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const EditTask = ({ navigation, route }) => {
   const isfocused = useIsFocused();
   const [data, setData] = useState(route.params.data);
   const [item, setitem] = useState(route.params.item);
+  const [getdocinfo, setdocinfo] = useState();
   // console.log(item);
   const {
     theme: { colors },
@@ -57,6 +59,7 @@ const EditTask = ({ navigation, route }) => {
   console.log("changed", changed);
 
   const [search, setSearch] = useState("");
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const filteredData = (searchTerm) => {
     let temp = menu;
@@ -75,20 +78,24 @@ const EditTask = ({ navigation, route }) => {
     return temp;
   };
   //upload file
-  const [getdoc, setdoc] = useState("");
+  const [upload, setupload] = useState(false);
 
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
 
-    setdoc(result.uri);
     const pdf = await fileUpload(result.uri);
-    var filename = result.uri.substring(
-      result.uri.lastIndexOf("/") + 1,
-      result.uri.length
-    );
-    console.log("filename", filename);
-    setchanged({ ...changed, file: filename });
+
+    setdocinfo(JSON.parse(pdf.body));
+
+    setupload(true);
   };
+
+  useEffect(() => {
+    if (upload) {
+      setchanged({ ...changed, file: getdocinfo.filename });
+      console.log("pdf", getdocinfo.filename);
+    }
+  }, [upload]);
   //upload out
 
   // Api call
@@ -117,7 +124,7 @@ const EditTask = ({ navigation, route }) => {
       ToastAndroid.show("Member Added", ToastAndroid.SHORT);
       console.log("member", member);
 
-      setchanged({ ...changed, members: [...member, id] });
+      setchanged({ ...changed, members: [...changed.members, id] });
       console.log(changed);
     }
     if (text === "Sub") {
@@ -287,7 +294,7 @@ const EditTask = ({ navigation, route }) => {
                   </Pressable>
                 </View>
                 {/* 2 */}
-                <View
+                <Pressable
                   style={{
                     backgroundColor: "#EEEEEE",
                     flexDirection: "row",
@@ -296,6 +303,9 @@ const EditTask = ({ navigation, route }) => {
                     width: "48%",
                     justifyContent: "center",
                     alignItems: "center",
+                  }}
+                  onPress={() => {
+                    setDatePickerVisibility(true);
                   }}
                 >
                   <TextInput
@@ -307,7 +317,7 @@ const EditTask = ({ navigation, route }) => {
                     selectTextOnFocus={false}
                   />
                   <SvgImport svg={calender} />
-                </View>
+                </Pressable>
               </View>
               {/* date and attach out view above */}
               {/* Search Bar in */}
@@ -382,7 +392,7 @@ const EditTask = ({ navigation, route }) => {
         <DynamicButton
           handlePress={handlePress}
           text={"Update"}
-          color={colors.secondary}
+          color={upload ? "#8489FC" : "#8489FC66"}
           textStyle={{ color: colors.white }}
           style={{ borderRadius: 10, paddingVertical: 18 }}
         />
@@ -394,6 +404,18 @@ const EditTask = ({ navigation, route }) => {
           style={{ marginTop: 15, borderRadius: 10, paddingVertical: 18 }}
         />
       </View>
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={(e) => {
+          setchanged({ ...changed, dueDate: e.toISOString().split("T")[0] });
+          setDatePickerVisibility(false);
+        }}
+        onCancel={() => {
+          setDatePickerVisibility(false);
+        }}
+        minimumDate={new Date()}
+      />
     </View>
   );
 };
