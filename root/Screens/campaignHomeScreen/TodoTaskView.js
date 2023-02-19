@@ -7,6 +7,7 @@ import {
   Pressable,
   TextInput,
   Image,
+  ToastAndroid,
 } from "react-native";
 
 import React, { useContext, useState } from "react";
@@ -25,6 +26,7 @@ import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { DeleteTodo } from "../Profile/services/FreeLancerServices";
+import { fileUpload, downloadFile } from "../Profile/services/fileServices";
 
 const TodoTaskView = ({ navigation, route }) => {
   const [show, setshow] = useState(route.params.show);
@@ -35,6 +37,7 @@ const TodoTaskView = ({ navigation, route }) => {
     theme: { colors },
   } = useContext(Context);
   const [currentTask, setcurrentTask] = useState(item);
+  console.log("Current", currentTask);
   function handlePress(text) {
     alert(text);
   }
@@ -139,6 +142,12 @@ const TodoTaskView = ({ navigation, route }) => {
                 marginTop: 30,
                 paddingHorizontal: 25,
                 paddingRight: 30,
+              }}
+              handlePress={(text) => {
+                downloadFile(
+                  `https://stepdev.up.railway.app/media/getFile/${currentTask.file}`
+                );
+                ToastAndroid.show("Downloading...", ToastAndroid.SHORT);
               }}
               textStyle={{ color: "#232323", fontSize: 14 }}
               logo={true}

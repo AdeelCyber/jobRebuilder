@@ -31,6 +31,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 const AddNewTask = ({ navigation, route }) => {
   const [data, setData] = useState(route.params.data);
   const [date, setDate] = useState(route.params.date);
+  const [getdocinfo, setdocinfo] = useState();
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -47,6 +48,7 @@ const AddNewTask = ({ navigation, route }) => {
     file: "",
     members: [],
   });
+  console.log("changed", changed);
 
   const [search, setSearch] = useState("");
 
@@ -67,22 +69,25 @@ const AddNewTask = ({ navigation, route }) => {
     return temp;
   };
   //upload file
-  const [getdoc, setdoc] = useState("");
+
   const [upload, setupload] = useState(false);
 
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
 
-    setdoc(result.uri);
     const pdf = await fileUpload(result.uri);
-    var filename = result.uri.substring(
-      result.uri.lastIndexOf("/") + 1,
-      result.uri.length
-    );
-    console.log("filename", filename);
-    setchanged({ ...changed, file: filename });
+
+    setdocinfo(JSON.parse(pdf.body));
+
     setupload(true);
   };
+
+  useEffect(() => {
+    if (upload) {
+      setchanged({ ...changed, file: getdocinfo.filename });
+      console.log("pdf", getdocinfo.filename);
+    }
+  }, [upload]);
   //upload out
 
   // Api call
@@ -113,16 +118,13 @@ const AddNewTask = ({ navigation, route }) => {
       ToastAndroid.show("Member Added", ToastAndroid.SHORT);
       console.log("member", member);
 
-      if (!member.includes(id)) {
-        setmember([...member, id]);
-        setchanged({ ...changed, members: [...member, id] });
-        console.log(changed);
-      }
+      setchanged({ ...changed, members: [...changed.members, id] });
+      console.log(changed);
     }
     if (text === "Sub") {
       console.log("id sub ", id);
-      ToastAndroid.show("Member Removed", ToastAndroid.SHORT);
       console.log("member", member);
+      ToastAndroid.show("Member Removed", ToastAndroid.SHORT);
       setmember(member.filter((item) => item._id !== id));
       setchanged({ ...changed, members: member.filter((item) => item !== id) });
     }

@@ -28,11 +28,13 @@ import { fileUpload } from "../Profile/services/fileServices";
 import { AddTodo, EditTodo } from "../Profile/services/FreeLancerServices";
 import { log } from "react-native-reanimated";
 import { useIsFocused } from "@react-navigation/native";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const EditTask = ({ navigation, route }) => {
   const isfocused = useIsFocused();
   const [data, setData] = useState(route.params.data);
   const [item, setitem] = useState(route.params.item);
+  const [getdocinfo, setdocinfo] = useState();
   // console.log(item);
   const {
     theme: { colors },
@@ -76,19 +78,17 @@ const EditTask = ({ navigation, route }) => {
     return temp;
   };
   //upload file
-  const [getdoc, setdoc] = useState("");
+  const [upload, setupload] = useState(false);
 
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
 
-    setdoc(result.uri);
     const pdf = await fileUpload(result.uri);
-    var filename = result.uri.substring(
-      result.uri.lastIndexOf("/") + 1,
-      result.uri.length
-    );
-    console.log("filename", filename);
-    setchanged({ ...changed, file: filename });
+
+    setdocinfo(JSON.parse(pdf.body));
+    setchanged({ ...changed, file: getdocinfo.filename });
+    console.log("pdf", getdocinfo.filename);
+    setupload(true);
   };
   //upload out
 
@@ -118,7 +118,7 @@ const EditTask = ({ navigation, route }) => {
       ToastAndroid.show("Member Added", ToastAndroid.SHORT);
       console.log("member", member);
 
-      setchanged({ ...changed, members: [...member, id] });
+      setchanged({ ...changed, members: [...changed.members, id] });
       console.log(changed);
     }
     if (text === "Sub") {
@@ -386,7 +386,7 @@ const EditTask = ({ navigation, route }) => {
         <DynamicButton
           handlePress={handlePress}
           text={"Update"}
-          color={colors.secondary}
+          color={upload ? "#8489FC" : "#8489FC66"}
           textStyle={{ color: colors.white }}
           style={{ borderRadius: 10, paddingVertical: 18 }}
         />
