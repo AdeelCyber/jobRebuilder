@@ -86,10 +86,16 @@ const EditTask = ({ navigation, route }) => {
     const pdf = await fileUpload(result.uri);
 
     setdocinfo(JSON.parse(pdf.body));
-    setchanged({ ...changed, file: getdocinfo.filename });
-    console.log("pdf", getdocinfo.filename);
+
     setupload(true);
   };
+
+  useEffect(() => {
+    if (upload) {
+      setchanged({ ...changed, file: getdocinfo.filename });
+      console.log("pdf", getdocinfo.filename);
+    }
+  }, [upload]);
   //upload out
 
   // Api call
