@@ -28,11 +28,13 @@ import TeamItem from "../../Components/TeamItem";
 import ReactNativeModal from "react-native-modal";
 import RoundQuestionMark from "../../../assets/Svgs/RoundQuestionMark";
 import * as Clipboard from "expo-clipboard";
+import { Remove } from "../Profile/services/FreeLancerServices";
 
 const Team = ({ navigation, route }) => {
   const [show, setshow] = useState(route.params.show);
   const [data, setData] = useState(route.params.data);
   const [personData, setPersonData] = useState({});
+  console.log(personData);
   console.log(personData);
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync("https://stepdev.up.railway.app/");
@@ -49,6 +51,8 @@ const Team = ({ navigation, route }) => {
     } else if (text == "Copy Profile Url") {
       ToastAndroid.show("Copied", ToastAndroid.SHORT);
       copyToClipboard();
+    } else if (text == "Remove") {
+      getFreelancersData();
     }
   }
   const [menu, setmenu] = useState(data.startup.members);
@@ -56,6 +60,27 @@ const Team = ({ navigation, route }) => {
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModalSecondVisible, setModalSecondVisible] = useState(false);
+
+  // Api call
+
+  const getFreelancersData = async () => {
+    console.log(data.startup._id, personData.id);
+
+    const resp = await Remove(data.startup._id, personData.id);
+    console.log(resp.data);
+
+    if (resp.data.status === "OK") {
+      ToastAndroid.show("Removal request sent", ToastAndroid.SHORT);
+      console.log("request send");
+      navigation.goBack();
+    } else if (
+      resp.data.status === "ERROR" &&
+      resp.data.error.name === "Request already sent"
+    ) {
+      ToastAndroid.show("Request already sent", ToastAndroid.SHORT);
+      console.log("request not send");
+    }
+  };
 
   return (
     // main container

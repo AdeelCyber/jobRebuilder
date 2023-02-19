@@ -137,7 +137,7 @@ const ManagingCampaign = ({ navigation, route }) => {
   //fetch id params from previous screen into useState
 
   const [id, setid] = useState(route.params.id);
-  // console.log(id);
+  console.log(id);
   const [show, setshow] = useState(route.params.show);
   const contest = useContext(CartContext);
   // members array
