@@ -18,6 +18,7 @@ import CampaignPopular from "../../Components/CampaignPopular";
 import { getStartups } from "../Profile/services/FreeLancerServices";
 import CartContext from "../../Context/CartProvider";
 import Loader from "../../Components/Loader";
+import MyText from "../../Components/Text";
 
 const CampaignManagement = ({ navigation }) => {
   const {
@@ -96,32 +97,47 @@ const CampaignManagement = ({ navigation }) => {
         style={{ elevation: 0 }}
         nav={navigation}
       />
-      <FlatList
-        data={popularCards}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        style={{}}
-        renderItem={({ item, index }) => (
-          <CampaignPopular
-            Src={Buildings}
-            title={item.businessName}
-            Logo={item.logo}
-            Stage={item.stage}
-            Team={"Complete"}
-            Budget={item.budget}
-            status={item.status}
-            navigation={navigation}
-            label={item.category}
-            show={show}
-            id={item._id}
+      {popularCards.length !== 0 ? (
+        <FlatList
+          data={popularCards}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          style={{}}
+          renderItem={({ item, index }) => (
+            <CampaignPopular
+              Src={Buildings}
+              title={item.businessName}
+              Logo={item.logo}
+              Stage={item.stage}
+              Team={"Complete"}
+              Budget={item.budget}
+              status={item.status}
+              navigation={navigation}
+              label={item.category}
+              show={show}
+              id={item._id}
+              style={{
+                width: "90%",
+                marginHorizontal: 23,
+                marginVertical: 14,
+              }}
+            />
+          )}
+        />
+      ) : (
+        <View>
+          <MyText
             style={{
-              width: "90%",
-              marginHorizontal: 23,
-              marginVertical: 14,
+              fontSize: 20,
+              color: "red",
+              textAlign: "center",
+              fontWeight: "700",
             }}
-          />
-        )}
-      />
+          >
+            No Campaigns Found
+          </MyText>
+        </View>
+      )}
     </View>
   ) : (
     <Loader visible={!loaded} color="white" indicatorSize="large" />
