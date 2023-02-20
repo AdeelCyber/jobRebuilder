@@ -101,11 +101,9 @@ import FreelancerTabBar from "./Components/FreelancerTabBar";
 import AvailableJobs from "./Screens/Profile/Vacancy/AvailableJobs";
 import JobCareerDetailScreen from "./Screens/Profile/Vacancy/JobCareerDetailScreen";
 import UserTabBar from "./Components/UserTabBar";
-<<<<<<< HEAD
-=======
-
->>>>>>> a84d97796af89c1fceadc1f6b0dc8bde25d63a98
 import ChangeProfileScreen from "./Screens/Profile/ChangeProfileScreen";
+import CheckoutSheet from "./Screens/Chat/Paymentsheet";
+
 //Navigation out
 
 // Creating Stacks
