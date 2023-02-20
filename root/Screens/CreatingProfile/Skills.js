@@ -9,6 +9,7 @@ import {
   ImageBackground,
   TextInput,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 
 import Context from "../../Context/Context";
@@ -42,14 +43,18 @@ const Skills = () => {
   const [description, setdescription] = useState();
   const [skills, setskills] = useState([]);
   const [userskill, setuserskill] = useState();
+  const [getcondition, setcondition] = useState(false);
+
   const saveData = async () => {
     try {
+      setcondition(true);
       await AsyncStorage.setItem("@skills", JSON.stringify(skills));
       await AsyncStorage.setItem("@workPreference", value);
       await AsyncStorage.setItem("@availibilityPerWeek", availibility);
       await AsyncStorage.setItem("@jobTitle", jobtitle);
       await AsyncStorage.setItem("@hourlyRate", hourlyrate);
       await AsyncStorage.setItem("@description", description);
+      setcondition(false);
 
       console.log("done");
       Toast.show({
@@ -60,6 +65,13 @@ const Skills = () => {
       });
     } catch (error) {
       console.log(error);
+      setcondition(false);
+      Toast.show({
+        topOffset: 60,
+        type: "error",
+        text1: "Something went wrong",
+        text2: "",
+      });
     }
   };
 
@@ -68,6 +80,21 @@ const Skills = () => {
 
     setskills(r);
   };
+  if (getcondition) {
+    return (
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          paddingTop: 30,
+        }}
+      >
+        <ActivityIndicator animating={true} color={colors.Bluish} />
+
+        <MyText>Loading..</MyText>
+      </View>
+    );
+  }
 
   return (
     <View

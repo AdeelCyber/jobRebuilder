@@ -8,6 +8,7 @@ import {
   View,
   ImageBackground,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 
 import Context from "../../Context/Context";
@@ -30,6 +31,7 @@ const Progress = () => {
   } = useContext(Context);
   const navigation = useNavigation();
   const { accessToken } = useContext(CartProvider);
+  const [getcondition, setcondition] = useState(false);
 
   const progressStepsStyle = {
     activeStepIconBorderColor: colors.Bluish,
@@ -59,17 +61,21 @@ const Progress = () => {
   };
   const retrieveData = async () => {
     try {
+      setcondition(true);
       const res = await setProfile(accessToken);
       if (res.status == 201) {
+        setcondition(false);
         Toast.show({
           topOffset: 60,
           type: "success",
           text1: "Created successfully",
         });
+
         navigation.navigate("HomeService");
       }
       console.log(res.data);
     } catch (err) {
+      setcondition(false);
       Toast.show({
         topOffset: 60,
         type: "error",
@@ -77,6 +83,21 @@ const Progress = () => {
       });
     }
   };
+  if (getcondition) {
+    return (
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          paddingTop: 30,
+        }}
+      >
+        <ActivityIndicator animating={true} color={colors.Bluish} />
+
+        <MyText>Loading..</MyText>
+      </View>
+    );
+  }
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
