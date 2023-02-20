@@ -58,15 +58,24 @@ const Progress = () => {
     marginRight: 233,
   };
   const retrieveData = async () => {
-    const res = await setProfile(accessToken);
-    if (res.status == 201) {
+    try {
+      const res = await setProfile(accessToken);
+      if (res.status == 201) {
+        Toast.show({
+          topOffset: 60,
+          type: "success",
+          text1: "Created successfully",
+        });
+        navigation.navigate("HomeService");
+      }
+      console.log(res.data);
+    } catch (err) {
       Toast.show({
         topOffset: 60,
-        type: "success",
-        text1: "Created successfully",
+        type: "error",
+        text1: "Something went wrong",
       });
     }
-    console.log(res.data);
   };
 
   return (

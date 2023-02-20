@@ -50,6 +50,7 @@ const Login = () => {
     useTogglePasswordVisibility();
 
   const { socket, setsocket } = useContext(CartProvider);
+  const { firstlogin, setfirstlogin } = useContext(CartProvider);
 
   useLayoutEffect(() => {
     console.log("2 times");
@@ -114,18 +115,29 @@ const Login = () => {
           Toast.show({
             topOffset: 60,
             type: "success",
-            text1: "You Successfully created the account",
+            text1: "You're Successfully Logged in",
             text2: ".",
           });
 
           setUserTab(false);
-
-          if (res.data.user.role === "Freelancer") {
-            navigation.navigate("HomeService");
+          if (!firstlogin) {
+            if (res.data.user.role === "Freelancer") {
+              setfirstlogin(true);
+              navigation.navigate("ProgressScreen");
+              logged.setislogin(true);
+            } else {
+              console.log("campaign");
+              navigation.navigate("CampaignHome");
+              logged.setislogin(true);
+            }
           } else {
-            navigation.navigate("CampaignHome");
+            if (res.data.user.role === "Freelancer") {
+              navigation.navigate("HomeService");
+            } else {
+              navigation.navigate("CampaignHome");
+            }
+            logged.setislogin(true);
           }
-          logged.setislogin(true);
         }
       }
     } catch (err) {
@@ -178,12 +190,25 @@ const Login = () => {
             text1: "You're Successfully Logged In",
             text2: ".",
           });
-          if (res.data.user.role === "Freelancer") {
-            navigation.navigate("HomeService");
+          if (!firstlogin) {
+            if (res.data.user.role === "Freelancer") {
+              setfirstlogin(true);
+              navigation.navigate("ProgressScreen");
+              logged.setislogin(true);
+            } else {
+              console.log("campaign");
+              navigation.navigate("CampaignHome");
+              logged.setislogin(true);
+            }
           } else {
-            navigation.navigate("CampaignHome");
+            if (res.data.user.role === "Freelancer") {
+              navigation.navigate("HomeService");
+            } else {
+              navigation.navigate("CampaignHome");
+            }
+
+            logged.setislogin(true);
           }
-          logged.setislogin(true);
         }
       }
     } catch (err) {
@@ -238,13 +263,20 @@ const Login = () => {
           });
 
           setUserTab(false);
-
-          if (response.data.user.role === "Freelancer") {
-            navigation.navigate("HomeService");
+          if (!firstlogin) {
+            if (response.data.user.role === "Freelancer") {
+              setfirstlogin(true);
+              navigation.navigate("ProgressScreen");
+              logged.setislogin(true);
+            }
           } else {
-            navigation.navigate("CampaignHome");
+            if (response.data.user.role === "Freelancer") {
+              navigation.navigate("HomeService");
+            } else {
+              navigation.navigate("CampaignHome");
+            }
+            logged.setislogin(true);
           }
-          logged.setislogin(true);
         }
       } catch (error) {
         setcondition(false);

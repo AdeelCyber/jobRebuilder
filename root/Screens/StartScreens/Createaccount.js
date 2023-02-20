@@ -28,11 +28,13 @@ import {
 import Toast from "react-native-toast-message";
 import * as Google from "expo-auth-session/providers/google";
 import * as Facebook from "expo-auth-session/providers/facebook";
+import * as WebBrowser from "expo-web-browser";
 import axios from "axios";
 const CreateAccount = ({ route }) => {
   const {
     theme: { colors },
   } = useContext(Context);
+  WebBrowser.maybeCompleteAuthSession();
   const navigation = useNavigation();
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
