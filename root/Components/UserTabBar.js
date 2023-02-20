@@ -57,7 +57,7 @@ const UserTabBar = (props) => {
     } else if (index === 1) {
       navigation.navigate("CampaignHome");
     } else if (index === 2) {
-      navigation.navigate("LoginScreen");
+      navigation.navigate("StartScreen");
     } else if (index === 3) {
       BackHandler.exitApp();
     }

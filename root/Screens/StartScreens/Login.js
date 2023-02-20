@@ -268,6 +268,10 @@ const Login = () => {
               setfirstlogin(true);
               navigation.navigate("ProgressScreen");
               logged.setislogin(true);
+            } else {
+              console.log("campaign");
+              navigation.navigate("CampaignHome");
+              logged.setislogin(true);
             }
           } else {
             if (response.data.user.role === "Freelancer") {
