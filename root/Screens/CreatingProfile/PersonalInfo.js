@@ -8,6 +8,7 @@ import {
   View,
   ImageBackground,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 
 import Context from "../../Context/Context";
@@ -28,6 +29,7 @@ const PersonalInfo = () => {
   const navigation = useNavigation();
   const [email, setemail] = useState("");
   const [name, setname] = useState("");
+  const [getcondition, setcondition] = useState(false);
   const [Phonenumber, setPhonenumber] = useState("");
   const [language, setlanguage] = useState();
   const [open, setOpen] = useState(false);
@@ -50,6 +52,7 @@ const PersonalInfo = () => {
   ]);
   const saveData = async () => {
     try {
+      setcondition(true);
       await AsyncStorage.setItem("@name", name);
       await AsyncStorage.setItem("@email", email);
       await AsyncStorage.setItem("@Phonenumber", Phonenumber);
@@ -57,6 +60,7 @@ const PersonalInfo = () => {
       await AsyncStorage.setItem("@gender", value);
       await AsyncStorage.setItem("@country", value2);
       await AsyncStorage.setItem("@city", value3);
+      setcondition(false);
 
       console.log("done");
       Toast.show({
@@ -66,9 +70,32 @@ const PersonalInfo = () => {
         text2: "Press Proceed to continue",
       });
     } catch (error) {
+      setcondition(false);
+
       console.log(error);
+      Toast.show({
+        topOffset: 60,
+        type: "error",
+        text1: "Something went wrong",
+        text2: "",
+      });
     }
   };
+  if (getcondition) {
+    return (
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          paddingTop: 30,
+        }}
+      >
+        <ActivityIndicator animating={true} color={colors.Bluish} />
+
+        <MyText>Loading..</MyText>
+      </View>
+    );
+  }
 
   return (
     <View

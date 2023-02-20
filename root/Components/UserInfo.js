@@ -40,7 +40,7 @@ const UserInfo = () => {
   const [copiedText, setCopiedText] = useState("");
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(
-      `https://stepdev.up.railway.app/${userinfo?.userInfo.name}`
+      `https://stepdev.up.railway.app/${userinfo?.userInfo.url}`
     );
     const t = await Clipboard.getStringAsync();
     console.log(t);

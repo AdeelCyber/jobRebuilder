@@ -83,6 +83,12 @@ const ProfilePic = () => {
       });
     } catch (error) {
       console.log(error);
+      Toast.show({
+        topOffset: 60,
+        type: "error",
+        text1: "Something went wrong",
+        text2: "",
+      });
     }
   };
   if (getcondition) {

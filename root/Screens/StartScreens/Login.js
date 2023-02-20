@@ -121,7 +121,7 @@ const Login = () => {
 
           setUserTab(false);
           if (!firstlogin) {
-            if (response.data.user.role === "Freelancer") {
+            if (res.data.user.role === "Freelancer") {
               setfirstlogin(true);
               navigation.navigate("ProgressScreen");
               logged.setislogin(true);
@@ -187,7 +187,7 @@ const Login = () => {
             text2: ".",
           });
           if (!firstlogin) {
-            if (response.data.user.role === "Freelancer") {
+            if (res.data.user.role === "Freelancer") {
               setfirstlogin(true);
               navigation.navigate("ProgressScreen");
               logged.setislogin(true);
