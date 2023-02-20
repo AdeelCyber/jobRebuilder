@@ -101,10 +101,7 @@ import FreelancerTabBar from "./Components/FreelancerTabBar";
 import AvailableJobs from "./Screens/Profile/Vacancy/AvailableJobs";
 import JobCareerDetailScreen from "./Screens/Profile/Vacancy/JobCareerDetailScreen";
 import UserTabBar from "./Components/UserTabBar";
-<<<<<<< HEAD
-=======
-
->>>>>>> a84d97796af89c1fceadc1f6b0dc8bde25d63a98
+import CheckoutSheet from "./Screens/Chat/paymentsheet";
 import ChangeProfileScreen from "./Screens/Profile/ChangeProfileScreen";
 //Navigation out
 

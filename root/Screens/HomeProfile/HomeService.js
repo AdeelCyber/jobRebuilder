@@ -58,7 +58,7 @@ const HomeService = ({ route }) => {
   const { accessToken, userdetails } = useContext(CartProvider);
   const getUser = async () => {
     const res = await getProfile(accessToken);
-    // console.log(res.data.data);
+    console.log(res.data.data);
     setuserinfo(res.data.data);
     setcondition(false);
   };

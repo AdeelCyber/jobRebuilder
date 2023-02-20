@@ -1,15 +1,16 @@
-import React, { useContext, createContext, useState } from 'react'
-const CartContext = createContext()
+import React, { useContext, createContext, useState } from "react";
+const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const [accessToken, setaccessToken] = useState('')
-  const [refreshToken, setrefreshToken] = useState('')
-  const [userdetails, setuserdetails] = useState([])
-  const [milestone, setmilestone] = useState([])
-  const [socket, setsocket] = useState()
-  const [userTab, setUserTab] = useState(false)
+  const [accessToken, setaccessToken] = useState("");
+  const [refreshToken, setrefreshToken] = useState("");
+  const [userdetails, setuserdetails] = useState([]);
+  const [milestone, setmilestone] = useState([]);
+  const [socket, setsocket] = useState();
+  const [userTab, setUserTab] = useState(false);
 
-  const [islogin, setislogin] = React.useState(false)
+  const [islogin, setislogin] = React.useState(false);
+  const [firstlogin, setfirstlogin] = React.useState(false);
 
   return (
     <CartContext.Provider
@@ -28,11 +29,13 @@ export function CartProvider({ children }) {
         islogin,
         userTab,
         setUserTab,
+        firstlogin,
+        setfirstlogin,
       }}
     >
       {children}
     </CartContext.Provider>
-  )
+  );
 }
 
-export default CartContext
+export default CartContext;
