@@ -48,9 +48,12 @@ const CreateAccount = ({ route }) => {
   const [, , promptAsync] = Google.useIdTokenAuthRequest({
     expoClientId:
       "253459265127-bgal1cs5eb1c8bcb8suso891fg9mm06m.apps.googleusercontent.com",
-    iosClientId: "GOOGLE_GUID.apps.googleusercontent.com",
-    androidClientId: "GOOGLE_GUID.apps.googleusercontent.com",
-    webClientId: "GOOGLE_GUID.apps.googleusercontent.com",
+    iosClientId:
+      "253459265127-lbj898i74the28o7f9et447h6e8m3rgi.apps.googleusercontent.com",
+    androidClientId:
+      "253459265127-nhli1d4c8fgubovogtstj3879aro6g6o.apps.googleusercontent.com",
+    webClientId:
+      "253459265127-bgal1cs5eb1c8bcb8suso891fg9mm06m.apps.googleusercontent.com",
   });
   const [, , fbpromptAsync] = Facebook.useAuthRequest({
     clientId: "1366866914064008",
@@ -61,9 +64,9 @@ const CreateAccount = ({ route }) => {
 
       if (r.type === "success") {
         //  const { accesss_token } = r.params.access_token;
-        //  console.log(r);
+        console.log(r.params.id_token);
         const res = await creategoogle(r.params.id_token, role);
-        console.log(res.status);
+        console.log(res);
         if (res.status == 200) {
           Toast.show({
             topOffset: 60,
@@ -94,9 +97,9 @@ const CreateAccount = ({ route }) => {
             access_token: r.params.access_token,
           },
         });
-        console.log(data);
+        //  console.log(data);
         const res = await createfacebook(data, role);
-        console.log(res.status);
+        console.log(res.data);
         if (res.status == 200) {
           Toast.show({
             topOffset: 60,

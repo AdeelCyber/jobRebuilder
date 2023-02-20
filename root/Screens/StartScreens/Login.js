@@ -148,10 +148,11 @@ const Login = () => {
             access_token: r.params.access_token,
           },
         });
-        console.log(data);
+        //  console.log(data);
         const res = await createfacebook(data);
-        console.log(res.data);
+        // console.log(res.data);
         if (res.status == 200) {
+          console.log(res.data.user);
           setuserdetails(res.data.user);
           setaccessToken(res.data.accessToken);
           startsocket(res.data.accessToken);
