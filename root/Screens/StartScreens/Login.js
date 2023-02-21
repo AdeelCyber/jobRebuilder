@@ -386,6 +386,8 @@ const Login = () => {
                     borderTopRightRadius: 10,
                     borderBottomRightRadius: 10,
                     padding: 8,
+                    paddingTop: 10,
+                    paddingBottom: 0,
                   }}
                 >
                   <MaterialCommunityIcons
@@ -549,7 +551,7 @@ const Login = () => {
                   marginTop: 20,
                 }}
                 onPress={() => {
-                  navigation.navigate("CreateAccount");
+                  navigation.navigate("StartScreen");
                 }}
               >
                 <MyText

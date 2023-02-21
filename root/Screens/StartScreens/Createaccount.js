@@ -30,6 +30,7 @@ import * as Google from "expo-auth-session/providers/google";
 import * as Facebook from "expo-auth-session/providers/facebook";
 import * as WebBrowser from "expo-web-browser";
 import axios from "axios";
+import Loader from "../../Components/Loader";
 const CreateAccount = ({ route }) => {
   const {
     theme: { colors },
@@ -47,6 +48,8 @@ const CreateAccount = ({ route }) => {
   const [show, setShow] = useState(false);
   const [countryCode, setCountryCode] = useState("");
   const [getcode, setcode] = useState(false);
+  const [getcondition, setcondition] = useState(false);
+
   const [, , promptAsync] = Google.useIdTokenAuthRequest({
     expoClientId:
       "253459265127-bgal1cs5eb1c8bcb8suso891fg9mm06m.apps.googleusercontent.com",
@@ -143,16 +146,50 @@ const CreateAccount = ({ route }) => {
         text2: "It should be greater than 8 characters",
       });
     } else {
-      navigation.navigate("OtpScreen2", {
-        email: email,
-        Phonenumber: Phonenumber,
-        password: password,
-        name: name,
-        role: role,
-      });
+      // navigation.navigate('OtpScreen2', {
+      //   email: email,
+      //   Phonenumber: Phonenumber,
+      //   password: password,
+      //   name: name,
+      //   role: role,
+      // })
+      try {
+        setcondition(true);
+        const response = await createaccount(
+          email,
+          password,
+          Phonenumber,
+          name,
+          role
+        );
+        if (response.status == 201) {
+          setcondition(false);
+          Toast.show({
+            topOffset: 60,
+            type: "success",
+            text1: "You Successfully created the account",
+            text2: ".",
+          });
+          navigation.navigate("LoginScreen");
+        }
+      } catch (error) {
+        setcondition(false);
+
+        console.log(error.response.data);
+        Toast.show({
+          topOffset: 60,
+          type: "error",
+          text1: error.response.data.error.message,
+          text2: error.response.data.error.name,
+        });
+      }
     }
   };
-
+  if (getcondition) {
+    return (
+      <Loader visible={getcondition} color="white" indicatorSize="large" />
+    );
+  }
   return (
     <ScrollView
       style={[styles.container, { backgroundColor: colors.background }]}
@@ -240,6 +277,7 @@ const CreateAccount = ({ route }) => {
                     borderTopRightRadius: 10,
                     borderBottomRightRadius: 10,
                     padding: 8,
+                    paddingTop: 10,
                   }}
                 >
                   <MaterialCommunityIcons

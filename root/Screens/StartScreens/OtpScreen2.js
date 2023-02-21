@@ -36,10 +36,11 @@ const OtpScreen2 = ({ route }) => {
   const phoneverify = async (channel) => {
     console.log("jkh");
     console.log(Phonenumber);
-    setcondition(true);
     try {
+      setcondition(true);
+
       const res = await sendOTP(Phonenumber, channel);
-      console.log(res.data);
+      // console.log(res.data);
 
       if (res.status == 200) {
         setverify(true);
@@ -57,7 +58,7 @@ const OtpScreen2 = ({ route }) => {
       Toast.show({
         topOffset: 60,
         type: "error",
-        text1: "Something went wrong",
+        text1: `${err.message}`,
         text2: ".",
       });
     }
