@@ -171,11 +171,12 @@ const CustomOffer = ({ route }) => {
   };
   socket.on("private message", (data) => {
     const { content, from } = data;
-    console.log(content);
+    console.log("contenttttttttttttttt", content);
     // console.log(from);
 
     var obj = {};
     (obj["createdAt"] = Date.now()),
+      (obj["deliveryTime"] = moment(duedate).format("YYYY-MM-DD")),
       (obj[`${content.messageType}`] = content.msgcontent),
       (obj["user"] = {
         _id: "other",

@@ -106,8 +106,10 @@ const MessageBox = ({
       if (chatType === "group") {
         var obj = {};
         (obj["createdAt"] = Date.now()),
-          (obj["image"] = getmedia),
-          (obj["sender"] = userImg),
+          (obj["image"] = i.filename),
+          (obj["sender"] = {
+            avatar: userdetails.avatar,
+          }),
           (obj["text"] = i.filename),
           (obj["user"] = {
             _id: "me",
@@ -118,7 +120,7 @@ const MessageBox = ({
       } else {
         var obj = {};
         (obj["createdAt"] = Date.now()),
-          (obj["image"] = getmedia),
+          (obj["image"] = i.filename),
           (obj["text"] = i.filename),
           (obj["user"] = {
             _id: "me",
@@ -142,8 +144,10 @@ const MessageBox = ({
     if (chatType === "group") {
       var obj = {};
       (obj["createdAt"] = Date.now()),
-        (obj["file"] = doc),
-        (obj["sender"] = userImg),
+        (obj["file"] = p.filename),
+        (obj["sender"] = {
+          avatar: userdetails.avatar,
+        }),
         (obj["text"] = p.filename),
         (obj["user"] = {
           _id: "me",
@@ -151,7 +155,7 @@ const MessageBox = ({
     } else {
       var obj = {};
       (obj["createdAt"] = Date.now()),
-        (obj["file"] = doc),
+        (obj["file"] = p.filename),
         (obj["text"] = p.filename),
         (obj["user"] = {
           _id: "me",
@@ -176,6 +180,7 @@ const MessageBox = ({
           {
             msgcontent: message,
             messageType: type,
+            image: userdetails.avatar,
           },
           id
         );
@@ -311,7 +316,9 @@ const MessageBox = ({
 
       var obj = {};
       (obj["createdAt"] = Date.now()),
-        (obj["sender"] = userImg),
+        (obj["sender"] = {
+          avatar: data.image,
+        }),
         (obj[`${data.messageType}`] = data.msgcontent),
         (obj["user"] = {
           _id: "other",
@@ -1811,7 +1818,9 @@ const MessageBox = ({
                 var obj = {};
                 (obj["createdAt"] = Date.now()),
                   (obj["text"] = message),
-                  (obj["sender"] = userImg),
+                  (obj["sender"] = {
+                    avatar: userdetails.avatar,
+                  }),
                   (obj["user"] = {
                     _id: "me",
                   });
