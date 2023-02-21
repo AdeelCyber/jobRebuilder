@@ -275,8 +275,8 @@ const Team = ({ navigation, route }) => {
                 }}
                 onPress={() => {
                   setModalSecondVisible(false);
-                  navigation.navigate("HomeService", {
-                    userDetails: personData,
+                  navigation.navigate("ShowFreelancer", {
+                    id: personData.id,
                   });
                 }}
               >
