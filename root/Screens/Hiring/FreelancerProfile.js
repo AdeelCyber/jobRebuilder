@@ -196,12 +196,9 @@ const FreeLancerProfile = ({ route }) => {
                 <TouchableOpacity
                   onPress={() => {
                     navigation.navigate('MessagesBox', {
-                      userImg:
-                        axios.defaults.baseURL +
-                        'media/getimage/' +
-                        freelancer?.userInfo?.avatar,
+                      userImg: freelancer?.userInfo?.avatar,
                       userName: freelancer?.userInfo?.name,
-                      chatType: 'Simple Chat',
+                      chatType: 'simple',
                     })
                   }}
                   style={[styles.btn, { backgroundColor: 'white' }]}

@@ -123,9 +123,9 @@ const WarningReasonDetailScreen = ({ route }) => {
                 style={styles.completedBadge}
                 onPress={() => {
                   navigation.navigate('MessagesBox', {
-                    userImg: axios.defaults.baseURL + warning.logo,
+                    userImg: warning.logo,
                     userName: warning.name,
-                    chatType: 'Simple Chat',
+                    chatType: 'simple',
                   })
                 }}
               >
