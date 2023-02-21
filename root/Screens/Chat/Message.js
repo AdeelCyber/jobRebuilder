@@ -313,7 +313,9 @@ const Message = ({ navigation }) => {
             />
           </Container>
         ) : (
-          <View style={{ marginTop: 20 }}>
+          <View
+            style={[styles.container, { backgroundColor: colors.background }]}
+          >
             <MyText style={{ fontSize: 14 }}>No Chats</MyText>
           </View>
         ))}
