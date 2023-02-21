@@ -320,12 +320,9 @@ const ActiveOrderDetailScreen = ({ route }) => {
           style={[styles.btn, { backgroundColor: colors.secondary }]}
           onPress={() => {
             navigation.navigate('MessagesBox', {
-              userImg:
-                axios.defaults.baseURL +
-                'media/getimage/' +
-                order?.employer?.avatar,
+              userImg: order?.employer?.avatar,
               userName: order?.employer?.name,
-              chatType: 'Simple Chat',
+              chatType: 'simple',
             })
           }}
         >

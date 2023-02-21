@@ -21,17 +21,20 @@ import axios from '../../http/axiosSet'
 import { useIsFocused } from '@react-navigation/native'
 import Loader from '../../Components/Loader'
 import { TouchableOpacity } from 'react-native'
+import { getStartupCategories } from './services/startupServices'
 
 const ExploreScreen = ({ navigation, routes }) => {
   //categories hook
   const isFocused = useIsFocused()
-  const [catgeories, setCategories] = useState([
-    { icon: ConstructionIcon, text: 'Construction' },
-    { icon: GraduationHat, text: 'Education' },
-    { icon: SoftwareCompanyIcon, text: 'Software Company' },
-    { icon: AIBrainIcon, text: 'Ai Tech' },
-    { icon: HeartIcon, text: 'Liked' },
-  ])
+  // const [catgeories, setCategories] = useState([
+  //   { icon: ConstructionIcon, text: 'Construction' },
+  //   { icon: GraduationHat, text: 'Education' },
+  //   { icon: SoftwareCompanyIcon, text: 'Software Company' },
+  //   { icon: AIBrainIcon, text: 'Ai Tech' },
+  //   { icon: HeartIcon, text: 'Liked' },
+  // ])
+  const [catgeories, setCategories] = useState([])
+
   useEffect(() => {
     fetchData()
   }, [isFocused])
@@ -68,6 +71,7 @@ const ExploreScreen = ({ navigation, routes }) => {
     setLoading(true)
     setExploreData([])
     const resp = await getExploreData()
+    const resp2 = await getStartupCategories()
     setLoading(false)
 
     console.log(resp.data)
@@ -94,6 +98,10 @@ const ExploreScreen = ({ navigation, routes }) => {
       })
     } else if (resp.status === 400 || resp.status === 401) {
       navigation.navigate('LoginScreen')
+    }
+
+    if (resp2.status === 200) {
+      setCategories(resp2.data.categories)
     }
   }
   const [searchQuery, setSearchQuery] = React.useState('') //searchbar query hook
@@ -198,8 +206,8 @@ const ExploreScreen = ({ navigation, routes }) => {
                 showsHorizontalScrollIndicator={false}
                 renderItem={({ item, index }) => (
                   <HomeCategories
-                    svg={item.icon}
-                    title={item.text}
+                    svg={item.avatar}
+                    title={item.title}
                     style={{}}
                   />
                 )}
