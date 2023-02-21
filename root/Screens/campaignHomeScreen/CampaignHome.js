@@ -26,9 +26,14 @@ import {
 import { StackActions, NavigationActions } from 'react-navigation'
 import Loader from '../../Components/Loader'
 import { useIsFocused } from '@react-navigation/native'
+import { CartProvider } from '../../Context/CartProvider'
 
 const CampaignHome = ({ navigation, routes }) => {
   const [selected, setselected] = useState(false)
+
+  const userdetails = useContext(CartProvider)
+
+  console.log(userdetails)
 
   const searchResult = (s, status) => {
     if (status === true) {
@@ -433,6 +438,7 @@ const CampaignHome = ({ navigation, routes }) => {
           <View style={{ paddingLeft: 17, paddingRight: 15 }}>
             {popularData?.map((item, index) => (
               <RateComp
+                key={index}
                 name={item.name}
                 id={item._id}
                 Price={item.hourlyRate}
@@ -451,6 +457,7 @@ const CampaignHome = ({ navigation, routes }) => {
           <View style={{ paddingLeft: 17, paddingRight: 15 }}>
             {popularData?.map((item, index) => (
               <RateComp
+                key={index}
                 name={item.name}
                 Price={item.hourlyRate}
                 id={item._id}
