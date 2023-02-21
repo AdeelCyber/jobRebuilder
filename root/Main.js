@@ -102,7 +102,7 @@ import AvailableJobs from "./Screens/Profile/Vacancy/AvailableJobs";
 import JobCareerDetailScreen from "./Screens/Profile/Vacancy/JobCareerDetailScreen";
 import UserTabBar from "./Components/UserTabBar";
 import ChangeProfileScreen from "./Screens/Profile/ChangeProfileScreen";
-import CheckoutSheet from "./Screens/Chat/paymentsheet";
+import CheckoutSheet from "./Screens/Chat/Paymentsheet";
 
 //Navigation out
 
