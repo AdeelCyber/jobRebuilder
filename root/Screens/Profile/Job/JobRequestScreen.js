@@ -202,12 +202,9 @@ const JobRequestScreen = () => {
             }}
             onPress={() => {
               navigation.navigate('MessagesBox', {
-                userImg:
-                  axios.defaults.baseURL +
-                  'media/getimage/' +
-                  job?.freelancer.avatar,
+                userImg: job?.freelancer.avatar,
                 userName: job?.freelancer.name,
-                chatType: 'Simple Chat',
+                chatType: 'simple',
               })
             }}
           >

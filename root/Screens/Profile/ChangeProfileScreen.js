@@ -164,7 +164,7 @@ const ChangeProfileScreen = ({ route }) => {
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
       <View style={[styles.container]}>
-        <CustomHeader9 Title='' nav={navigation} />
+        <CustomHeader9 Title='Edit Profile' nav={navigation} />
         <Modal animationType='fade' visible={getmodalvisible5}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>

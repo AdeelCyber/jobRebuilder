@@ -157,10 +157,9 @@ const WarningsScreen = () => {
             }}
             onPress={() => {
               navigation.navigate('MessagesBox', {
-                userImg:
-                  axios.defaults.baseURL + 'media/getimage/' + props.logo,
+                userImg: props.logo,
                 userName: props?.name,
-                chatType: 'Simple Chat',
+                chatType: 'simple',
               })
             }}
           >
