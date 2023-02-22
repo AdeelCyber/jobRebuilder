@@ -29,7 +29,7 @@ const TickPara = ({ para, logo = tick, ...props }) => {
             marginRight: 13,
           }}
         >
-          <SvgImport svg={logo} />
+          {/* <SvgImport svg={logo} /> */}
         </View>
         <View style={{}}>
           <MyText
