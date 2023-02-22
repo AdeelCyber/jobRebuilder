@@ -339,6 +339,7 @@ const Main = () => {
   ////////////
   const mainScreen = React.useRef("StartScreen");
   const [isLogin, setIsLogin] = React.useState(false);
+  const contest = useContext(CartContext);
 
   React.useLayoutEffect(() => {}, []);
   useEffect(() => {
@@ -346,9 +347,22 @@ const Main = () => {
       try {
         await SplashScreen.preventAutoHideAsync();
         const token = await AsyncStorage.getItem("@accessToken");
+        const Refreshtoken = await AsyncStorage.getItem("@refreshToken");
+        const user = await AsyncStorage.getItem("@userDetail");
+        const userDetail = JSON.parse(user);
+
+        if (token) {
+          contest.setaccessToken(token);
+          contest.setrefreshToken(Refreshtoken);
+          contest.setuserdetails(userDetail);
+          console.log("U", userDetail);
+          contest.setislogin(true);
+        }
         await new Promise((r) => setTimeout(r, 1000));
         if (token !== "") {
-          mainScreen.current = "CampaignHome";
+          if (userDetail.role === "Freelancer")
+            mainScreen.current = "HomeService";
+          else mainScreen.current = "CampaignHome";
         }
       } catch (e) {
         console.warn(e);
