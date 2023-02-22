@@ -21,16 +21,18 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import DropDownPicker from "react-native-dropdown-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
-
+import CartProvider from "../../Context/CartProvider";
 const PersonalInfo = () => {
   const {
     theme: { colors },
   } = useContext(Context);
   const navigation = useNavigation();
-  const [email, setemail] = useState("");
-  const [name, setname] = useState("");
+  const { userdetails } = useContext(CartProvider);
+
+  const [email, setemail] = useState(userdetails?.email);
+  const [name, setname] = useState(userdetails?.name);
   const [getcondition, setcondition] = useState(false);
-  const [Phonenumber, setPhonenumber] = useState("");
+  const [Phonenumber, setPhonenumber] = useState(userdetails?.phoneNumber);
   const [language, setlanguage] = useState();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
@@ -120,6 +122,7 @@ const PersonalInfo = () => {
           <TextInput
             style={styles.inputStyle}
             onChangeText={(name) => setname(name)}
+            value={name}
             placeholder="Name"
             placeholderTextColor="#ACA9A9"
             underlineColorAndroid="#f000"
@@ -143,6 +146,7 @@ const PersonalInfo = () => {
             style={styles.inputStyle}
             onChangeText={(Phonenumber) => setPhonenumber(Phonenumber)}
             placeholder="Phone Number" //12345
+            value={Phonenumber}
             placeholderTextColor="#ACA9A9"
             keyboardType="number-pad"
             underlineColorAndroid="#f000"

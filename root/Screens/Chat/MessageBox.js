@@ -329,17 +329,45 @@ const MessageBox = ({
   } else {
     socket.on("private message", (data) => {
       const { content, from } = data;
-      console.log(content);
+      console.log("yourrrrrrrrrrrrrrrrrr", content);
+      if (content.messageType === "oneTimeOrder") {
+        var obj = {};
+        (obj["createdAt"] = Date.now()),
+          (obj["oneTimeOrder"] = {
+            deliveryTime: content.deliveryTime,
+            totalPrice: content.totalPrice,
+            jobTitle: content.jobTitle,
+          }),
+          (obj[`${content.messageType}`] = content.msgcontent),
+          (obj["user"] = {
+            _id: "other",
+          });
+        setmsg([...msg, obj]);
+      } else if (content.messageType === "equityOrder") {
+        var obj = {};
+        (obj["createdAt"] = Date.now()),
+          (obj["equityOrder"] = {
+            // deliveryTime: content.deliveryTime,
+            totalPrice: content.totalPrice,
+            jobTitle: content.jobTitle,
+          }),
+          (obj[`${content.messageType}`] = content.msgcontent),
+          (obj["user"] = {
+            _id: "other",
+          });
+        setmsg([...msg, obj]);
+      }
       // console.log(from);
+      else {
+        var obj = {};
+        (obj["createdAt"] = Date.now()),
+          (obj[`${content.messageType}`] = content.msgcontent),
+          (obj["user"] = {
+            _id: "other",
+          });
 
-      var obj = {};
-      (obj["createdAt"] = Date.now()),
-        (obj[`${content.messageType}`] = content.msgcontent),
-        (obj["user"] = {
-          _id: "other",
-        });
-
-      setmsg([...msg, obj]);
+        setmsg([...msg, obj]);
+      }
     });
   }
 

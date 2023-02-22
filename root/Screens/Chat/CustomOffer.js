@@ -96,7 +96,7 @@ const CustomOffer = ({ route }) => {
           },
         });
 
-        // navigation.navigate("MessagesBox", { order: onetime.data });
+        // navigation.goBack({ ordertime: deliveryTime: onetime.data });
       } else {
       }
     } catch (err) {
@@ -130,6 +130,8 @@ const CustomOffer = ({ route }) => {
           content: {
             msgcontent: "equityOrder",
             messageType: equity.data.data._id,
+            totalPrice: price,
+            jobTitle: jobTitle,
           },
         });
 
@@ -172,23 +174,23 @@ const CustomOffer = ({ route }) => {
 
     //console.log(res.data);
   };
-  socket.on("private message", (data) => {
-    const { content, from } = data;
-    console.log("contenttttttttttttttt", content);
-    // console.log(from);
+  // socket.on("private message", (data) => {
+  //   const { content, from } = data;
+  //   console.log("contenttttttttttttttt", content);
+  //   // console.log(from);
 
-    var obj = {};
-    (obj["createdAt"] = Date.now()),
-      (obj["oneTimeOrder"] = {
-        deliveryTime: content.deliveryTime,
-        totalPrice: content.totalPrice,
-        jobTitle: content.jobTitle,
-      }),
-      (obj[`${content.messageType}`] = content.msgcontent),
-      (obj["user"] = {
-        _id: "other",
-      });
-  });
+  //   var obj = {};
+  //   (obj["createdAt"] = Date.now()),
+  //     (obj["oneTimeOrder"] = {
+  //       deliveryTime: content.deliveryTime,
+  //       totalPrice: content.totalPrice,
+  //       jobTitle: content.jobTitle,
+  //     }),
+  //     (obj[`${content.messageType}`] = content.msgcontent),
+  //     (obj["user"] = {
+  //       _id: "other",
+  //     });
+  // });
 
   // socket.on("private message", (data) => {
   //   const { content, from } = data;
