@@ -52,6 +52,7 @@ import { io } from "socket.io-client";
 import OtpScreen2 from "./Screens/StartScreens/OtpScreen2";
 import * as SplashScreen from "expo-splash-screen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Font from "expo-font";
 
 //screens out
 
@@ -340,12 +341,16 @@ const Main = () => {
   const mainScreen = React.useRef("StartScreen");
   const [isLogin, setIsLogin] = React.useState(false);
   const contest = useContext(CartContext);
+  const fontsLoaded = {
+    DMSANS: require("../assets/fonts/DMSans-Regular.ttf"),
+  };
 
   React.useLayoutEffect(() => {}, []);
   useEffect(() => {
     async function prepare() {
       try {
         await SplashScreen.preventAutoHideAsync();
+        await Font.loadAsync(fontsLoaded);
         const token = await AsyncStorage.getItem("@accessToken");
         const Refreshtoken = await AsyncStorage.getItem("@refreshToken");
         const user = await AsyncStorage.getItem("@userDetail");
