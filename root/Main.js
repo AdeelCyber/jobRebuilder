@@ -371,7 +371,6 @@ const Main = () => {
         }
       } catch (e) {
         console.warn(e);
-        alert(e);
       } finally {
         // Tell the application to render
         setIsLogin(true);
