@@ -64,13 +64,15 @@ const BuildingStartupScreen1 = ({ navigation }) => {
 
   const buttonStyle = {
     backgroundColor: colors.Bluish,
-    width: "111%",
+    width: "100%",
     height: 50,
-    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
+    //alignSelf: "center",
+    borderRadius: 10,
     marginTop: 20,
-    marginRight: 233,
+    marginLeft: 30,
+    marginRight: 203,
   };
   const [startupid, setstartupid] = useState();
   if (getcondition) {
@@ -687,6 +689,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 textStyle={{ color: "#ACA9A9" }}
                 placeholder="Category"
                 autoScroll={true}
+                dropDownDirection="TOP"
                 open={open}
                 value={value}
                 items={items}
@@ -734,7 +737,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 style={[styles.inputStyle, { borderColor: "#EEEEEE" }]}
                 textStyle={{ color: "#ACA9A9" }}
                 placeholder="Stage"
-                autoScroll={true}
+                //autoScroll={true}
                 open={open1}
                 value={value1}
                 items={items1}
@@ -761,7 +764,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 <Pressable
                   style={{
                     backgroundColor: colors.white,
-                    width: 330,
+                    width: 300,
                     height: 50,
                     borderRadius: 10,
                     borderWidth: 1,
@@ -787,7 +790,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 <Pressable
                   style={{
                     backgroundColor: colors.white,
-                    width: 330,
+                    width: 300,
                     height: 50,
                     borderRadius: 10,
                     borderWidth: 1,
@@ -1281,7 +1284,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   style={{
                     backgroundColor: "#EEEEEE",
                     height: 50,
-                    width: 330,
+                    width: 300,
                     borderRadius: 10,
                     justifyContent: "center",
                     alignItems: "center",
@@ -2682,7 +2685,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               <Pressable
                 style={{
                   backgroundColor: colors.white,
-                  width: 330,
+                  width: 300,
                   height: 50,
                   borderRadius: 10,
                   borderWidth: 1,
@@ -2708,7 +2711,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               <Pressable
                 style={{
                   backgroundColor: colors.white,
-                  width: 330,
+                  width: 300,
                   height: 50,
                   borderRadius: 10,
                   borderWidth: 1,

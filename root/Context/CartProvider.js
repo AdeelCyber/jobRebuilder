@@ -8,7 +8,6 @@ export function CartProvider({ children }) {
   const [milestone, setmilestone] = useState([]);
   const [socket, setsocket] = useState();
   const [userTab, setUserTab] = useState(false);
-
   const [islogin, setislogin] = React.useState(false);
   const [firstlogin, setfirstlogin] = React.useState(false);
 

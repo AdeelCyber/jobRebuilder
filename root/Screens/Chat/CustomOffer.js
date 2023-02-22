@@ -90,6 +90,9 @@ const CustomOffer = ({ route }) => {
           content: {
             msgcontent: "oneTimeOrder",
             messageType: onetime.data.data._id,
+            deliveryTime: moment(duedate).format("YYYY-MM-DD"),
+            totalPrice: price,
+            jobTitle: jobTitle,
           },
         });
 
@@ -176,7 +179,11 @@ const CustomOffer = ({ route }) => {
 
     var obj = {};
     (obj["createdAt"] = Date.now()),
-      (obj["deliveryTime"] = moment(duedate).format("YYYY-MM-DD")),
+      (obj["oneTimeOrder"] = {
+        deliveryTime: content.deliveryTime,
+        totalPrice: content.totalPrice,
+        jobTitle: content.jobTitle,
+      }),
       (obj[`${content.messageType}`] = content.msgcontent),
       (obj["user"] = {
         _id: "other",

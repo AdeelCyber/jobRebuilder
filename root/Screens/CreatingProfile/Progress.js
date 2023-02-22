@@ -51,13 +51,15 @@ const Progress = () => {
 
   const buttonStyle = {
     backgroundColor: colors.Bluish,
-    width: "111%",
+    width: "100%",
     height: 50,
-    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
+    //alignSelf: "center",
+    borderRadius: 10,
     marginTop: 20,
-    marginRight: 233,
+    marginLeft: 30,
+    marginRight: 203,
   };
   const retrieveData = async () => {
     try {
