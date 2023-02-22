@@ -51,6 +51,7 @@ import CustomOffer from "./Screens/Chat/CustomOffer";
 import { io } from "socket.io-client";
 import OtpScreen2 from "./Screens/StartScreens/OtpScreen2";
 import * as SplashScreen from "expo-splash-screen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //screens out
 
@@ -344,8 +345,9 @@ const Main = () => {
     async function prepare() {
       try {
         await SplashScreen.preventAutoHideAsync();
+        const token = await AsyncStorage.getItem("@accessToken");
         await new Promise((r) => setTimeout(r, 1000));
-        if (accessToken !== "") {
+        if (token !== "") {
           mainScreen.current = "CampaignHome";
         }
       } catch (e) {
