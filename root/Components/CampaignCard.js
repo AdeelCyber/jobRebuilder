@@ -156,6 +156,14 @@ const CampaignCard = ({ ...props }) => {
               borderRadius: 10,
               paddingVertical: 10,
             }}
+            onPress={() => {
+              props.navigation.navigate("TeamRoles", {
+                data: props.data,
+                show: props.show,
+                undefinedd: props.undefinedd,
+                isPart: props.isPart,
+              });
+            }}
           >
             <MyText
               style={{ color: colors.white, fontSize: 16, fontWeight: "500" }}

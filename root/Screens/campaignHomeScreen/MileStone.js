@@ -249,18 +249,33 @@ const MileStone = ({ navigation, route }) => {
         {/* Little nav out */}
         {/* mile Stones in */}
         <View style={{ paddingHorizontal: 12, marginTop: 10 }}>
-          {MileStones.map((item) => (
-            <MileStoneComponent
-              item={item}
-              style={{ marginVertical: 8 }}
-              modal={setModal}
-              data={setCurrentMileStone}
-              send={CurrentMileStone}
-              Credentials={data}
-              nav={navigation}
-              show={show}
-            />
-          ))}
+          {MileStones.length !== 0 ? (
+            MileStones.map((item) => (
+              <MileStoneComponent
+                item={item}
+                style={{ marginVertical: 8 }}
+                modal={setModal}
+                data={setCurrentMileStone}
+                send={CurrentMileStone}
+                Credentials={data}
+                nav={navigation}
+                show={show}
+              />
+            ))
+          ) : (
+            <View>
+              <MyText
+                style={{
+                  fontSize: 20,
+                  color: "red",
+                  textAlign: "center",
+                  fontWeight: "700",
+                }}
+              >
+                No MileStones Found
+              </MyText>
+            </View>
+          )}
         </View>
         {/* mile Stones out */}
         {/* Button in */}

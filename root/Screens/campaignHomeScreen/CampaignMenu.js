@@ -108,6 +108,7 @@ const CampaignMenu = ({ navigation, route }) => {
           show={show}
           isPart={isPart}
           undefinedd={undefinedd}
+          setter={setpage}
         />
         {/* card out */}
         {/* Little nav in */}

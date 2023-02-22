@@ -144,22 +144,37 @@ const Todo = ({ navigation, route }) => {
           ))}
         </ScrollView> */}
 
-        <FlatList
-          data={Roles}
-          keyExtractor={(item) => item._id}
-          contentContainerStyle={{ flexGrow: 1 }}
-          renderItem={({ item }) => (
-            <TodoListItem
-              Title={item.title}
-              item={item}
-              data={data}
-              set={setRoles}
-              style={{ marginHorizontal: 23, marginVertical: 10 }}
-              navigation={navigation}
-              show={show}
-            />
-          )}
-        />
+        {Roles.length !== 0 ? (
+          <FlatList
+            data={Roles}
+            keyExtractor={(item) => item._id}
+            contentContainerStyle={{ flexGrow: 1 }}
+            renderItem={({ item }) => (
+              <TodoListItem
+                Title={item.title}
+                item={item}
+                data={data}
+                set={setRoles}
+                style={{ marginHorizontal: 23, marginVertical: 10 }}
+                navigation={navigation}
+                show={show}
+              />
+            )}
+          />
+        ) : (
+          <View>
+            <MyText
+              style={{
+                fontSize: 20,
+                color: "red",
+                textAlign: "center",
+                fontWeight: "700",
+              }}
+            >
+              No Todo Found
+            </MyText>
+          </View>
+        )}
 
         {/* Todo item out */}
       </View>

@@ -114,22 +114,37 @@ const TeamRoles = ({ navigation, route }) => {
             <Text style={{ fontSize: 18, fontWeight: "700" }}>Team Roles</Text>
           </View>
           <View style={{ paddingHorizontal: 23 }}>
-            {Roles.map((item) => (
-              <RolesDropDown
-                Title={item.title}
-                desc={item.description}
-                nav={navigation}
-                handlePress={handlePress}
-                data={data}
-                item={item}
-                set={setRoles}
-                delete={DeleteRole}
-                show={show}
-                isPart={isPart}
-                undefinedd={undefinedd}
-                setmodal={setModal2}
-              />
-            ))}
+            {Roles.length !== 0 ? (
+              Roles.map((item) => (
+                <RolesDropDown
+                  Title={item.title}
+                  desc={item.description}
+                  nav={navigation}
+                  handlePress={handlePress}
+                  data={data}
+                  item={item}
+                  set={setRoles}
+                  delete={DeleteRole}
+                  show={show}
+                  isPart={isPart}
+                  undefinedd={undefinedd}
+                  setmodal={setModal2}
+                />
+              ))
+            ) : (
+              <View>
+                <MyText
+                  style={{
+                    fontSize: 20,
+                    color: "red",
+                    textAlign: "center",
+                    fontWeight: "700",
+                  }}
+                >
+                  No Roles Found
+                </MyText>
+              </View>
+            )}
           </View>
         </View>
         {/* roles out */}
