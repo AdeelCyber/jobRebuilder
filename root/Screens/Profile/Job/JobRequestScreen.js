@@ -21,6 +21,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { getAvailableJobs } from '../services/jobServices'
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
+import Error from '../../../Components/Error'
 
 const JobRequestScreen = () => {
   const navigation = useNavigation()
@@ -255,17 +256,7 @@ const JobRequestScreen = () => {
       >
         {jobs?.length === 0 && (
           <View>
-            <MyText
-              style={{
-                fontSize: 20,
-                color: 'red',
-                fontWeight: '700',
-                textAlign: 'center',
-                marginTop: 10,
-              }}
-            >
-              No Job Requests Found
-            </MyText>
+            <Error message='No Job Request Found' />
           </View>
         )}
         {jobs?.map((job, index) => {

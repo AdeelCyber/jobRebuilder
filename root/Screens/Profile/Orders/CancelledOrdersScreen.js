@@ -19,6 +19,7 @@ import { Entypo } from '@expo/vector-icons'
 import { getOrderCategoryWise } from '../services/orderServices'
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
+import Error from '../../../Components/Error'
 
 const CancelledOrdersScreen = () => {
   const navigation = useNavigation()
@@ -220,17 +221,7 @@ const CancelledOrdersScreen = () => {
       >
         {orders?.length === 0 ? (
           <View>
-            <MyText
-              style={{
-                fontSize: 20,
-                fontWeight: '700',
-                color: 'red',
-                marginTop: 12,
-                textAlign: 'center',
-              }}
-            >
-              No Cancelled orders
-            </MyText>
+            <Error message='No Cancelled Order Found' />
           </View>
         ) : (
           <View>

@@ -16,6 +16,7 @@ import { getOrderCategoryWise } from '../services/orderServices'
 
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
+import Error from '../../../Components/Error'
 
 const PendingJobsScreen = (props) => {
   const navigation = useNavigation()
@@ -200,17 +201,7 @@ const PendingJobsScreen = (props) => {
     <View style={{ marginTop: 33 }}>
       {orders?.length === 0 && (
         <View>
-          <MyText
-            style={{
-              fontSize: 20,
-              fontWeight: '700',
-              color: 'red',
-              marginTop: 12,
-              textAlign: 'center',
-            }}
-          >
-            No Pending Jobs
-          </MyText>
+          <Error message='No Pending Job Found' />
         </View>
       )}
       {orders?.length !== 0 && (

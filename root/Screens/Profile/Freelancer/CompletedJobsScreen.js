@@ -16,6 +16,7 @@ import { getOrderCategoryWise, getOrders } from '../services/orderServices'
 
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
+import Error from '../../../Components/Error'
 
 const CompletedJobsScreen = (props) => {
   const navigation = useNavigation()
@@ -204,17 +205,7 @@ const CompletedJobsScreen = (props) => {
     <View style={{ marginTop: 33 }}>
       {orders?.length === 0 && (
         <View>
-          <MyText
-            style={{
-              fontSize: 20,
-              fontWeight: '700',
-              color: 'red',
-              marginTop: 12,
-              textAlign: 'center',
-            }}
-          >
-            No Completed Jobs
-          </MyText>
+          <Error message='No Completed Job Found' />
         </View>
       )}
       {orders?.length !== 0 && (

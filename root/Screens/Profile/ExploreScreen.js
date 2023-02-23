@@ -22,6 +22,7 @@ import { useIsFocused } from '@react-navigation/native'
 import Loader from '../../Components/Loader'
 import { TouchableOpacity } from 'react-native'
 import { getStartupCategories } from './services/startupServices'
+import Error from '../../Components/Error'
 
 const ExploreScreen = ({ navigation, routes }) => {
   //categories hook
@@ -334,16 +335,7 @@ const ExploreScreen = ({ navigation, routes }) => {
           )}
           {exploreData?.length === 0 && (
             <View>
-              <MyText
-                style={{
-                  fontSize: 20,
-                  fontWeight: '700',
-                  color: 'red',
-                  textAlign: 'center',
-                }}
-              >
-                No Result Found
-              </MyText>
+              <Error message='No Campaign Found' />
             </View>
           )}
         </>

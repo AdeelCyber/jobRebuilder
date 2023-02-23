@@ -10,6 +10,7 @@ import DollarIcon from '../../../../assets/Svgs/DollarIcon'
 import { getOrderCategoryWise } from '../services/orderServices'
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
+import Error from '../../../Components/Error'
 
 const ActiveJobsScreen = (props) => {
   const navigation = useNavigation()
@@ -127,17 +128,7 @@ const ActiveJobsScreen = (props) => {
     <View style={{ marginTop: 33 }}>
       {orders?.length === 0 && (
         <View>
-          <MyText
-            style={{
-              fontSize: 20,
-              fontWeight: '700',
-              color: 'red',
-              marginTop: 12,
-              textAlign: 'center',
-            }}
-          >
-            No Active Jobs
-          </MyText>
+          <Error message='No Active Job Found' />
         </View>
       )}
       {orders?.length !== 0 && (

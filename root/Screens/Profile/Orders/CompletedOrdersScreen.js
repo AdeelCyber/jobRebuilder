@@ -16,6 +16,7 @@ import { getOrderCategoryWise, getOrders } from '../services/orderServices'
 
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
+import Error from '../../../Components/Error'
 
 const CompletedOrdersScreen = (props) => {
   const navigation = useNavigation()
@@ -206,17 +207,7 @@ const CompletedOrdersScreen = (props) => {
         </>
       ) : (
         <View>
-          <MyText
-            style={{
-              fontSize: 20,
-              fontWeight: '700',
-              color: 'red',
-              marginTop: 12,
-              textAlign: 'center',
-            }}
-          >
-            No Completed Orders
-          </MyText>
+          <Error message='No Completed Order Found' />
         </View>
       )}
     </View>

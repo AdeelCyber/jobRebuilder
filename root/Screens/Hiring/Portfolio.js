@@ -5,6 +5,7 @@ import { Image } from 'react-native'
 import { ScrollView, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import axios from '../../http/axiosSet'
+import Error from '../../Components/Error'
 
 const Portfolio = ({ portfolio }) => {
   const navigation = useNavigation()
@@ -14,17 +15,7 @@ const Portfolio = ({ portfolio }) => {
     <ScrollView style={{ marginTop: 20 }}>
       {portfolio?.length === 0 && (
         <View>
-          <MyText
-            style={{
-              fontSize: 20,
-              color: 'red',
-              fontWeight: '700',
-              textAlign: 'center',
-              marginTop: 10,
-            }}
-          >
-            No Portfolio Found
-          </MyText>
+          <Error message='No Portfolio Found' />
         </View>
       )}
 

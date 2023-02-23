@@ -16,6 +16,7 @@ import { getOrderCategoryWise } from '../services/orderServices'
 
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
+import Error from '../../../Components/Error'
 
 const PendingOrdersScreen = (props) => {
   const navigation = useNavigation()
@@ -202,17 +203,7 @@ const PendingOrdersScreen = (props) => {
         </>
       ) : (
         <View>
-          <MyText
-            style={{
-              fontSize: 20,
-              fontWeight: '700',
-              color: 'red',
-              marginTop: 12,
-              textAlign: 'center',
-            }}
-          >
-            No Pending orders
-          </MyText>
+          <Error message='No Pending Order Found' />
         </View>
       )}
     </View>

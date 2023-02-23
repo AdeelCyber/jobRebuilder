@@ -3,6 +3,7 @@ import React from 'react'
 import { Image } from 'react-native'
 import MyText from '../../Components/Text'
 import Icon from '@expo/vector-icons/FontAwesome'
+import Error from '../../Components/Error'
 
 const Reviews = ({ reviews }) => {
   const Review = ({ avatar, email, name, rating, date, comment }) => (
@@ -90,17 +91,7 @@ const Reviews = ({ reviews }) => {
     >
       {reviews.length === 0 && (
         <View>
-          <MyText
-            style={{
-              fontSize: 20,
-              color: 'red',
-              fontWeight: '700',
-              textAlign: 'center',
-              marginTop: 10,
-            }}
-          >
-            No Reviews Found
-          </MyText>
+          <Error message='No Review Found' />
         </View>
       )}
       {reviews?.map((element, index) => {

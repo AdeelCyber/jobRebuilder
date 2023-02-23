@@ -15,6 +15,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { getWarnings } from '../services/warningServices'
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
+import Error from '../../../Components/Error'
 
 const WarningsScreen = () => {
   const navigation = useNavigation()
@@ -217,6 +218,11 @@ const WarningsScreen = () => {
             />
           )
         })}
+        {warnings?.length === 0 && (
+          <View>
+            <Error message='No Warning Found' />
+          </View>
+        )}
       </View>
     </ScrollView>
   )

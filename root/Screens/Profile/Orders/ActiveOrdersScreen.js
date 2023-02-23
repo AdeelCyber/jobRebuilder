@@ -10,6 +10,7 @@ import DollarIcon from '../../../../assets/Svgs/DollarIcon'
 import { getOrderCategoryWise } from '../services/orderServices'
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
+import Error from '../../../Components/Error'
 
 const ActiveOrdersScreen = (props) => {
   const navigation = useNavigation()
@@ -148,17 +149,7 @@ const ActiveOrdersScreen = (props) => {
         </>
       ) : (
         <View>
-          <MyText
-            style={{
-              fontSize: 20,
-              fontWeight: '700',
-              color: 'red',
-              marginTop: 12,
-              textAlign: 'center',
-            }}
-          >
-            No Active orders
-          </MyText>
+          <Error message='No Active Order Found' />
         </View>
       )}
     </View>
