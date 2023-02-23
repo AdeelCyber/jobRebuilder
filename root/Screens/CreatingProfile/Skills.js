@@ -47,22 +47,38 @@ const Skills = () => {
 
   const saveData = async () => {
     try {
-      setcondition(true);
-      await AsyncStorage.setItem("@skills", JSON.stringify(skills));
-      await AsyncStorage.setItem("@workPreference", value);
-      await AsyncStorage.setItem("@availibilityPerWeek", availibility);
-      await AsyncStorage.setItem("@jobTitle", jobtitle);
-      await AsyncStorage.setItem("@hourlyRate", hourlyrate);
-      await AsyncStorage.setItem("@description", description);
-      setcondition(false);
+      if (
+        skills !== undefined &&
+        value !== undefined &&
+        availibility !== undefined &&
+        jobtitle !== undefined &&
+        hourlyrate !== undefined &&
+        description !== undefined
+      ) {
+        setcondition(true);
+        await AsyncStorage.setItem("@skills", JSON.stringify(skills));
+        await AsyncStorage.setItem("@workPreference", value);
+        await AsyncStorage.setItem("@availibilityPerWeek", availibility);
+        await AsyncStorage.setItem("@jobTitle", jobtitle);
+        await AsyncStorage.setItem("@hourlyRate", hourlyrate);
+        await AsyncStorage.setItem("@description", description);
+        setcondition(false);
 
-      console.log("done");
-      Toast.show({
-        topOffset: 60,
-        type: "success",
-        text1: "Your Information is successfully saved",
-        text2: "Press Proceed to continue",
-      });
+        console.log("done");
+        Toast.show({
+          topOffset: 60,
+          type: "success",
+          text1: "Your Information is successfully saved",
+          text2: "Press Proceed to continue",
+        });
+      } else {
+        Toast.show({
+          topOffset: 60,
+          type: "error",
+          text1: "Some fields are missing",
+          text2: "Please fill out all the fields",
+        });
+      }
     } catch (error) {
       console.log(error);
       setcondition(false);

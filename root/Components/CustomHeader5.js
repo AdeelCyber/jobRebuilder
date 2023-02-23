@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import Context from "../Context/Context";
 import MyText from "./Text";
 import { FontAwesome } from "@expo/vector-icons";
-import { AntDesign,Entypo } from "@expo/vector-icons";
+import { AntDesign, Entypo } from "@expo/vector-icons";
 
 const CustomHeader5 = ({
   icon1 = () => <AntDesign name="search1" size={24} color="black" />,
@@ -21,20 +21,18 @@ const CustomHeader5 = ({
           flexDirection: "row",
           width: "100%",
 
-          backgroundColor: colors.white,
+          backgroundColor: "white",
+          marginBottom: 10,
 
           padding: 6,
-          paddingVertical: 10,
           justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: 5,
-          borderRadius: 10,
+          paddingHorizontal: 13,
         },
         styles.shadow,
       ]}
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-      <AntDesign name="arrowleft" size={24} color="black" />
+        <AntDesign name="arrowleft" size={24} color="black" />
       </View>
       {/* Text View in */}
       <View>
@@ -42,7 +40,6 @@ const CustomHeader5 = ({
       </View>
 
       <View>{icon1()}</View>
-
     </View>
   );
 };

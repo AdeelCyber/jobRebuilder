@@ -120,8 +120,11 @@ const CreateGroup = ({ navigation }) => {
         }}
         nav={navigation}
       />
-      <View
+      <TouchableOpacity
         style={{ alignSelf: "flex-start", flexDirection: "row", margin: 20 }}
+        onPress={() => {
+          navigation.navigate("CreatingGroup");
+        }}
       >
         <View
           style={{
@@ -136,9 +139,6 @@ const CreateGroup = ({ navigation }) => {
             size={16}
             color={colors.white}
             style={{ margin: 10 }}
-            onPress={() => {
-              navigation.navigate("CreatingGroup");
-            }}
           />
         </View>
         <MyText
@@ -151,7 +151,7 @@ const CreateGroup = ({ navigation }) => {
         >
           Create New Group
         </MyText>
-      </View>
+      </TouchableOpacity>
       <View style={{ alignSelf: "flex-start" }}>
         <MyText
           style={{

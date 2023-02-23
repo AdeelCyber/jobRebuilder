@@ -23,14 +23,12 @@ const CustomHeader6 = ({
           flexDirection: "row",
           width: "100%",
 
-          backgroundColor: colors.white,
+          backgroundColor: "white",
+          marginBottom: 10,
 
           padding: 6,
-          paddingVertical: 10,
           justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: 5,
-          borderRadius: 10,
+          paddingHorizontal: 13,
         },
         styles.shadow,
       ]}

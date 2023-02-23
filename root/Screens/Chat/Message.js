@@ -146,7 +146,7 @@ const Message = ({ navigation }) => {
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <AntDesign
             name="search1"
-            size={22}
+            size={25}
             color="black"
             onPress={() => {
               setsearch(true);
@@ -154,13 +154,16 @@ const Message = ({ navigation }) => {
           />
         </View>
         <View>
-          <MyText style={{ fontWeight: "700", fontSize: 16 }}>Messages</MyText>
+          <MyText style={{ fontWeight: "700", fontSize: 16, marginTop: 5 }}>
+            Messages
+          </MyText>
         </View>
 
         <View>
           <FontAwesome
             name="pencil-square-o"
-            size={24}
+            size={26}
+            style={{ marginTop: 6 }}
             color="black"
             onPress={() => {
               navigation.navigate("CreateGroup");
@@ -335,16 +338,14 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     width: "100%",
+    height: "7%",
 
     backgroundColor: "white",
+    marginBottom: 10,
 
     padding: 6,
-    paddingVertical: 10,
     justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 5,
-    borderRadius: 10,
-    marginBottom: 16,
+    paddingHorizontal: 13,
   },
   shadow: {
     shadowColor: "#000",

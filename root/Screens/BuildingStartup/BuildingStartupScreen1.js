@@ -45,6 +45,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
   } = useContext(Context);
   const { accessToken } = useContext(CartProvider);
   const [getcondition, setcondition] = useState(false);
+  const [geterror, seterror] = useState(true);
 
   const progressStepsStyle = {
     activeStepIconBorderColor: colors.Bluish,
@@ -64,15 +65,15 @@ const BuildingStartupScreen1 = ({ navigation }) => {
 
   const buttonStyle = {
     backgroundColor: colors.Bluish,
-    width: "100%",
+    width: "111%",
     height: 50,
     justifyContent: "center",
     alignItems: "center",
     //alignSelf: "center",
     borderRadius: 10,
     marginTop: 20,
-    marginLeft: 30,
-    marginRight: 203,
+    // marginLeft: 30,
+    marginRight: 233,
   };
   const [startupid, setstartupid] = useState();
   if (getcondition) {
@@ -229,7 +230,14 @@ const BuildingStartupScreen1 = ({ navigation }) => {
 
     const step1 = async () => {
       try {
-        if (logo && mediatosend && getdocinfo) {
+        if (
+          logo &&
+          mediatosend &&
+          getdocinfo &&
+          businessName !== null &&
+          value !== null &&
+          location !== null
+        ) {
           setcondition(true);
 
           const res = await step1startup(
@@ -250,6 +258,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
           );
           console.log(res.data);
           setcondition(false);
+          seterror(false);
 
           if (res.status === 201) {
             setstartupid(res.data.startUp._id);
@@ -260,14 +269,26 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               text2: "Press Proceed to continue",
             });
           }
+        } else {
+          seterror(true);
+
+          Toast.show({
+            topOffset: 60,
+            type: "error",
+            text1: "Note",
+            text2: "Some fields are missing",
+          });
         }
       } catch (error) {
+        console.log(error.response.data);
         setcondition(false);
+        seterror(true);
+
         Toast.show({
           topOffset: 60,
           type: "error",
           text1: "Something went wrong",
-          text2: ".",
+          text2: "Some fields are missing",
         });
 
         console.log(error);
@@ -1155,6 +1176,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
 
         if (res.status === 201) {
           setstartupid(res.data.startUp._id);
+          seterror(false);
           Toast.show({
             topOffset: 60,
             type: "success",
@@ -1163,6 +1185,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
           });
         }
       } catch (error) {
+        seterror(true);
         Toast.show({
           topOffset: 60,
           type: "error",
@@ -1284,7 +1307,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   style={{
                     backgroundColor: "#EEEEEE",
                     height: 50,
-                    width: 300,
+                    width: 320,
                     borderRadius: 10,
                     justifyContent: "center",
                     alignItems: "center",
@@ -1623,6 +1646,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
         console.log(res.data);
 
         if (res.status === 201) {
+          seterror(false);
           Toast.show({
             topOffset: 60,
             type: "success",
@@ -1631,6 +1655,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
           });
         }
       } catch (error) {
+        seterror(true);
         Toast.show({
           topOffset: 60,
           type: "error",
@@ -1866,17 +1891,29 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 marginTop: 20,
               }}
               onPress={() => {
-                var obj = {};
+                console.log(roles);
+                if (roles !== undefined && rolesbrokendown !== undefined) {
+                  var obj = {};
 
-                obj["id"] = Math.random();
+                  obj["id"] = Math.random();
 
-                obj["title"] = roles;
-                obj["description"] = rolesbrokendown;
-                obj["type"] = value2;
-                setrolelist([...rolelist, obj]);
-                setTermScreen(false);
-                setteamroleScreen(false);
-                setrolescreen(true);
+                  obj["title"] = roles;
+                  obj["description"] = rolesbrokendown;
+                  obj["type"] = value2;
+                  setroles();
+                  setrolesbrokendown();
+                  setrolelist([...rolelist, obj]);
+                  setTermScreen(false);
+                  setteamroleScreen(false);
+                  setrolescreen(true);
+                } else {
+                  Toast.show({
+                    topOffset: 60,
+                    type: "error",
+                    text1: "Note",
+                    text2: "Some fields are missing",
+                  });
+                }
               }}
             >
               <MyText
@@ -2188,6 +2225,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
         console.log(res.data);
 
         if (res.status === 201) {
+          seterror(false);
           Toast.show({
             topOffset: 60,
             type: "success",
@@ -2196,6 +2234,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
           });
         }
       } catch (error) {
+        seterror(true);
         Toast.show({
           topOffset: 60,
           type: "error",
@@ -2571,6 +2610,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
           console.log(res.data);
 
           if (res.status === 201) {
+            seterror(false);
             Toast.show({
               topOffset: 60,
               type: "success",
@@ -2580,6 +2620,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
           }
         }
       } catch (error) {
+        seterror(true);
         Toast.show({
           topOffset: 60,
           type: "error",
@@ -2785,12 +2826,21 @@ const BuildingStartupScreen1 = ({ navigation }) => {
   };
 
   const publish = async () => {
-    Toast.show({
-      topOffset: 60,
-      type: "success",
-      text1: "Your Startup has been sent to the admin for approval",
-      text2: "",
-    });
+    if (geterror === true) {
+      Toast.show({
+        topOffset: 60,
+        type: "error",
+        text1: "Your Startup has not been created",
+        text2: "Some fields are missing",
+      });
+    } else {
+      Toast.show({
+        topOffset: 60,
+        type: "success",
+        text1: "Your Startup has been sent to the admin for approval",
+        text2: "",
+      });
+    }
   };
 
   return (

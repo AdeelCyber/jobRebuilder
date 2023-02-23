@@ -72,15 +72,24 @@ const ProfilePic = () => {
 
   const saveData = async () => {
     try {
-      await AsyncStorage.setItem("@image", imagetosend.filename);
+      if (imagetosend.filename !== undefined) {
+        await AsyncStorage.setItem("@image", imagetosend.filename);
 
-      console.log("done");
-      Toast.show({
-        topOffset: 60,
-        type: "success",
-        text1: "Your Information is successfully saved",
-        text2: "Press Submit",
-      });
+        console.log("done");
+        Toast.show({
+          topOffset: 60,
+          type: "success",
+          text1: "Your Information is successfully saved",
+          text2: "Press Submit",
+        });
+      } else {
+        Toast.show({
+          topOffset: 60,
+          type: "error",
+          text1: "Some fields are missing",
+          text2: "Please fill out all the fields",
+        });
+      }
     } catch (error) {
       console.log(error);
       Toast.show({

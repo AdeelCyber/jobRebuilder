@@ -87,326 +87,333 @@ const EditService = ({ route }) => {
     );
   }
   return (
-    <ScrollView style={{ backgroundColor: colors.background }}>
+    <View style={{ backgroundColor: colors.background }}>
       <CustomHeader9 nav={navigation} />
-      <View style={[styles.container, { marginTop: 30 }]}>
-        <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-          {description ? (
-            <TouchableOpacity style={styles.btnstyle} onPress={() => {}}>
-              <MyText style={styles.btntext}>Description</MyText>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              style={[
-                styles.btnstyle,
-                { backgroundColor: colors.white, borderWidth: 1 },
-              ]}
-              onPress={() => {
-                setdescription(true);
-                setrates(false);
-                setskills(false);
-              }}
-            >
-              <MyText style={[styles.btntext, { color: colors.black }]}>
-                Description
-              </MyText>
-            </TouchableOpacity>
-          )}
+      <ScrollView style={{ backgroundColor: colors.background }}>
+        <View style={[styles.container, { marginTop: 30 }]}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-evenly" }}
+          >
+            {description ? (
+              <TouchableOpacity style={styles.btnstyle} onPress={() => {}}>
+                <MyText style={styles.btntext}>Description</MyText>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={[
+                  styles.btnstyle,
+                  { backgroundColor: colors.white, borderWidth: 1 },
+                ]}
+                onPress={() => {
+                  setdescription(true);
+                  setrates(false);
+                  setskills(false);
+                }}
+              >
+                <MyText style={[styles.btntext, { color: colors.black }]}>
+                  Description
+                </MyText>
+              </TouchableOpacity>
+            )}
 
-          {rates ? (
-            <TouchableOpacity style={styles.btnstyle} onPress={() => {}}>
-              <MyText style={styles.btntext}>Rates</MyText>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              style={[
-                styles.btnstyle,
-                { backgroundColor: colors.white, borderWidth: 1 },
-              ]}
-              onPress={() => {
-                setdescription(false);
-                setrates(true);
-                setskills(false);
-              }}
-            >
-              <MyText style={[styles.btntext, { color: colors.black }]}>
-                Rates
-              </MyText>
-            </TouchableOpacity>
-          )}
+            {rates ? (
+              <TouchableOpacity style={styles.btnstyle} onPress={() => {}}>
+                <MyText style={styles.btntext}>Rates</MyText>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={[
+                  styles.btnstyle,
+                  { backgroundColor: colors.white, borderWidth: 1 },
+                ]}
+                onPress={() => {
+                  setdescription(false);
+                  setrates(true);
+                  setskills(false);
+                }}
+              >
+                <MyText style={[styles.btntext, { color: colors.black }]}>
+                  Rates
+                </MyText>
+              </TouchableOpacity>
+            )}
 
-          {skills ? (
-            <TouchableOpacity style={styles.btnstyle}>
-              <MyText style={styles.btntext}>Skills</MyText>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              style={[
-                styles.btnstyle,
-                { backgroundColor: colors.white, borderWidth: 1 },
-              ]}
-              onPress={() => {
-                setdescription(false);
-                setrates(false);
-                setskills(true);
-              }}
-            >
-              <MyText style={[styles.btntext, { color: colors.black }]}>
-                Skills
-              </MyText>
-            </TouchableOpacity>
+            {skills ? (
+              <TouchableOpacity style={styles.btnstyle}>
+                <MyText style={styles.btntext}>Skills</MyText>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={[
+                  styles.btnstyle,
+                  { backgroundColor: colors.white, borderWidth: 1 },
+                ]}
+                onPress={() => {
+                  setdescription(false);
+                  setrates(false);
+                  setskills(true);
+                }}
+              >
+                <MyText style={[styles.btntext, { color: colors.black }]}>
+                  Skills
+                </MyText>
+              </TouchableOpacity>
+            )}
+          </View>
+
+          {description && (
+            <View style={{ marginTop: 30 }}>
+              <View style={styles.box}>
+                <TextInput
+                  style={{
+                    fontSize: 11,
+                    fontWeight: "400",
+                    margin: 20,
+                    textAlign: "justify",
+                  }}
+                  value={userdesc}
+                  onChangeText={(userdesc) => setuserdesc(userdesc)}
+                  multiline={true}
+                />
+              </View>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: colors.Bluish,
+                  width: 345,
+                  height: 50,
+                  borderRadius: 10,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 30,
+                }}
+                onPress={() => {
+                  setuserdesc(userdesc);
+                  edit("description");
+                }}
+              >
+                <MyText
+                  style={{
+                    color: colors.white,
+                    fontSize: 14,
+                    fontWeight: "500",
+                  }}
+                >
+                  Update
+                </MyText>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: colors.red,
+                  width: 345,
+                  height: 50,
+                  borderRadius: 10,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 10,
+                }}
+                onPress={() => {
+                  navigation.navigate("HomeService");
+                }}
+              >
+                <MyText
+                  style={{
+                    color: colors.white,
+                    fontSize: 14,
+                    fontWeight: "500",
+                  }}
+                >
+                  Cancel
+                </MyText>
+              </TouchableOpacity>
+            </View>
+          )}
+          {rates && (
+            <View style={{ marginTop: 30 }}>
+              <View style={styles.SectionStyle}>
+                <TextInput
+                  style={styles.inputStyle}
+                  keyboardType="number-pad"
+                  value={value2}
+                  onChangeText={(value2) => setValue(value2)}
+                />
+              </View>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: colors.Bluish,
+                  width: 345,
+                  height: 50,
+                  borderRadius: 10,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 30,
+                }}
+                onPress={() => {
+                  edit("rates");
+                }}
+              >
+                <MyText
+                  style={{
+                    color: colors.white,
+                    fontSize: 14,
+                    fontWeight: "500",
+                  }}
+                >
+                  Update
+                </MyText>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: colors.red,
+                  width: 345,
+                  height: 50,
+                  borderRadius: 10,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 10,
+                }}
+                onPress={() => {
+                  navigation.navigate("HomeService");
+                }}
+              >
+                <MyText
+                  style={{
+                    color: colors.white,
+                    fontSize: 14,
+                    fontWeight: "500",
+                  }}
+                >
+                  Cancel
+                </MyText>
+              </TouchableOpacity>
+            </View>
+          )}
+          {skills && (
+            <View style={{ marginTop: 30 }}>
+              <View
+                style={[
+                  styles.box,
+                  { shadowColor: colors.Bluish, padding: 10 },
+                ]}
+              >
+                <FlatList
+                  data={skillsofuser}
+                  keyExtractor={(item) => item.id}
+                  numColumns={3}
+                  style={{ height: 60 }}
+                  renderItem={({ item, index }) => (
+                    <View
+                      style={{
+                        marginTop: 15,
+                        marginLeft: 10,
+                        height: 22,
+                        width: 90,
+                        backgroundColor: colors.Bluish,
+                        borderRadius: 5,
+                      }}
+                    >
+                      <View style={{ flexDirection: "row" }}>
+                        <MyText
+                          style={{
+                            color: colors.white,
+                            fontSize: 11,
+                            fontWeight: "400",
+                            alignSelf: "center",
+                            margin: 3,
+                            marginLeft: 5,
+                          }}
+                        >
+                          {item}
+                        </MyText>
+                        <TouchableOpacity
+                          style={{
+                            position: "absolute",
+                            left: 70,
+                            top: 3,
+                          }}
+                          onPress={() => {
+                            deleteItem(index);
+                          }}
+                        >
+                          <Entypo
+                            name="circle-with-cross"
+                            size={15}
+                            color={colors.white}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  )}
+                />
+                <TextInput
+                  style={[
+                    styles.inputStyle,
+                    {
+                      flexDirection: "row",
+                      justifyContent: "space-evenly",
+                      height: 100,
+                    },
+                  ]}
+                  onChangeText={(userskill) => setuserskill(userskill)}
+                  value={userskill}
+                  onSubmitEditing={() => {
+                    setskillsofuser([...skillsofuser, userskill]);
+                    setuserskill("");
+                  }}
+                />
+              </View>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: colors.Bluish,
+                  width: 345,
+                  height: 50,
+                  borderRadius: 10,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 30,
+                }}
+                onPress={() => {
+                  edit("skills");
+                }}
+              >
+                <MyText
+                  style={{
+                    color: colors.white,
+                    fontSize: 14,
+                    fontWeight: "500",
+                  }}
+                >
+                  Update
+                </MyText>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: colors.red,
+                  width: 345,
+                  height: 50,
+                  borderRadius: 10,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 10,
+                }}
+                onPress={() => {
+                  navigation.navigate("HomeService");
+                }}
+              >
+                <MyText
+                  style={{
+                    color: colors.white,
+                    fontSize: 14,
+                    fontWeight: "500",
+                  }}
+                >
+                  Cancel
+                </MyText>
+              </TouchableOpacity>
+            </View>
           )}
         </View>
-
-        {description && (
-          <View style={{ marginTop: 30 }}>
-            <View style={styles.box}>
-              <TextInput
-                style={{
-                  fontSize: 11,
-                  fontWeight: "400",
-                  margin: 20,
-                  textAlign: "justify",
-                }}
-                value={userdesc}
-                onChangeText={(userdesc) => setuserdesc(userdesc)}
-                multiline={true}
-              />
-            </View>
-            <TouchableOpacity
-              style={{
-                backgroundColor: colors.Bluish,
-                width: 345,
-                height: 50,
-                borderRadius: 10,
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 30,
-              }}
-              onPress={() => {
-                setuserdesc(userdesc);
-                edit("description");
-              }}
-            >
-              <MyText
-                style={{
-                  color: colors.white,
-                  fontSize: 14,
-                  fontWeight: "500",
-                }}
-              >
-                Update
-              </MyText>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                backgroundColor: colors.red,
-                width: 345,
-                height: 50,
-                borderRadius: 10,
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 10,
-              }}
-              onPress={() => {
-                navigation.navigate("HomeService");
-              }}
-            >
-              <MyText
-                style={{
-                  color: colors.white,
-                  fontSize: 14,
-                  fontWeight: "500",
-                }}
-              >
-                Cancel
-              </MyText>
-            </TouchableOpacity>
-          </View>
-        )}
-        {rates && (
-          <View style={{ marginTop: 30 }}>
-            <View style={styles.SectionStyle}>
-              <TextInput
-                style={styles.inputStyle}
-                keyboardType="number-pad"
-                value={value2}
-                onChangeText={(value2) => setValue(value2)}
-              />
-            </View>
-            <TouchableOpacity
-              style={{
-                backgroundColor: colors.Bluish,
-                width: 345,
-                height: 50,
-                borderRadius: 10,
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 30,
-              }}
-              onPress={() => {
-                edit("rates");
-              }}
-            >
-              <MyText
-                style={{
-                  color: colors.white,
-                  fontSize: 14,
-                  fontWeight: "500",
-                }}
-              >
-                Update
-              </MyText>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                backgroundColor: colors.red,
-                width: 345,
-                height: 50,
-                borderRadius: 10,
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 10,
-              }}
-              onPress={() => {
-                navigation.navigate("HomeService");
-              }}
-            >
-              <MyText
-                style={{
-                  color: colors.white,
-                  fontSize: 14,
-                  fontWeight: "500",
-                }}
-              >
-                Cancel
-              </MyText>
-            </TouchableOpacity>
-          </View>
-        )}
-        {skills && (
-          <View style={{ marginTop: 30 }}>
-            <View
-              style={[styles.box, { shadowColor: colors.Bluish, padding: 10 }]}
-            >
-              <FlatList
-                data={skillsofuser}
-                keyExtractor={(item) => item.id}
-                numColumns={3}
-                style={{ height: 60 }}
-                renderItem={({ item, index }) => (
-                  <View
-                    style={{
-                      marginTop: 15,
-                      marginLeft: 10,
-                      height: 22,
-                      width: 90,
-                      backgroundColor: colors.Bluish,
-                      borderRadius: 5,
-                    }}
-                  >
-                    <View style={{ flexDirection: "row" }}>
-                      <MyText
-                        style={{
-                          color: colors.white,
-                          fontSize: 11,
-                          fontWeight: "400",
-                          alignSelf: "center",
-                          margin: 3,
-                          marginLeft: 5,
-                        }}
-                      >
-                        {item}
-                      </MyText>
-                      <TouchableOpacity
-                        style={{
-                          position: "absolute",
-                          left: 70,
-                          top: 3,
-                        }}
-                        onPress={() => {
-                          deleteItem(index);
-                        }}
-                      >
-                        <Entypo
-                          name="circle-with-cross"
-                          size={15}
-                          color={colors.white}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                )}
-              />
-              <TextInput
-                style={[
-                  styles.inputStyle,
-                  {
-                    flexDirection: "row",
-                    justifyContent: "space-evenly",
-                    height: 100,
-                  },
-                ]}
-                onChangeText={(userskill) => setuserskill(userskill)}
-                value={userskill}
-                onSubmitEditing={() => {
-                  setskillsofuser([...skillsofuser, userskill]);
-                  setuserskill("");
-                }}
-              />
-            </View>
-            <TouchableOpacity
-              style={{
-                backgroundColor: colors.Bluish,
-                width: 345,
-                height: 50,
-                borderRadius: 10,
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 30,
-              }}
-              onPress={() => {
-                edit("skills");
-              }}
-            >
-              <MyText
-                style={{
-                  color: colors.white,
-                  fontSize: 14,
-                  fontWeight: "500",
-                }}
-              >
-                Update
-              </MyText>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                backgroundColor: colors.red,
-                width: 345,
-                height: 50,
-                borderRadius: 10,
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 10,
-              }}
-              onPress={() => {
-                navigation.navigate("HomeService");
-              }}
-            >
-              <MyText
-                style={{
-                  color: colors.white,
-                  fontSize: 14,
-                  fontWeight: "500",
-                }}
-              >
-                Cancel
-              </MyText>
-            </TouchableOpacity>
-          </View>
-        )}
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 

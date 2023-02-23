@@ -54,23 +54,37 @@ const PersonalInfo = () => {
   ]);
   const saveData = async () => {
     try {
-      setcondition(true);
-      await AsyncStorage.setItem("@name", name);
-      await AsyncStorage.setItem("@email", email);
-      await AsyncStorage.setItem("@Phonenumber", Phonenumber);
-      await AsyncStorage.setItem("@language", language);
-      await AsyncStorage.setItem("@gender", value);
-      await AsyncStorage.setItem("@country", value2);
-      await AsyncStorage.setItem("@city", value3);
-      setcondition(false);
+      if (
+        language !== undefined &&
+        value !== undefined &&
+        value2 !== undefined &&
+        value3 != -undefined
+      ) {
+        setcondition(true);
+        await AsyncStorage.setItem("@name", name);
+        await AsyncStorage.setItem("@email", email);
+        await AsyncStorage.setItem("@Phonenumber", Phonenumber);
+        await AsyncStorage.setItem("@language", language);
+        await AsyncStorage.setItem("@gender", value);
+        await AsyncStorage.setItem("@country", value2);
+        await AsyncStorage.setItem("@city", value3);
+        setcondition(false);
 
-      console.log("done");
-      Toast.show({
-        topOffset: 60,
-        type: "success",
-        text1: "Your Information is successfully saved",
-        text2: "Press Proceed to continue",
-      });
+        console.log("done");
+        Toast.show({
+          topOffset: 60,
+          type: "success",
+          text1: "Your Information is successfully saved",
+          text2: "Press Proceed to continue",
+        });
+      } else {
+        Toast.show({
+          topOffset: 60,
+          type: "error",
+          text1: "Some fields are missing",
+          text2: "Please fill out all the fields",
+        });
+      }
     } catch (error) {
       setcondition(false);
 

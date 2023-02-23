@@ -330,7 +330,13 @@ const CustomOffer = ({ route }) => {
                 Total Price
               </MyText>
               <MyText
-                style={{ fontSize: 10, fontWeight: "400", marginLeft: 100 }}
+                style={{
+                  fontSize: 10,
+                  fontWeight: "400",
+                  marginLeft: 100,
+                  position: "absolute",
+                  left: 160,
+                }}
               >
                 US$
               </MyText>
@@ -378,11 +384,11 @@ const CustomOffer = ({ route }) => {
               <View
                 style={[
                   styles.SectionStyle,
-                  { position: "absolute", left: 180 },
+                  { position: "absolute", left: 194 },
                 ]}
               >
                 <TextInput
-                  style={styles.inputStyle2}
+                  style={[styles.inputStyle2]}
                   onChangeText={(duedate) => setduedate(duedate)}
                   placeholder="Due Date"
                   value={duedate.toDateString()}
@@ -418,7 +424,6 @@ const CustomOffer = ({ route }) => {
             <Pressable
               style={{
                 backgroundColor: colors.Bluish,
-                width: 300,
                 height: 58,
                 borderRadius: 10,
                 justifyContent: "center",
@@ -523,7 +528,9 @@ const CustomOffer = ({ route }) => {
                 style={{
                   fontSize: 10,
                   fontWeight: "400",
-                  marginLeft: 90,
+                  position: "absolute",
+                  left: 270,
+
                   margin: 5,
                 }}
               >
@@ -535,6 +542,8 @@ const CustomOffer = ({ route }) => {
                     styles.inputStyle,
                     {
                       elevation: 7,
+                      position: "absolute",
+                      left: 130,
                     },
                   ]}
                   value={price}
@@ -636,7 +645,6 @@ const CustomOffer = ({ route }) => {
             <Pressable
               style={{
                 backgroundColor: colors.Bluish,
-                width: 300,
                 height: 58,
                 borderRadius: 10,
                 justifyContent: "center",
@@ -693,7 +701,7 @@ const styles = StyleSheet.create({
   },
   Section: {
     height: 160,
-    width: 300,
+    ///  width: 300,
     borderWidth: 1,
     borderRadius: 5,
   },
