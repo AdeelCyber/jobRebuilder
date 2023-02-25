@@ -30,6 +30,8 @@ import CartContext from '../../Context/CartProvider'
 import axios from '../../http/axiosSet'
 import * as Linking from 'expo-linking'
 import Loader from '../../Components/Loader'
+import { useEffect } from 'react'
+import { io } from 'socket.io-client'
 
 const ProfileScreen = () => {
   const isFocused = useIsFocused()
@@ -69,6 +71,26 @@ const ProfileScreen = () => {
     <SvgImport svg={LogoutIcon} />,
   ]
 
+  useEffect(() => {
+    let socket = io(axios.defaults.baseURL, {
+      autoConnect: true,
+      extraHeaders: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2UyOGU2MzZmYzkxZDAwMWUwMDQwNTIiLCJyb2xlIjoiRnJlZWxhbmNlciIsImVtYWlsIjoic3VsZW1hbkBnbWFpbC5jb20iLCJpYXQiOjE2NzY3NTkyODR9.y0VPwrzNfUe3ZH3PNJxfVqPP0Xf3HKdwk21SAJgne3E`,
+      },
+    })
+
+    console.log(socket)
+
+    socket.connect()
+    socket.on('connect', () => {
+      console.log('Connected')
+    })
+
+    socket.on('account-connected-event', (data) => {
+      console.log('Data is here', data)
+    })
+  }, [])
+
   const goTo = async () => {
     console.log('Before')
     const token = await AsyncStorage.getItem('@accessToken')
@@ -85,7 +107,7 @@ const ProfileScreen = () => {
       setLoading(true)
 
       const resp = fetch(
-        `https://stepdev.up.railway.app/stripe/multiparty-express`,
+        `${axios.defaults.baseURL}stripe/multiparty-express`,
         options
       )
         .then((response) => response.json())
