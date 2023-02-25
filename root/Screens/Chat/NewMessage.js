@@ -74,7 +74,7 @@ const NewMessage = ({ navigation, route }) => {
                     <UserInfoText>
                       <UserImg
                         source={{
-                          uri: `https://stepdev.up.railway.app/media/getimage/${item.avatar}`,
+                          uri: `https://stepev-dev.up.railway.app/media/getimage/${item.avatar}`,
                         }}
                       />
                     </UserInfoText>

@@ -37,6 +37,7 @@ import CustomHeader5 from "../../Components/CustomHeader5";
 import * as ImagePicker from "expo-image-picker";
 import Toast from "react-native-toast-message";
 import { imageUpload } from "../Profile/services/fileServices";
+import { groupcreation } from "../Profile/services/MessageServices";
 
 const CreatingGroup1 = ({ navigation, route }) => {
   const {
@@ -45,7 +46,7 @@ const CreatingGroup1 = ({ navigation, route }) => {
   const [grouptitle, setgrouptitle] = useState();
   const [image, setimage] = useState();
   const { accessToken } = useContext(CartProvider);
-  const [getcondition, setcondition] = useState(true);
+  const [getcondition, setcondition] = useState(false);
   const [logo, setlogo] = useState();
   const { members } = route.params != undefined ? route.params : {};
   const [media, setmedia] = useState();
@@ -61,79 +62,44 @@ const CreatingGroup1 = ({ navigation, route }) => {
     if (!result.canceled) {
       setimage("Uploaded");
       setmedia(result.assets[0].uri);
-    }
-    if (!result.canceled) {
-      setimage("Uploaded");
-      setmedia(result.assets[0].uri);
 
       const img = await imageUpload(result.assets[0].uri);
       setlogo(JSON.parse(img.body));
     }
   };
-  useEffect(() => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `bearer ${accessToken}`,
-      },
-    };
 
-    axios
-      .get(
-        "https://stepdev.up.railway.app/chat/getChats",
-
-        config
-      )
-      .then((res) => {
-        // console.log(res.data.chats);
-        // setchat(res.data.chats);
-
-        setcondition(false);
-      })
-      .catch((err) => {
-        //console.log("error", err);
-      });
-  }, [getcondition]);
-
-  const group = () => {
+  const group = async () => {
     //console.log(accessToken);
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
-    const r = ["63c2f060badbb4001f79a4bc", "63c430c5badbb4001f79a4be"];
-    setcondition(true);
+    try {
+      setcondition(true);
+      const res = await groupcreation(
+        accessToken,
+        grouptitle,
+        members,
+        logo.filename
+      );
 
-    axios
-      .post(
-        "https://stepdev.up.railway.app/chat/createChatGroup",
-        {
-          groupName: grouptitle,
-          members: members,
-          avatar: logo.filename,
-        },
-        config
-      )
-      .then((res) => {
-        console.log(res);
-        // setchat(res.data.chats);
-
-        if (res.status == 201) {
-          Toast.show({
-            topOffset: 60,
-            type: "success",
-            text1: "Group Created",
-            text2: ".",
-          });
-          navigation.navigate("Message");
-        }
+      if (res.status == 201) {
         setcondition(false);
-      })
-      .catch((err) => {
-        console.log("error", err);
+
+        Toast.show({
+          topOffset: 60,
+          type: "success",
+          text1: "Group Created",
+          text2: ".",
+        });
+        navigation.navigate("Message");
+      }
+    } catch (err) {
+      setcondition(false);
+
+      Toast.show({
+        topOffset: 60,
+        type: "error",
+        text1: "Group not created",
+        text2: ".",
       });
+    }
   };
   useEffect(() => {
     console.log(members);

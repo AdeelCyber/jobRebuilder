@@ -186,7 +186,7 @@ const EditPortfolio = ({ route }) => {
                 <View style={{ flexDirection: "row" }}>
                   <Image
                     source={{
-                      uri: `https://stepdev.up.railway.app/media/getimage/${item}`,
+                      uri: `https://stepev-dev.up.railway.app/media/getimage/${item}`,
                     }}
                     resizeMode="contain"
                     style={{ height: 139, width: 160, borderRadius: 10 }}
@@ -226,7 +226,7 @@ const EditPortfolio = ({ route }) => {
                 <View style={{ flexDirection: "row" }}>
                   <Image
                     source={{
-                      uri: `https://stepdev.up.railway.app/media/getimage/${item}`,
+                      uri: `https://stepev-dev.up.railway.app/media/getimage/${item}`,
                     }}
                     resizeMode="contain"
                     style={{ height: 139, width: 160, borderRadius: 10 }}

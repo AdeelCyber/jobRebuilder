@@ -33,7 +33,7 @@ export default function CheckoutSheet({ route }) {
     console.log(order);
 
     const response = await fetch(
-      `https://stepdev.up.railway.app/stripe/checkout-connected-direct`,
+      `https://stepev-dev.up.railway.app/stripe/checkout-connected-direct`,
       {
         method: "POST",
         headers: {

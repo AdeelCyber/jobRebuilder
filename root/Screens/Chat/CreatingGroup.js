@@ -164,7 +164,7 @@ const CreatingGroup = ({ navigation }) => {
                     <UserInfoText>
                       <UserImg
                         source={{
-                          uri: `https://stepdev.up.railway.app/media/getimage/${item.chatavatar}`,
+                          uri: `https://stepev-dev.up.railway.app/media/getimage/${item.chatavatar}`,
                         }}
                       />
                     </UserInfoText>
@@ -234,7 +234,7 @@ const CreatingGroup = ({ navigation }) => {
               <Image
                 style={{ width: 40, height: 40, borderRadius: 50 }}
                 source={{
-                  uri: `https://stepdev.up.railway.app/media/getimage/${item.chatavatar}`,
+                  uri: `https://stepev-dev.up.railway.app/media/getimage/${item.chatavatar}`,
                 }}
               />
             </View>

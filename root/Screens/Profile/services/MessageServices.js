@@ -264,3 +264,26 @@ export const getChats = async (accessToken) => {
     console.log(error);
   }
 };
+
+export const groupcreation = async (accessToken, grouptitle, members, logo) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${accessToken}`,
+    },
+  };
+  try {
+    const resp = axios.post(
+      "/chat/createChatGroup",
+      {
+        groupName: grouptitle,
+        members: members,
+        avatar: logo,
+      },
+      config
+    );
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};

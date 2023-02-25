@@ -286,7 +286,7 @@ const EditProfile = ({ route }) => {
           ) : (
             <Image
               source={{
-                uri: `https://stepdev.up.railway.app/media/getimage/${logo}`,
+                uri: `https://stepev-dev.up.railway.app/media/getimage/${logo}`,
               }}
               style={{
                 height: 107,

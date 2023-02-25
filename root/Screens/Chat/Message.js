@@ -235,7 +235,7 @@ const Message = ({ navigation }) => {
                         alignItems: "center",
                       }}
                       source={{
-                        uri: `https://stepdev.up.railway.app/media/getimage/${item.chatavatar}`,
+                        uri: `https://stepev-dev.up.railway.app/media/getimage/${item.chatavatar}`,
                       }}
                     />
                     <View

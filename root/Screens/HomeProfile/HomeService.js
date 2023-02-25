@@ -451,7 +451,7 @@ const HomeService = ({ route }) => {
                           marginRight: 5,
                         }}
                         source={{
-                          uri: `https://stepdev.up.railway.app/media/getimage/${item.attachments[0]}`,
+                          uri: `https://stepev-dev.up.railway.app/media/getimage/${item.attachments[0]}`,
                         }}
                       />
                     </Pressable>
