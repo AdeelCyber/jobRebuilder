@@ -27,6 +27,7 @@ import { StackActions, NavigationActions } from 'react-navigation'
 import Loader from '../../Components/Loader'
 import { useIsFocused } from '@react-navigation/native'
 import { CartProvider } from '../../Context/CartProvider'
+import Error from '../../Components/Error'
 
 const CampaignHome = ({ navigation, routes }) => {
   const [selected, setselected] = useState(false)
@@ -375,16 +376,7 @@ const CampaignHome = ({ navigation, routes }) => {
 
       {popularData?.length === 0 ? (
         <View>
-          <MyText
-            style={{
-              fontSize: 20,
-              color: 'red',
-              textAlign: 'center',
-              fontWeight: '700',
-            }}
-          >
-            No Freelancer Found
-          </MyText>
+          <Error message='No Freelancer Found' />
         </View>
       ) : (
         <>
