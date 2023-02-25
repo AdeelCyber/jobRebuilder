@@ -286,34 +286,25 @@ const Login = () => {
         setcondition(false);
 
         console.log(error.response.data);
-        if (error.response.data.errors[0].password) {
-          Toast.show({
-            topOffset: 60,
-            type: "error",
-            text1: "Password",
-            text2: error.response.data.errors[0].password,
-          });
-        } else if (error.response.data.errors[0].email) {
-          Toast.show({
-            topOffset: 60,
-            type: "error",
-            text1: "Email",
-            text2: error.response.data.errors[0].email,
-          });
-        } else if (error.response.data.error.name) {
-          Toast.show({
-            topOffset: 60,
-            type: "error",
-            text1: "ERROR",
-            text2: error.response.data.error.name,
-          });
-        } else {
-          Toast.show({
-            topOffset: 60,
-            type: "error",
-            text1: error.response.data.error.message,
-          });
-        }
+
+        Toast.show({
+          topOffset: 60,
+          type: "error",
+          text1: "ERROR",
+          text2: error.response.data.error?.name
+            ? error.response.data.error.name
+            : error.response.data.errors
+            ? error.response.data.errors[0].email ||
+              error.response.data.errors[0].password
+            : error.response.data.error?.message,
+        });
+        // } else {
+        //   Toast.show({
+        //     topOffset: 60,
+        //     type: "error",
+        //     text1: error.response.data.error.message,
+        //   });
+        // }
       }
     }
   };

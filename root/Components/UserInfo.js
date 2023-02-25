@@ -40,7 +40,7 @@ const UserInfo = () => {
   const [copiedText, setCopiedText] = useState("");
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(
-      `https://stepdev.up.railway.app/${userinfo?.userInfo.url}`
+      `https://stepev-dev.up.railway.app/${userinfo?.userInfo.url}`
     );
     const t = await Clipboard.getStringAsync();
     console.log(t);
@@ -61,7 +61,7 @@ const UserInfo = () => {
 
     axios
       .get(
-        "https://stepdev.up.railway.app/freelancer/profile",
+        "https://stepev-dev.up.railway.app/freelancer/profile",
 
         config
       )
@@ -114,7 +114,7 @@ const UserInfo = () => {
         <Image
           style={{ height: 78, width: 78, borderRadius: 50, margin: 10 }}
           source={{
-            uri: `https://stepdev.up.railway.app/media/getimage/${userinfo?.userInfo.avatar}`,
+            uri: `https://stepev-dev.up.railway.app/media/getimage/${userinfo?.userInfo.avatar}`,
           }}
         />
         <View style={{ flexDirection: "column" }}>

@@ -233,6 +233,7 @@ const Message = ({ navigation }) => {
                         width: 51,
                         borderRadius: 50,
                         alignItems: "center",
+                        marginLeft: 5,
                       }}
                       source={{
                         uri: `https://stepev-dev.up.railway.app/media/getimage/${item.chatavatar}`,
@@ -243,7 +244,7 @@ const Message = ({ navigation }) => {
                         height: 15,
                         width: 15,
                         borderRadius: 100,
-                        marginLeft: 40,
+                        marginLeft: 43,
 
                         backgroundColor:
                           getuser === item.chatid ? "green" : "red",

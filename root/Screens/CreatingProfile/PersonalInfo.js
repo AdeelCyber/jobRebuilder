@@ -53,12 +53,13 @@ const PersonalInfo = () => {
     { label: "Lahore", value: "Lahore" },
   ]);
   const saveData = async () => {
+    console.log("kk", language, "j");
     try {
       if (
         language !== undefined &&
-        value !== undefined &&
-        value2 !== undefined &&
-        value3 != -undefined
+        value !== null &&
+        value2 !== null &&
+        value3 !== null
       ) {
         setcondition(true);
         await AsyncStorage.setItem("@name", name);
@@ -77,6 +78,10 @@ const PersonalInfo = () => {
           text1: "Your Information is successfully saved",
           text2: "Press Proceed to continue",
         });
+        setValue(null);
+        setValue2(null);
+        setValue3(null);
+        setlanguage();
       } else {
         Toast.show({
           topOffset: 60,
@@ -92,8 +97,8 @@ const PersonalInfo = () => {
       Toast.show({
         topOffset: 60,
         type: "error",
-        text1: "Something went wrong",
-        text2: "",
+        text1: "Some fields are missing",
+        text2: "Please fill out all the fields",
       });
     }
   };

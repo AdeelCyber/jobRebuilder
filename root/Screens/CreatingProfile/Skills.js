@@ -49,7 +49,7 @@ const Skills = () => {
     try {
       if (
         skills !== undefined &&
-        value !== undefined &&
+        value !== null &&
         availibility !== undefined &&
         jobtitle !== undefined &&
         hourlyrate !== undefined &&
@@ -71,6 +71,12 @@ const Skills = () => {
           text1: "Your Information is successfully saved",
           text2: "Press Proceed to continue",
         });
+        setValue(null);
+        setskills();
+        setavailibility();
+        setjobtitle();
+        sethourlyrate();
+        setdescription();
       } else {
         Toast.show({
           topOffset: 60,
@@ -85,8 +91,8 @@ const Skills = () => {
       Toast.show({
         topOffset: 60,
         type: "error",
-        text1: "Something went wrong",
-        text2: "",
+        text1: "Some fields are missing",
+        text2: "Please fill out all the fields",
       });
     }
   };

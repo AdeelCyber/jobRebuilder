@@ -33,6 +33,7 @@ export const fileUpload = async (doc) => {
 };
 
 export const downloadFile = async (uri) => {
+  console.log("uuu", uri);
   const targetUri =
     FileSystem.documentDirectory +
     uri.substring(uri.lastIndexOf("/") + 1, uri.length);

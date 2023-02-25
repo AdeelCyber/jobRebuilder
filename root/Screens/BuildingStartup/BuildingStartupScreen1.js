@@ -1762,62 +1762,114 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               </View>
             </Modal>
             <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-              <Pressable
-                style={{
-                  backgroundColor: colors.Bluish,
-                  width: 104,
-                  height: 24,
-                  borderRadius: 5,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginTop: 20,
-                  alignSelf: "flex-start",
-                  marginRight: 10,
-                }}
-                onPress={() => {
-                  setTermScreen(false);
-                  setrolescreen(false);
-                  setteamroleScreen(true);
-                }}
-              >
-                <MyText
+              {teamroleScreen ? (
+                <Pressable
                   style={{
-                    color: colors.white,
-                    fontSize: 8,
-                    fontWeight: "500",
+                    backgroundColor: colors.Bluish,
+                    width: 104,
+                    height: 24,
+                    borderRadius: 5,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: 20,
+                    alignSelf: "flex-start",
+                    marginRight: 10,
+                  }}
+                  onPress={() => {}}
+                >
+                  <MyText
+                    style={{
+                      color: colors.white,
+                      fontSize: 8,
+                      fontWeight: "500",
+                    }}
+                  >
+                    Team Roles
+                  </MyText>
+                </Pressable>
+              ) : (
+                <Pressable
+                  style={{
+                    width: 104,
+                    height: 24,
+                    borderRadius: 5,
+                    justifyContent: "center",
+                    borderWidth: 1,
+                    alignItems: "center",
+                    marginTop: 20,
+                    alignSelf: "flex-start",
+                  }}
+                  onPress={() => {
+                    setTermScreen(false);
+                    setrolescreen(false);
+                    setteamroleScreen(true);
                   }}
                 >
-                  Team Roles
-                </MyText>
-              </Pressable>
+                  <MyText
+                    style={{
+                      fontSize: 8,
+                      fontWeight: "500",
+                    }}
+                  >
+                    Team Roles
+                  </MyText>
+                </Pressable>
+              )}
 
-              <Pressable
-                style={{
-                  width: 104,
-                  height: 24,
-                  borderRadius: 5,
-                  justifyContent: "center",
-                  borderWidth: 1,
-                  alignItems: "center",
-                  marginTop: 20,
-                  alignSelf: "flex-start",
-                }}
-                onPress={() => {
-                  setteamroleScreen(false);
-                  setrolescreen(false);
-                  setTermScreen(true);
-                  console.log(termsScreen);
-                }}
-              >
-                <MyText
+              {termsScreen ? (
+                <Pressable
                   style={{
-                    fontSize: 8,
-                    fontWeight: "500",
+                    backgroundColor: colors.Bluish,
+                    width: 104,
+                    height: 24,
+                    borderRadius: 5,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: 20,
+                    alignSelf: "flex-start",
+                    marginRight: 10,
+                  }}
+                  onPress={() => {}}
+                >
+                  <MyText
+                    style={{
+                      color: colors.white,
+                      fontSize: 8,
+                      fontWeight: "500",
+                    }}
+                  >
+                    Partnership Terms
+                  </MyText>
+                </Pressable>
+              ) : (
+                <Pressable
+                  style={{
+                    width: 104,
+                    height: 24,
+                    borderRadius: 5,
+                    justifyContent: "center",
+                    borderWidth: 1,
+                    alignItems: "center",
+                    marginTop: 20,
+                    alignSelf: "flex-start",
+                  }}
+                  onPress={() => {
+                    setteamroleScreen(false);
+                    setrolescreen(false);
+                    setTermScreen(true);
+                    console.log(termsScreen);
                   }}
                 >
-                  Partnership Terms
-                </MyText>
-              </Pressable>
+                  <MyText
+                    style={{
+                      fontSize: 8,
+                      fontWeight: "500",
+                    }}
+                  >
+                    Partnership Terms
+                  </MyText>
+                </Pressable>
+              )}
             </View>
             <View style={styles.SectionStyle}>
               <TextInput
@@ -2090,62 +2142,115 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               </View>
             </Modal>
             <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-              <Pressable
-                style={{
-                  backgroundColor: colors.Bluish,
-                  width: 104,
-                  height: 24,
-                  borderRadius: 5,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginTop: 20,
-                  alignSelf: "flex-start",
-                  marginRight: 10,
-                }}
-                onPress={() => {
-                  setTermScreen(false);
-                  setrolescreen(false);
-                  setteamroleScreen(true);
-                }}
-              >
-                <MyText
+              {teamroleScreen ? (
+                <Pressable
                   style={{
-                    color: colors.white,
-                    fontSize: 8,
-                    fontWeight: "500",
+                    backgroundColor: colors.Bluish,
+                    width: 104,
+                    height: 24,
+                    borderRadius: 5,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: 20,
+                    alignSelf: "flex-start",
+                    marginRight: 10,
+                  }}
+                  onPress={() => {}}
+                >
+                  <MyText
+                    style={{
+                      color: colors.white,
+                      fontSize: 8,
+                      fontWeight: "500",
+                    }}
+                  >
+                    Team Roles
+                  </MyText>
+                </Pressable>
+              ) : (
+                <Pressable
+                  style={{
+                    width: 104,
+                    height: 24,
+                    borderRadius: 5,
+                    justifyContent: "center",
+                    borderWidth: 1,
+                    alignItems: "center",
+                    marginTop: 20,
+                    alignSelf: "flex-start",
+                  }}
+                  onPress={() => {
+                    setTermScreen(false);
+                    setrolescreen(false);
+                    setteamroleScreen(true);
                   }}
                 >
-                  Team Roles
-                </MyText>
-              </Pressable>
+                  <MyText
+                    style={{
+                      fontSize: 8,
+                      fontWeight: "500",
+                    }}
+                  >
+                    Team Roles
+                  </MyText>
+                </Pressable>
+              )}
 
-              <Pressable
-                style={{
-                  width: 104,
-                  height: 24,
-                  borderRadius: 5,
-                  justifyContent: "center",
-                  borderWidth: 1,
-                  alignItems: "center",
-                  marginTop: 20,
-                  alignSelf: "flex-start",
-                }}
-                onPress={() => {
-                  setteamroleScreen(false);
-                  setrolescreen(false);
-                  setTermScreen(true);
-                  console.log(termsScreen);
-                }}
-              >
-                <MyText
+              {termsScreen ? (
+                <Pressable
                   style={{
-                    fontSize: 8,
-                    fontWeight: "500",
+                    backgroundColor: colors.Bluish,
+                    width: 104,
+                    height: 24,
+                    borderRadius: 5,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginLeft: 10,
+                    marginTop: 20,
+                    alignSelf: "flex-start",
+                    marginRight: 10,
+                  }}
+                  onPress={() => {}}
+                >
+                  <MyText
+                    style={{
+                      color: colors.white,
+                      fontSize: 8,
+                      fontWeight: "500",
+                    }}
+                  >
+                    Partnership Terms
+                  </MyText>
+                </Pressable>
+              ) : (
+                <Pressable
+                  style={{
+                    width: 104,
+                    height: 24,
+                    borderRadius: 5,
+                    justifyContent: "center",
+                    borderWidth: 1,
+                    alignItems: "center",
+                    marginTop: 20,
+                    alignSelf: "flex-start",
+                  }}
+                  onPress={() => {
+                    setteamroleScreen(false);
+                    setrolescreen(false);
+                    setTermScreen(true);
+                    console.log(termsScreen);
                   }}
                 >
-                  Partnership Terms
-                </MyText>
-              </Pressable>
+                  <MyText
+                    style={{
+                      fontSize: 8,
+                      fontWeight: "500",
+                    }}
+                  >
+                    Partnership Terms
+                  </MyText>
+                </Pressable>
+              )}
             </View>
 
             <View style={styles.SectionStyle2}>

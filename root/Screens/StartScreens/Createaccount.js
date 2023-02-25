@@ -175,13 +175,21 @@ const CreateAccount = ({ route }) => {
       } catch (error) {
         setcondition(false);
 
-        console.log(error.response);
+        console.log(error.response.data);
         Toast.show({
           topOffset: 60,
           type: "error",
-          text1: error.response.data.error.message,
-          text2: error.response.data.error.name,
+          text1: "ERROR",
+          text2: error.response.data.error?.name
+            ? error.response.data.error.name
+            : error.response.data.errors
+            ? "Phone Number: " + error.response.data.errors[0].phoneNumber
+            : error.response.data.error?.message
+            ? "User Exists"
+            : "",
         });
+
+        setPhonenumber("");
       }
     }
   };
