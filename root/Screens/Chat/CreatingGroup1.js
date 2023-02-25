@@ -187,8 +187,8 @@ const CreatingGroup1 = ({ navigation, route }) => {
       <Pressable
         style={{
           backgroundColor: colors.Bluish,
-          width: 360,
-          height: 58,
+          width: 320,
+          height: 50,
           borderRadius: 10,
           justifyContent: "center",
           alignItems: "center",
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   SectionStyle: {
     flexDirection: "row",
     height: 58,
-    width: 344,
+    width: 330,
     marginTop: 14,
     marginBottom: 5,
   },

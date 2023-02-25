@@ -268,7 +268,7 @@ const HomeService = ({ route }) => {
                     marginLeft: 30,
                   }}
                 >
-                  UI/UX Designer
+                  {userinfo?.about.jobTitle}
                 </MyText>
                 <Pressable
                   style={{

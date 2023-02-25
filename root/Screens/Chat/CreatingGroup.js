@@ -245,7 +245,7 @@ const CreatingGroup = ({ navigation }) => {
       <Pressable
         style={{
           backgroundColor: colors.Bluish,
-          width: 350,
+          width: 320,
           height: 50,
           borderRadius: 10,
           justifyContent: "center",

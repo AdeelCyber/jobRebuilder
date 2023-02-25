@@ -2,8 +2,6 @@ import styled from "styled-components";
 
 export const Container = styled.View`
   flex: 1;
-  padding-left: 14px;
-  padding-right: 14px;
   align-items: center;
   background-color: #ffffff;
 `;
@@ -22,11 +20,13 @@ export const UserInfo = styled.View`
 export const UserImgWrapper = styled.View`
   padding-top: 15px;
   padding-bottom: 15px;
+  padding-left: 10px;
 `;
 
 export const UserImg = styled.Image`
   width: 52px;
   height: 52px;
+
   border-radius: 25px;
 `;
 

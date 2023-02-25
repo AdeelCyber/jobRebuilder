@@ -65,15 +65,12 @@ const BuildingStartupScreen1 = ({ navigation }) => {
 
   const buttonStyle = {
     backgroundColor: colors.Bluish,
-    width: "111%",
+    width: 300,
     height: 50,
     justifyContent: "center",
     alignItems: "center",
-    //alignSelf: "center",
     borderRadius: 10,
     marginTop: 20,
-    // marginLeft: 30,
-    marginRight: 233,
   };
   const [startupid, setstartupid] = useState();
   if (getcondition) {
@@ -2939,6 +2936,8 @@ const BuildingStartupScreen1 = ({ navigation }) => {
         text2: "Some fields are missing",
       });
     } else {
+      const r = await publishStartup(accessToken, startupid);
+      console.log(r);
       Toast.show({
         topOffset: 60,
         type: "success",

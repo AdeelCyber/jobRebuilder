@@ -142,6 +142,7 @@ const PersonalInfo = () => {
             style={styles.inputStyle}
             onChangeText={(name) => setname(name)}
             value={name}
+            editable={false}
             placeholder="Name"
             placeholderTextColor="#ACA9A9"
             underlineColorAndroid="#f000"
@@ -153,6 +154,7 @@ const PersonalInfo = () => {
             value={email}
             onChangeText={(email) => setemail(email)}
             placeholder="Email"
+            editable={false}
             placeholderTextColor="#ACA9A9"
             autoCapitalize="none"
             keyboardType="email-address"
@@ -166,6 +168,7 @@ const PersonalInfo = () => {
             onChangeText={(Phonenumber) => setPhonenumber(Phonenumber)}
             placeholder="Phone Number" //12345
             value={Phonenumber}
+            editable={false}
             placeholderTextColor="#ACA9A9"
             keyboardType="number-pad"
             underlineColorAndroid="#f000"

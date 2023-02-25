@@ -71,6 +71,7 @@ const ProfilePic = () => {
   };
 
   const saveData = async () => {
+    console.log(imagetosend);
     try {
       if (imagetosend.filename !== undefined) {
         await AsyncStorage.setItem("@image", imagetosend.filename);

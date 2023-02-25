@@ -140,7 +140,9 @@ const MessageBox = ({
 
     setdoc(result.uri);
     const pdf = await fileUpload(result.uri);
+    console.log(pdf);
     const p = JSON.parse(pdf.body);
+    console.log(p);
     if (chatType === "group") {
       var obj = {};
       (obj["createdAt"] = Date.now()),
@@ -329,7 +331,7 @@ const MessageBox = ({
   } else {
     socket.on("private message", (data) => {
       const { content, from } = data;
-      console.log("yourrrrrrrrrrrrrrrrrr", content);
+      console.log(content);
       if (content.messageType === "oneTimeOrder") {
         var obj = {};
         (obj["createdAt"] = Date.now()),

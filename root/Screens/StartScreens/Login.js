@@ -66,7 +66,7 @@ const Login = () => {
   const startsocket = useCallback(
     (accessToken) => {
       setsocket(
-        io("https://stepdev.up.railway.app", {
+        io("https://stepev-dev.up.railway.app", {
           autoConnect: false,
           extraHeaders: {
             Authorization: `Bearer ${accessToken}`,
@@ -231,7 +231,7 @@ const Login = () => {
         console.log(response);
         //console.log(response.data);
         if (response.status == 200) {
-          console.log(response.data.user);
+          console.log(response.data.onboarding);
           setuserdetails(response.data.user);
           setaccessToken(response.data.accessToken);
           startsocket(response.data.accessToken);
@@ -263,9 +263,8 @@ const Login = () => {
           });
 
           setUserTab(false);
-          if (!firstlogin) {
+          if (response.data.onboarding === false) {
             if (response.data.user.role === "Freelancer") {
-              setfirstlogin(true);
               navigation.navigate("ProgressScreen");
               logged.setislogin(true);
             } else {
