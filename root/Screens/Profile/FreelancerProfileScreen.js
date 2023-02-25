@@ -107,7 +107,7 @@ const FreelancerProfileScreen = () => {
       setLoading(true)
 
       const resp = fetch(
-        `https://stepdev.up.railway.app/stripe/multiparty-express`,
+        `${axios.defaults.baseURL}stripe/multiparty-express`,
         options
       )
         .then((response) => response.json())

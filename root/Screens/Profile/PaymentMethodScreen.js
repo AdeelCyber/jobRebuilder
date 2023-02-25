@@ -12,6 +12,7 @@ import { useNavigation } from '@react-navigation/native'
 import MyText from '../../Components/Text'
 // import { Linking } from 'react-native'
 import * as Linking from 'expo-linking'
+import axios from '../../http/axiosSet'
 
 // import axios from '../../http/axiosSet'
 // import axios from 'axios'
@@ -44,7 +45,7 @@ const PaymentMethodScreen = () => {
   // }, [])
 
   useEffect(() => {
-    let socket = io('https://stepdev.up.railway.app', {
+    let socket = io(axios.defaults.baseURL, {
       autoConnect: true,
       extraHeaders: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2UyOGU2MzZmYzkxZDAwMWUwMDQwNTIiLCJyb2xlIjoiRnJlZWxhbmNlciIsImVtYWlsIjoic3VsZW1hbkBnbWFpbC5jb20iLCJpYXQiOjE2NzY3NTkyODR9.y0VPwrzNfUe3ZH3PNJxfVqPP0Xf3HKdwk21SAJgne3E`,
@@ -75,10 +76,7 @@ const PaymentMethodScreen = () => {
         },
       }
 
-      const resp = fetch(
-        `https://stepdev.up.railway.app/stripe/multiparty-express`,
-        options
-      )
+      const resp = fetch(`${axios.defaults.baseURL}multiparty-express`, options)
         .then((response) => response.json())
         .then((data) => {
           Linking.openURL(data.url)
