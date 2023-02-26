@@ -21,6 +21,7 @@ import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
 import { getSpendingStartup } from '../services/walletServices'
 import { getAvailableJobs } from '../services/jobServices'
+import Error from '../../../Components/Error'
 
 const DashboardScreen = () => {
   const navigation = useNavigation()
@@ -340,16 +341,7 @@ const DashboardScreen = () => {
           </View>
           {orders?.length === 0 && (
             <View>
-              <MyText
-                style={{
-                  fontSize: 20,
-                  color: 'red',
-                  fontWeight: '700',
-                  textAlign: 'center',
-                }}
-              >
-                No Recent Orders
-              </MyText>
+              <Error message='No Recent Order Found' />
             </View>
           )}
           {orders?.map((order, index) => {

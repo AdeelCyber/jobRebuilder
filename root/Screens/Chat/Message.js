@@ -50,7 +50,7 @@ const Message = ({ navigation }) => {
   const onRefresh = async () => {
     try {
       const res = await getChats(accessToken);
-      console.log(res.data.chats);
+      //console.log(res.data.chats);
 
       setchat(res.data.chats);
       setchat2(res.data.chats);

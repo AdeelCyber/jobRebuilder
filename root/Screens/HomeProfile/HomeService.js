@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useCallback } from "react";
+import React, { useContext, useState, useEffect, useCallback } from 'react'
 import {
   Image,
   Pressable,
@@ -11,86 +11,87 @@ import {
   FlatList,
   Text,
   ActivityIndicator,
-} from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
+} from 'react-native'
+import { useFocusEffect } from '@react-navigation/native'
 
-import Context from "../../Context/Context";
-import MyText from "../../Components/Text";
-import CustomHeader9 from "../../Components/CustomHeader9";
-import Icon from "@expo/vector-icons/FontAwesome";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useNavigation } from "@react-navigation/native";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import EvilIcons from "@expo/vector-icons/EvilIcons";
-import Foundation from "@expo/vector-icons/Foundation";
-import StarRating from "react-native-star-rating-widget";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
-import UserInfo from "../../Components/UserInfo";
-import CartProvider from "../../Context/CartProvider";
-import { getProfile } from "../Profile/services/ProfileServices";
-import moment from "moment";
-import { useIsFocused } from "@react-navigation/native";
-import Loader from "../../Components/Loader";
+import Context from '../../Context/Context'
+import MyText from '../../Components/Text'
+import CustomHeader9 from '../../Components/CustomHeader9'
+import Icon from '@expo/vector-icons/FontAwesome'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import { useNavigation } from '@react-navigation/native'
+import Ionicons from '@expo/vector-icons/Ionicons'
+import AntDesign from '@expo/vector-icons/AntDesign'
+import EvilIcons from '@expo/vector-icons/EvilIcons'
+import Foundation from '@expo/vector-icons/Foundation'
+import StarRating from 'react-native-star-rating-widget'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+// import axios from 'axios'
+import UserInfo from '../../Components/UserInfo'
+import CartProvider from '../../Context/CartProvider'
+import { getProfile } from '../Profile/services/ProfileServices'
+import moment from 'moment'
+import { useIsFocused } from '@react-navigation/native'
+import Loader from '../../Components/Loader'
+import Error from '../../Components/Error'
+import axios from '../../http/axiosSet'
+
 const HomeService = ({ route }) => {
   const {
     theme: { colors },
-  } = useContext(Context);
-  const navigation = useNavigation();
-  const [getRating, setRating] = useState(5);
-  const isFocused = useIsFocused();
+  } = useContext(Context)
+  const navigation = useNavigation()
+  const [getRating, setRating] = useState(5)
+  const isFocused = useIsFocused()
 
   const [skills, setskills] = useState([
-    { id: 1, skill: "UI/UX Design" },
-    { id: 2, skill: "Logo Design" },
-    { id: 3, skill: "Video Editing" },
-    { id: 4, skill: "Animations" },
-    { id: 5, skill: "Post Designs" },
-  ]);
-  const [service, setService] = useState(true);
-  const [portfolio, setportfolio] = useState(false);
-  const [reviews, setreviews] = useState(false);
-  const [about, setAbout] = useState(false);
-  const [userinfo, setuserinfo] = useState();
-  const [getcondition, setcondition] = useState(true);
+    { id: 1, skill: 'UI/UX Design' },
+    { id: 2, skill: 'Logo Design' },
+    { id: 3, skill: 'Video Editing' },
+    { id: 4, skill: 'Animations' },
+    { id: 5, skill: 'Post Designs' },
+  ])
+  const [service, setService] = useState(true)
+  const [portfolio, setportfolio] = useState(false)
+  const [reviews, setreviews] = useState(false)
+  const [about, setAbout] = useState(false)
+  const [userinfo, setuserinfo] = useState()
+  const [getcondition, setcondition] = useState(true)
 
-  const { accessToken, userdetails } = useContext(CartProvider);
+  const { accessToken, userdetails } = useContext(CartProvider)
   const getUser = async () => {
-    const res = await getProfile(accessToken);
-    console.log(res.data.data);
-    setuserinfo(res.data.data);
-    setcondition(false);
-  };
+    const res = await getProfile(accessToken)
+    console.log(res.data.data)
+    setuserinfo(res.data.data)
+    setcondition(false)
+  }
   useEffect(() => {
-    getUser();
-  }, [isFocused]);
+    getUser()
+  }, [isFocused])
 
   if (getcondition) {
-    return (
-      <Loader visible={getcondition} color="white" indicatorSize="large" />
-    );
+    return <Loader visible={getcondition} color='white' indicatorSize='large' />
   }
 
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
       <View style={[styles.container]}>
-        <CustomHeader9 icon2={() => {}} Title="" nav={navigation} />
+        <CustomHeader9 icon2={() => {}} Title='' nav={navigation} />
         <UserInfo />
-        <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{
               paddingHorizontal: 20,
-              alignItems: "center",
+              alignItems: 'center',
             }}
           >
             {service ? (
               <TouchableOpacity style={styles.btnstyle} onPress={() => {}}>
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: 'row' }}>
                   <MaterialCommunityIcons
-                    name="desk"
+                    name='desk'
                     size={16}
                     style={{ marginTop: 10, marginLeft: 15 }}
                     color={colors.white}
@@ -105,15 +106,15 @@ const HomeService = ({ route }) => {
                   { backgroundColor: colors.white, borderWidth: 1 },
                 ]}
                 onPress={() => {
-                  setService(true);
-                  setportfolio(false);
-                  setreviews(false);
-                  setAbout(false);
+                  setService(true)
+                  setportfolio(false)
+                  setreviews(false)
+                  setAbout(false)
                 }}
               >
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: 'row' }}>
                   <MaterialCommunityIcons
-                    name="desk"
+                    name='desk'
                     size={16}
                     style={{ marginTop: 10, marginLeft: 15 }}
                     color={colors.black}
@@ -127,9 +128,9 @@ const HomeService = ({ route }) => {
 
             {portfolio ? (
               <TouchableOpacity style={styles.btnstyle} onPress={() => {}}>
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: 'row' }}>
                   <MaterialCommunityIcons
-                    name="medical-bag"
+                    name='medical-bag'
                     size={16}
                     style={{ marginTop: 10, marginLeft: 15 }}
                     color={colors.white}
@@ -144,15 +145,15 @@ const HomeService = ({ route }) => {
                   { backgroundColor: colors.white, borderWidth: 1 },
                 ]}
                 onPress={() => {
-                  setService(false);
-                  setportfolio(true);
-                  setreviews(false);
-                  setAbout(false);
+                  setService(false)
+                  setportfolio(true)
+                  setreviews(false)
+                  setAbout(false)
                 }}
               >
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: 'row' }}>
                   <MaterialCommunityIcons
-                    name="medical-bag"
+                    name='medical-bag'
                     size={16}
                     style={{ marginTop: 10, marginLeft: 15 }}
                     color={colors.black}
@@ -166,9 +167,9 @@ const HomeService = ({ route }) => {
 
             {reviews ? (
               <TouchableOpacity style={styles.btnstyle}>
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: 'row' }}>
                   <AntDesign
-                    name="staro"
+                    name='staro'
                     size={16}
                     style={{ marginTop: 10, marginLeft: 15 }}
                     color={colors.white}
@@ -183,15 +184,15 @@ const HomeService = ({ route }) => {
                   { backgroundColor: colors.white, borderWidth: 1 },
                 ]}
                 onPress={() => {
-                  setService(false);
-                  setportfolio(false);
-                  setreviews(true);
-                  setAbout(false);
+                  setService(false)
+                  setportfolio(false)
+                  setreviews(true)
+                  setAbout(false)
                 }}
               >
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: 'row' }}>
                   <AntDesign
-                    name="staro"
+                    name='staro'
                     size={16}
                     style={{ marginTop: 10, marginLeft: 15 }}
                     color={colors.black}
@@ -204,9 +205,9 @@ const HomeService = ({ route }) => {
             )}
             {about ? (
               <TouchableOpacity style={styles.btnstyle}>
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: 'row' }}>
                   <AntDesign
-                    name="user"
+                    name='user'
                     size={16}
                     style={{ marginTop: 10, marginLeft: 15 }}
                     color={colors.white}
@@ -221,15 +222,15 @@ const HomeService = ({ route }) => {
                   { backgroundColor: colors.white, borderWidth: 1 },
                 ]}
                 onPress={() => {
-                  setService(false);
-                  setportfolio(false);
-                  setreviews(false);
-                  setAbout(true);
+                  setService(false)
+                  setportfolio(false)
+                  setreviews(false)
+                  setAbout(true)
                 }}
               >
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: 'row' }}>
                   <AntDesign
-                    name="user"
+                    name='user'
                     size={16}
                     style={{ marginTop: 10, marginLeft: 15 }}
                     color={colors.black}
@@ -256,14 +257,14 @@ const HomeService = ({ route }) => {
             >
               <View
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
                 }}
               >
                 <MyText
                   style={{
                     fontSize: 15,
-                    fontWeight: "700",
+                    fontWeight: '700',
                     marginTop: 30,
                     marginLeft: 30,
                   }}
@@ -280,14 +281,14 @@ const HomeService = ({ route }) => {
                     backgroundColor: colors.Bluish,
                   }}
                   onPress={() => {
-                    navigation.navigate("EditService", {
+                    navigation.navigate('EditService', {
                       userinfo: userinfo,
-                      screen: "desc",
-                    });
+                      screen: 'desc',
+                    })
                   }}
                 >
                   <MaterialCommunityIcons
-                    name="pencil"
+                    name='pencil'
                     size={16}
                     color={colors.white}
                   />
@@ -303,14 +304,14 @@ const HomeService = ({ route }) => {
                     backgroundColor: colors.Bluish,
                   }}
                   onPress={() => {
-                    navigation.navigate("EditService", {
+                    navigation.navigate('EditService', {
                       userinfo: userinfo,
-                      screen: "rate",
-                    });
+                      screen: 'rate',
+                    })
                   }}
                 >
                   <MaterialCommunityIcons
-                    name="pencil"
+                    name='pencil'
                     size={16}
                     color={colors.white}
                   />
@@ -319,7 +320,7 @@ const HomeService = ({ route }) => {
                 <MyText
                   style={{
                     fontSize: 14,
-                    fontWeight: "700",
+                    fontWeight: '700',
                     marginTop: 33,
                     marginRight: 30,
                   }}
@@ -331,13 +332,13 @@ const HomeService = ({ route }) => {
                 <Text
                   style={{
                     fontSize: 12,
-                    fontWeight: "400",
-                    color: "#23232380",
+                    fontWeight: '400',
+                    color: '#23232380',
                     margin: 30,
-                    textAlign: "justify",
+                    textAlign: 'justify',
                   }}
                   numberOfLines={6}
-                  ellipsizeMode="tail"
+                  ellipsizeMode='tail'
                 >
                   {userinfo?.services.description}
                 </Text>
@@ -345,9 +346,9 @@ const HomeService = ({ route }) => {
             </View>
             <View
               style={{
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                alignSelf: "flex-start",
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+                alignSelf: 'flex-start',
               }}
             >
               <MyText style={[styles.header, { marginRight: 10 }]}>
@@ -363,14 +364,14 @@ const HomeService = ({ route }) => {
                   backgroundColor: colors.Bluish,
                 }}
                 onPress={() => {
-                  navigation.navigate("EditService", {
+                  navigation.navigate('EditService', {
                     userinfo: userinfo,
-                    screen: "skill",
-                  });
+                    screen: 'skill',
+                  })
                 }}
               >
                 <MaterialCommunityIcons
-                  name="pencil"
+                  name='pencil'
                   size={16}
                   color={colors.white}
                 />
@@ -406,8 +407,8 @@ const HomeService = ({ route }) => {
                       style={{
                         color: colors.white,
                         fontSize: 11,
-                        fontWeight: "400",
-                        alignSelf: "center",
+                        fontWeight: '400',
+                        alignSelf: 'center',
                         margin: 3,
                       }}
                     >
@@ -420,26 +421,26 @@ const HomeService = ({ route }) => {
           </View>
         )}
         {portfolio && (
-          <View style={{ alignSelf: "flex-start", margin: 30 }}>
+          <View style={{ alignSelf: 'flex-start', margin: 30 }}>
             <View
               style={{
-                width: "100%",
+                width: '100%',
               }}
             >
               <FlatList
                 data={userinfo?.portfolio}
                 keyExtractor={(item) => item.id}
                 numColumns={2}
-                columnWrapperStyle={{ flexWrap: "wrap" }}
+                columnWrapperStyle={{ flexWrap: 'wrap' }}
                 renderItem={({ item }) => (
                   <View>
                     <Pressable
                       onPress={() => {
                         //console.log(item.attachments);
 
-                        navigation.navigate("ViewPortfolio", {
+                        navigation.navigate('ViewPortfolio', {
                           portfolio: item,
-                        });
+                        })
                       }}
                     >
                       <Image
@@ -451,7 +452,7 @@ const HomeService = ({ route }) => {
                           marginRight: 5,
                         }}
                         source={{
-                          uri: `https://stepev-dev.up.railway.app/media/getimage/${item.attachments[0]}`,
+                          uri: `${axios.defaults.baseURL}media/getimage/${item.attachments[0]}`,
                         }}
                       />
                     </Pressable>
@@ -464,13 +465,13 @@ const HomeService = ({ route }) => {
                 height: 139,
                 width: 160,
                 borderRadius: 10,
-                justifyContent: "center",
-                alignItems: "center",
+                justifyContent: 'center',
+                alignItems: 'center',
                 marginTop: 20,
                 backgroundColor: colors.Bluish,
               }}
               onPress={() => {
-                navigation.navigate("Portfolio");
+                navigation.navigate('Portfolio')
               }}
             >
               <View
@@ -478,15 +479,15 @@ const HomeService = ({ route }) => {
                   height: 74,
                   width: 74,
                   borderRadius: 50,
-                  justifyContent: "center",
-                  backgroundColor: "#D9D9D95E",
+                  justifyContent: 'center',
+                  backgroundColor: '#D9D9D95E',
                 }}
               >
                 <MyText
                   style={{
                     fontSize: 42,
-                    fontWeight: "200",
-                    alignSelf: "center",
+                    fontWeight: '200',
+                    alignSelf: 'center',
                   }}
                 >
                   +
@@ -511,10 +512,10 @@ const HomeService = ({ route }) => {
                     shadowColor: colors.Bluish,
                     elevation: 6,
 
-                    backgroundColor: "white",
+                    backgroundColor: 'white',
                   }}
                 >
-                  <View style={{ flexDirection: "row" }}>
+                  <View style={{ flexDirection: 'row' }}>
                     <Image
                       style={{
                         height: 32,
@@ -524,11 +525,11 @@ const HomeService = ({ route }) => {
                       }}
                       source={{ uri: item.avatar }}
                     />
-                    <View style={{ flexDirection: "column", marginTop: 15 }}>
-                      <MyText style={{ fontSize: 14, fontWeight: "700" }}>
+                    <View style={{ flexDirection: 'column', marginTop: 15 }}>
+                      <MyText style={{ fontSize: 14, fontWeight: '700' }}>
                         {item.name}
                       </MyText>
-                      <View style={{ flexDirection: "row" }}>
+                      <View style={{ flexDirection: 'row' }}>
                         <StarRating
                           rating={item.rating}
                           starSize={14}
@@ -536,13 +537,13 @@ const HomeService = ({ route }) => {
                             padding: 0,
                             margin: 0,
                             width: 10,
-                            alignSelf: "flex-start",
+                            alignSelf: 'flex-start',
                           }}
                         />
                         <MyText
                           style={{
                             fontSize: 10,
-                            fontWeight: "700",
+                            fontWeight: '700',
                             marginLeft: 50,
                           }}
                         >
@@ -551,19 +552,19 @@ const HomeService = ({ route }) => {
                         <MyText
                           style={{
                             fontSize: 10,
-                            fontWeight: "500",
-                            color: "#23232380",
+                            fontWeight: '500',
+                            color: '#23232380',
                             marginLeft: 150,
                           }}
                         >
-                          {moment(item.time).format("h:mm a")}
+                          {moment(item.time).format('h:mm a')}
                         </MyText>
                       </View>
                       <MyText
                         style={{
                           fontSize: 10,
-                          fontWeight: "400",
-                          color: "#23232380",
+                          fontWeight: '400',
+                          color: '#23232380',
                           marginRight: 90,
                         }}
                       >
@@ -576,7 +577,7 @@ const HomeService = ({ route }) => {
             />
           ) : (
             <View style={{ marginTop: 20 }}>
-              <MyText style={{ fontSize: 14 }}>No Reviews</MyText>
+              <Error message='No Reviews' />
             </View>
           ))}
 
@@ -590,7 +591,7 @@ const HomeService = ({ route }) => {
                 },
               ]}
             >
-              <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
+              <View style={{ flexDirection: 'row', alignSelf: 'flex-start' }}>
                 <MyText style={styles.heading}>About me</MyText>
                 <View
                   style={{
@@ -603,13 +604,13 @@ const HomeService = ({ route }) => {
                   }}
                 >
                   <MaterialCommunityIcons
-                    name="pencil"
+                    name='pencil'
                     size={14}
                     color={colors.white}
                     onPress={() => {
-                      navigation.navigate("EditProfile", {
+                      navigation.navigate('EditProfile', {
                         userinfo: userinfo,
-                      });
+                      })
                     }}
                   />
                 </View>
@@ -624,19 +625,19 @@ const HomeService = ({ route }) => {
                 },
               ]}
             >
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: 'row' }}>
                 <AntDesign
-                  name="calendar"
+                  name='calendar'
                   size={26}
                   style={{ marginTop: 20, marginLeft: 15 }}
                   color={colors.iconGray}
                 />
 
-                <View style={{ flexDirection: "column", marginTop: 5 }}>
+                <View style={{ flexDirection: 'column', marginTop: 5 }}>
                   <MyText style={styles.heading}>Joined Date</MyText>
                   <MyText style={styles.content}>
                     {moment(userinfo?.about.joinedData).format(
-                      "MMMM Do YYYY, h:mm:ss a"
+                      'MMMM Do YYYY, h:mm:ss a'
                     )}
                   </MyText>
                 </View>
@@ -651,18 +652,18 @@ const HomeService = ({ route }) => {
                 },
               ]}
             >
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: 'row' }}>
                 <MaterialCommunityIcons
-                  name="clock-time-four-outline"
+                  name='clock-time-four-outline'
                   size={26}
                   style={{ marginTop: 20, marginLeft: 15 }}
                   color={colors.iconGray}
                 />
 
-                <View style={{ flexDirection: "column", marginTop: 5 }}>
+                <View style={{ flexDirection: 'column', marginTop: 5 }}>
                   <MyText style={styles.heading}>Last Active</MyText>
                   <MyText style={styles.content}>
-                    {" "}
+                    {' '}
                     {userinfo?.about.lastActive} Mins Ago
                   </MyText>
                 </View>
@@ -677,17 +678,17 @@ const HomeService = ({ route }) => {
                 },
               ]}
             >
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: 'row' }}>
                 <Icon
-                  name="language"
+                  name='language'
                   size={26}
                   style={{ marginTop: 20, marginLeft: 15 }}
                   color={colors.iconGray}
                 />
 
-                <View style={{ flexDirection: "column", marginTop: 5 }}>
+                <View style={{ flexDirection: 'column', marginTop: 5 }}>
                   <View
-                    style={{ flexDirection: "row", alignSelf: "flex-start" }}
+                    style={{ flexDirection: 'row', alignSelf: 'flex-start' }}
                   >
                     <MyText style={styles.heading}>Language</MyText>
                     <View
@@ -701,13 +702,13 @@ const HomeService = ({ route }) => {
                       }}
                     >
                       <MaterialCommunityIcons
-                        name="pencil"
+                        name='pencil'
                         size={14}
                         color={colors.white}
                         onPress={() => {
-                          navigation.navigate("EditProfile", {
+                          navigation.navigate('EditProfile', {
                             userinfo: userinfo,
-                          });
+                          })
                         }}
                       />
                     </View>
@@ -727,15 +728,15 @@ const HomeService = ({ route }) => {
                 },
               ]}
             >
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: 'row' }}>
                 <Ionicons
-                  name="chatbubble-ellipses-outline"
+                  name='chatbubble-ellipses-outline'
                   size={26}
                   style={{ marginTop: 20, marginLeft: 15 }}
                   color={colors.iconGray}
                 />
 
-                <View style={{ flexDirection: "column", marginTop: 5 }}>
+                <View style={{ flexDirection: 'column', marginTop: 5 }}>
                   <MyText style={styles.heading}>Response Time</MyText>
                   <MyText style={styles.content}>
                     {userinfo?.about.responseTime} Mins Ago
@@ -752,17 +753,17 @@ const HomeService = ({ route }) => {
                 },
               ]}
             >
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: 'row' }}>
                 <EvilIcons
-                  name="calendar"
+                  name='calendar'
                   size={36}
                   style={{ marginTop: 20, marginLeft: 15 }}
                   color={colors.iconGray}
                 />
 
-                <View style={{ flexDirection: "column", marginTop: 5 }}>
+                <View style={{ flexDirection: 'column', marginTop: 5 }}>
                   <View
-                    style={{ flexDirection: "row", alignSelf: "flex-start" }}
+                    style={{ flexDirection: 'row', alignSelf: 'flex-start' }}
                   >
                     <MyText style={styles.heading}>Availibility</MyText>
                     <View
@@ -776,13 +777,13 @@ const HomeService = ({ route }) => {
                       }}
                     >
                       <MaterialCommunityIcons
-                        name="pencil"
+                        name='pencil'
                         size={14}
                         color={colors.white}
                         onPress={() => {
-                          navigation.navigate("EditProfile", {
+                          navigation.navigate('EditProfile', {
                             userinfo: userinfo,
-                          });
+                          })
                         }}
                       />
                     </View>
@@ -802,17 +803,17 @@ const HomeService = ({ route }) => {
                 },
               ]}
             >
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: 'row' }}>
                 <Foundation
-                  name="shopping-bag"
+                  name='shopping-bag'
                   size={26}
                   style={{ marginTop: 20, marginLeft: 15 }}
                   color={colors.iconGray}
                 />
 
-                <View style={{ flexDirection: "column", marginTop: 5 }}>
+                <View style={{ flexDirection: 'column', marginTop: 5 }}>
                   <View
-                    style={{ flexDirection: "row", alignSelf: "flex-start" }}
+                    style={{ flexDirection: 'row', alignSelf: 'flex-start' }}
                   >
                     <MyText style={styles.heading}>Work Preference</MyText>
                     <View
@@ -826,13 +827,13 @@ const HomeService = ({ route }) => {
                       }}
                     >
                       <MaterialCommunityIcons
-                        name="pencil"
+                        name='pencil'
                         size={14}
                         color={colors.white}
                         onPress={() => {
-                          navigation.navigate("EditProfile", {
+                          navigation.navigate('EditProfile', {
                             userinfo: userinfo,
-                          });
+                          })
                         }}
                       />
                     </View>
@@ -847,33 +848,33 @@ const HomeService = ({ route }) => {
         )}
       </View>
     </ScrollView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   btnstyle: {
     height: 35,
     width: 107,
     borderRadius: 5,
-    backgroundColor: "#232323",
+    backgroundColor: '#232323',
     margin: 5,
   },
   btntext: {
     fontSize: 12,
-    fontWeight: "400",
-    color: "white",
+    fontWeight: '400',
+    color: 'white',
     margin: 10,
   },
   header: {
     fontSize: 17,
-    fontWeight: "700",
-    color: "#232323",
-    alignSelf: "flex-start",
+    fontWeight: '700',
+    color: '#232323',
+    alignSelf: 'flex-start',
     marginTop: 30,
     marginBottom: 10,
   },
@@ -885,22 +886,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 1,
     elevation: 4,
-    backgroundColor: "white",
+    backgroundColor: 'white',
   },
   heading: {
     marginLeft: 20,
     marginTop: 15,
     marginRight: 5,
     fontSize: 11,
-    fontWeight: "700",
+    fontWeight: '700',
   },
   content: {
     marginLeft: 20,
     marginRight: 5,
     marginTop: 2,
     fontSize: 10,
-    fontWeight: "400",
-    color: "#23232380",
+    fontWeight: '400',
+    color: '#23232380',
   },
   aboutbox: {
     marginTop: 10,
@@ -911,8 +912,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 3,
-    backgroundColor: "white",
+    backgroundColor: 'white',
   },
-});
+})
 
-export default HomeService;
+export default HomeService

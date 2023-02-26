@@ -266,7 +266,7 @@ const MessageBox = ({
   const getstartups = async () => {
     const res = await startupNames(accessToken);
     setItems(res.data.startUps);
-    //console.log(res.data);
+    console.log(res.data);
   };
 
   const getpdf = async (doc) => {
@@ -338,24 +338,49 @@ const MessageBox = ({
       console.log(content);
       if (content.messageType === "oneTimeOrder") {
         var obj = {};
-        (obj["createdAt"] = Date.now()),
-          (obj["oneTimeOrder"] = {
-            totalPrice: content.totalPrice,
-            jobTitle: content.jobTitle,
-          }),
-          (obj[`${content.messageType}`] = content.msgcontent),
-          (obj["user"] = {
-            _id: "other",
-          });
+        obj.createdAt = Date.now();
+        obj.OneTimeOrder = {
+          _id: content.msgcontent,
+
+          totalPrice: content.totalPrice,
+          jobTitle: content.jobTitle,
+          deliveryTime: content.deliveryTime,
+        };
+        obj[`${content.messageType}`] = content.msgcontent;
+        obj.user = {
+          _id: "other",
+        };
+        // var obj = {
+        //   createdAt: Date.now(),
+        //   oneTimeOrder: {
+        //     totalPrice: content.totalPrice,
+        //     jobTitle: content.jobTitle,
+        //   },
+        //   [content.messageType]: content.msgcontent,
+        //   user: {
+        //     _id: "other",
+        //   },
+        // };
+        // (obj["createdAt"] = Date.now()),
+        //   (obj["oneTimeOrder"] = {
+        //     totalPrice: content.totalPrice,
+        //     jobTitle: content.jobTitle,
+        //   }),
+        //   (obj[`${content.messageType}`] = content.msgcontent),
+        //   (obj["user"] = {
+        //     _id: "other",
+        //   });
         console.log(obj);
         setmsg([...msg, obj]);
       } else if (content.messageType === "equityOrder") {
         var obj = {};
         (obj["createdAt"] = Date.now()),
-          (obj["equityOrder"] = {
+          (obj["EquityOrder"] = {
             // deliveryTime: content.deliveryTime,
+            _id: content.msgcontent,
             equity: content.totalPrice,
             jobTitle: content.jobTitle,
+            partnershipAgreement: content.partnershipAgreement,
           }),
           (obj[`${content.messageType}`] = content.msgcontent),
           (obj["user"] = {
@@ -1050,7 +1075,9 @@ const MessageBox = ({
                             marginBottom: 5,
                           }}
                         >
-                          {item.oneTimeOrder.jobTitle}
+                          {item.oneTimeOrder?.jobTitle
+                            ? item.oneTimeOrder.jobTitle
+                            : item.OneTimeOrder.jobTitle}
                         </Text>
                         <Text
                           style={{
@@ -1084,7 +1111,10 @@ const MessageBox = ({
                               fontWeight: "500",
                             }}
                           >
-                            ${item.oneTimeOrder.totalPrice}
+                            ${" "}
+                            {item.oneTimeOrder?.totalPrice
+                              ? item.oneTimeOrder.totalPrice
+                              : item.OneTimeOrder.totalPrice}
                           </Text>
                         </View>
                         <View
@@ -1108,9 +1138,11 @@ const MessageBox = ({
                               fontWeight: "500",
                             }}
                           >
-                            {moment(item.oneTimeOrder.deliveryTime).format(
-                              "MMM Do YY"
-                            )}
+                            {item.oneTimeOrder?.deliveryTime
+                              ? moment(item.oneTimeOrder.deliveryTime).format(
+                                  "MMM Do YY"
+                                )
+                              : item.OneTimeOrder.deliveryTime}
                           </Text>
                         </View>
                         <Pressable
@@ -1129,8 +1161,12 @@ const MessageBox = ({
                             marginTop: 6,
                           }}
                           onPress={() => {
+                            let newid = item.oneTimeOrder?._id
+                              ? item.oneTimeOrder._id
+                              : item.OneTimeOrder._id;
+
                             navigation.navigate("CheckoutSheet", {
-                              order: item.oneTimeOrder._id,
+                              order: newid,
                             });
                             // setorderid(item.oneTimeOrder._id);
                             // setModalVisible2(true);
@@ -1163,10 +1199,11 @@ const MessageBox = ({
                             backgroundColor: colors.Bluish,
                           }}
                           onPress={() => {
-                            oneTimeOfferstatus(
-                              item.oneTimeOrder._id,
-                              "Rejected"
-                            );
+                            let newid = item.oneTimeOrder?._id
+                              ? item.oneTimeOrder._id
+                              : item.OneTimeOrder._id;
+
+                            oneTimeOfferstatus(newid, "Rejected");
                           }}
                         >
                           <Text
@@ -1215,7 +1252,9 @@ const MessageBox = ({
                             marginBottom: 5,
                           }}
                         >
-                          {item.equityOrder.jobTitle}
+                          {item.equityOrder?.jobTitle
+                            ? item.equityOrder.jobTitle
+                            : item.EquityOrder.jobTitle}
                         </Text>
                         <Text
                           style={{
@@ -1249,7 +1288,10 @@ const MessageBox = ({
                               fontWeight: "500",
                             }}
                           >
-                            %{item.equityOrder.equity}
+                            %
+                            {item.equityOrder?.equity
+                              ? item.equityOrder.equity
+                              : item.EquityOrder.equity}
                           </Text>
                         </View>
                         <View
@@ -1270,7 +1312,11 @@ const MessageBox = ({
                           <Pressable
                             onPress={() => {
                               downloadFile(
-                                `https://stepev-dev.up.railway.app/media/getFile/${item.equityOrder.partnershipAgreement}`
+                                `https://stepev-dev.up.railway.app/media/getFile/${
+                                  item.equityOrder?.partnershipAgreement
+                                    ? item.equityOrder.partnershipAgreement
+                                    : item.EquityOrder.partnershipAgreement
+                                }`
                               );
                               // Toast.show({
                               //   topOffset: 60,
@@ -1298,7 +1344,13 @@ const MessageBox = ({
                             marginTop: 6,
                           }}
                           onPress={() => {
-                            setequityid(item.equityOrder._id);
+                            let newid = item.equityOrder?._id
+                              ? item.equityOrder._id
+                              : item.EquityOrder._id;
+                            console.log(newid);
+                            getstartups();
+
+                            setequityid(newid);
                             setModalVisible1(true);
                             //equityOfferstatus(item.equityOrder._id, "Accepted");
                           }}
@@ -1329,10 +1381,11 @@ const MessageBox = ({
                             backgroundColor: colors.Bluish,
                           }}
                           onPress={() => {
-                            equityOfferstatusReject(
-                              item.equityOrder._id,
-                              "Rejected"
-                            );
+                            let newid = item.equityOrder?._id
+                              ? item.equityOrder._id
+                              : item.EquityOrder._id;
+
+                            equityOfferstatusReject(newid, "Rejected");
                           }}
                         >
                           <Text

@@ -231,7 +231,7 @@ const Login = () => {
         console.log(response);
         //console.log(response.data);
         if (response.status == 200) {
-          console.log(response.data.onboarding);
+          console.log(response.data.accessToken);
           setuserdetails(response.data.user);
           setaccessToken(response.data.accessToken);
           startsocket(response.data.accessToken);

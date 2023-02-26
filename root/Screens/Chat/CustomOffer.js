@@ -151,6 +151,7 @@ const CustomOffer = ({ route }) => {
             messageType: type,
             totalPrice: price,
             jobTitle: jobTitle,
+            partnershipAgreement: getdocinfo.filename,
           },
         });
       } else {
