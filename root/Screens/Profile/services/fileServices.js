@@ -7,9 +7,10 @@ import * as MediaLibrary from "expo-media-library";
 import * as IntentLauncher from "expo-intent-launcher";
 import { ToastAndroid } from "react-native";
 
+
 export const imageUpload = async (file) => {
   const uploadResult = await FileSystem.uploadAsync(
-    "https://stepev-dev.up.railway.app/media/uploadfile",
+    `${axios.defaults.baseURL}media/uploadfile`,
     file,
     {
       httpMethod: "POST",
@@ -22,7 +23,7 @@ export const imageUpload = async (file) => {
 
 export const fileUpload = async (doc) => {
   const uploadResult = await FileSystem.uploadAsync(
-    "https://stepev-dev.up.railway.app/media/uploadfile",
+    `${axios.defaults.baseURL}media/uploadfile`,
     doc,
     {
       httpMethod: "POST",
