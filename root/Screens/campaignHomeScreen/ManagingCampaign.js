@@ -6,50 +6,51 @@ import {
   ScrollView,
   Pressable,
   Image,
-} from "react-native";
-import React, { useContext, useState, useEffect } from "react";
-import Context from "../../Context/Context";
-import CustomHeader from "../../Components/CustomHeader2";
-import HeartIcon from "../../../assets/Svgs/HeartIcon";
-import AIBrainIcon from "../../../assets/Svgs/AIBrainIcon";
-import SoftwareCompanyIcon from "../../../assets/Svgs/SoftwareCompanyIcon";
-import WhiteEye from "../../../assets/Svgs/WhiteEye";
-import WhitePattern from "../../../assets/Svgs/WhitePattern";
-import WhitePeople from "../../../assets/Svgs/WhitePeople";
-import ConstructionIcon from "../../../assets/Svgs/ConstructionIcon";
-import GraduationHat from "../../../assets/Svgs/GraduationHat";
-import HomeCategories from "../../Components/CampaignCategory";
-import background from "../../../assets/img/bg1.jpg";
-import background2 from "../../../assets/img/bg2.png";
-import MyText from "../../Components/Text";
-import SvgImport from "../../Components/SvgImport";
-import tick from "../../../assets/Svgs/Tick";
-import { Feather } from "@expo/vector-icons";
-import Pattern from "../../../assets/Svgs/WhitePattern";
-import People from "../../../assets/Svgs/WhitePeople";
-import TeamMemberCampaign from "../../Components/TeamMembersCampaign";
-import TeamMemberWarning from "../../Components/TeamMemberWarning";
+} from 'react-native'
+import React, { useContext, useState, useEffect } from 'react'
+import Context from '../../Context/Context'
+import CustomHeader from '../../Components/CustomHeader2'
+import HeartIcon from '../../../assets/Svgs/HeartIcon'
+import AIBrainIcon from '../../../assets/Svgs/AIBrainIcon'
+import SoftwareCompanyIcon from '../../../assets/Svgs/SoftwareCompanyIcon'
+import WhiteEye from '../../../assets/Svgs/WhiteEye'
+import WhitePattern from '../../../assets/Svgs/WhitePattern'
+import WhitePeople from '../../../assets/Svgs/WhitePeople'
+import ConstructionIcon from '../../../assets/Svgs/ConstructionIcon'
+import GraduationHat from '../../../assets/Svgs/GraduationHat'
+import HomeCategories from '../../Components/CampaignCategory'
+import background from '../../../assets/img/bg1.jpg'
+import background2 from '../../../assets/img/bg2.png'
+import MyText from '../../Components/Text'
+import SvgImport from '../../Components/SvgImport'
+import tick from '../../../assets/Svgs/Tick'
+import { Feather } from '@expo/vector-icons'
+import Pattern from '../../../assets/Svgs/WhitePattern'
+import People from '../../../assets/Svgs/WhitePeople'
+import TeamMemberCampaign from '../../Components/TeamMembersCampaign'
+import TeamMemberWarning from '../../Components/TeamMemberWarning'
 import {
   getStartupDetails,
   getWarnings,
-} from "../Profile/services/FreeLancerServices";
-import CartContext from "../../Context/CartProvider";
-import BriefCase from "../../../assets/Svgs/BriefCase";
-import Loader from "../../Components/Loader";
-import { useIsFocused } from "@react-navigation/native";
+} from '../Profile/services/FreeLancerServices'
+import CartContext from '../../Context/CartProvider'
+import BriefCase from '../../../assets/Svgs/BriefCase'
+import Loader from '../../Components/Loader'
+import { useIsFocused } from '@react-navigation/native'
+import Error from '../../Components/Error'
 
 function TodoComponent({ Title, desc, ...props }) {
-  const [select, setselected] = useState(true);
+  const [select, setselected] = useState(true)
 
   const {
     theme: { colors },
-  } = useContext(Context);
+  } = useContext(Context)
 
   return (
     <View
       style={[
         {
-          width: "100%",
+          width: '100%',
           backgroundColor: colors.white,
           paddingHorizontal: 8,
           paddingVertical: 14,
@@ -63,13 +64,13 @@ function TodoComponent({ Title, desc, ...props }) {
       <View
         style={[
           {
-            alignItems: "center",
-            flexDirection: "row",
-            justifyContent: "space-between",
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
           },
         ]}
       >
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: 'row' }}>
           {/* <Pressable onPress={() => setselected(!select)}>
             {select ? (
               <SvgImport svg={tick} />
@@ -86,7 +87,7 @@ function TodoComponent({ Title, desc, ...props }) {
               ></Pressable>
             )}
           </Pressable> */}
-          <MyText style={{ marginLeft: 16, fontSize: 14, fontWeight: "500" }}>
+          <MyText style={{ marginLeft: 16, fontSize: 14, fontWeight: '500' }}>
             {Title}
           </MyText>
         </View>
@@ -96,18 +97,18 @@ function TodoComponent({ Title, desc, ...props }) {
           </Pressable>
         } */}
       </View>
-      <View style={{ marginLeft: 16, marginTop: 5, width: "85%" }}>
+      <View style={{ marginLeft: 16, marginTop: 5, width: '85%' }}>
         <MyText
-          style={{ color: colors.lighttext, fontSize: 11, fontWeight: "400" }}
+          style={{ color: colors.lighttext, fontSize: 11, fontWeight: '400' }}
         >
           {desc}
         </MyText>
         <View
           style={{
-            flexDirection: "row",
+            flexDirection: 'row',
             marginTop: 6,
 
-            position: "relative",
+            position: 'relative',
             paddingBottom: 18,
           }}
         >
@@ -120,196 +121,196 @@ function TodoComponent({ Title, desc, ...props }) {
                   height: 21,
                   borderRadius: 10,
                   zIndex: 1,
-                  position: "absolute",
+                  position: 'absolute',
                   left: 0 + index * 10,
                 }}
               />
-            );
+            )
           })}
         </View>
       </View>
     </View>
-  );
+  )
 }
 
 const ManagingCampaign = ({ navigation, route }) => {
-  const isFocused = useIsFocused();
+  const isFocused = useIsFocused()
   //fetch id params from previous screen into useState
 
-  const [id, setid] = useState(route.params.id);
-  console.log(id);
-  const [show, setshow] = useState(route.params.show);
-  const contest = useContext(CartContext);
+  const [id, setid] = useState(route.params.id)
+  console.log(id)
+  const [show, setshow] = useState(route.params.show)
+  const contest = useContext(CartContext)
   // members array
   const [TeamWarning, setTeamWarning] = useState([
     {
-      avatar: "https://bit.ly/kent-c-dodds",
-      text: "Mike Dean",
-      designation: "Ceo",
+      avatar: 'https://bit.ly/kent-c-dodds',
+      text: 'Mike Dean',
+      designation: 'Ceo',
       Warnings: 2,
     },
     {
-      avatar: "https://bit.ly/kent-c-dodds",
-      text: "Mike Dean",
-      designation: "Ceo",
+      avatar: 'https://bit.ly/kent-c-dodds',
+      text: 'Mike Dean',
+      designation: 'Ceo',
       Warnings: 2,
     },
     {
-      avatar: "https://bit.ly/kent-c-dodds",
-      text: "Mike Dean",
-      designation: "Ceo",
+      avatar: 'https://bit.ly/kent-c-dodds',
+      text: 'Mike Dean',
+      designation: 'Ceo',
       Warnings: 2,
     },
     {
-      avatar: "https://bit.ly/kent-c-dodds",
+      avatar: 'https://bit.ly/kent-c-dodds',
       Warnings: 2,
-      text: "Mike Dean",
-      designation: "Ceo",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur in nostrum molestiae obcaecati sapiente sequi, facere modi possimus labore et!",
+      text: 'Mike Dean',
+      designation: 'Ceo',
+      desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur in nostrum molestiae obcaecati sapiente sequi, facere modi possimus labore et!',
     },
-  ]);
+  ])
   // team members array
   const TeamMembers = [
     {
-      image: "https://bit.ly/kent-c-dodds",
-      text: "Mike Dean",
-      designation: "Ceo",
+      image: 'https://bit.ly/kent-c-dodds',
+      text: 'Mike Dean',
+      designation: 'Ceo',
       Warnings: 2,
     },
     {
-      image: "https://bit.ly/kent-c-dodds",
-      text: "Mike Dean",
-      designation: "Ceo",
+      image: 'https://bit.ly/kent-c-dodds',
+      text: 'Mike Dean',
+      designation: 'Ceo',
       Warnings: 2,
     },
-  ];
+  ]
   const [Todo, setTodo] = useState([
     {
-      title: "Design UI for step ev",
+      title: 'Design UI for step ev',
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.",
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.',
     },
     {
-      title: "Design UI for step ev",
+      title: 'Design UI for step ev',
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.",
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.',
     },
     {
-      title: "Design UI for step ev",
+      title: 'Design UI for step ev',
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.",
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem temporibus eos enim quo, modi iusto est saepe nesciunt rem nvoluptatibus illo, ad voluptatum eaque iste, ratione perferendis.',
     },
-  ]);
+  ])
   // upper categories
   const [catgeories, setCategories] = useState([
     {
       icon: WhiteEye,
-      text: "Campaign",
+      text: 'Campaign',
       img: background,
       itemStyle: 20,
-      navigation: "CampaignMenu",
+      navigation: 'CampaignMenu',
     },
     {
       icon: Pattern,
-      text: "MileStone",
+      text: 'MileStone',
       img: background,
-      navigation: "MileStone",
+      navigation: 'MileStone',
     },
     {
       icon: People,
-      text: "Our Team",
+      text: 'Our Team',
       img: background,
       itemStyle: 15,
-      navigation: "Team",
+      navigation: 'Team',
     },
     {
       icon: BriefCase,
-      text: "Roles Needed",
+      text: 'Roles Needed',
       img: background,
       itemStyle: 15,
-      navigation: "TeamRoles",
+      navigation: 'TeamRoles',
     },
-  ]);
+  ])
   const {
     theme: { colors },
-  } = useContext(Context);
+  } = useContext(Context)
 
   // api call
-  const [data, setData] = useState("");
-  const [Loaded, setLoaded] = useState(false);
-  const [Loaded2, setLoaded2] = useState(false);
-  const [members, setmembers] = useState([]);
+  const [data, setData] = useState('')
+  const [Loaded, setLoaded] = useState(false)
+  const [Loaded2, setLoaded2] = useState(false)
+  const [members, setmembers] = useState([])
   useEffect(() => {
     const getFreelancersData = async () => {
-      const resp = await getStartupDetails(id);
-      console.log(id);
+      const resp = await getStartupDetails(id)
+      console.log(id)
 
-      console.log(resp.data);
+      console.log(resp.data)
 
-      if (resp.data.status === "OK") {
-        console.log("done");
+      if (resp.data.status === 'OK') {
+        console.log('done')
 
-        setData(resp.data);
+        setData(resp.data)
         // console.log(data.todos[0].todos);
         // console.log(resp.data.startup.milestones);
-        contest.setmilestone(resp.data.startup.milestones);
-        setLoaded(true);
+        contest.setmilestone(resp.data.startup.milestones)
+        setLoaded(true)
       }
-    };
+    }
 
-    getFreelancersData();
-  }, [isFocused]);
+    getFreelancersData()
+  }, [isFocused])
 
   useEffect(() => {
     if (data) {
       if (data.todos[0] !== undefined) {
-        console.log(console.log(data.todos));
-        setTodo(data.todos[0].todos);
+        console.log(console.log(data.todos))
+        setTodo(data.todos[0].todos)
       } else {
-        setTodo([]);
-        console.log("no todos");
+        setTodo([])
+        console.log('no todos')
       }
-      setmembers(data.startup.members);
+      setmembers(data.startup.members)
     }
-  }, [data]);
-  const userDetails = useContext(CartContext);
+  }, [data])
+  const userDetails = useContext(CartContext)
   // console.log(userDetails.userdetails.role);
-  const [undefinedd, setundefined] = useState(false);
-  const [isPart, setispart] = useState(true);
+  const [undefinedd, setundefined] = useState(false)
+  const [isPart, setispart] = useState(true)
   //second line of defence
   useEffect(() => {
     if (data) {
       if (data.todos !== undefined) {
-        console.log(console.log(data.todos));
+        console.log(console.log(data.todos))
       } else {
-        setispart(false);
-        console.log("no todos");
+        setispart(false)
+        console.log('no todos')
       }
     }
     if (userDetails.userdetails.role === undefined) {
-      setundefined(true);
-      console.log("user is undefined");
+      setundefined(true)
+      console.log('user is undefined')
     }
-  }, [data]);
+  }, [data])
 
   ///another api call
   useEffect(() => {
     const getFreelancersData = async () => {
-      const resp = await getWarnings(id);
+      const resp = await getWarnings(id)
 
       // console.log(resp.data.warnings);
       // console.log(resp2.data.warnings);
-      if (resp.data.status === "OK") {
-        setTeamWarning(resp.data.warnings);
+      if (resp.data.status === 'OK') {
+        setTeamWarning(resp.data.warnings)
         // setWaringHistory(resp.data.warnings);
 
         // console.log("responded", resp.data.warnings[0].warnings);
-        setLoaded2(true);
+        setLoaded2(true)
       }
-    };
+    }
 
-    getFreelancersData();
-  }, [isFocused]);
+    getFreelancersData()
+  }, [isFocused])
 
   return Loaded && Loaded2 ? (
     <ScrollView
@@ -318,7 +319,7 @@ const ManagingCampaign = ({ navigation, route }) => {
         backgroundColor: colors.white,
       }}
     >
-      <CustomHeader Title="Beyond" style={{ elevation: 0 }} nav={navigation} />
+      <CustomHeader Title='Beyond' style={{ elevation: 0 }} nav={navigation} />
       <View style={{ marginTop: 10 }}>
         <FlatList
           horizontal
@@ -349,22 +350,22 @@ const ManagingCampaign = ({ navigation, route }) => {
         {/* header heading */}
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
             paddingRight: 4,
             marginTop: 30,
           }}
         >
-          <MyText style={{ fontSize: 24, fontWeight: "700" }}>To Do</MyText>
+          <MyText style={{ fontSize: 24, fontWeight: '700' }}>To Do</MyText>
           <Pressable
             onPress={() =>
-              navigation.navigate("Todo", { data: data, show: show })
+              navigation.navigate('Todo', { data: data, show: show })
             }
           >
             <MyText
               style={{
-                fontWeight: "500",
+                fontWeight: '500',
                 fontSize: 10,
                 color: colors.lighttext,
               }}
@@ -386,24 +387,24 @@ const ManagingCampaign = ({ navigation, route }) => {
 
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
             paddingRight: 4,
             marginTop: 30,
           }}
         >
-          <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+          <MyText style={{ fontSize: 24, fontWeight: '700' }}>
             Team Members
           </MyText>
           <Pressable
             onPress={() =>
-              navigation.navigate("Team", { data: data, show: show })
+              navigation.navigate('Team', { data: data, show: show })
             }
           >
             <MyText
               style={{
-                fontWeight: "500",
+                fontWeight: '500',
                 fontSize: 10,
                 color: colors.lighttext,
               }}
@@ -425,22 +426,22 @@ const ManagingCampaign = ({ navigation, route }) => {
         {show ? (
           <View
             style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
               paddingRight: 4,
               marginTop: 30,
             }}
           >
-            <MyText style={{ fontSize: 24, fontWeight: "700" }}>
+            <MyText style={{ fontSize: 24, fontWeight: '700' }}>
               Warnings
             </MyText>
             <Pressable
-              onPress={() => navigation.navigate("TeamWarnings", { id: id })}
+              onPress={() => navigation.navigate('TeamWarnings', { id: id })}
             >
               <MyText
                 style={{
-                  fontWeight: "500",
+                  fontWeight: '500',
                   fontSize: 10,
                   color: colors.lighttext,
                 }}
@@ -451,8 +452,9 @@ const ManagingCampaign = ({ navigation, route }) => {
           </View>
         ) : null}
 
-        {show
-          ? TeamWarning.map((item) => (
+        {show ? (
+          <>
+            {TeamWarning.map((item) => (
               <TeamMemberWarning
                 designation={item.warnings.warnedTo.jobTitle}
                 image={item.warnings.warnedTo.avatar}
@@ -460,20 +462,22 @@ const ManagingCampaign = ({ navigation, route }) => {
                 Warnings={item.WarningCount}
                 style={{ marginVertical: 12 }}
               />
-            ))
-          : null}
+            ))}
+            {TeamWarning.length === 0 && <Error message='No Warning Found' />}
+          </>
+        ) : null}
       </View>
     </ScrollView>
   ) : (
-    <Loader visible={!Loaded && !Loaded2} color="white" indicatorSize="large" />
-  );
-};
+    <Loader visible={!Loaded && !Loaded2} color='white' indicatorSize='large' />
+  )
+}
 
-export default ManagingCampaign;
+export default ManagingCampaign
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -483,4 +487,4 @@ const styles = StyleSheet.create({
 
     elevation: 6,
   },
-});
+})

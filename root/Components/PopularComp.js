@@ -15,6 +15,7 @@ import GoldenStar from '../../assets/Svgs/GolderStart'
 import { AntDesign } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import axios from '../http/axiosSet'
 const PopularComp = (props) => {
   const navigation = useNavigation()
   const {
@@ -35,12 +36,12 @@ const PopularComp = (props) => {
       <View style={{ flexDirection: 'row' }}>
         <Image
           source={{
-            uri: props.Image,
+            uri: axios.defaults.baseURL + 'media/getimage/' + props.Image,
           }}
-          style={{ width: 45, height: 45, borderRadius: 5, marginRight: 66 }}
+          style={{ width: 45, height: 45, borderRadius: 5, marginRight: 87 }}
         />
 
-        <Entypo name='heart' size={22} color='#B40F0F' />
+        {/* <Entypo name='heart' size={22} color='#B40F0F' /> */}
       </View>
       {/* image heart out*/}
       {/* Name and pricing in */}
