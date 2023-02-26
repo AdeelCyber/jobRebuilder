@@ -767,6 +767,10 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 setOpen={setOpen1}
                 setValue={setValue1}
                 setItems={setItems1}
+                listMode="SCROLLVIEW"
+                scrollViewProps={{
+                  nestedScrollEnabled: true,
+          }}
               />
             </View>
 
