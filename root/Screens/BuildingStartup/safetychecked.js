@@ -293,12 +293,14 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     };
     if (getScreen == false) {
       return (
+        
         <ScrollView nestedScrollEnabled >
           <View
             style={[
               styles.container,
-              { backgroundColor: colors.background, margin: 30 },
+              { backgroundColor: colors.background, margin: 30, flexGrow: 1 },
             ]}
+            nestedScrollEnabled
           >
             <Modal animationType="fade" visible={getmodalvisible1}>
               <View style={styles.centeredView}>
@@ -700,26 +702,28 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 <AntDesign name="questioncircleo" size={20} color="#232323AB" />
               </Pressable>
             </View>
+            <View style={{ height: 40 }}> 
 
-            <View style={styles.SectionStyle}>
-              <DropDownPicker
+            {/* <FlatList nestedScrollEnabled data={["i am good","i am good","i am good","i am good","i am good"] }  renderItem ={({item})=> <Text> {item} </Text> } /> */}
+            <DropDownPicker
                 style={[styles.inputStyle, { borderColor: "#EEEEEE" }]}
-                textStyle={{ color: "#ACA9A9" }}
-                placeholder="Category"
-                autoScroll={true}
-                dropDownDirection="TOP"
-                open={open}
-                value={value}
-                items={items}
                 listMode="SCROLLVIEW"
                 scrollViewProps={{
                   nestedScrollEnabled: true,
           }}
         
-                setOpen={setOpen}
-                setValue={setValue}
-                setItems={setItems}
+                textStyle={{ color: "#ACA9A9" }}
+                placeholder="Stage"
+                //autoScroll={true}
+                open={open1}
+                value={value1}
+                items={items1}
+                setOpen={setOpen1}
+                setValue={setValue1}
+                setItems={setItems1}
               />
+
+          
             </View>
 
             <View style={styles.SectionStyle}>

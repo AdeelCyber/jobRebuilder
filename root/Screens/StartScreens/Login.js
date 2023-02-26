@@ -56,9 +56,9 @@ const Login = () => {
     console.log("2 times");
     console.log(userdetails);
     if (logged.islogin) {
-      if (userdetails.role === "Freelancer") {
+      if (userdetails?.role === "Freelancer") {
         navigation.navigate("HomeService");
-      } else {
+      } else if (userdetails?.role === "Startup Owner") {
         navigation.navigate("CampaignHome");
       }
     }
