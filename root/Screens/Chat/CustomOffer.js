@@ -74,7 +74,7 @@ const CustomOffer = ({ route }) => {
         price,
         moment(duedate).format("YYYY-MM-DD")
       );
-      //console.log(onetime.data.data._id);
+      console.log(onetime.data);
       if (onetime.status == 201) {
         setcondition(false);
         sendMessage(onetime.data.data._id, "oneTimeOrder");
