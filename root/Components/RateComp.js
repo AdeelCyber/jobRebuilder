@@ -15,6 +15,8 @@ import GoldenStar from '../../assets/Svgs/GolderStart'
 import { AntDesign } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import axios from '../http/axiosSet'
+
 const RateComp = (props) => {
   const {
     theme: { colors },
@@ -48,7 +50,7 @@ const RateComp = (props) => {
         <View style={{ flexDirection: 'row' }}>
           <Image
             source={{
-              uri: props.Image,
+              uri: axios.defaults.baseURL + 'media/getimage/' + props.Image,
             }}
             style={{ width: 60, height: 64, borderRadius: 5 }}
           />
@@ -91,7 +93,7 @@ const RateComp = (props) => {
         <View
           style={{ justifyContent: 'space-between', alignItems: 'flex-end' }}
         >
-          <Entypo name='heart' size={22} color='#D1D1D1' />
+          {/* <Entypo name='heart' size={22} color='#D1D1D1' /> */}
           <MyText style={{ fontSize: 13, marginTop: 3, fontWeight: '700' }}>
             {props.Price}$
             <MyText
