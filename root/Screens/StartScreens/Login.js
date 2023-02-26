@@ -122,7 +122,6 @@ const Login = () => {
           setUserTab(false);
           if (res.data.onboarding === false) {
             if (res.data.user.role === "Freelancer") {
-              setfirstlogin(true);
               navigation.navigate("ProgressScreen");
               logged.setislogin(true);
             } else {
@@ -192,7 +191,6 @@ const Login = () => {
           });
           if (res.data.onboarding === false) {
             if (res.data.user.role === "Freelancer") {
-              setfirstlogin(true);
               navigation.navigate("ProgressScreen");
               logged.setislogin(true);
             } else {
