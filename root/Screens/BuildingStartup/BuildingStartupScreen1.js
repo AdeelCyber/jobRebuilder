@@ -1009,7 +1009,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 setModalVisible5(true);
               }}
             >
-              {userimg ? (
+              {logo ? (
                 <View>
                   <Image
                     style={{
@@ -1052,7 +1052,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             >
               Add Cover Image or Video
             </MyText>
-            {getmedia ? (
+            {mediatosend ? (
               <Pressable
                 style={{
                   backgroundColor: "#00FF00",
