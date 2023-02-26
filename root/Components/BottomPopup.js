@@ -12,6 +12,7 @@ import Context from "../Context/Context";
 import MyText from "./Text";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
+import axios from "../http/axiosSet"
 const DeviceHeight = Dimensions.get("window").height;
 const BottomPopup = (props) => {
   const {
@@ -19,7 +20,7 @@ const BottomPopup = (props) => {
   } = useContext(Context);
   const [open, setopen] = React.useState(props.show);
   const copyToClipboard = async () => {
-    await Clipboard.setStringAsync("https://stepdev.up.railway.app/");
+    await Clipboard.setStringAsync(`${axios.defaults.baseURL}`);
   };
 
   useEffect(() => {

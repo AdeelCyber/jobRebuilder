@@ -302,7 +302,7 @@ const CampaignMenu = ({ navigation, route }) => {
             </MyText>
           )}
         </Pressable>
-        <BottomPopup show={modal.modal1} setshow={setModal} />
+        <BottomPopup show={modal.modal1} setshow={setModal}   />
       </ScrollView>
     </View>
   ) : (
