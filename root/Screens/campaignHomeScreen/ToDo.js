@@ -49,25 +49,26 @@ const Todo = ({ navigation, route }) => {
     });
   }
   useEffect(() => {
-    if (data.todos[0] !== undefined) {
-      const month = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ];
+    const month = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
 
-      const d = new Date();
-      let name = month[d.getMonth()];
-      setMonth(name);
+    const d = new Date();
+    let name = month[d.getMonth()];
+    setMonth(name);
+    if (data.todos[0] !== undefined) {
+   
       console.log("OK 54");
       setRoles(data.todos[0].todos);
     } else {
