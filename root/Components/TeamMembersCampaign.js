@@ -11,6 +11,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import axios from "../http/axiosSet"
 const TeamMembersCampaign = ({ designation, image, text, ...props }) => {
   const {
     theme: { colors },
@@ -37,7 +38,7 @@ const TeamMembersCampaign = ({ designation, image, text, ...props }) => {
       {/* 1 */}
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Image
-          source={{ uri: image }}
+          source={{ uri: `${axios.defaults.baseURL}media/getImage/${image}` }}
           style={{ width: 35, height: 35, borderRadius: 20, marginRight: 8 }}
         />
         <View>
@@ -61,7 +62,7 @@ const TeamMembersCampaign = ({ designation, image, text, ...props }) => {
       </View>
       {/* 2 */}
       <View>
-        <Feather name="more-vertical" size={24} color="#A1A1A1" />
+        {/* <Feather name="more-vertical" size={24} color="#A1A1A1" /> */}
       </View>
     </View>
   );
