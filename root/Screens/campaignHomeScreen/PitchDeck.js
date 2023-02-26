@@ -33,6 +33,7 @@ import {
   PitchDeckDelete,
   PitchDeckUpload,
 } from "../Profile/services/FreeLancerServices";
+import axios from '../../http/axiosSet'
 
 const PitchDeck = ({ navigation, route }) => {
   const [data, setData] = useState(route.params.data);
@@ -168,7 +169,7 @@ const PitchDeck = ({ navigation, route }) => {
               }}
               onPress={() => {
                 downloadFile(
-                  `https://stepdev.up.railway.app/media/getFile/${file}`
+                  `${axios.defaults.baseURL}media/getFile/${file}`
                 );
                 ToastAndroid.show("Downloading...", ToastAndroid.SHORT);
               }}

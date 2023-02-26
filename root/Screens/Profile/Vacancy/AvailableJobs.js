@@ -20,6 +20,7 @@ import { Image } from 'react-native'
 import { getCareerJobs } from '../services/jobServices'
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
+import Error from '../../../Components/Error'
 const AvailableJobs = () => {
   const [catgeories, setCategories] = useState([])
   const isFocused = useIsFocused()
@@ -321,17 +322,7 @@ const AvailableJobs = () => {
 
           {jobs?.length === 0 && (
             <View>
-              <MyText
-                style={{
-                  fontSize: 20,
-                  color: 'red',
-                  fontWeight: '700',
-                  textAlign: 'center',
-                  marginTop: 10,
-                }}
-              >
-                No Jobs Found
-              </MyText>
+              <Error message='No Job Found' />
             </View>
           )}
 

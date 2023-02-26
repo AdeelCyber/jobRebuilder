@@ -52,6 +52,7 @@ const ProfileScreen = () => {
   const contest = useContext(CartContext)
   React.useLayoutEffect(() => {
     getData()
+    console.log('User', userdetails)
   }, [isFocused])
 
   const getData = async () => {

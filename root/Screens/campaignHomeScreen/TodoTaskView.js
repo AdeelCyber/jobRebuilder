@@ -27,6 +27,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { DeleteTodo } from "../Profile/services/FreeLancerServices";
 import { fileUpload, downloadFile } from "../Profile/services/fileServices";
+import axios from '../../http/axiosSet'
 
 const TodoTaskView = ({ navigation, route }) => {
   const [show, setshow] = useState(route.params.show);
@@ -119,7 +120,7 @@ const TodoTaskView = ({ navigation, route }) => {
               {currentTask.members.map((item, index) => {
                 return (
                   <Image
-                    source={{ uri: item.avatar }}
+                    source={{ uri: `${axios.defaults.baseURL}media/getImage/${item.avatar}` }}
                     style={{
                       width: 40,
                       height: 40,
@@ -145,7 +146,7 @@ const TodoTaskView = ({ navigation, route }) => {
               }}
               handlePress={(text) => {
                 downloadFile(
-                  `https://stepdev.up.railway.app/media/getFile/${currentTask.file}`
+                  `${axios.defaults.baseURL}media/getFile/${currentTask.file}`
                 );
                 ToastAndroid.show("Downloading...", ToastAndroid.SHORT);
               }}

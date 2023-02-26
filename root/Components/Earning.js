@@ -10,6 +10,7 @@ const Earning = ({
   subHeadingsDescriptions,
   ...props
 }) => {
+  console.log(subHeadings)
   const {
     theme: { colors },
   } = useContext(Context)
@@ -52,7 +53,7 @@ const Earning = ({
           marginBottom: 25,
         }}
       >
-        $ {total}
+        $ {total ?? 0}
       </MyText>
       <View
         style={{
@@ -62,13 +63,13 @@ const Earning = ({
         }}
       >
         <View>
-          <MyText style={styles.subheading}>{subHeadings[0]}</MyText>
+          <MyText style={styles.subheading}>$ {subHeadings[0] ?? 0}</MyText>
           <MyText style={styles.subheadingdescription}>
             {subHeadingsDescriptions[0]}
           </MyText>
         </View>
         <View>
-          <MyText style={styles.subheading}>{subHeadings[1]}</MyText>
+          <MyText style={styles.subheading}>{subHeadings[1] ?? 0}</MyText>
           <MyText style={styles.subheadingdescription}>
             {subHeadingsDescriptions[1]}
           </MyText>
@@ -77,13 +78,13 @@ const Earning = ({
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
         <View>
-          <MyText style={styles.subheading}>{subHeadings[2]}</MyText>
+          <MyText style={styles.subheading}>$ {subHeadings[2] ?? 0}</MyText>
           <MyText style={styles.subheadingdescription}>
             {subHeadingsDescriptions[2]}
           </MyText>
         </View>
         <View>
-          <MyText style={styles.subheading}>{subHeadings[3]}</MyText>
+          <MyText style={styles.subheading}>{subHeadings[3] ?? 0}</MyText>
           <MyText style={styles.subheadingdescription}>
             {subHeadingsDescriptions[3]}
           </MyText>

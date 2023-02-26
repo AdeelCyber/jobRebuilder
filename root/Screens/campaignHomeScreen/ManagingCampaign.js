@@ -38,6 +38,7 @@ import BriefCase from '../../../assets/Svgs/BriefCase'
 import Loader from '../../Components/Loader'
 import { useIsFocused } from '@react-navigation/native'
 import Error from '../../Components/Error'
+import axios from '../../http/axiosSet'
 
 function TodoComponent({ Title, desc, ...props }) {
   const [select, setselected] = useState(true)
@@ -115,7 +116,7 @@ function TodoComponent({ Title, desc, ...props }) {
           {props.item.members.map((item, index) => {
             return (
               <Image
-                source={{ uri: item.avatar }}
+                source={{ uri: `${axios.defaults.baseURL}media/getImage/${item.avatar}` }}
                 style={{
                   width: 21,
                   height: 21,
@@ -415,12 +416,17 @@ const ManagingCampaign = ({ navigation, route }) => {
         </View>
 
         {members.map((item) => (
+          <>
           <TeamMemberCampaign
             designation={item.position}
             image={item.member.avatar}
             text={item.member.name}
             style={{ marginVertical: 12 }}
           />
+          {members.length === 0 && <Error message='No Warning Found' />}
+
+</>
+          
         ))}
 
         {show ? (

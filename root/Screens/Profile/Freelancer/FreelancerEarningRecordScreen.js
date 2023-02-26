@@ -159,9 +159,9 @@ const FreelancerEarningRecordScreen = () => {
             style={{ marginTop: 0, marginBottom: 28 }}
             total={walletDetail.netIncome}
             subHeadings={[
-              `$ ${walletDetail.earningsThisMonth}`,
+              walletDetail.earningsThisMonth,
               walletDetail.activeJobs,
-              `$ ${walletDetail.pendingClearence}`,
+              walletDetail.pendingClearence,
               walletDetail.jobsCompleted,
             ]}
           />
