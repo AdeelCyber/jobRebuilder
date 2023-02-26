@@ -120,7 +120,7 @@ const Login = () => {
           });
 
           setUserTab(false);
-          if (!firstlogin) {
+          if (res.data.onboarding === false) {
             if (res.data.user.role === "Freelancer") {
               setfirstlogin(true);
               navigation.navigate("ProgressScreen");
@@ -190,7 +190,7 @@ const Login = () => {
             text1: "You're Successfully Logged In",
             text2: ".",
           });
-          if (!firstlogin) {
+          if (res.data.onboarding === false) {
             if (res.data.user.role === "Freelancer") {
               setfirstlogin(true);
               navigation.navigate("ProgressScreen");
