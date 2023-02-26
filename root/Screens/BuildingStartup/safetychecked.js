@@ -65,24 +65,12 @@ const BuildingStartupScreen1 = ({ navigation }) => {
 
   const buttonStyle = {
     backgroundColor: colors.Bluish,
-    width: "111%",
+    width: 300,
     height: 50,
     justifyContent: "center",
     alignItems: "center",
-    //alignSelf: "center",
     borderRadius: 10,
     marginTop: 20,
-    marginRight: 233,
-
-    //right:100
-    // alignSelf:"center",
-    // marginTop: 20,
-    // transform: [{ translateX: -5 }, { translateY: -10 }],
-
-    // // marginRight:190,
-    // marginLeft:20,
-
-    //left: 50,
   };
   const [startupid, setstartupid] = useState();
   if (getcondition) {
@@ -305,12 +293,14 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     };
     if (getScreen == false) {
       return (
-        <ScrollView nestedScrollEnabled>
+        
+        <ScrollView nestedScrollEnabled >
           <View
             style={[
               styles.container,
-              { backgroundColor: colors.background, margin: 30 },
+              { backgroundColor: colors.background, margin: 30, flexGrow: 1 },
             ]}
+            nestedScrollEnabled
           >
             <Modal animationType="fade" visible={getmodalvisible1}>
               <View style={styles.centeredView}>
@@ -712,25 +702,28 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 <AntDesign name="questioncircleo" size={20} color="#232323AB" />
               </Pressable>
             </View>
+            <View style={{ height: 40 }}> 
 
-            <View style={styles.SectionStyle}>
-              <DropDownPicker
+            {/* <FlatList nestedScrollEnabled data={["i am good","i am good","i am good","i am good","i am good"] }  renderItem ={({item})=> <Text> {item} </Text> } /> */}
+            <DropDownPicker
                 style={[styles.inputStyle, { borderColor: "#EEEEEE" }]}
-                textStyle={{ color: "#ACA9A9" }}
-                placeholder="Category"
-                autoScroll={true}
-                dropDownDirection="TOP"
-                open={open}
-                value={value}
-                items={items}
                 listMode="SCROLLVIEW"
                 scrollViewProps={{
                   nestedScrollEnabled: true,
-                }}
-                setOpen={setOpen}
-                setValue={setValue}
-                setItems={setItems}
+          }}
+        
+                textStyle={{ color: "#ACA9A9" }}
+                placeholder="Stage"
+                //autoScroll={true}
+                open={open1}
+                value={value1}
+                items={items1}
+                setOpen={setOpen1}
+                setValue={setValue1}
+                setItems={setItems1}
               />
+
+          
             </View>
 
             <View style={styles.SectionStyle}>
@@ -775,16 +768,9 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 open={open1}
                 value={value1}
                 items={items1}
-                dropDownStyle={{ maxHeight: 150 }}
-                containerStyle={{ height: 40 }}
-                ScrollViewProps={{ nestedScrollEnabled: true }}
                 setOpen={setOpen1}
                 setValue={setValue1}
                 setItems={setItems1}
-                listMode="SCROLLVIEW"
-                scrollViewProps={{
-                  nestedScrollEnabled: true,
-                }}
               />
             </View>
 
@@ -1327,9 +1313,8 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   style={{
                     backgroundColor: "#EEEEEE",
                     height: 50,
-                    width: 330,
+                    width: 320,
                     borderRadius: 10,
-                    alignSelf: "center",
                     justifyContent: "center",
                     alignItems: "center",
                     marginTop: 20,
@@ -2393,7 +2378,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               Creating Milestones
             </MyText>
             <FlatList
-              style={{ width: 330, flex: 1 }}
               data={milestonelist}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
@@ -3010,7 +2994,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             nextBtnTextStyle={buttonTextStyle}
             nextBtnText="Proceed"
             previousBtnDisabled={true}
-            previousBtnStyle={{ display: "none" }}
           >
             <Screen4 />
           </ProgressStep>

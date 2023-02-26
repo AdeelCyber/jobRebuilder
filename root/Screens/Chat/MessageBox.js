@@ -703,11 +703,11 @@ const MessageBox = ({
                               downloadFile(
                                 `https://stepev-dev.up.railway.app/media/getFile/${item.file}`
                               );
-                              Toast.show({
-                                topOffset: 60,
-                                type: "success",
-                                text1: "Downloading...",
-                              });
+                              // Toast.show({
+                              //   topOffset: 60,
+                              //   type: "success",
+                              //   text1: "Downloading...",
+                              // });
                             }}
                           >
                             <Image
@@ -862,11 +862,11 @@ const MessageBox = ({
                               downloadFile(
                                 `https://stepev-dev.up.railway.app/media/getFile/${item.file}`
                               );
-                              Toast.show({
-                                topOffset: 60,
-                                type: "success",
-                                text1: "Downloading...",
-                              });
+                              // Toast.show({
+                              //   topOffset: 60,
+                              //   type: "success",
+                              //   text1: "Downloading...",
+                              // });
                             }}
                           >
                             <Image
@@ -1000,11 +1000,11 @@ const MessageBox = ({
                             downloadFile(
                               `https://stepev-dev.up.railway.app/media/getFile/${item.file}`
                             );
-                            Toast.show({
-                              topOffset: 60,
-                              type: "success",
-                              text1: "Downloading...",
-                            });
+                            // Toast.show({
+                            //   topOffset: 60,
+                            //   type: "success",
+                            //   text1: "Downloading...",
+                            // });
                           }}
                         >
                           <Image
@@ -1272,11 +1272,11 @@ const MessageBox = ({
                               downloadFile(
                                 `https://stepev-dev.up.railway.app/media/getFile/${item.equityOrder.partnershipAgreement}`
                               );
-                              Toast.show({
-                                topOffset: 60,
-                                type: "success",
-                                text1: "Downloading...",
-                              });
+                              // Toast.show({
+                              //   topOffset: 60,
+                              //   type: "success",
+                              //   text1: "Downloading...",
+                              // });
                             }}
                           >
                             <Text
@@ -1448,11 +1448,11 @@ const MessageBox = ({
                             downloadFile(
                               `https://stepev-dev.up.railway.app/media/getFile/${item.file}`
                             );
-                            Toast.show({
-                              topOffset: 60,
-                              type: "success",
-                              text1: "Downloading...",
-                            });
+                            // Toast.show({
+                            //   topOffset: 60,
+                            //   type: "success",
+                            //   text1: "Downloading...",
+                            // });
                           }}
                         >
                           <Image
@@ -1716,11 +1716,11 @@ const MessageBox = ({
                               downloadFile(
                                 `https://stepev-dev.up.railway.app/media/getFile/${item.equityOrder.partnershipAgreement}`
                               );
-                              Toast.show({
-                                topOffset: 60,
-                                type: "success",
-                                text1: "Downloading...",
-                              });
+                              // Toast.show({
+                              //   topOffset: 60,
+                              //   type: "success",
+                              //   text1: "Downloading...",
+                              // });
                             }}
                           >
                             <Text

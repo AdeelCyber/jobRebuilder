@@ -6,6 +6,7 @@ import * as Permissions from "expo-permissions";
 import * as MediaLibrary from "expo-media-library";
 import * as IntentLauncher from "expo-intent-launcher";
 import { ToastAndroid } from "react-native";
+
 export const imageUpload = async (file) => {
   const uploadResult = await FileSystem.uploadAsync(
     "https://stepev-dev.up.railway.app/media/uploadfile",
@@ -47,12 +48,17 @@ export const downloadFile = async (uri) => {
   if (downloadedFile.status === 200) {
     if (Platform.OS === "android") {
       const permission = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+      console.log("permission", permission);
 
       if (permission.status !== "granted") {
+        console.log("Permission not granted");
         return;
       }
+      console.log("permission granted");
+      console.log("downloadedFile", downloadedFile.uri);
 
       const asset = await MediaLibrary.createAssetAsync(downloadedFile.uri);
+      console.log("asset", asset);
       const album = await MediaLibrary.getAlbumAsync("Download");
       console.log("donloaded");
 
