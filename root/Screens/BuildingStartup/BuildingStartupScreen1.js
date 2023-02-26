@@ -45,7 +45,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
   } = useContext(Context);
   const { accessToken } = useContext(CartProvider);
   const [getcondition, setcondition] = useState(false);
-  const [geterror, seterror] = useState(true);
+  const [geterror, seterror] = useState(0);
 
   const progressStepsStyle = {
     activeStepIconBorderColor: colors.Bluish,
@@ -267,7 +267,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
           );
           console.log(res.data);
           setcondition(false);
-          seterror(false);
+          seterror(geterror + 1);
 
           if (res.status === 201) {
             setstartupid(res.data.startUp._id);
@@ -279,8 +279,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             });
           }
         } else {
-          seterror(true);
-
           Toast.show({
             topOffset: 60,
             type: "error",
@@ -291,7 +289,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
       } catch (error) {
         console.log(error.response.data);
         setcondition(false);
-        seterror(true);
 
         Toast.show({
           topOffset: 60,
@@ -1196,7 +1193,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
 
         if (res.status === 201) {
           setstartupid(res.data.startUp._id);
-          seterror(false);
           Toast.show({
             topOffset: 60,
             type: "success",
@@ -1205,7 +1201,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
           });
         }
       } catch (error) {
-        seterror(true);
         Toast.show({
           topOffset: 60,
           type: "error",
@@ -1667,7 +1662,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
         console.log(res.data);
 
         if (res.status === 201) {
-          seterror(false);
           Toast.show({
             topOffset: 60,
             type: "success",
@@ -1676,7 +1670,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
           });
         }
       } catch (error) {
-        seterror(true);
         Toast.show({
           topOffset: 60,
           type: "error",
@@ -1706,6 +1699,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
       console.log(res);
 
       if (res.status === 201) {
+        seterror(geterror + 1);
         Toast.show({
           topOffset: 60,
           type: "success",
@@ -2351,7 +2345,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
         console.log(res.data);
 
         if (res.status === 201) {
-          seterror(false);
+          seterror(geterror + 1);
           Toast.show({
             topOffset: 60,
             type: "success",
@@ -2360,7 +2354,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
           });
         }
       } catch (error) {
-        seterror(true);
         Toast.show({
           topOffset: 60,
           type: "error",
@@ -2737,7 +2730,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
           console.log(res.data);
 
           if (res.status === 201) {
-            seterror(false);
             Toast.show({
               topOffset: 60,
               type: "success",
@@ -2747,7 +2739,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
           }
         }
       } catch (error) {
-        seterror(true);
         Toast.show({
           topOffset: 60,
           type: "error",
@@ -2953,7 +2944,8 @@ const BuildingStartupScreen1 = ({ navigation }) => {
   };
 
   const publish = async () => {
-    if (geterror === true) {
+    console.log(geterror);
+    if (geterror !== 3) {
       Toast.show({
         topOffset: 60,
         type: "error",
@@ -2961,8 +2953,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
         text2: "Some fields are missing",
       });
     } else {
-      const r = await publishStartup(accessToken, startupid);
-      console.log(r);
+      // const r = await publishStartup(accessToken, startupid);
       Toast.show({
         topOffset: 60,
         type: "success",
