@@ -65,12 +65,24 @@ const BuildingStartupScreen1 = ({ navigation }) => {
 
   const buttonStyle = {
     backgroundColor: colors.Bluish,
-    width: 300,
+    width: "111%",
     height: 50,
     justifyContent: "center",
     alignItems: "center",
+    //alignSelf: "center",
     borderRadius: 10,
     marginTop: 20,
+    marginRight: 233,
+
+    //right:100
+    // alignSelf:"center",
+    // marginTop: 20,
+    // transform: [{ translateX: -5 }, { translateY: -10 }],
+
+    // // marginRight:190,
+    // marginLeft:20,
+
+    //left: 50,
   };
   const [startupid, setstartupid] = useState();
   if (getcondition) {
@@ -711,6 +723,9 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 open={open}
                 value={value}
                 items={items}
+                dropDownStyle={{ maxHeight: 50 }}
+                containerStyle={{ height: 40 }}
+                ScrollViewProps={{ nestedScrollEnabled: true }}
                 setOpen={setOpen}
                 setValue={setValue}
                 setItems={setItems}
@@ -759,6 +774,9 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 open={open1}
                 value={value1}
                 items={items1}
+                dropDownStyle={{ maxHeight: 150 }}
+                containerStyle={{ height: 40 }}
+                ScrollViewProps={{ nestedScrollEnabled: true }}
                 setOpen={setOpen1}
                 setValue={setValue1}
                 setItems={setItems1}
@@ -1304,8 +1322,9 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   style={{
                     backgroundColor: "#EEEEEE",
                     height: 50,
-                    width: 320,
+                    width: 330,
                     borderRadius: 10,
+                    alignSelf: "center",
                     justifyContent: "center",
                     alignItems: "center",
                     marginTop: 20,
@@ -2369,6 +2388,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               Creating Milestones
             </MyText>
             <FlatList
+              style={{ width: 330, flex: 1 }}
               data={milestonelist}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
@@ -2985,6 +3005,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             nextBtnTextStyle={buttonTextStyle}
             nextBtnText="Proceed"
             previousBtnDisabled={true}
+            previousBtnStyle={{ display: "none" }}
           >
             <Screen4 />
           </ProgressStep>

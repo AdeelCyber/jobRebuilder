@@ -140,9 +140,9 @@ const MessageBox = ({
 
     setdoc(result.uri);
     const pdf = await fileUpload(result.uri);
-    console.log(pdf);
+    // console.log(pdf);
     const p = JSON.parse(pdf.body);
-    console.log(p);
+    //  console.log(p);
     if (chatType === "group") {
       var obj = {};
       (obj["createdAt"] = Date.now()),
@@ -169,9 +169,9 @@ const MessageBox = ({
   };
 
   const sendMessage = async (message, type) => {
-    console.log(type);
-    console.log(message);
-    console.log(id);
+    // console.log(type);
+    // console.log(message);
+    // console.log(id);
 
     if (chatType === "group") {
       const res = await sendMessagessInGroup(accessToken, id, message, type);
@@ -204,15 +204,19 @@ const MessageBox = ({
   };
 
   const oneTimeOfferstatus = async (orderid, status) => {
-    const resp = await oneTimeOrderOfferStatus(accessToken, orderid, status);
-    console.log(resp.data);
-    if (resp.status == 200) {
-      Toast.show({
-        topOffset: 60,
-        type: "success",
-        text1: "Done",
-        text2: ".",
-      });
+    try {
+      const resp = await oneTimeOrderOfferStatus(accessToken, orderid, status);
+      console.log(resp.data);
+      if (resp.status == 200) {
+        Toast.show({
+          topOffset: 60,
+          type: "success",
+          text1: "Done",
+          text2: ".",
+        });
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -313,8 +317,8 @@ const MessageBox = ({
 
   if (chatType === "group") {
     socket.on("get-group-messages", (data, id) => {
-      console.log(data);
-      console.log(id);
+      //console.log(data);
+      //console.log(id);
 
       var obj = {};
       (obj["createdAt"] = Date.now()),
@@ -336,7 +340,6 @@ const MessageBox = ({
         var obj = {};
         (obj["createdAt"] = Date.now()),
           (obj["oneTimeOrder"] = {
-            deliveryTime: content.deliveryTime,
             totalPrice: content.totalPrice,
             jobTitle: content.jobTitle,
           }),
@@ -344,13 +347,14 @@ const MessageBox = ({
           (obj["user"] = {
             _id: "other",
           });
+        console.log(obj);
         setmsg([...msg, obj]);
       } else if (content.messageType === "equityOrder") {
         var obj = {};
         (obj["createdAt"] = Date.now()),
           (obj["equityOrder"] = {
             // deliveryTime: content.deliveryTime,
-            totalPrice: content.totalPrice,
+            equity: content.totalPrice,
             jobTitle: content.jobTitle,
           }),
           (obj[`${content.messageType}`] = content.msgcontent),

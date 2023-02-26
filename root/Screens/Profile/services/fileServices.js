@@ -39,7 +39,7 @@ export const downloadFile = async (uri) => {
     uri.substring(uri.lastIndexOf("/") + 1, uri.length);
   console.log(targetUri);
   if (uri.substring(uri.lastIndexOf("/") + 1, uri.length == "")) {
-    ToastAndroid.show("No file to download", ToastAndroid.SHORT);
+    // ToastAndroid.show("No file to download", ToastAndroid.SHORT);
   }
 
   const downloadedFile = await FileSystem.downloadAsync(uri, targetUri);

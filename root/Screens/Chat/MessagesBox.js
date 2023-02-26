@@ -59,7 +59,7 @@ const MessagesBox = ({ route }) => {
       setcondition(false);
     } else {
       const res = await getMessages(accessToken, id);
-      console.log(res.data.messages);
+      //  console.log(res.data.messages);
       setMessages(res.data.messages);
       //  console.log(res.data.messages);
       // messages.current = res.data.messages;

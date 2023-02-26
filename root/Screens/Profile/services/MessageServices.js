@@ -124,6 +124,7 @@ export const sendMessagessInGroup = async (accessToken, id, message, type) => {
 
 export const oneTimeOrderOfferStatus = async (accessToken, orderid, status) => {
   console.log(status);
+  console.log(orderid);
   const config = {
     headers: {
       "Content-Type": "application/json",

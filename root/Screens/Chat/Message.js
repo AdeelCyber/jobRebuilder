@@ -279,10 +279,9 @@ const Message = ({ navigation }) => {
                         ? item.lastMessage?.sender.name +
                           ": " +
                           item.lastMessage?.message.message
-                        : item.lastMessage?.message.attachments ||
-                          item.lastMessage?.message.equity
-                        ? "Offer Message"
-                        : item.lastMessage?.message.message}
+                        : item.lastMessage?.message.message
+                        ? item.lastMessage?.message.message
+                        : "Offer Message"}
                     </Text>
                   </View>
 

@@ -85,18 +85,6 @@ const CustomOffer = ({ route }) => {
           text1: "Ordered Created Successfully",
           text2: ".",
         });
-        socket.emit("private message", {
-          to: id,
-          content: {
-            msgcontent: "oneTimeOrder",
-            messageType: onetime.data.data._id,
-            deliveryTime: moment(duedate).format("YYYY-MM-DD"),
-            totalPrice: price,
-            jobTitle: jobTitle,
-          },
-        });
-
-        // navigation.goBack({ ordertime: deliveryTime: onetime.data });
       } else {
       }
     } catch (err) {
@@ -125,15 +113,6 @@ const CustomOffer = ({ route }) => {
       if (equity.status == 201) {
         setcondition(false);
         sendMessage(equity.data.data._id, "equityOrder");
-        socket.emit("private message", {
-          to: id,
-          content: {
-            msgcontent: "equityOrder",
-            messageType: equity.data.data._id,
-            totalPrice: price,
-            jobTitle: jobTitle,
-          },
-        });
 
         Toast.show({
           topOffset: 60,
@@ -159,19 +138,35 @@ const CustomOffer = ({ route }) => {
     //console.log("type", type);
     //  console.log("msg", message);
     //  console.log("id", id);
+    const time = moment(duedate).format("YYYY-MM-DD");
 
     const res = await sendMessagess(accessToken, id, message, type);
     console.log(res.status);
     if (res.status == 200) {
-      socket.emit("private message", {
-        to: id,
-        content: {
-          msgcontent: message,
-          messageType: type,
-        },
-      });
+      if (type === "equityOrder") {
+        socket.emit("private message", {
+          to: id,
+          content: {
+            msgcontent: message,
+            messageType: type,
+            totalPrice: price,
+            jobTitle: jobTitle,
+          },
+        });
+      } else {
+        socket.emit("private message", {
+          to: id,
+          content: {
+            msgcontent: message,
+            messageType: type,
+            deliveryTime: time,
+            totalPrice: price,
+            jobTitle: jobTitle,
+          },
+        });
+      }
+      navigation.navigate("Message");
     }
-
     //console.log(res.data);
   };
   // socket.on("private message", (data) => {
