@@ -89,7 +89,7 @@ const CampaignPopular = ({
             source={{
               uri: `${axios.defaults.baseURL}media/getImage/${Logo}`,
             }}
-            style={{ width: 18, height: 18 }}
+            style={{ width: 20, height: 20 ,borderRadius:10 }}
           />
         </View>
       </View>
@@ -119,8 +119,8 @@ const CampaignPopular = ({
             Stage
           </MyText>
           <MyText style={{ fontWeight: '700', fontSize: 14 }}>
-            {props.Stage !== undefined
-              ? `${props.Stage.slice(0, 5)}` + '...'
+            {props.Stage !== null
+              ? `${props.Stage.slice(0, 10)}` + '...'
               : null}
           </MyText>
         </View>

@@ -30,35 +30,7 @@ const CampaignManagement = ({ navigation }) => {
     alert(text)
   }
   const [MileStones, setMileStone] = useState('')
-  const [popularCards, setPopularCards] = useState([
-    {
-      src: Buildings,
-      businessName: 'Beyond',
-      desc: '',
-      Stage: 'Idea',
-      Team: 'Complete',
-      Budget: 2560,
-      status: 'Approved',
-    },
-    {
-      src: Buildings,
-      title: 'Beyond',
-      desc: '',
-      Stage: 'Idea',
-      Team: 'Complete',
-      Budget: 2560,
-      status: 'Pending',
-    },
-    {
-      src: Buildings,
-      title: 'Beyond',
-      desc: '',
-      Stage: 'Idea',
-      Team: 'Complete',
-      Budget: 2560,
-      status: 'Draft',
-    },
-  ])
+  const [popularCards, setPopularCards] = useState([])
   // console.log(popularCards);
   const [loaded, setLoaded] = useState(false)
 
