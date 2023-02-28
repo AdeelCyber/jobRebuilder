@@ -234,7 +234,7 @@ export const editStartupProfile = async (accessToken, name, image) => {
   }
   try {
     const resp = await instance.put(
-      `${axios.defaults.baseURL}freelancer/profile/aboutMe/update`,
+      `${axios.defaults.baseURL}user/update/profilePhotoandName`,
       {
         name: name,
         avatar: image,

@@ -51,7 +51,7 @@ const ChangeProfileScreen = ({ route }) => {
   }
 
   const [image, setimage] = useState()
-  const { accessToken } = useContext(CartProvider)
+  const { accessToken, userdetails, setuserdetails } = useContext(CartProvider)
   const [getmodalvisible5, setmodalvisible5] = useState(false)
 
   const [logo, setlogo] = useState('')
@@ -129,8 +129,15 @@ const ChangeProfileScreen = ({ route }) => {
           Toast.show({
             topOffset: 60,
             type: 'success',
-            text1: 'Upated Successfully',
+            text1: 'Update Successfully',
             text2: '.',
+          })
+          setuserdetails(() => {
+            return {
+              ...userdetails,
+              name: res.data.data.user.name,
+              avatar: res.data.data.user.avatar,
+            }
           })
           navigation.navigate('Profile')
         }

@@ -17,6 +17,7 @@ import { getOrderCategoryWise, getOrders } from '../services/orderServices'
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import Error from '../../../Components/Error'
 
 const AmountSpendScreen = () => {
   const navigation = useNavigation()
@@ -31,7 +32,7 @@ const AmountSpendScreen = () => {
 
   const fetchOrder = async () => {
     setLoading(true)
-    const resp = await getOrderCategoryWise('Active')
+    const resp = await getOrderCategoryWise('Completed')
     setLoading(false)
     if (resp.status === 200) {
       setOrders(resp.data.data)
@@ -221,17 +222,7 @@ const AmountSpendScreen = () => {
           </>
         ) : (
           <View>
-            <MyText
-              style={{
-                fontSize: 20,
-                fontWeight: '700',
-                color: 'red',
-                marginTop: 12,
-                textAlign: 'center',
-              }}
-            >
-              No orders
-            </MyText>
+            <Error message='No Order Found' />
           </View>
         )}
       </View>

@@ -108,6 +108,7 @@ import ChangeProfileScreen from './Screens/Profile/ChangeProfileScreen'
 import CheckoutSheet from './Screens/Chat/paymentsheet'
 import CartContext from './Context/CartProvider'
 import axios from './http/axiosSet'
+import AmountSpendScreen from './Screens/Profile/Dashboard/AmountSpentScreen'
 //Navigation outA
 
 // Creating Stacks
@@ -182,6 +183,9 @@ const MyStack = (props) => {
             name='AddFinancialDetail'
             component={AddFinancialScreen}
           />
+
+          <Stack.Screen name='AmountSpent' component={AmountSpendScreen} />
+
           <Stack.Screen name='StartScreen' component={StartScreen} />
           <Stack.Screen name='LoginScreen' component={Login} />
           <Stack.Screen name='CreateAccount' component={CreateAccount} />
