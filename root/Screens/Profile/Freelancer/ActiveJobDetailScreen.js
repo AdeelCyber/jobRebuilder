@@ -40,6 +40,7 @@ const ActiveJobDetailScreen = ({ route }) => {
   const [reason, setReason] = useState('')
   const [order, setOrder] = useState({})
   const [deliveryDate, setDeliveryDate] = useState('')
+  const [fileURI, setFileURI] = useState('')
 
   // hello
   const {
@@ -59,9 +60,13 @@ const ActiveJobDetailScreen = ({ route }) => {
       formData.name.includes('txt') ||
       formData.name.includes('ppt') ||
       formData.name.includes('pptx')
-    )
-      fileUpload(formData.uri)
-    else imageUpload(formData.uri)
+    ) {
+      const f = fileUpload(formData.uri)
+      setFileURI(f.filename)
+    } else {
+      const f = imageUpload(formData.uri)
+      setFileURI(f.filename)
+    }
     setFileNameFromServer(formData.name)
   }
 
