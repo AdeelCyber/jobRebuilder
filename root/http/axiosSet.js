@@ -2,7 +2,7 @@ import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const instance = axios.create({
-  baseURL: 'https://stepev-dev.up.railway.app/',
+  baseURL: 'https://stepdev.up.railway.app/',
 })
 
 instance.interceptors.response.use(
@@ -13,7 +13,7 @@ instance.interceptors.response.use(
       originalRequest._retry = true
       const refreshToken = await AsyncStorage.getItem('@refreshToken')
       const response = await axios.post(
-        'https://stepev-dev.up.railway.app/auth/refresh',
+        'https://stepdev.up.railway.app/auth/refresh',
         { refreshToken }
       )
       const accessToken = response.data.accessToken

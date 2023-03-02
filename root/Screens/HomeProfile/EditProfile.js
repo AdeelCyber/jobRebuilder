@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState } from 'react'
 import {
   Image,
   Pressable,
@@ -11,53 +11,53 @@ import {
   FlatList,
   Modal,
   ActivityIndicator,
-} from "react-native";
-import { useIsFocused } from "@react-navigation/native";
+} from 'react-native'
+import { useIsFocused } from '@react-navigation/native'
 
-import Context from "../../Context/Context";
-import MyText from "../../Components/Text";
-import CustomHeader9 from "../../Components/CustomHeader9";
-import Icon from "@expo/vector-icons/FontAwesome";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useNavigation } from "@react-navigation/native";
-import * as ImagePicker from "expo-image-picker";
-import { Entypo, AntDesign, Ionicons } from "@expo/vector-icons";
+import Context from '../../Context/Context'
+import MyText from '../../Components/Text'
+import CustomHeader9 from '../../Components/CustomHeader9'
+import Icon from '@expo/vector-icons/FontAwesome'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import { useNavigation } from '@react-navigation/native'
+import * as ImagePicker from 'expo-image-picker'
+import { Entypo, AntDesign, Ionicons } from '@expo/vector-icons'
 
-import CartProvider from "../../Context/CartProvider";
-import Toast from "react-native-toast-message";
-import { imageUpload } from "../Profile/services/fileServices";
-import { editProfile } from "../Profile/services/ProfileServices";
-import Loader from "../../Components/Loader";
-import DropDownPicker from "react-native-dropdown-picker";
+import CartProvider from '../../Context/CartProvider'
+import Toast from 'react-native-toast-message'
+import { imageUpload } from '../Profile/services/fileServices'
+import { editProfile } from '../Profile/services/ProfileServices'
+import Loader from '../../Components/Loader'
+import DropDownPicker from 'react-native-dropdown-picker'
 
 const EditProfile = ({ route }) => {
   const {
     theme: { colors },
-  } = useContext(Context);
-  const navigation = useNavigation();
-  const { userinfo } = route.params;
-  const [name, setname] = useState(userinfo.userInfo.name);
-  const [job, setjob] = useState(userinfo.about.jobTitle);
-  const [city, setcity] = useState(userinfo.about.city);
-  const [country, setcountry] = useState(userinfo.about.country);
+  } = useContext(Context)
+  const navigation = useNavigation()
+  const { userinfo } = route.params
+  const [name, setname] = useState(userinfo.userInfo.name)
+  const [job, setjob] = useState(userinfo.about.jobTitle)
+  const [city, setcity] = useState(userinfo.about.city)
+  const [country, setcountry] = useState(userinfo.about.country)
 
-  const [language, setlanguage] = useState(userinfo.about.language);
-  const [work, setwork] = useState(userinfo.about.responseTime);
-  const [about, setabout] = useState(userinfo.about.aboutMe);
-  const [image, setimage] = useState();
-  const { accessToken } = useContext(CartProvider);
-  const [getmodalvisible5, setmodalvisible5] = useState(false);
+  const [language, setlanguage] = useState(userinfo.about.language)
+  const [work, setwork] = useState(userinfo.about.responseTime)
+  const [about, setabout] = useState(userinfo.about.aboutMe)
+  const [image, setimage] = useState()
+  const { accessToken } = useContext(CartProvider)
+  const [getmodalvisible5, setmodalvisible5] = useState(false)
   const [preference, setpreference] = useState(
-    "Fixed Rate " + userinfo.userInfo.role
-  );
-  const [logo, setlogo] = useState(userinfo.userInfo.avatar);
-  const [getcondition, setcondition] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
+    'Fixed Rate ' + userinfo.userInfo.role
+  )
+  const [logo, setlogo] = useState(userinfo.userInfo.avatar)
+  const [getcondition, setcondition] = useState(false)
+  const [open, setOpen] = useState(false)
+  const [value, setValue] = useState(null)
   const [items, setItems] = useState([
-    { label: "Join a business (equity)", value: "Equity" },
-    { label: "Fixed Rate (Freelancer)", value: "Freelance" },
-  ]);
+    { label: 'Join a business (equity)', value: 'Equity' },
+    { label: 'Fixed Rate (Freelancer)', value: 'Freelance' },
+  ])
   // const pickImg = async () => {
   //   let result = await ImagePicker.launchImageLibraryAsync({
   //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -73,50 +73,50 @@ const EditProfile = ({ route }) => {
   // };
 
   const pickImg = async () => {
-    setmodalvisible5(false);
+    setmodalvisible5(false)
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [10, 10],
       quality: 1,
-    });
+    })
     // console.log(result);
 
     if (!result.canceled) {
-      setimage(result.assets[0].uri);
-      setcondition(true);
-      const img = await imageUpload(result.assets[0].uri);
+      setimage(result.assets[0].uri)
+      setcondition(true)
+      const img = await imageUpload(result.assets[0].uri)
       if (img.status == 200) {
-        setcondition(false);
+        setcondition(false)
         Toast.show({
           topOffset: 60,
-          type: "success",
-          text1: "Image Upated Successfully",
-          text2: ".",
-        });
+          type: 'success',
+          text1: 'Image Upated Successfully',
+          text2: '.',
+        })
       }
-      console.log(img);
-      setlogo(JSON.parse(img.body));
+      console.log(img)
+      setlogo(JSON.parse(img.body))
     }
-  };
+  }
   const takeSelfie = async () => {
-    setmodalvisible5(false);
+    setmodalvisible5(false)
 
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
-    });
+    })
 
     if (!result.canceled) {
-      setimage(result.assets[0].uri);
-      const img = await imageUpload(result.assets[0].uri);
-      setlogo(JSON.parse(img.body));
+      setimage(result.assets[0].uri)
+      const img = await imageUpload(result.assets[0].uri)
+      setlogo(JSON.parse(img.body))
     }
-  };
+  }
   const profileedit = async () => {
-    setcondition(true);
+    setcondition(true)
 
     if (logo.filename != undefined) {
       try {
@@ -130,21 +130,21 @@ const EditProfile = ({ route }) => {
           work,
           about,
           logo.filename
-        );
-        console.log(res);
+        )
+        console.log(res)
         if (res.status == 200) {
-          setcondition(false);
+          setcondition(false)
 
           Toast.show({
             topOffset: 60,
-            type: "success",
-            text1: "Upated Successfully",
-            text2: ".",
-          });
-          navigation.navigate("HomeService");
+            type: 'success',
+            text1: 'Upated Successfully',
+            text2: '.',
+          })
+          navigation.navigate('HomeService')
         }
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
     } else {
       try {
@@ -158,35 +158,33 @@ const EditProfile = ({ route }) => {
           work,
           about,
           logo
-        );
-        console.log(res.status);
+        )
+        console.log(res.status)
         if (res.status == 200) {
-          setcondition(false);
+          setcondition(false)
 
           Toast.show({
             topOffset: 60,
-            type: "success",
-            text1: "Upated Successfully",
-            text2: ".",
-          });
-          navigation.navigate("HomeService");
+            type: 'success',
+            text1: 'Upated Successfully',
+            text2: '.',
+          })
+          navigation.navigate('HomeService')
         }
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
     }
-  };
+  }
   if (getcondition) {
-    return (
-      <Loader visible={getcondition} color="white" indicatorSize="large" />
-    );
+    return <Loader visible={getcondition} color='white' indicatorSize='large' />
   }
 
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
       <View style={[styles.container]}>
-        <CustomHeader9 Title="" nav={navigation} />
-        <Modal animationType="fade" visible={getmodalvisible5}>
+        <CustomHeader9 Title='' nav={navigation} />
+        <Modal animationType='fade' visible={getmodalvisible5}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <View
@@ -194,28 +192,28 @@ const EditProfile = ({ route }) => {
                   borderBottomWidth: 1,
                   padding: 5,
                   marginBottom: 20,
-                  borderColor: "#23232380",
+                  borderColor: '#23232380',
 
-                  flexDirection: "row",
-                  justifyContent: "space-between",
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
                 }}
               >
                 <MyText
                   style={{
                     fontSize: 14,
-                    fontWeight: "400",
+                    fontWeight: '400',
                     marginRight: 50,
-                    color: "#23232380",
+                    color: '#23232380',
                   }}
                 >
                   Choose Option
                 </MyText>
                 <Entypo
-                  name="circle-with-cross"
+                  name='circle-with-cross'
                   size={20}
-                  color="#232323AB"
+                  color='#232323AB'
                   onPress={() => {
-                    setmodalvisible5(false);
+                    setmodalvisible5(false)
                   }}
                 />
               </View>
@@ -223,21 +221,21 @@ const EditProfile = ({ route }) => {
                 style={{
                   height: 25,
                   width: 90,
-                  alignSelf: "center",
+                  alignSelf: 'center',
                   backgroundColor: colors.Bluish,
                   borderRadius: 5,
                   marginBottom: 5,
                 }}
                 onPress={() => {
-                  takeSelfie();
+                  takeSelfie()
                 }}
               >
                 <MyText
                   style={{
                     fontSize: 12,
-                    fontWeight: "400",
+                    fontWeight: '400',
                     color: colors.white,
-                    alignSelf: "center",
+                    alignSelf: 'center',
                   }}
                 >
                   Camera
@@ -247,19 +245,19 @@ const EditProfile = ({ route }) => {
                 style={{
                   height: 25,
                   width: 90,
-                  alignSelf: "center",
+                  alignSelf: 'center',
                   backgroundColor: colors.Bluish,
                   borderRadius: 5,
                 }}
                 onPress={() => {
-                  pickImg();
+                  pickImg()
                 }}
               >
                 <MyText
                   style={{
                     fontSize: 12,
-                    fontWeight: "400",
-                    alignSelf: "center",
+                    fontWeight: '400',
+                    alignSelf: 'center',
                     color: colors.white,
                   }}
                 >
@@ -270,7 +268,7 @@ const EditProfile = ({ route }) => {
           </View>
         </Modal>
 
-        <View style={{ flexDirection: "row", marginTop: 20 }}>
+        <View style={{ flexDirection: 'row', marginTop: 20 }}>
           {image ? (
             <Image
               source={{
@@ -280,19 +278,19 @@ const EditProfile = ({ route }) => {
                 height: 107,
                 width: 107,
                 borderRadius: 50,
-                alignSelf: "center",
+                alignSelf: 'center',
               }}
             />
           ) : (
             <Image
               source={{
-                uri: `https://stepev-dev.up.railway.app/media/getimage/${logo}`,
+                uri: `https://stepdev.up.railway.app/media/getimage/${logo}`,
               }}
               style={{
                 height: 107,
                 width: 107,
                 borderRadius: 50,
-                alignSelf: "center",
+                alignSelf: 'center',
               }}
             />
           )}
@@ -305,21 +303,21 @@ const EditProfile = ({ route }) => {
               padding: 8,
               marginLeft: 80,
               backgroundColor: colors.Bluish,
-              alignSelf: "flex-end",
-              position: "absolute",
+              alignSelf: 'flex-end',
+              position: 'absolute',
             }}
           >
             <MaterialCommunityIcons
-              name="camera"
+              name='camera'
               size={14}
               color={colors.white}
               onPress={() => {
-                setmodalvisible5(true);
+                setmodalvisible5(true)
               }}
             />
           </View>
         </View>
-        <MyText style={{ fontSize: 14, fontWeight: "500", margin: 10 }}>
+        <MyText style={{ fontSize: 14, fontWeight: '500', margin: 10 }}>
           Change Profile Picture
         </MyText>
         <TouchableOpacity
@@ -328,20 +326,20 @@ const EditProfile = ({ route }) => {
             width: 150,
             height: 40,
             borderRadius: 10,
-            justifyContent: "center",
-            alignItems: "center",
+            justifyContent: 'center',
+            alignItems: 'center',
             marginBottom: 10,
             marginTop: 20,
           }}
           onPress={() => {
-            profileedit();
+            profileedit()
           }}
         >
           <MyText
             style={{
               color: colors.white,
               fontSize: 14,
-              fontWeight: "500",
+              fontWeight: '500',
             }}
           >
             Save
@@ -361,7 +359,7 @@ const EditProfile = ({ route }) => {
               padding: 14,
             }}
           >
-            <MaterialCommunityIcons name="pencil" size={22} color="#ACA9A9" />
+            <MaterialCommunityIcons name='pencil' size={22} color='#ACA9A9' />
           </Pressable>
         </View>
         <View style={styles.SectionStyle}>
@@ -378,7 +376,7 @@ const EditProfile = ({ route }) => {
               padding: 14,
             }}
           >
-            <MaterialCommunityIcons name="pencil" size={22} color="#ACA9A9" />
+            <MaterialCommunityIcons name='pencil' size={22} color='#ACA9A9' />
           </Pressable>
         </View>
         <View style={styles.SectionStyle}>
@@ -395,7 +393,7 @@ const EditProfile = ({ route }) => {
               padding: 14,
             }}
           >
-            <MaterialCommunityIcons name="pencil" size={22} color="#ACA9A9" />
+            <MaterialCommunityIcons name='pencil' size={22} color='#ACA9A9' />
           </Pressable>
         </View>
         <View style={styles.SectionStyle}>
@@ -412,7 +410,7 @@ const EditProfile = ({ route }) => {
               padding: 14,
             }}
           >
-            <MaterialCommunityIcons name="pencil" size={22} color="#ACA9A9" />
+            <MaterialCommunityIcons name='pencil' size={22} color='#ACA9A9' />
           </Pressable>
         </View>
         <View style={styles.SectionStyle}>
@@ -429,7 +427,7 @@ const EditProfile = ({ route }) => {
               padding: 14,
             }}
           >
-            <MaterialCommunityIcons name="pencil" size={22} color="#ACA9A9" />
+            <MaterialCommunityIcons name='pencil' size={22} color='#ACA9A9' />
           </Pressable>
         </View>
         <View style={styles.SectionStyle}>
@@ -446,14 +444,14 @@ const EditProfile = ({ route }) => {
               padding: 14,
             }}
           >
-            <MyText style={{ color: "#919191", margin: 6 }}>Hrs/week</MyText>
+            <MyText style={{ color: '#919191', margin: 6 }}>Hrs/week</MyText>
           </Pressable>
         </View>
         <View style={styles.SectionStyle}>
           <DropDownPicker
-            dropDownDirection="TOP"
-            style={[styles.inputStyle, { borderColor: "#EEEEEE" }]}
-            textStyle={{ color: "#ACA9A9" }}
+            dropDownDirection='TOP'
+            style={[styles.inputStyle, { borderColor: '#EEEEEE' }]}
+            textStyle={{ color: '#ACA9A9' }}
             placeholder={userinfo.userInfo.role}
             open={open}
             value={value}
@@ -484,11 +482,11 @@ const EditProfile = ({ route }) => {
           <TextInput
             style={[
               styles.inputStyle,
-              { textAlignVertical: "top", paddingTop: 10 },
+              { textAlignVertical: 'top', paddingTop: 10 },
             ]}
             onChangeText={(about) => setabout(about)}
             value={about}
-            placeholder="About me"
+            placeholder='About me'
             placeholderTextColor={colors.black}
             multiline={true}
             numberOfLines={5}
@@ -496,14 +494,14 @@ const EditProfile = ({ route }) => {
         </View>
       </View>
     </ScrollView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   inputStyle: {
     flex: 1,
@@ -512,7 +510,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   SectionStyle: {
-    flexDirection: "row",
+    flexDirection: 'row',
     height: 58,
     borderWidth: 1,
     width: 350,
@@ -522,17 +520,17 @@ const styles = StyleSheet.create({
   },
   centeredView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   modalView: {
     margin: 20,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -541,6 +539,6 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-});
+})
 
-export default EditProfile;
+export default EditProfile

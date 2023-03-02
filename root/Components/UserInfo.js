@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from 'react'
 import {
   Image,
   Pressable,
@@ -9,79 +9,79 @@ import {
   ImageBackground,
   TextInput,
   ActivityIndicator,
-} from "react-native";
-import Toast from "react-native-toast-message";
+} from 'react-native'
+import Toast from 'react-native-toast-message'
 
-import Context from "../Context/Context";
-import MyText from "./Text";
-import { useIsFocused } from "@react-navigation/native";
-import * as Clipboard from "expo-clipboard";
+import Context from '../Context/Context'
+import MyText from './Text'
+import { useIsFocused } from '@react-navigation/native'
+import * as Clipboard from 'expo-clipboard'
 
-import Icon from "@expo/vector-icons/FontAwesome";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useNavigation } from "@react-navigation/native";
-import Entypo from "@expo/vector-icons/Entypo";
-import StarRating from "react-native-star-rating-widget";
-import axios from "axios";
+import Icon from '@expo/vector-icons/FontAwesome'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import { useNavigation } from '@react-navigation/native'
+import Entypo from '@expo/vector-icons/Entypo'
+import StarRating from 'react-native-star-rating-widget'
+import axios from 'axios'
 
-import CartProvider from "../Context/CartProvider";
+import CartProvider from '../Context/CartProvider'
 const UserInfo = () => {
   const {
     theme: { colors },
-  } = useContext(Context);
-  const navigation = useNavigation();
-  const [getRating, setRating] = useState(5);
-  const [userinfo, setuserinfo] = useState();
-  const [getcondition, setcondition] = useState(true);
-  const [userreviews, setuserreviews] = useState([]);
-  var rate = [];
-  const { accessToken } = useContext(CartProvider);
-  const isFocused = useIsFocused();
-  const [copiedText, setCopiedText] = useState("");
+  } = useContext(Context)
+  const navigation = useNavigation()
+  const [getRating, setRating] = useState(5)
+  const [userinfo, setuserinfo] = useState()
+  const [getcondition, setcondition] = useState(true)
+  const [userreviews, setuserreviews] = useState([])
+  var rate = []
+  const { accessToken } = useContext(CartProvider)
+  const isFocused = useIsFocused()
+  const [copiedText, setCopiedText] = useState('')
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(
-      `https://stepev-dev.up.railway.app/${userinfo?.userInfo.url}`
-    );
-    const t = await Clipboard.getStringAsync();
-    console.log(t);
+      `https://stepdev.up.railway.app/${userinfo?.userInfo.url}`
+    )
+    const t = await Clipboard.getStringAsync()
+    console.log(t)
     Toast.show({
       topOffset: 60,
-      type: "success",
-      text1: "Copied....",
-    });
-  };
+      type: 'success',
+      text1: 'Copied....',
+    })
+  }
 
   useEffect(() => {
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `bearer ${accessToken}`,
       },
-    };
+    }
 
     axios
       .get(
-        "https://stepev-dev.up.railway.app/freelancer/profile",
+        'https://stepdev.up.railway.app/freelancer/profile',
 
         config
       )
       .then((res) => {
         //   console.log(res.data.data.ratingAndReviews);
-        setuserreviews(res.data.data.ratingAndReviews);
-        setuserinfo(res.data.data);
-        setcondition(false);
+        setuserreviews(res.data.data.ratingAndReviews)
+        setuserinfo(res.data.data)
+        setcondition(false)
       })
       .catch((err) => {
-        console.log("error", err);
-      });
-  }, [isFocused]);
+        console.log('error', err)
+      })
+  }, [isFocused])
 
   if (getcondition) {
     return (
       <View
         style={{
-          justifyContent: "center",
-          alignItems: "center",
+          justifyContent: 'center',
+          alignItems: 'center',
           paddingTop: 30,
         }}
       >
@@ -89,7 +89,7 @@ const UserInfo = () => {
 
         <MyText>Loading..</MyText>
       </View>
-    );
+    )
   }
 
   return (
@@ -102,10 +102,10 @@ const UserInfo = () => {
       <View
         style={{
           marginBottom: 20,
-          flexDirection: "row",
+          flexDirection: 'row',
           paddingBottom: 40,
           borderBottomWidth: 1,
-          borderColor: "#ebebeb",
+          borderColor: '#ebebeb',
           width: 346,
           height: 140,
           marginTop: 17,
@@ -114,17 +114,17 @@ const UserInfo = () => {
         <Image
           style={{ height: 78, width: 78, borderRadius: 50, margin: 10 }}
           source={{
-            uri: `https://stepev-dev.up.railway.app/media/getimage/${userinfo?.userInfo.avatar}`,
+            uri: `https://stepdev.up.railway.app/media/getimage/${userinfo?.userInfo.avatar}`,
           }}
         />
-        <View style={{ flexDirection: "column" }}>
+        <View style={{ flexDirection: 'column' }}>
           <View
-            style={{ flexDirection: "row", justifyContent: "space-evenly" }}
+            style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}
           >
             <MyText
               style={{
                 fontSize: 20,
-                fontWeight: "700",
+                fontWeight: '700',
                 marginRight: 17,
                 marginLeft: 8,
               }}
@@ -139,47 +139,47 @@ const UserInfo = () => {
                 borderRadius: 50,
                 padding: 1,
                 backgroundColor: colors.Bluish,
-                alignSelf: "flex-end",
+                alignSelf: 'flex-end',
                 marginBottom: 7,
               }}
               onPress={() => {
-                navigation.navigate("EditProfile", {
+                navigation.navigate('EditProfile', {
                   userinfo: userinfo,
-                });
+                })
               }}
             >
               <MaterialCommunityIcons
-                name="pencil"
+                name='pencil'
                 size={16}
                 color={colors.white}
               />
             </Pressable>
             <MaterialCommunityIcons
-              name="content-copy"
+              name='content-copy'
               size={25}
-              style={{ marginLeft: 3, marginTop: 0, alignSelf: "flex-end" }}
+              style={{ marginLeft: 3, marginTop: 0, alignSelf: 'flex-end' }}
               color={colors.Bluish}
               onPress={() => {
-                copyToClipboard();
+                copyToClipboard()
               }}
             />
           </View>
           <MyText
             style={{
               fontSize: 13,
-              fontWeight: "400",
-              color: "#23232380",
+              fontWeight: '400',
+              color: '#23232380',
               marginLeft: 10,
               marginBottom: 6,
             }}
           >
             {userinfo?.about.jobTitle}
           </MyText>
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: 'row' }}>
             <MyText
               style={{
                 fontSize: 12,
-                fontWeight: "700",
+                fontWeight: '700',
                 marginLeft: 10,
                 marginBottom: 6,
               }}
@@ -189,20 +189,20 @@ const UserInfo = () => {
             <MyText
               style={{
                 fontSize: 12,
-                fontWeight: "500",
-                color: "#23232380",
+                fontWeight: '500',
+                color: '#23232380',
                 marginRight: 16,
                 margin: 1,
               }}
             >
               Hr
             </MyText>
-            <Entypo name="location-pin" size={13} color="grey" />
+            <Entypo name='location-pin' size={13} color='grey' />
             <MyText
               style={{
                 fontSize: 12,
-                fontWeight: "400",
-                color: "#23232380",
+                fontWeight: '400',
+                color: '#23232380',
                 marginLeft: 3,
                 marginBottom: 6,
               }}
@@ -213,15 +213,15 @@ const UserInfo = () => {
           <MyText
             style={{
               fontSize: 12,
-              fontWeight: "400",
+              fontWeight: '400',
               marginLeft: 10,
-              color: "#23232380",
+              color: '#23232380',
               marginBottom: 6,
             }}
           >
             Availability : {userinfo?.about.responseTime} Hrs/week
           </MyText>
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: 'row' }}>
             <StarRating
               rating={userinfo.userInfo.rating}
               //onChange={setRating}
@@ -232,7 +232,7 @@ const UserInfo = () => {
             <MyText
               style={{
                 fontSize: 14,
-                fontWeight: "700",
+                fontWeight: '700',
                 marginLeft: 60,
                 margin: 4,
               }}
@@ -242,10 +242,10 @@ const UserInfo = () => {
             <MyText
               style={{
                 fontSize: 12,
-                fontWeight: "400",
+                fontWeight: '400',
                 marginLeft: 10,
                 margin: 7,
-                color: "#23232380",
+                color: '#23232380',
               }}
             >
               ({userreviews.length} Reviews)
@@ -254,15 +254,15 @@ const UserInfo = () => {
         </View>
       </View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-});
+})
 
-export default UserInfo;
+export default UserInfo
