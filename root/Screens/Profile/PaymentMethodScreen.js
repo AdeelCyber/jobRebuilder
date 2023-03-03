@@ -20,6 +20,7 @@ import axios from '../../http/axiosSet'
 // import { CartProvider } from '../../Context/CartProvider'
 
 import { io } from 'socket.io-client'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const PaymentMethodScreen = () => {
   const navigation = useNavigation()
@@ -66,13 +67,15 @@ const PaymentMethodScreen = () => {
   const goTo = async () => {
     console.log('Before')
     try {
+      const token = await AsyncStorage.getItem('@accessToken')
+
       var options = {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Origin: '',
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2UyN2RmZmJkMGVjNjAwMWUzYjBkZDIiLCJyb2xlIjoiU3RhcnR1cCBPd25lciIsImVtYWlsIjoidXNtYW5AZ21haWwuY29tIiwiaWF0IjoxNjc1OTUwODYxfQ.HgyEwPK-4Hup7bEFkSTG1EC8UG3u-MOvnrbDeHAgrLM`,
+          Authorization: `Bearer ${token}`,
         },
       }
 
