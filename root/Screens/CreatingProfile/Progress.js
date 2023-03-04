@@ -24,6 +24,8 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
 import { setProfile } from "../Profile/services/ProfileServices";
+import { useEffect } from "react";
+import DropDownPicker from "react-native-dropdown-picker";
 
 const Progress = () => {
   const {
@@ -32,6 +34,7 @@ const Progress = () => {
   const navigation = useNavigation();
   const { accessToken } = useContext(CartProvider);
   const [getcondition, setcondition] = useState(false);
+  // const [getdisable, setdisable] = useState(true);
 
   const progressStepsStyle = {
     activeStepIconBorderColor: colors.Bluish,
@@ -60,6 +63,7 @@ const Progress = () => {
     marginTop: 20,
     marginRight: 233,
   };
+
   const retrieveData = async () => {
     try {
       setcondition(true);
@@ -73,6 +77,13 @@ const Progress = () => {
         });
 
         navigation.navigate("HomeService");
+      } else {
+        Toast.show({
+          topOffset: 60,
+          type: "error",
+          text1: "Please fill out the details",
+        });
+        navigation.navigate("ProgressScreen");
       }
       console.log(res.data);
     } catch (err) {
@@ -81,6 +92,7 @@ const Progress = () => {
         topOffset: 60,
         type: "error",
         text1: "Something went wrong",
+        text2: "Please fill out the details",
       });
     }
   };
