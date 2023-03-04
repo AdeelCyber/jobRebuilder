@@ -29,6 +29,7 @@ import ReactNativeModal from "react-native-modal";
 import RoundQuestionMark from "../../../assets/Svgs/RoundQuestionMark";
 import * as Clipboard from "expo-clipboard";
 import { Remove } from "../Profile/services/FreeLancerServices";
+import axios from "../../http/axiosSet";
 
 const Team = ({ navigation, route }) => {
   const [show, setshow] = useState(route.params.show);
@@ -230,7 +231,9 @@ const Team = ({ navigation, route }) => {
             </View>
             <View style={{ marginVertical: 15, marginTop: 10 }}>
               <Image
-                source={{ uri: personData.image }}
+                source={{
+                  uri: `${axios.defaults.baseURL}media/getImage/${personData.image}`,
+                }}
                 style={{
                   width: 124,
                   height: 124,

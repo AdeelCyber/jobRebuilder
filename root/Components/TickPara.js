@@ -26,7 +26,7 @@ const TickPara = ({ para, logo = tick, ...props }) => {
           style={{
             alignItems: "center",
             justifyContent: "center",
-            marginRight: 13,
+            marginRight: 8,
           }}
         >
           {/* <SvgImport svg={logo} /> */}
@@ -37,7 +37,7 @@ const TickPara = ({ para, logo = tick, ...props }) => {
               color: colors.heighlight,
               fontWeight: "400",
               fontSize: 11,
-              lineHeight: 14.32,
+              lineHeight: 20.32,
               textAlign: "left",
               ...props.textStyle,
             }}

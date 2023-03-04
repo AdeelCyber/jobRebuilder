@@ -7,22 +7,25 @@ import msg from "../../assets/Svgs/Message";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { Colors } from "react-native/Libraries/NewAppScreen";
+import axios from "../http/axiosSet";
 
 const TeamItem = (props) => {
   const {
     theme: { colors },
   } = useContext(Context);
+  const [open, setopen] = React.useState(false);
   const handleClick = (paso) => {
     props.handleClick(paso);
+    setopen(false);
   };
-
-  const [open, setopen] = React.useState(false);
 
   return (
     <View style={[styles.container, props.style]}>
       <Image
         resizeMethod="auto"
-        source={{ uri: props.image }}
+        source={{
+          uri: `${axios.defaults.baseURL}media/getImage/${props.image}`,
+        }}
         style={{ width: 70, height: 70, borderRadius: 40 }}
       />
       <MyText
