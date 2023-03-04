@@ -31,7 +31,7 @@ import Loader from '../../Components/Loader'
 import DropDownPicker from 'react-native-dropdown-picker'
 import { useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-
+import axios from '../../http/axiosSet'
 const ChangeProfileScreen = ({ route }) => {
   const {
     theme: { colors },
@@ -48,6 +48,7 @@ const ChangeProfileScreen = ({ route }) => {
     const user = await AsyncStorage.getItem('@userDetail')
     const userDetail = JSON.parse(user)
     setname(userDetail.name)
+    setimage(axios.defaults.baseURL + 'media/getimage/' + userDetail.avatar)
   }
 
   const [image, setimage] = useState()
@@ -58,19 +59,6 @@ const ChangeProfileScreen = ({ route }) => {
   const [getcondition, setcondition] = useState(false)
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState(null)
-  // const pickImg = async () => {
-  //   let result = await ImagePicker.launchImageLibraryAsync({
-  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //     allowsEditing: true,
-  //     aspect: [10, 10],
-  //     quality: 1,
-  //   });
-  //   console.log(result.assets);
-
-  //   if (!result.canceled) {
-  //     setimage(result.assets[0].uri);
-  //   }
-  // };
 
   const pickImg = async () => {
     setmodalvisible5(false)
@@ -83,6 +71,7 @@ const ChangeProfileScreen = ({ route }) => {
     // console.log(result);
 
     if (!result.canceled) {
+      console.log(result.assets[0].uri)
       setimage(result.assets[0].uri)
       setcondition(true)
       const img = await imageUpload(result.assets[0].uri)
