@@ -12,6 +12,7 @@ import { StripeProvider } from '@stripe/stripe-react-native'
 import axios from './root/http/axiosSet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Linking from 'expo-linking'
+//git
 export default function App() {
   const {
     theme: { colors },
