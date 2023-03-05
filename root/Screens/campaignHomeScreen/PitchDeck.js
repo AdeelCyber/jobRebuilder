@@ -25,7 +25,7 @@ import CircularProgress from "react-native-circular-progress-indicator";
 import DynamicButton from "../../Components/DynamicButton";
 import pdf from "../../../assets/Svgs/pdf";
 import BottomPopup from "../../Components/BottomPopup";
-
+import { A } from '@expo/html-elements';
 import * as DocumentPicker from "expo-document-picker";
 import { fileUpload, downloadFile } from "../Profile/services/fileServices";
 import { log } from "react-native-reanimated";
@@ -78,7 +78,7 @@ const PitchDeck = ({ navigation, route }) => {
   }, [upload]);
   //upload out
 
-  // action on buttons
+  // action on buttons 
   function handlePress(text) {
     if (text === "Upload New") {
       pickDocument();
@@ -158,7 +158,8 @@ const PitchDeck = ({ navigation, route }) => {
           {/* Upload View */}
 
           <View style={{ padding: 20 }}>
-            <Pressable
+         
+            <View
               style={{
                 backgroundColor: "#30F2F852",
                 padding: 20,
@@ -166,21 +167,28 @@ const PitchDeck = ({ navigation, route }) => {
                 alignItems: "center",
                 borderRadius: 10,
                 flexDirection: "row",
+                position:"relative"
               }}
-              onPress={() => {
-                downloadFile(
-                  `${axios.defaults.baseURL}media/getFile/${file}`
-                );
-                ToastAndroid.show("Downloading...", ToastAndroid.SHORT);
-              }}
+              // onPress={() => {
+              //   downloadFile(
+              //     `${axios.defaults.baseURL}media/getFile/${file}`
+              //   );
+              //   if(file){
+              //   ToastAndroid.show("Downloading...", ToastAndroid.SHORT);}
+              //   else{ToastAndroid.show("No file to download", ToastAndroid.SHORT);}
+              // }}
             >
+               <A href= {`${axios.defaults.baseURL}media/getFile/${file}`} style={{position:'absolute' ,width:"100%" ,height:'170%' }} > </A>
               <SvgImport svg={pdf} />
+
               <MyText
                 style={{ color: "#232323B0", fontSize: 16, fontWeight: "500" }}
               >
                 Download in PDF
               </MyText>
-            </Pressable>
+             
+            </View>
+           
           </View>
 
           {/* Updload Out */}
