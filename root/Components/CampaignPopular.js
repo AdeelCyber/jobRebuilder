@@ -78,7 +78,7 @@ const CampaignPopular = ({
           </View>
 
           <MyText
-            style={{ fontWeight: '500', fontSize: 7, color: colors.lighttext }}
+            style={{ fontWeight: '500', fontSize: 10, color: colors.lighttext }}
           >
             {label}
           </MyText>
@@ -114,7 +114,7 @@ const CampaignPopular = ({
           }}
         >
           <MyText
-            style={{ fontWeight: '500', fontSize: 7, color: colors.lighttext }}
+            style={{ fontWeight: '500', fontSize: 10, color: colors.lighttext }}
           >
             Stage
           </MyText>
@@ -132,7 +132,7 @@ const CampaignPopular = ({
           }}
         >
           <MyText
-            style={{ fontWeight: '500', fontSize: 7, color: colors.lighttext }}
+            style={{ fontWeight: '500', fontSize: 10, color: colors.lighttext }}
           >
             Team
           </MyText>
@@ -148,7 +148,7 @@ const CampaignPopular = ({
           }}
         >
           <MyText
-            style={{ fontWeight: '500', fontSize: 7, color: colors.lighttext }}
+            style={{ fontWeight: '500', fontSize: 10, color: colors.lighttext }}
           >
             Budget
           </MyText>
