@@ -377,6 +377,7 @@ const ManagingCampaign = ({ navigation, route }) => {
         </View>
         {/* Todo Component */}
         {Todo.map((item, index) => (
+          <>
           <TodoComponent
             key={index}
             Title={item.title}
@@ -384,6 +385,8 @@ const ManagingCampaign = ({ navigation, route }) => {
             members={item.members}
             item={item}
           />
+           {Todo.length === 0 && <Error message='No Todo Found' />}
+          </>
         ))}
 
         <View
