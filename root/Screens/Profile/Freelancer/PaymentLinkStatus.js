@@ -58,7 +58,7 @@ function MyText(props) {
             color:'#222222',
             fontSize:14,
             fontWeight:"400",
-            fontFamily: 'Lexend-Regular',
+
 
         }
     })
@@ -71,6 +71,7 @@ const PaymentLinkStatus = (props) => {
     const [banks, setBanks] = React.useState([]);
     const [status, setStatus] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
+    const[resData,setResData] = React.useState(null)
     //call fetchDetails() function when ever screen is loaded
     const [buttonText, setButtonText] = React.useState("Seems Good!");
     const fetchLinkData = async () => {
@@ -89,20 +90,23 @@ const PaymentLinkStatus = (props) => {
 
             const resp = fetch(
                 `${axios.defaults.baseURL}stripe/multiparty-express`,
+
                 options
             )
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data)
                     setLoading(false)
-                    Linking.openURL(data.url)
-                    if (data.status === 200) {
-
-                        setStatus(true)
-
-                    } else {
-                        setStatus(false)
+                    console.log(data.data)
+                    setResData(data.data)
+                    setStatus(data.data.linked)
+                    if(data.data.linked)
+                    {
+                        setButtonText("Seems Good!")
                     }
+                    else{
+                        setButtonText("+ Link Payment Method")
+                    }
+
 
                 }).catch((error) => {
                     setLoading(false)
@@ -120,23 +124,7 @@ const PaymentLinkStatus = (props) => {
         });
     }, []);
     function connectAccount(){
-        fetch(Urls.linkAccount, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "token " + sesionData.SessionData.token,
-                }
-            }
-        ).then((response) => response.json())
-            .then((json) => {
-                if (json.status === 200) {
-                    console.log(json.response)
-                    props.navigation.navigate("StripeWebView", {"url": json.response.url,"returnUrl":json.returnUrl});
-
-                }
-            }).catch((error) => {
-                info.showError(300,"Failed to connect account","Something went wrong. Please try again later.",true)
-        });
+        props.navigation.navigate("StripeWebView", {"url": resData.res.url,"returnUrl":resData.returnUrl});
     }
     //
     //
