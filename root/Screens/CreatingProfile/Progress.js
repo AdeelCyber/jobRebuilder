@@ -65,7 +65,23 @@ const Progress = () => {
     marginTop: 20,
     marginRight: 233,
   };
+  async function deleteTempStorage() {
+    await AsyncStorage.removeItem("@name");
+    await AsyncStorage.removeItem("@email");
+    await AsyncStorage.removeItem("@gender");
+    await AsyncStorage.removeItem("@country");
+    await AsyncStorage.removeItem("@city");
+    await AsyncStorage.removeItem("@language");
+    await AsyncStorage.removeItem("@skills");
+    await AsyncStorage.removeItem("@image");
+    await AsyncStorage.removeItem("@description");
+    await AsyncStorage.removeItem("@workPreference");
+    await AsyncStorage.removeItem("@availibilityPerWeek");
+    await AsyncStorage.removeItem("@jobTitle");
+    await AsyncStorage.removeItem("@hourlyRate");
+    await AsyncStorage.removeItem("@isComplete");
 
+  }
   const retrieveData = async () => {
     try {
       setcondition(true);
@@ -77,6 +93,9 @@ const Progress = () => {
           type: "success",
           text1: "Created successfully",
         });
+        // delete all the data from async storage
+        deleteTempStorage()
+
 
         navigation.navigate("HomeService");
       } else {
@@ -127,7 +146,7 @@ const Progress = () => {
     {
       step = 1;
     }
-    else if(
+    if(
         skills !== null &&
         workPreference !== null &&
         availibilityPerWeek !== null &&
@@ -136,10 +155,12 @@ const Progress = () => {
         description !== null
     )
     {
+
       step = 2;
     }
     else if(image !== null)
     {
+
       await AsyncStorage.setItem('@isComplete',"true")
       contest.setComplete("true")
     }

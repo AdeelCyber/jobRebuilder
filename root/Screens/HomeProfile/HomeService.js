@@ -72,15 +72,16 @@ const HomeService = ({ route }) => {
       navigation.navigate('ProgressScreen')
     }
     else{
+      setuserinfo(res.data.data)
         contest.setComplete("true")
     }
-    setuserinfo(res.data.data)
-    setcondition(false)
+
+
   }
   useEffect(() => {
 
     getUser().then(() => {
-
+      setcondition(false)
     })
   }, [isFocused])
 

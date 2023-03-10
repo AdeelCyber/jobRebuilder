@@ -53,7 +53,7 @@ const PersonalInfo = () => {
     { label: "Lahore", value: "Lahore" },
   ]);
   const saveData = async () => {
-    console.log("kk", language, "j");
+
     try {
       if (
         language !== undefined &&
@@ -71,7 +71,6 @@ const PersonalInfo = () => {
         await AsyncStorage.setItem("@city", value3);
         setcondition(false);
 
-        console.log("done");
         Toast.show({
           topOffset: 60,
           type: "success",
@@ -99,21 +98,6 @@ const PersonalInfo = () => {
       });
     }
   };
-  if (getcondition) {
-    return (
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          paddingTop: 30,
-        }}
-      >
-        <ActivityIndicator animating={true} color={colors.Bluish} />
-
-        <MyText>Loading..</MyText>
-      </View>
-    );
-  }
 
   return (
     <View
