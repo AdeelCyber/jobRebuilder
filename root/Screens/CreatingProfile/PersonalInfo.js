@@ -78,10 +78,7 @@ const PersonalInfo = () => {
           text1: "Your Information is successfully saved",
           text2: "Press Proceed to continue",
         });
-        setValue(null);
-        setValue2(null);
-        setValue3(null);
-        setlanguage();
+
       } else {
         Toast.show({
           topOffset: 60,

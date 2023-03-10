@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from 'react-native'
+import {View, Text, ScrollView, ActivityIndicator} from 'react-native'
 import React, { useEffect } from 'react'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
@@ -230,9 +230,7 @@ const AvailableJobs = () => {
     theme: { colors },
   } = useContext(GlobalContext)
 
-  if (loading) {
-    return <Loader visible={loading} color='white' indicatorSize='large' />
-  }
+
   return (
     <View style={{ backgroundColor: 'white', flex: 1 }}>
       <CustomHeader
@@ -252,7 +250,10 @@ const AvailableJobs = () => {
           )
         }}
       />
-      <ScrollView
+        {loading && <ActivityIndicator style={{flex:1,alignSelf:'center'}} color={colors.Bluish} size='large' />}
+
+        {!loading && (
+        <ScrollView
         style={{
           flex: 1,
           backgroundColor: '#ffffff',
@@ -333,6 +334,7 @@ const AvailableJobs = () => {
           </View>
         </View>
       </ScrollView>
+        )}
     </View>
   )
 }

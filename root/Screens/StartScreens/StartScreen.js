@@ -39,8 +39,8 @@ const StartScreen = () => {
       contest.setuserdetails(userDetail);
       console.log("U", userDetail);
       contest.setislogin(true);
-      if (userDetail.role === "Freelancer") navigation.navigate("HomeService");
-      else navigation.navigate("CampaignHome");
+      // if (userDetail.role === "Freelancer") navigation.navigate("HomeService");
+      // else navigation.navigate("CampaignHome");
     }
   };
 

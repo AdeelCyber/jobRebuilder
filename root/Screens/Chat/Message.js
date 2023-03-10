@@ -135,7 +135,7 @@ const Message = ({ navigation }) => {
   const [unRead, setUnRead] = useState(() => getReadStatus || false)
 
   if (getcondition) {
-    return <Loader visible={getcondition} color='white' indicatorSize='large' />
+    return <ActivityIndicator style={{flex:1,}} color={colors.Bluish} size='large' />
   }
 
   return (

@@ -77,8 +77,8 @@ const EditProfile = ({ route }) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [10, 10],
-      quality: 1,
+      aspect: [1, 1],
+      quality: 0.5,
     })
     // console.log(result);
 

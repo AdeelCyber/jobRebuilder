@@ -15,6 +15,7 @@ import {
 import { useFocusEffect } from '@react-navigation/native'
 
 import Context from '../../Context/Context'
+
 import MyText from '../../Components/Text'
 import CustomHeader9 from '../../Components/CustomHeader9'
 import Icon from '@expo/vector-icons/FontAwesome'
@@ -35,12 +36,14 @@ import { useIsFocused } from '@react-navigation/native'
 import Loader from '../../Components/Loader'
 import Error from '../../Components/Error'
 import axios from '../../http/axiosSet'
+import CartContext from "../../Context/CartProvider";
 
 const HomeService = ({ route }) => {
   const {
     theme: { colors },
   } = useContext(Context)
   const navigation = useNavigation()
+  const contest = useContext(CartContext)
   const [getRating, setRating] = useState(5)
   const isFocused = useIsFocused()
 
@@ -55,18 +58,30 @@ const HomeService = ({ route }) => {
   const [portfolio, setportfolio] = useState(false)
   const [reviews, setreviews] = useState(false)
   const [about, setAbout] = useState(false)
+  const [isComplete, setComplete] = useState(true)
   const [userinfo, setuserinfo] = useState()
-  const [getcondition, setcondition] = useState(true)
+  const [getcondition, setcondition] = useState(false)
 
   const { accessToken, userdetails } = useContext(CartProvider)
   const getUser = async () => {
     const res = await getProfile(accessToken)
-    console.log(res.data.data)
+    console.log("DATA : ",res.data.data)
+    setComplete(res.data.data.userInfo.onboarding)
+    if(!res.data.data.userInfo.onboarding){
+      contest.setComplete("false")
+      navigation.navigate('ProgressScreen')
+    }
+    else{
+        contest.setComplete("true")
+    }
     setuserinfo(res.data.data)
     setcondition(false)
   }
   useEffect(() => {
-    getUser()
+
+    getUser().then(() => {
+
+    })
   }, [isFocused])
 
   if (getcondition) {

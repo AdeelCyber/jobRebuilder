@@ -35,14 +35,20 @@ const FreelancerDashboardScreen = () => {
     fetchOrder()
   }, [isFocused])
 
-  const [walletDetail, setWalletDetail] = useState({})
+  const [walletDetail, setWalletDetail] = useState({
+    netIncome: 0,
+    earningsThisMonth: 0,
+    pendingClearence: 0,
+    jobCompleted: 0,
+
+  })
 
   const fetchOrder = async () => {
     setLoading(true)
     const resp = await getOrderCategoryWise('Active')
     const resp2 = await getWalletDetail()
     setLoading(false)
-
+    console.log("WALLET DATA",resp2.data)
     setWalletDetail(resp2.data.data)
 
     if (resp.status === 200) {
@@ -164,12 +170,12 @@ const FreelancerDashboardScreen = () => {
               'Jobs Completed',
             ]}
             style={{ marginTop: 0, marginBottom: 28 }}
-            total={walletDetail.netIncome}
+            total={walletDetail?.netIncome}
             subHeadings={[
-              `$ ${walletDetail.earningsThisMonth}`,
-              walletDetail.activeJobs,
-              `$ ${walletDetail.pendingClearence}`,
-              walletDetail.jobsCompleted,
+              `${walletDetail?.earningsThisMonth}`,
+              walletDetail?.activeJobs,
+              ` ${walletDetail?.pendingClearence}`,
+              walletDetail?.jobsCompleted,
             ]}
           />
 

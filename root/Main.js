@@ -320,7 +320,7 @@ const Main = () => {
   const {
     theme: { colors },
   } = useContext(Context)
-  const { accessToken, socket, setsocket, userdetails, userTab, setUserTab } =
+  const { accessToken, socket, setsocket, userdetails, userTab, setUserTab,isComplete,setComplete } =
     useContext(CartProvider)
 
   const startsocket = () => {
@@ -358,6 +358,7 @@ const Main = () => {
         const token = await AsyncStorage.getItem('@accessToken')
         const Refreshtoken = await AsyncStorage.getItem('@refreshToken')
         const user = await AsyncStorage.getItem('@userDetail')
+        const isComplete = await AsyncStorage.getItem('@isComplete')
         const userDetail = JSON.parse(user)
 
         if (token) {
@@ -370,7 +371,9 @@ const Main = () => {
         await new Promise((r) => setTimeout(r, 1000))
         if (token !== '') {
           if (userDetail.role === 'Freelancer')
+          {
             mainScreen.current = 'HomeService'
+            }
           else mainScreen.current = 'CampaignHome'
         }
       } catch (e) {

@@ -10,7 +10,7 @@ const CustomHeader7 = ({
   icon1 = () => (
     <MaterialCommunityIcons name="bell-circle" size={30} color="black" />
   ),
-  Title = "Create a Profile",
+  Title = "Complete your Profile",
   ...props
 }) => {
   const {
@@ -31,28 +31,21 @@ const CustomHeader7 = ({
 
           padding: 6,
           paddingVertical: 10,
-          justifyContent: "space-between",
           alignItems: "center",
+          justifyContent: "center",
           marginTop: 5,
           borderRadius: 10,
         },
         styles.shadow,
       ]}
     >
-      <Pressable
-        style={{ flexDirection: "row", alignItems: "center" }}
-        onPress={handleNav}
-      >
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Entypo name="chevron-left" size={24} color="black" />
-        </View>
-      </Pressable>
+
       {/* Text View in */}
       <View>
         <MyText style={{ fontWeight: "700", fontSize: 16 }}>{Title}</MyText>
       </View>
 
-      <View>{icon1()}</View>
+
     </View>
   );
 };

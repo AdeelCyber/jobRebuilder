@@ -52,17 +52,23 @@ const Login = () => {
   const { socket, setsocket } = useContext(CartProvider)
   const { firstlogin, setfirstlogin } = useContext(CartProvider)
 
-  useLayoutEffect(() => {
-    console.log('2 times')
-    console.log(userdetails)
-    if (logged.islogin) {
-      if (userdetails?.role === 'Freelancer') {
-        navigation.navigate('HomeService')
-      } else if (userdetails?.role === 'Startup Owner') {
-        navigation.navigate('CampaignHome')
-      }
-    }
-  }, [navigation, isFocused])
+  // useLayoutEffect(() => {
+  //   console.log('2 times')
+  //   console.log(userdetails)
+  //   if (logged.islogin) {
+  //     if (userdetails?.role === 'Freelancer') {
+  //       navigation.reset({
+  //               index: 0,
+  //               routes: [{ name: 'HomeService' }],
+  //             })
+  //     } else if (userdetails?.role === 'Startup Owner') {
+  //       navigation.reset({
+  //               index: 0,
+  //               routes: [{ name: 'CampaignHome' }],
+  //             })
+  //     }
+  //   }
+  // }, [navigation, isFocused])
   const startsocket = useCallback(
     (accessToken) => {
       setsocket(
@@ -107,6 +113,11 @@ const Login = () => {
               '@userDetail',
               JSON.stringify(res.data.user)
             )
+            let Data = JSON.stringify(res.data)
+
+            await AsyncStorage.setItem(
+                '@isComplete',Data.onboarding+""
+            )
 
             //console.log("done");
           } catch (error) {
@@ -120,20 +131,33 @@ const Login = () => {
           })
 
           setUserTab(false)
+          console.log(res.data)
           if (res.data.onboarding === false) {
             if (res.data.user.role === 'Freelancer') {
-              navigation.navigate('ProgressScreen')
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'ProgressScreen' }],
+              })
               logged.setislogin(true)
             } else {
               console.log('campaign')
-              navigation.navigate('CampaignHome')
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'CampaignHome' }],
+              })
               logged.setislogin(true)
             }
           } else {
             if (res.data.user.role === 'Freelancer') {
-              navigation.navigate('HomeService')
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'HomeService' }],
+              })
             } else {
-              navigation.navigate('CampaignHome')
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'CampaignHome' }],
+              })
             }
             logged.setislogin(true)
           }
@@ -176,6 +200,12 @@ const Login = () => {
               JSON.stringify(res.data.user)
             )
 
+            let Data = JSON.stringify(res.data)
+
+            await AsyncStorage.setItem(
+                '@isComplete',Data.onboarding+""
+            )
+
             //console.log("done");
           } catch (error) {
             //console.log(error);
@@ -191,18 +221,30 @@ const Login = () => {
           })
           if (res.data.onboarding === false) {
             if (res.data.user.role === 'Freelancer') {
-              navigation.navigate('ProgressScreen')
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'ProgressScreen' }],
+              })
               logged.setislogin(true)
             } else {
               console.log('campaign')
-              navigation.navigate('CampaignHome')
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'CampaignHome' }],
+              })
               logged.setislogin(true)
             }
           } else {
             if (res.data.user.role === 'Freelancer') {
-              navigation.navigate('HomeService')
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'HomeService' }],
+              })
             } else {
-              navigation.navigate('CampaignHome')
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'CampaignHome' }],
+              })
             }
 
             logged.setislogin(true)
@@ -229,11 +271,9 @@ const Login = () => {
         console.log(response)
         //console.log(response.data);
         if (response.status == 200) {
-          console.log(response.data.accessToken)
           setuserdetails(response.data.user)
           setaccessToken(response.data.accessToken)
           startsocket(response.data.accessToken)
-
           try {
             await AsyncStorage.setItem(
               '@accessToken',
@@ -246,6 +286,11 @@ const Login = () => {
             await AsyncStorage.setItem(
               '@userDetail',
               JSON.stringify(response.data.user)
+            )
+            let Data = JSON.stringify(response.data)
+
+            await AsyncStorage.setItem(
+                '@isComplete',Data.onboarding+""
             )
             console.log('async setting' + JSON.stringify(response.data.user))
           } catch (error) {
@@ -261,20 +306,33 @@ const Login = () => {
           })
 
           setUserTab(false)
+          console.log(response.data)
           if (response.data.onboarding === false) {
             if (response.data.user.role === 'Freelancer') {
-              navigation.navigate('ProgressScreen')
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'ProgressScreen' }],
+              })
               logged.setislogin(true)
             } else {
               console.log('campaign')
-              navigation.navigate('CampaignHome')
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'CampaignHome' }],
+              })
               logged.setislogin(true)
             }
           } else {
             if (response.data.user.role === 'Freelancer') {
-              navigation.navigate('HomeService')
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'HomeService' }],
+              })
             } else {
-              navigation.navigate('CampaignHome')
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'CampaignHome' }],
+              })
             }
             logged.setislogin(true)
           }

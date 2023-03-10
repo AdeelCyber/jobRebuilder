@@ -46,7 +46,7 @@ const CreateAccount = ({ route }) => {
     useTogglePasswordVisibility();
   const [googledis, setgoogledis] = useState();
   const [show, setShow] = useState(false);
-  const [countryCode, setCountryCode] = useState("");
+  const [countryCode, setCountryCode] = useState("+92");
   const [getcode, setcode] = useState(false);
   const [getcondition, setcondition] = useState(false);
 
@@ -327,7 +327,9 @@ const CreateAccount = ({ route }) => {
                   )}
                 </TouchableOpacity>
                 <CountryPicker
-                  show={show}
+                    show={show}
+                  initialState={"+92"}
+
                   // when picker button press you will get the country object with dial code
                   pickerButtonOnPress={(item) => {
                     setCountryCode(item.dial_code);

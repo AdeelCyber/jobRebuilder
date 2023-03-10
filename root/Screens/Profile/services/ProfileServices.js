@@ -55,21 +55,22 @@ export const setProfile = async (accessToken) => {
       description !== null &&
       image !== null
     ) {
+        let data = {
+            gender: gender,
+            country: country,
+            city: city,
+            language: language,
+            skills: skills,
+            workPreference: workPreference,
+            availibilityPerWeek: availibilityPerWeek,
+            jobTitle: jobTitle,
+            hourlyRate: hourlyRate,
+            description: description,
+            image: image,
+        }
       const resp = await axios.post(
         '/freelancer/onboarding',
-        {
-          gender: gender,
-          country: country,
-          city: city,
-          language: language,
-          skills: skills,
-          workPreference: workPreference,
-          availibilityPerWeek: availibilityPerWeek,
-          jobTitle: jobTitle,
-          hourlyRate: hourlyRate,
-          description: description,
-          image: image,
-        },
+        data,
         config
       )
 

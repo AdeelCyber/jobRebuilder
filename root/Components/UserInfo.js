@@ -47,7 +47,7 @@ const UserInfo = () => {
     Toast.show({
       topOffset: 60,
       type: 'success',
-      text1: 'Copied....',
+      text1: 'Copied to Clipboard',
     })
   }
 

@@ -11,6 +11,7 @@ export const getWalletDetail = async () => {
   }
   try {
     const resp = await axios.get('/wallet/user', config)
+    console.log("WALLET",resp.data.data)
     return resp
   } catch (error) {
     return error.response

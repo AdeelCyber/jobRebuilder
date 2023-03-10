@@ -26,6 +26,7 @@ import Toast from "react-native-toast-message";
 import { setProfile } from "../Profile/services/ProfileServices";
 import { useEffect } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
+import CartContext from "../../Context/CartProvider";
 
 const Progress = () => {
   const {
@@ -34,8 +35,8 @@ const Progress = () => {
   const navigation = useNavigation();
   const { accessToken } = useContext(CartProvider);
   const [getcondition, setcondition] = useState(false);
+  const contest = useContext(CartContext)
   // const [getdisable, setdisable] = useState(true);
-
   const progressStepsStyle = {
     activeStepIconBorderColor: colors.Bluish,
     activeLabelColor: colors.text,
@@ -44,6 +45,7 @@ const Progress = () => {
     completedStepIconColor: colors.Bluish,
     completedProgressBarColor: colors.Bluish,
     completedCheckColor: colors.white,
+    alignItems: "center",
     labelFontSize: 9,
   };
 
@@ -96,6 +98,57 @@ const Progress = () => {
       });
     }
   };
+  const [activeStep, setActiveStep] = useState(0);
+  async function getActiveStep() {
+    const name = await AsyncStorage.getItem('@name')
+    const email = await AsyncStorage.getItem('@email')
+    const gender = await AsyncStorage.getItem('@gender')
+    const country = await AsyncStorage.getItem('@country')
+    const city = await AsyncStorage.getItem('@city')
+    const language = await AsyncStorage.getItem('@language')
+    const skill = await AsyncStorage.getItem('@skills')
+    const workPreference = await AsyncStorage.getItem('@workPreference')
+    const availibilityPerWeek = await AsyncStorage.getItem(
+        '@availibilityPerWeek'
+    )
+    const jobTitle = await AsyncStorage.getItem('@jobTitle')
+    const hourlyRate = await AsyncStorage.getItem('@hourlyRate')
+    const description = await AsyncStorage.getItem('@description')
+    const image = await AsyncStorage.getItem('@image')
+    const skills = JSON.parse(skill)
+    let step = 0;
+    if (
+        name !== null &&
+        email !== null &&
+        gender !== null &&
+        country !== null &&
+        city !== null &&
+        language !== null)
+    {
+      step = 1;
+    }
+    else if(
+        skills !== null &&
+        workPreference !== null &&
+        availibilityPerWeek !== null &&
+        jobTitle !== null &&
+        hourlyRate !== null &&
+        description !== null
+    )
+    {
+      step = 2;
+    }
+    else if(image !== null)
+    {
+      await AsyncStorage.setItem('@isComplete',"true")
+      contest.setComplete("true")
+    }
+
+    setActiveStep(step);
+  }
+    useEffect(() => {
+        getActiveStep();
+    }, []);
   if (getcondition) {
     return (
       <View
@@ -116,7 +169,7 @@ const Progress = () => {
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <CustomHeader7 nav={navigation} />
       <View style={{ flex: 1 }}>
-        <ProgressSteps {...progressStepsStyle}>
+        <ProgressSteps activeStep={activeStep} {...progressStepsStyle}>
           <ProgressStep
             label="Personal Info"
             nextBtnStyle={buttonStyle}

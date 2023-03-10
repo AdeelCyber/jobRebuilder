@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, ScrollView } from 'react-native'
+import {StyleSheet, Text, View, FlatList, ScrollView, ActivityIndicator} from 'react-native'
 
 import React, { useContext, useEffect, useState } from 'react'
 import Context from '../../Context/Context'
@@ -141,20 +141,20 @@ const ExploreScreen = ({ navigation, routes }) => {
 
   return (
     // main container
-    <ScrollView
-      style={{
-        flex: 1,
-        backgroundColor: '#ffffff',
-        paddingLeft: 15,
-      }}
-    >
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
+
       {/* header */}
       <CustomHeader />
       {/* header out */}
-
-      <Loader visible={loading} color='white' indicatorSize='large' />
+      {loading && <ActivityIndicator style={{flex:1,alignSelf:'center'}} color={colors.Bluish} size='large' />}
       {!loading && (
-        <>
+          <ScrollView
+              style={{
+                flex: 1,
+                backgroundColor: '#ffffff',
+                paddingLeft: 15,
+              }}
+          >
           {/*Seacrch bar and setting icon in  */}
           <View
             style={{
@@ -173,7 +173,6 @@ const ExploreScreen = ({ navigation, routes }) => {
               style={{
                 width: '80%',
                 color: colors.placeHolder,
-                borderRadius: 20,
                 backgroundColor: '#eeeeee',
                 borderRadius: 6,
               }}
@@ -338,10 +337,10 @@ const ExploreScreen = ({ navigation, routes }) => {
               <Error message='No Campaign Found' />
             </View>
           )}
-        </>
+          </ScrollView>
       )}
       {/* Recents Out */}
-    </ScrollView>
+    </View>
   )
 }
 

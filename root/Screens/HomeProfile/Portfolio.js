@@ -37,8 +37,8 @@ const Portfolio = () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsMultipleSelection: true,
-      aspect: [10, 10],
-      quality: 1,
+      aspect: [1, 1],
+      quality: 0.5,
     })
     // console.log(result.assets);
 
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
   },
 
   SectionStyle2: {
-    flexDirection: 'row',
+
     height: 239,
     marginTop: 14,
     marginBottom: 5,
