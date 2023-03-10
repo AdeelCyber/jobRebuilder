@@ -109,6 +109,9 @@ import CheckoutSheet from './Screens/Chat/paymentsheet'
 import CartContext from './Context/CartProvider'
 import axios from './http/axiosSet'
 import AmountSpendScreen from './Screens/Profile/Dashboard/AmountSpentScreen'
+import PaymentLinkStatus from "./Screens/Profile/Freelancer/PaymentLinkStatus";
+import StripeWebView from "./Screens/Profile/Freelancer/StripeWebView";
+import ActiveJobDetailScreen from "./Screens/Profile/Freelancer/ActiveJobDetailScreen";
 //Navigation outA
 
 // Creating Stacks
@@ -229,6 +232,10 @@ const MyStack = (props) => {
             component={ActiveOrderDetailScreen}
           />
           <Stack.Screen
+            name='ActiveJobDetail'
+            component={ActiveJobDetailScreen}
+          />
+          <Stack.Screen
             name='CancelledOrders'
             component={CancelledOrdersScreen}
           />
@@ -283,6 +290,13 @@ const MyStack = (props) => {
           <Stack.Screen
             name='FreelancerDashboard'
             component={FreelancerDashboardScreen}
+          />
+          <Stack.Screen
+            name='LinkStatus'
+            component={PaymentLinkStatus}
+          /><Stack.Screen
+            name='StripeWebView'
+            component={StripeWebView}
           />
           <Stack.Screen name='Earnings' component={FreelancerEarningsScreen} />
           <Stack.Screen

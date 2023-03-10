@@ -134,7 +134,7 @@ const FreelancerProfileScreen = () => {
             setrefreshToken('')
             setislogin(false)
           } else if (profile.navigate === 'PaymentMethod') {
-            goTo()
+            navigation.navigate('LinkStatus')
             return
           }
           console.log(profile.navigate)

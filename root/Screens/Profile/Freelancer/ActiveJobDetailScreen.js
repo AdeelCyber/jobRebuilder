@@ -39,7 +39,7 @@ const ActiveJobDetailScreen = ({ route }) => {
   const [fileNameFromServer, setFileNameFromServer] = useState('')
   const [reason, setReason] = useState('')
   const [order, setOrder] = useState({})
-  const [deliveryDate, setDeliveryDate] = useState('')
+  const [deliveryDate, setDeliveryDate] = useState([])
   const [fileURI, setFileURI] = useState('')
 
   // hello
