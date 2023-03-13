@@ -4,7 +4,7 @@ import {
   View,
   FlatList,
   ScrollView,
-  Pressable,
+  Pressable, ActivityIndicator,
 } from 'react-native'
 
 import React, { useContext, useState, useEffect } from 'react'
@@ -20,6 +20,7 @@ import CartContext from '../../Context/CartProvider'
 import Loader from '../../Components/Loader'
 import MyText from '../../Components/Text'
 import Error from '../../Components/Error'
+import {useIsFocused} from "@react-navigation/native";
 
 const CampaignManagement = ({ navigation }) => {
   const {
@@ -33,9 +34,11 @@ const CampaignManagement = ({ navigation }) => {
   const [popularCards, setPopularCards] = useState([])
   // console.log(popularCards);
   const [loaded, setLoaded] = useState(false)
+  const isFocused = useIsFocused()
 
   // Api call
   useEffect(() => {
+    setLoaded(false)
     const getFreelancersData = async () => {
       const resp = await getStartups()
       // console.log(resp.data);
@@ -48,7 +51,7 @@ const CampaignManagement = ({ navigation }) => {
     }
 
     getFreelancersData()
-  }, [])
+  }, [isFocused])
   const userDetails = useContext(CartContext)
   // console.log(userDetails.userdetails.role);
   const [show, setShow] = useState(false)
@@ -57,7 +60,7 @@ const CampaignManagement = ({ navigation }) => {
       setShow(true)
     }
   }, [])
-  return loaded ? (
+  return (
     // main container
     <View
       style={{
@@ -70,41 +73,45 @@ const CampaignManagement = ({ navigation }) => {
         style={{ elevation: 0 }}
         nav={navigation}
       />
-      {popularCards.length !== 0 ? (
-        <FlatList
-          data={popularCards}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          style={{}}
-          renderItem={({ item, index }) => (
-            <CampaignPopular
-              Src={Buildings}
-              title={item.businessName}
-              Logo={item.logo}
-              Stage={item.stage}
-              Team={'Complete'}
-              Budget={item.budget}
-              status={item.status}
-              navigation={navigation}
-              label={item.category}
-              show={show}
-              id={item._id}
-              style={{
-                width: '90%',
-                marginHorizontal: 23,
-                marginVertical: 14,
-              }}
-            />
-          )}
-        />
-      ) : (
-        <View style={{ marginTop: 300 }}>
-          <Error message='No Campaigns Found' />
-        </View>
-      )}
+      {
+        loaded ? (
+            popularCards.length !== 0 ? (
+                  <FlatList
+                      data={popularCards}
+                      showsHorizontalScrollIndicator={false}
+                      showsVerticalScrollIndicator={false}
+                      style={{}}
+                      renderItem={({ item, index }) => (
+                          <CampaignPopular
+                              Src={Buildings}
+                              title={item.businessName}
+                              Logo={item.logo}
+                              Stage={item.stage}
+                              Team={'Complete'}
+                              Budget={item.budget}
+                              status={item.status}
+                              navigation={navigation}
+                              label={item.category}
+                              show={show}
+                              id={item._id}
+                              style={{
+                                width: '90%',
+                                marginHorizontal: 23,
+                                marginVertical: 14,
+                              }}
+                          />
+                      )}
+                  />
+              ) : (
+                  <View style={{ marginTop: 300 }}>
+                    <Error message="Empty, Create a new Campaign :)" />
+                  </View>
+              )
+        ) : (
+            <ActivityIndicator style={{flex:1,}} color={colors.Bluish} size='large' />
+        )
+      }
     </View>
-  ) : (
-    <Loader visible={!loaded} color='white' indicatorSize='large' />
   )
 }
 

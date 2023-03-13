@@ -4,7 +4,7 @@ import {
   View,
   FlatList,
   ScrollView,
-  TouchableOpacity,
+  TouchableOpacity, ActivityIndicator,
 } from 'react-native'
 import axios from '../../http/axiosSet'
 
@@ -263,8 +263,9 @@ const CampaignHome = ({ navigation, routes }) => {
 
   const isFocused = useIsFocused()
   useEffect(() => {
+    setLoading(true)
     getFreelancersData()
-  }, [])
+  }, [isFocused])
 
   const getFreelancersData = async () => {
     setLoading(true)
@@ -273,6 +274,7 @@ const CampaignHome = ({ navigation, routes }) => {
     setLoading(false)
     // console.log(resp.data);
     if (resp.data.status === 'OK') {
+      console.log(resp.data.data)
       setPopularData(resp.data.data)
       setPopularTempData(resp.data.data)
       // setRateData(resp.data.data)
@@ -290,9 +292,7 @@ const CampaignHome = ({ navigation, routes }) => {
     theme: { colors },
   } = useContext(Context)
 
-  if (loading) {
-    return <Loader visible={loading} color='white' indicatorSize='large' />
-  }
+
 
   return (
     // main container
@@ -356,27 +356,40 @@ const CampaignHome = ({ navigation, routes }) => {
         <MyText style={{ fontSize: 24, fontWeight: '700' }}>Categories</MyText>
       </View>
       <View style={{ width: '100%', marginTop: 4 }}>
-        <FlatList
-          horizontal
-          data={catgeories}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({ item, index }) => (
-            <CategoriesComp
-              text={item.title}
-              style={{
-                marginLeft: index == 0 ? 13 : 9,
-                marginVertical: 15,
-                elevation: 2,
-                marginRight: index == catgeories.length - 1 ? 10 : 0,
-              }}
-            />
-          )}
-        />
+        {
+          !loading ? (
+              <FlatList
+                  ListEmptyComponent={
+                    <View >
+                      <Error message='Categories will be added soon....' />
+                    </View>
+                  }
+                  horizontal
+                  data={catgeories}
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({ item, index }) => (
+                      <CategoriesComp
+
+                          text={item.title}
+                          style={{
+                            marginLeft: index == 0 ? 13 : 9,
+                            marginVertical: 15,
+                            elevation: 2,
+                            marginRight: index == catgeories.length - 1 ? 10 : 0,
+                          }}
+                      />
+                  )}
+              />
+            ) : (
+              <ActivityIndicator style={{flex:1,}} color={colors.Bluish} size={'small'} />
+            )
+
+        }
       </View>
 
       {popularData?.length === 0 ? (
         <View>
-          <Error message='No Freelancer Found' />
+          <Error message='Empty, Join the workforce...' />
         </View>
       ) : (
         <>
@@ -386,28 +399,35 @@ const CampaignHome = ({ navigation, routes }) => {
             </MyText>
           </View>
           <View style={{ width: '100%', marginTop: 4 }}>
-            <FlatList
-              horizontal
-              data={popularData}
-              showsHorizontalScrollIndicator={false}
-              renderItem={({ item, index }) => (
-                <PopularComp
-                  name={item.name}
-                  Price={item.hourlyRate}
-                  designation={item.jobTitle}
-                  Rating={item.rating}
-                  Image={item.avatar}
-                  id={item._id}
-                  nav={navigation}
-                  style={{
-                    marginLeft: index == 0 ? 13 : 9,
-                    marginVertical: 15,
+            {
+                !loading ? (
+                    <FlatList
+                        horizontal
+                        data={popularData}
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item, index }) => (
+                            <PopularComp
+                                name={item.name}
+                                Price={item.hourlyRate}
+                                designation={item.jobTitle}
+                                Rating={item.rating}
+                                Image={item.avatar}
+                                id={item._id}
+                                nav={navigation}
+                                style={{
+                                  marginLeft: index == 0 ? 13 : 9,
+                                  marginVertical: 15,
 
-                    marginRight: index == popularData.length - 1 ? 10 : 0,
-                  }}
-                />
-              )}
-            />
+                                  marginRight: index == popularData.length - 1 ? 10 : 0,
+                                }}
+                            />
+                        )}
+                    />
+                    ) : (
+                        <ActivityIndicator style={{flex:1,}} color={colors.Bluish} size={'large'} />
+                    )
+
+            }
           </View>
           <View style={{ marginTop: 10, paddingLeft: 13, paddingRight: 15 }}>
             <View

@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {
-  ScrollView,
-  StyleSheet,
-  View,
-  Switch,
-  TouchableOpacity,
-  Text,
-  Image,
+    ScrollView,
+    StyleSheet,
+    View,
+    Switch,
+    TouchableOpacity,
+    Text,
+    Image, ActivityIndicator,
 } from 'react-native'
 import MyText from '../../../Components/Text'
 import Context from '../../../Context/Context'
@@ -153,9 +153,7 @@ const DashboardScreen = () => {
     </TouchableOpacity>
   )
 
-  if (loading) {
-    return <Loader visible={loading} color='white' indicatorSize='large' />
-  }
+
 
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
@@ -197,16 +195,22 @@ const DashboardScreen = () => {
           <MyText style={{ fontSize: 24, color: 'white' }}>
             Total Expenses
           </MyText>
-          <MyText
-            style={{
-              color: '#E9FC01',
-              fontSize: 20,
-              fontWeight: '500',
-              marginBottom: 8,
-            }}
-          >
-            $ {spending}
-          </MyText>
+            {
+                !loading ? (
+                    <MyText
+                        style={{
+                            color: '#E9FC01',
+                            fontSize: 20,
+                            fontWeight: '500',
+                            marginBottom: 8,
+                        }}
+                    >
+                        $ {spending}
+                    </MyText>
+                ) : (
+                    <ActivityIndicator style={{flex:1,}} color={colors.Bluish} size='small' />
+                )
+            }
 
           <TouchableOpacity
             labelStyle={{ color: colors.white }}
@@ -339,14 +343,19 @@ const DashboardScreen = () => {
               Recent Orders
             </MyText>
           </View>
-          {orders?.length === 0 && (
-            <View>
-              <Error message='No Recent Order Found' />
-            </View>
-          )}
-          {orders?.map((order, index) => {
-            return <OrderItem key={index} />
-          })}
+          {
+                !loading ? (
+                    orders?.length === 0 ? (
+                        <View>
+                            <Error message='Empty, Create new orders!' />
+                        </View>
+                    ) : orders?.map((order, index) => {
+                        return <OrderItem key={index} />
+                    })
+                ) : (
+                    <ActivityIndicator style={{flex:1,}} color={colors.Bluish} size='small' />
+                )
+          }
         </View>
       </View>
     </ScrollView>

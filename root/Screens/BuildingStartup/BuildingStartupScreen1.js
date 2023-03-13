@@ -309,7 +309,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               { backgroundColor: colors.background, margin: 30 },
             ]}
           >
-            <Modal animationType="fade" visible={getmodalvisible1}>
+            <Modal animationType="fade" transparent={true} visible={getmodalvisible1}>
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                   <View
@@ -366,7 +366,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 </View>
               </View>
             </Modal>
-            <Modal animationType="fade" visible={getmodalvisible2}>
+            <Modal animationType="fade" transparent={true} visible={getmodalvisible2}>
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                   <View
@@ -415,7 +415,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 </View>
               </View>
             </Modal>
-            <Modal animationType="fade" visible={getmodalvisible3}>
+            <Modal animationType="fade" transparent={true} visible={getmodalvisible3}>
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                   <View
@@ -474,7 +474,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 </View>
               </View>
             </Modal>
-            <Modal animationType="fade" visible={getmodalvisible4}>
+            <Modal animationType="fade" transparent={true} visible={getmodalvisible4}>
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                   <View
@@ -523,7 +523,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 </View>
               </View>
             </Modal>
-            <Modal animationType="fade" visible={getmodalvisible6}>
+            <Modal animationType="fade" transparent={true} visible={getmodalvisible6}>
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                   <View
@@ -907,7 +907,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               { backgroundColor: colors.background, margin: 30 },
             ]}
           >
-            <Modal animationType="fade" visible={getmodalvisible5}>
+            <Modal animationType="fade" transparent={true} visible={getmodalvisible5}>
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                   <View
@@ -1269,7 +1269,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                         marginRight: 6,
                         alignItems: "center",
                         alignSelf: "flex-start",
-                        backgroundColor: "#EEEEEEEE",
                         shadowColor: "#000",
                         shadowOffset: {
                           width: 0,
@@ -1355,7 +1354,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               { backgroundColor: colors.background, margin: 30 },
             ]}
           >
-            <Modal animationType="fade" visible={getmodalvisible}>
+            <Modal animationType="fade" transparent={true} visible={getmodalvisible}>
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                   <FlatList
@@ -1717,7 +1716,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               { backgroundColor: colors.background, margin: 30 },
             ]}
           >
-            <Modal animationType="fade" visible={getmodalvisible}>
+            <Modal animationType="fade" transparent={true} visible={getmodalvisible}>
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                   <View
@@ -2096,7 +2095,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               { backgroundColor: colors.background, margin: 30 },
             ]}
           >
-            <Modal animationType="fade" visible={getmodalvisible1}>
+            <Modal animationType="fade" transparent={true} visible={getmodalvisible1}>
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                   <View
@@ -2533,7 +2532,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               { backgroundColor: colors.background, margin: 30 },
             ]}
           >
-            <Modal animationType="fade" visible={getmodalvisible}>
+            <Modal animationType="fade" transparent={true} visible={getmodalvisible}>
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                   <View
@@ -2758,7 +2757,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             { backgroundColor: colors.background, margin: 30 },
           ]}
         >
-          <Modal animationType="fade" visible={getmodalvisible}>
+          <Modal animationType="fade" transparent={true} visible={getmodalvisible}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <View>
@@ -3055,7 +3054,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   SectionStyle2: {
-    flexDirection: "row",
     height: 239,
     marginTop: 14,
     marginBottom: 5,

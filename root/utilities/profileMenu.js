@@ -11,12 +11,12 @@ export const profileMenu = [
     icon: 'gear',
     navigate: 'Settings',
   },
-  {
-    id: 3,
-    title: 'Payment Method',
-    icon: 'credit-card',
-    navigate: 'PaymentMethod',
-  },
+  // {
+  //   id: 3,
+  //   title: 'Payment Method',
+  //   icon: 'credit-card',
+  //   navigate: 'PaymentMethod',
+  // },
   // {
   //   id: 4,
   //   title: 'Financial Report',

@@ -1260,7 +1260,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                         marginRight: 6,
                         alignItems: "center",
                         alignSelf: "flex-start",
-                        backgroundColor: "#EEEEEEEE",
                         shadowColor: "#000",
                         shadowOffset: {
                           width: 0,
@@ -3047,7 +3046,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   SectionStyle2: {
-    flexDirection: "row",
     height: 239,
     marginTop: 14,
     marginBottom: 5,
@@ -3077,7 +3075,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "#fff",
+
     borderRadius: 20,
     padding: 35,
     alignItems: "center",

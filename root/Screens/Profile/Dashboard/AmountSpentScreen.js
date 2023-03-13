@@ -4,7 +4,7 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
-  Image,
+  Image, FlatList,
 } from 'react-native'
 import MyText from '../../../Components/Text'
 import Context from '../../../Context/Context'
@@ -39,10 +39,6 @@ const AmountSpendScreen = () => {
     } else if (resp.status === 404) {
     } else if (resp.status === 401) {
     }
-  }
-
-  if (loading) {
-    return <Loader visible={loading} color='white' indicatorSize='large' />
   }
 
   const {
@@ -198,7 +194,7 @@ const AmountSpendScreen = () => {
   )
 
   return (
-    <ScrollView style={{ height: '100%', backgroundColor: 'white' }}>
+    <View style={{ flex:1, backgroundColor: 'white' }}>
       <CustomHeader
         Title='Expenses'
         style={{ elevation: 0 }}
@@ -215,18 +211,20 @@ const AmountSpendScreen = () => {
       />
       <View>
         {orders?.length !== 0 ? (
-          <>
-            {orders?.map((order) => {
-              return <OrderItem key={order._id} order={order} />
-            })}
-          </>
+          <FlatList
+            data={orders}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => <OrderItem order={order} />}
+            showsVerticalScrollIndicator={false}
+            ></FlatList>
         ) : (
-          <View>
-            <Error message='No Order Found' />
-          </View>
+
+            <View style={{ marginTop:120 }}>
+              <Error message="You haven't spend any amount yet" />
+            </View>
         )}
       </View>
-    </ScrollView>
+    </View>
   )
 }
 

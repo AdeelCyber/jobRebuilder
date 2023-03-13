@@ -223,6 +223,7 @@ const ProfileScreen = () => {
             }}
           >
             {userdetails?.name}
+
           </MyText>
         </View>
 

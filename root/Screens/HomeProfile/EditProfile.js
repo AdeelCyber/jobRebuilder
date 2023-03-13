@@ -184,7 +184,7 @@ const EditProfile = ({ route }) => {
     <ScrollView style={{ backgroundColor: colors.background }}>
       <View style={[styles.container]}>
         <CustomHeader9 Title='' nav={navigation} />
-        <Modal animationType='fade' visible={getmodalvisible5}>
+        <Modal animationType='fade' transparent={true} visible={getmodalvisible5}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <View

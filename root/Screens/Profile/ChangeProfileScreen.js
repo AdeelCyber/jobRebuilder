@@ -56,6 +56,11 @@ const ChangeProfileScreen = ({ route }) => {
   const [getmodalvisible5, setmodalvisible5] = useState(false)
 
   const [logo, setlogo] = useState('')
+  useEffect(() => {
+    if (logo) {
+      console.log(logo)
+          }
+  }, [logo])
   const [getcondition, setcondition] = useState(false)
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState(null)
@@ -65,8 +70,8 @@ const ChangeProfileScreen = ({ route }) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [10, 10],
-      quality: 1,
+      aspect: [1, 1],
+      quality:0.5,
     })
     // console.log(result);
 
@@ -95,7 +100,7 @@ const ChangeProfileScreen = ({ route }) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 1,
+      quality: 0.5,
     })
 
     if (!result.canceled) {
@@ -106,9 +111,9 @@ const ChangeProfileScreen = ({ route }) => {
   }
   const profileedit = async () => {
     setcondition(true)
-
     if (logo.filename != undefined) {
       console.log(logo.filename)
+
       try {
         const res = await editStartupProfile(accessToken, name, logo.filename)
         console.log(res)
@@ -118,9 +123,16 @@ const ChangeProfileScreen = ({ route }) => {
           Toast.show({
             topOffset: 60,
             type: 'success',
-            text1: 'Update Successfully',
+            text1: 'Updated Successfully',
             text2: '.',
           })
+          //save async storage
+            const user = await AsyncStorage.getItem('@userDetail')
+            const userDetail = JSON.parse(user)
+            userDetail.name = res.data.data.user.name
+            userDetail.avatar = res.data.data.user.avatar
+            await AsyncStorage.setItem('@userDetail', JSON.stringify(userDetail))
+
           setuserdetails(() => {
             return {
               ...userdetails,
@@ -136,7 +148,7 @@ const ChangeProfileScreen = ({ route }) => {
     } else {
       try {
         const res = await editStartupProfile(accessToken, name, logo)
-        console.log(res.status)
+        console.log(res)
         if (res.status == 200) {
           setcondition(false)
 
@@ -146,6 +158,22 @@ const ChangeProfileScreen = ({ route }) => {
             text1: 'Updated Successfully',
             text2: '.',
           })
+          //save async storage
+          const user = await AsyncStorage.getItem('@userDetail')
+          const userDetail = JSON.parse(user)
+          userDetail.name = res.data.data.user.name
+          userDetail.avatar = res.data.data.user.avatar
+          await AsyncStorage.setItem('@userDetail', JSON.stringify(userDetail))
+
+          setuserdetails(() => {
+            return {
+              ...userdetails,
+              name: res.data.data.user.name,
+              avatar: res.data.data.user.avatar,
+            }
+          }
+            )
+
           navigation.navigate('Profile')
         }
       } catch (err) {
@@ -154,14 +182,14 @@ const ChangeProfileScreen = ({ route }) => {
     }
   }
   if (getcondition) {
-    return <Loader visible={getcondition} color='white' indicatorSize='large' />
+    return <ActivityIndicator style={{flex:1,}} color={colors.Bluish} size='large' />
   }
 
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
       <View style={[styles.container]}>
         <CustomHeader9 Title='Edit Profile' nav={navigation} />
-        <Modal animationType='fade' visible={getmodalvisible5}>
+        <Modal animationType='fade' transparent={true} visible={getmodalvisible5}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <View
