@@ -10,7 +10,7 @@ import {
   Image,
   Modal,
   ActivityIndicator,
-  ScrollView,
+  ScrollView, Linking, Dimensions,
 } from "react-native";
 import { CheckBox } from "react-native-elements";
 import Context from "../../Context/Context";
@@ -45,6 +45,8 @@ const BuildingStartupScreen1 = ({ navigation }) => {
   } = useContext(Context);
   const { accessToken } = useContext(CartProvider);
   const [getcondition, setcondition] = useState(false);
+  const windowWidth = Dimensions.get('window').width;
+
   const [geterror, seterror] = useState(0);
 
   const progressStepsStyle = {
@@ -65,24 +67,21 @@ const BuildingStartupScreen1 = ({ navigation }) => {
 
   const buttonStyle = {
     backgroundColor: colors.Bluish,
-    width: "111%",
     height: 50,
-    justifyContent: "center",
-    alignItems: "center",
+    flex:2,
+    position: "absolute",
+    top: -80,
+    left:-windowWidth+60,
+    bottom: 0,
+    width: windowWidth,
     //alignSelf: "center",
-    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
     marginTop: 20,
-    marginRight: 233,
 
-    //right:100
-    // alignSelf:"center",
-    // marginTop: 20,
-    // transform: [{ translateX: -5 }, { translateY: -10 }],
 
-    // // marginRight:190,
-    // marginLeft:20,
 
-    //left: 50,
+
   };
   const [startupid, setstartupid] = useState();
   if (getcondition) {
@@ -154,6 +153,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
       { label: "Market Research", value: "Market Research" },
       { label: "Building a Team", value: "Building a Team" },
       { label: "Prototyping/R&D", value: "Prototyping/R&D" },
+      { label: "Fund Raising", value: "Fund Raising" },
       { label: "Launching", value: "Launching" },
     ]);
 
@@ -166,7 +166,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     const [getdocinfo, setdocinfo] = useState();
     const [logo, setlogo] = useState();
     const [mediatosend, setmediatosend] = useState();
-
+    const [mediaStatus, setmediaStatus] = useState("Upload Media");
     const [getmediatype, setmediatype] = useState(false);
     const [getmodalvisible1, setModalVisible1] = useState(false);
     const [getmodalvisible2, setModalVisible2] = useState(false);
@@ -230,6 +230,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     // TODO : UPload document
 
     const pickDocument = async () => {
+      setmediaStatus("Uploading...");
       let result = await DocumentPicker.getDocumentAsync({});
 
       setdoc(result.uri);
@@ -331,7 +332,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                         color: "#23232380",
                       }}
                     >
-                      More Info (Problem Statement)
+                      More Info (Company Description)
                     </MyText>
                     <Entypo
                       name="circle-with-cross"
@@ -360,8 +361,10 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   >
                     Example topics:{"\n"}
                     -What problem is your product/service solving?{"\n"}
-                    -Describe the specific need of your customer’s problem and
-                    how your product/service solves it.
+                    -What’s your mission statement?{"\n"}
+                    -Why should potential partners want to join your company?{"\n"}
+                    -Why will this company be successful?
+
                   </MyText>
                 </View>
               </View>
@@ -408,9 +411,13 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                       marginBottom: 6,
                     }}
                   >
-                    Example topics:{"\n"}- How big is the market?{"\n"}- How
-                    strong is the demand?{"\n"}- How saturated is the market?
-                    {"\n"}
+                    Example topics:{"\n"}
+                    - SWOT analysis.{"\n"}
+                    - How big is the market? How saturated?{"\n"}
+                    - How strong is the demand?{"\n"}
+                    - Who’s your target audience?{"\n"}
+                    - Price points of your products/services.{"\n"}
+
                   </MyText>
                 </View>
               </View>
@@ -466,10 +473,11 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                       marginBottom: 6,
                     }}
                   >
-                    Example topics:{"\n"}- Competition details. SWOT analysis.
-                    {"\n"}- Pros and cons of competitors.{"\n"}- What’s unique
-                    about competitors and your business?{"\n"}- Why would the
-                    customer choose you over your competitors?{"\n"}
+                    Example topics:{"\n"}
+                    - Competition details.{"\n"}
+                    - Pros and cons of competitors.{"\n"}
+                    - What’s unique about competitors and your business?{"\n"}
+
                   </MyText>
                 </View>
               </View>
@@ -516,9 +524,12 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                       marginBottom: 6,
                     }}
                   >
-                    Example topics:{"\n"}- Target audience.{"\n"}- Price points
-                    of your products/services.{"\n"}- Criteria and constraints.
-                    {"\n"}- Brief Business plan.{"\n"}- Projections.{"\n"}
+                    Example topics:{"\n"}
+                    - Marketing strategy.{"\n"}
+                    - Projections.{"\n"}
+                    - Criteria and constraints.{"\n"}
+                    - Additional details.{"\n"}
+
                   </MyText>
                 </View>
               </View>
@@ -608,7 +619,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 onChangeText={(problemstatement) =>
                   setproblemstatement(problemstatement)
                 }
-                placeholder="Problem Statement"
+                placeholder="Company Description"
                 placeholderTextColor="#ACA9A9"
                 underlineColorAndroid="#f000"
                 multiline={true}
@@ -636,7 +647,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 onChangeText={(impactstatement) =>
                   setimpactstatement(impactstatement)
                 }
-                placeholder="Impact Statement"
+                placeholder="Market Research"
                 placeholderTextColor="#ACA9A9"
                 underlineColorAndroid="#f000"
                 multiline={true}
@@ -688,7 +699,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               <TextInput
                 style={styles.inputStyle2}
                 onChangeText={(story) => setstory(story)}
-                placeholder="Tell a story to attract investors"
+                placeholder="Additional Details to attract investors"
                 placeholderTextColor="#ACA9A9"
                 underlineColorAndroid="#f000"
                 multiline={true}
@@ -772,13 +783,13 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 open={open1}
                 value={value1}
                 items={items1}
-                dropDownStyle={{ maxHeight: 150 }}
-                containerStyle={{ height: 40 }}
-                ScrollViewProps={{ nestedScrollEnabled: true }}
+                dropDownStyle={{ maxHeight: 170 }}
+                containerStyle={{ height: 60 }}
+
                 setOpen={setOpen1}
                 setValue={setValue1}
                 setItems={setItems1}
-                listMode="SCROLLVIEW"
+                listMode={"SCROLLVIEW"}
                 scrollViewProps={{
                   nestedScrollEnabled: true,
                 }}
@@ -797,6 +808,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             >
               Upload Business Plan
             </MyText>
+
             {getdocinfo ? (
               <View>
                 <Pressable
@@ -872,7 +884,15 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 </Pressable>
               </View>
             )}
-
+            <MyText style={{textAlign:"center"}}>
+              Refer to website for business plan guide{"\n"}
+              <Pressable
+              onPress={() => {
+                Linking.openURL("https://www.jobrebuilder.com");
+              }
+              }
+              ><MyText style={{color:colors.Bluish}}>www.jobrebuilder.com</MyText></Pressable>
+            </MyText>
             <Pressable
               style={{
                 backgroundColor: "#EEEEEE",
@@ -1628,11 +1648,11 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     const [value2, setValue2] = useState(null);
     const [items2, setItems2] = useState([
       {
-        label: "Looking for partner to join business",
+        label: "Looking for a partner to join the business",
         value: "Equity",
       },
       {
-        label: "Looking for freelancer to hire",
+        label: "Looking for a freelancer to hire",
         value: "Freelancer",
       },
     ]);
@@ -2971,6 +2991,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             label="Idea"
             nextBtnStyle={buttonStyle}
             nextBtnTextStyle={buttonTextStyle}
+            bt
             nextBtnText="Proceed"
             previousBtnDisabled={true}
           >
@@ -2981,6 +3002,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             nextBtnStyle={buttonStyle}
             nextBtnTextStyle={buttonTextStyle}
             nextBtnText="Proceed"
+
             previousBtnDisabled={true}
           >
             <Screen2 />

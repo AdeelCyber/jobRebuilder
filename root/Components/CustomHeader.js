@@ -21,6 +21,17 @@ const CustomHeader = ({
   useEffect(() => {
     getUser()
   }, [])
+    let partOfTheDay = 'Morning'
+    const currentHour = new Date().getHours()
+    if (currentHour > 12 && currentHour < 17) {
+        partOfTheDay = 'Afternoon'
+    }
+    if (currentHour >= 17 && currentHour <= 24) {
+        partOfTheDay = 'Evening'
+    }
+    if (currentHour >= 0 && currentHour <= 4) {
+        partOfTheDay = 'Night'
+    }
 
   const getUser = async () => {
     const u = await AsyncStorage.getItem('@userDetail')
@@ -47,13 +58,13 @@ const CustomHeader = ({
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Image
           source={{
-            uri: user?.avatar ? axios.defaults.baseURL + user?.avatar : img,
+            uri: user?.avatar ? axios.defaults.baseURL + 'media/getimage/' + user.avatar: img,
           }}
           style={{ width: 30, height: 30, borderRadius: 20, marginRight: 8 }}
         />
         <View>
           <MyText style={{ color: colors.lighttext, fontSize: 10 }}>
-            {partOfDay}
+            Good {partOfTheDay}!
           </MyText>
           <MyText
             style={{ color: colors.text, fontSize: 12, fontWeight: '700' }}

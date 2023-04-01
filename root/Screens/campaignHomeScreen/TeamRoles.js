@@ -74,7 +74,7 @@ const TeamRoles = ({ navigation, route }) => {
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       {/* header */}
-      <CustomHeader2 style={{ elevation: 0 }} nav={navigation} />
+      <CustomHeader2 Title={data.startup.businessName} style={{ elevation: 0 }} nav={navigation} />
       {/* header out */}
 
       <ScrollView>
@@ -83,7 +83,7 @@ const TeamRoles = ({ navigation, route }) => {
           title={data.startup.businessName}
           niche={data.startup.category}
           Logo={data.startup.logo}
-          Thumbnail={Thumbnail}
+          Thumbnail={data.startup.promoMedia}
           modal={setModal}
           data={data}
           navigation={navigation}
@@ -135,10 +135,10 @@ const TeamRoles = ({ navigation, route }) => {
               <View>
                 <MyText
                   style={{
-                    fontSize: 20,
+                    fontSize: 10,
                     color: "red",
                     textAlign: "center",
-                    fontWeight: "700",
+                    fontWeight: "400",
                   }}
                 >
                   No Roles Found

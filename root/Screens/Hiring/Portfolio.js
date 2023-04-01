@@ -45,7 +45,7 @@ const Portfolio = ({ portfolio }) => {
             >
               <Image
                 source={{
-                  uri: element.attachments[0],
+                    uri: axios.defaults.baseURL + 'media/getimage/' + element.attachments[0]
                 }}
                 style={{ width: 160, height: 150, borderRadius: 10 }}
               />

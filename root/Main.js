@@ -151,16 +151,49 @@ const MyStack = (props) => {
             component={CampaignMenu}
             options={{
               animationEnabled: false,
+              animation:"none"
             }}
           />
-          <Stack.Screen name='OverView' component={OverView} />
-          <Stack.Screen name='PartnerShipTerms' component={PartnerShipTerms} />
-          <Stack.Screen name='TeamRoles' component={TeamRoles} />
-          <Stack.Screen name='EditRoles' component={EditRoles} />
-          <Stack.Screen name='AddRoles' component={AddRoles} />
-          <Stack.Screen name='MileStone' component={MileStone} />
-          <Stack.Screen name='AddMileStone' component={AddMileStone} />
-          <Stack.Screen name='PitchDeck' component={PitchDeck} />
+          <Stack.Screen name='OverView' component={OverView}
+                        options={{
+                          animationEnabled: false,
+                          animation:"none"
+                        }}
+          />
+          <Stack.Screen name='PartnerShipTerms' component={PartnerShipTerms}
+                        options={{
+                          animationEnabled: false,
+                          animation:"none"
+                        }}
+          />
+          <Stack.Screen name='TeamRoles' component={TeamRoles}
+                        options={{
+                          animationEnabled: false,
+                          animation:"none"
+                        }}
+          />
+          <Stack.Screen name='EditRoles' component={EditRoles}
+                        options={{
+                          animationEnabled: false,
+                          animation:"none"
+                        }}
+          />
+          <Stack.Screen name='AddRoles' component={AddRoles} options={{
+            animationEnabled: false,
+            animation:"none"
+          }} />
+          <Stack.Screen name='MileStone' component={MileStone} options={{
+            animationEnabled: false,
+            animation:"none"
+          }} />
+          <Stack.Screen name='AddMileStone' component={AddMileStone} options={{
+            animationEnabled: false,
+            animation:"none"
+          }} />
+          <Stack.Screen name='PitchDeck' component={PitchDeck} options={{
+            animationEnabled: false,
+            animation:"none"
+          }} />
           <Stack.Screen name='Team' component={Team} />
           <Stack.Screen name='Todo' component={Todo} />
           <Stack.Screen name='ViewMileStone' component={ViewMileStone} />

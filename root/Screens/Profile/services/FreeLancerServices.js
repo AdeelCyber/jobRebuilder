@@ -9,12 +9,31 @@ export const getFreelancers = async () => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const resp = await axios.get("/freelancer/all", config);
+    const resp = await axios.post("/freelancer/all", config);
     return resp;
   } catch (error) {
     return error.response;
   }
 };
+
+export const getFreelancersCategoryWise = async (category) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+
+    };
+    const resp = await axios.post("/freelancer/all",{
+        category:category
+    }, config);
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+
 //All Warnings post
 export const getWarnings = async (id) => {
   try {
@@ -44,7 +63,7 @@ export const getRequestedWarnings = async (id) => {
       },
     };
     const resp = await axios.post(
-      "startup/getwarningsrequest",
+      "/startup/getwarningsrequest",
       { startupid: id },
       config
     );

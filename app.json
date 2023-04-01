@@ -1,10 +1,9 @@
 {
   "expo": {
-    "name": "trainer_app",
-    "slug": "trainer_app",
+    "name": "JobRebuilder",
+    "slug": "jobrebuilder",
     "version": "1.0.0",
     "scheme": "jobrebuilder",
-    "host": "jobrebuilder.com",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -31,27 +30,26 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.project.trainer_app"
+      "bundleIdentifier": "com.lunatech.jobrebuilder"
     },
     "android": {
-      "bundleIdentifier": "com.project.trainer_app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.abdullah.mumtaz65.trainer_app"
+      "package": "com.lunatech.jobrebuilder"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "path": "*",
     "extra": {
-      "expoId": "@rayyan/abc123",
       "eas": {
-        "projectId": "c9d5ef72-e8a2-4cb6-9add-6d4fd0a7960c"
+        "projectId": "1d3aeaa3-8b9d-4ebf-a04f-a1602d53e159"
       }
     }
   }

@@ -21,6 +21,7 @@ import Loader from '../../Components/Loader'
 import MyText from '../../Components/Text'
 import Error from '../../Components/Error'
 import {useIsFocused} from "@react-navigation/native";
+import {defaults} from "axios";
 
 const CampaignManagement = ({ navigation }) => {
   const {
@@ -46,6 +47,7 @@ const CampaignManagement = ({ navigation }) => {
         // console.log("done");
         setPopularCards(resp.data.startUps)
         // userDetails.setmilestone(resp.data.startUps);
+        console.log("data",resp.data.startUps)
         setLoaded(true)
       }
     }
@@ -83,11 +85,12 @@ const CampaignManagement = ({ navigation }) => {
                       style={{}}
                       renderItem={({ item, index }) => (
                           <CampaignPopular
-                              Src={Buildings}
+                              Src={ Buildings}
                               title={item.businessName}
                               Logo={item.logo}
                               Stage={item.stage}
                               Team={'Complete'}
+
                               Budget={item.budget}
                               status={item.status}
                               navigation={navigation}

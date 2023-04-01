@@ -123,7 +123,7 @@ const ProfilePic = () => {
         { backgroundColor: colors.background, margin: 30 },
       ]}
     >
-      <Modal animationType="fade" visible={getmodalvisible5}>
+      <Modal animationType="fade" transparent={true} visible={getmodalvisible5}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <View

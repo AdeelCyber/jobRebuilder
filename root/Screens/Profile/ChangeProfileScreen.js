@@ -148,8 +148,7 @@ const ChangeProfileScreen = ({ route }) => {
     } else {
       try {
         const res = await editStartupProfile(accessToken, name, logo)
-        console.log(res)
-        if (res.status == 200) {
+        if (res.status === 200) {
           setcondition(false)
 
           Toast.show({
@@ -165,14 +164,7 @@ const ChangeProfileScreen = ({ route }) => {
           userDetail.avatar = res.data.data.user.avatar
           await AsyncStorage.setItem('@userDetail', JSON.stringify(userDetail))
 
-          setuserdetails(() => {
-            return {
-              ...userdetails,
-              name: res.data.data.user.name,
-              avatar: res.data.data.user.avatar,
-            }
-          }
-            )
+          setuserdetails({...userdetails,name:res.data.data.user.name,avatar:res.data.data.user.avatar})
 
           navigation.navigate('Profile')
         }

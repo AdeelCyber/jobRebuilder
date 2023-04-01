@@ -101,7 +101,7 @@ const CampaignMenu = ({ navigation, route }) => {
           title={data.startup.businessName}
           niche={data.startup.category}
           Logo={data.startup.logo}
-          Thumbnail={Thumbnail}
+          Thumbnail={data.startup.promoMedia}
           modal={setModal}
           data={data}
           navigation={navigation}

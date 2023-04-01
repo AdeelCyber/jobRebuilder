@@ -40,7 +40,7 @@ const UserInfo = () => {
   const [copiedText, setCopiedText] = useState('')
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(
-      `https://stepdev.up.railway.app/${userinfo?.userInfo.url}`
+      `https://stepev-dev.up.railway.app/media/getimage/${userinfo?.userInfo.url}`
     )
     const t = await Clipboard.getStringAsync()
     console.log(t)
@@ -61,7 +61,7 @@ const UserInfo = () => {
 
     axios
       .get(
-        'https://stepdev.up.railway.app/freelancer/profile',
+        'https://stepev-dev.up.railway.app/freelancer/profile',
 
         config
       )

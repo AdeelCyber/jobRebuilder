@@ -29,7 +29,7 @@ const PopularComp = (props) => {
         props.style,
       ]}
       onPress={() => {
-        navigation.navigate('ShowFreelancer', { id: props.id })
+          navigation.navigate('ShowFreelancer', { id: props.id })
       }}
     >
       {/* image heart in */}
@@ -93,7 +93,7 @@ const PopularComp = (props) => {
           </View>
           <Pressable
             onPress={() =>
-              props.nav.navigate('CampaignManagement', { id: props.id })
+                navigation.navigate('ShowFreelancer', { id: props.id })
             }
           >
             <AntDesign name='arrowright' size={20} color='black' />

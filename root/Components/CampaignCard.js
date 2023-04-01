@@ -10,10 +10,13 @@ import Team from '../../assets/Svgs/TeamIcon'
 import todo from '../../assets/Svgs/TodoIcon'
 
 import axios from '../http/axiosSet'
-
+import { Video, AVPlaybackStatus } from 'expo-av';
 // import Video from "react-native-video";
 const CampaignCard = ({ ...props }) => {
-  const {
+    const video = React.useRef(null);
+    const [status, setStatus] = React.useState({});
+
+    const {
     theme: { colors },
   } = useContext(Context)
   return (
@@ -71,12 +74,30 @@ const CampaignCard = ({ ...props }) => {
           paddingHorizontal: 23,
         }}
       >
-        {/* <Video
-          source={{ uri: "https://www.youtube.com/watch?v=mpSmBuco6I0" }}
-          style={{ width: "100%", height: "30%" }}
-        /> */}
 
-        <Image source={props.Thumbnail} style={{}} />
+          {
+              props.data.startup.promoMedia.mediatype ==="image" ? (
+                  <Image source={{uri: `${axios.defaults.baseURL}media/getImage/${props.data.startup.promoMedia.url}`,}} style={{
+                      width: '100%', height: 200,marginBottom:10,borderRadius:20,marginTop:10
+                  }} />
+                ) : (
+                  <Video
+                      ref={video}
+                      style={{ width: '100%', height: 200,marginBottom:10,borderRadius:20,marginTop:10}}
+                      source={{
+                          uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+                      }}
+                      useNativeControls
+                      resizeMode="contain"
+                      isMuted={true}
+                      shouldPlay={true}
+                      isLooping
+                      onPlaybackStatusUpdate={status => setStatus(() => status)}
+                  />
+                )
+          }
+
+
 
         {/* Buttons View in */}
         {props.isPart ? (

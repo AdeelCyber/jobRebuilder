@@ -256,10 +256,10 @@ const AvailableJobs = () => {
         <ScrollView
         style={{
           flex: 1,
-          backgroundColor: '#ffffff',
+          backgroundColor: 'white',
         }}
       >
-        <Loader visible={loading} color='white' indicatorSize='large' />
+        <Loader visible={loading} color={colors.Bluish} indicatorSize='large' />
 
         <View>
           <View
@@ -302,7 +302,7 @@ const AvailableJobs = () => {
             {/* seatch bar icon out */}
           </View>
 
-          <View style={{ width: '100%', marginTop: 4 }}>
+          <View style={{ width: '100%', marginTop: 4,flex:1  }}>
             <FlatList
               horizontal
               data={catgeories}
@@ -369,7 +369,7 @@ const styles = StyleSheet.create({
       width: 0,
       height: 6,
     },
-    elevation: 15,
+    elevation: 5 ,
   },
 })
 export default AvailableJobs

@@ -4,7 +4,7 @@ import {
   View,
   FlatList,
   ScrollView,
-  TouchableOpacity, ActivityIndicator,
+  TouchableOpacity, ActivityIndicator, RefreshControl,
 } from 'react-native'
 import axios from '../../http/axiosSet'
 
@@ -21,7 +21,7 @@ import PopularComp from '../../Components/PopularComp'
 import RateComp from '../../Components/RateComp'
 import {
   getFreelancerCategories,
-  getFreelancers,
+  getFreelancers, getFreelancersCategoryWise,
 } from '../Profile/services/FreeLancerServices'
 import { StackActions, NavigationActions } from 'react-navigation'
 import Loader from '../../Components/Loader'
@@ -30,7 +30,7 @@ import { CartProvider } from '../../Context/CartProvider'
 import Error from '../../Components/Error'
 
 const CampaignHome = ({ navigation, routes }) => {
-  const [selected, setselected] = useState(false)
+  const [selected, setselected] = useState("All")
 
   const userdetails = useContext(CartProvider)
 
@@ -39,7 +39,6 @@ const CampaignHome = ({ navigation, routes }) => {
   const searchResult = (s, status) => {
     if (status === true) {
       if (s === 'All') {
-        setPopularData(popularTempData)
         return
       } else {
         console.log(s)
@@ -115,7 +114,7 @@ const CampaignHome = ({ navigation, routes }) => {
   })
   // loading
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   //categories hook
   const [catgeories, setCategories] = useState([])
   //Popular hook
@@ -260,30 +259,43 @@ const CampaignHome = ({ navigation, routes }) => {
 
   const [searchQuery, setSearchQuery] = React.useState('') //searchbar query hook
   // Api call
-
   const isFocused = useIsFocused()
   useEffect(() => {
-    setLoading(true)
+
     getFreelancersData()
   }, [isFocused])
-
+  const [data, setData] = useState({
+    popular: [],
+    fixedRate: [],
+    equity: [],
+  })
   const getFreelancersData = async () => {
-    setLoading(true)
     const resp = await getFreelancers()
     const resp2 = await getFreelancerCategories()
+
     setLoading(false)
     // console.log(resp.data);
     if (resp.data.status === 'OK') {
       console.log(resp.data.data)
-      setPopularData(resp.data.data)
-      setPopularTempData(resp.data.data)
-      // setRateData(resp.data.data)
-      // setEquityData(resp.data.data)
+      setData(resp.data.data)
     }
     if (resp2.status === 200) {
       setCategories(() => {
         return [{ title: 'All' }, ...resp2.data.data]
       })
+    }
+  }
+  const [categoryData, setCategoryData] = useState([])
+  const getFreelancersCategory = async (cat) => {
+    const resp = await getFreelancersCategoryWise(cat)
+
+    setLoading(false)
+    // console.log(resp.data);
+    if (resp.data.status === 'OK') {
+      console.log('category data')
+      console.log(resp.data.data)
+
+      setCategoryData(resp.data.data.fixedRate)
     }
   }
 
@@ -292,11 +304,28 @@ const CampaignHome = ({ navigation, routes }) => {
     theme: { colors },
   } = useContext(Context)
 
-
+  useEffect(() => {
+    if(selected === 'All'){
+      setLoading(true)
+      return }
+    else{
+      getFreelancersCategory(selected).then(() => setLoading(false))
+    }
+  },[selected])
 
   return (
     // main container
     <ScrollView
+        refreshControl={
+            <RefreshControl
+                refreshing={loading}
+                onRefresh={() => {
+                    getFreelancersData()
+
+                }}
+            />
+
+        }
       style={{
         flex: 1,
         backgroundColor: colors.white,
@@ -387,101 +416,212 @@ const CampaignHome = ({ navigation, routes }) => {
         }
       </View>
 
-      {popularData?.length === 0 ? (
-        <View>
-          <Error message='Empty, Join the workforce...' />
-        </View>
-      ) : (
-        <>
-          <View style={{ marginTop: 10, paddingLeft: 13 }}>
-            <MyText style={{ fontSize: 24, fontWeight: '700' }}>
-              Most Popular
-            </MyText>
-          </View>
-          <View style={{ width: '100%', marginTop: 4 }}>
-            {
-                !loading ? (
-                    <FlatList
-                        horizontal
-                        data={popularData}
-                        showsHorizontalScrollIndicator={false}
-                        renderItem={({ item, index }) => (
-                            <PopularComp
-                                name={item.name}
-                                Price={item.hourlyRate}
-                                designation={item.jobTitle}
-                                Rating={item.rating}
-                                Image={item.avatar}
-                                id={item._id}
-                                nav={navigation}
-                                style={{
-                                  marginLeft: index == 0 ? 13 : 9,
-                                  marginVertical: 15,
+      {
+        selected === "All" ? (
+            <>
+              <View style={{ marginTop: 10, paddingLeft: 13, paddingRight: 15 }}>
+                <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                >
+                  <MyText style={{ fontSize: 24, fontWeight: '700' }}>
+                    Most Popular
+                  </MyText>
+                  <MyText
+                      style={{ fontWeight: '500', fontSize: 10, color: '#8489FC' }}
+                  >
+                    See All
+                  </MyText>
+                </View>
+              </View>
+              <View style={{ width: '100%', marginTop: 4 }}>
+                {
+                  !loading ? (
+                      data.popular.length > 0 ? (
+                          <FlatList
+                              horizontal
+                              data={data.popular}
+                              showsHorizontalScrollIndicator={false}
+                              renderItem={({ item, index }) => (
+                                  <PopularComp
+                                      name={item.name}
+                                      Price={item.hourlyRate}
+                                      designation={item.jobTitle}
+                                      Rating={item.rating}
+                                      Image={item.avatar}
+                                      id={item._id}
+                                      nav={navigation}
+                                      style={{
+                                        marginLeft: index == 0 ? 13 : 9,
+                                        marginVertical: 15,
 
-                                  marginRight: index == popularData.length - 1 ? 10 : 0,
-                                }}
-                            />
-                        )}
-                    />
-                    ) : (
-                        <ActivityIndicator style={{flex:1,}} color={colors.Bluish} size={'large'} />
-                    )
+                                        marginRight: index == popularData.length - 1 ? 10 : 0,
+                                      }}
+                                  />
+                              )}
+                          />
+                      ) : (
+                          <View >
+                            <Error message='No Data Found' />
+                          </View>
+                      ) ) : (
 
-            }
-          </View>
-          <View style={{ marginTop: 10, paddingLeft: 13, paddingRight: 15 }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <MyText style={{ fontSize: 24, fontWeight: '700' }}>
-                Fixed Rate
-              </MyText>
-              <MyText
-                style={{ fontWeight: '500', fontSize: 10, color: '#8489FC' }}
-              >
-                See All
-              </MyText>
-            </View>
-          </View>
-          <View style={{ paddingLeft: 17, paddingRight: 15 }}>
-            {popularData?.map((item, index) => (
-              <RateComp
-                key={index}
-                name={item.name}
-                id={item._id}
-                Price={item.hourlyRate}
-                designation={item.jobTitle}
-                Rating={item.rating}
-                Image={item.avatar}
-                style={{ marginVertical: 11 }}
-              />
-            ))}
-          </View>
-          <View style={{ marginTop: 10, paddingLeft: 13 }}>
-            <MyText style={{ fontSize: 24, fontWeight: '700' }}>
-              Work For Equity
-            </MyText>
-          </View>
-          <View style={{ paddingLeft: 17, paddingRight: 15 }}>
-            {popularData?.map((item, index) => (
-              <RateComp
-                key={index}
-                name={item.name}
-                Price={item.hourlyRate}
-                id={item._id}
-                designation={item.jobTitle}
-                Rating={item.rating}
-                Image={item.avatar}
-                style={{ marginVertical: 11 }}
-              />
-            ))}
-          </View>
-        </>
-      )}
+                      <ActivityIndicator style={{flex:1,}} color={colors.Bluish} size={'large'} />
+                  )
+
+                }
+              </View>
+              <View style={{ marginTop: 10, paddingLeft: 13, paddingRight: 15 }}>
+                <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                >
+                  <MyText style={{ fontSize: 24, fontWeight: '700' }}>
+                    Freelancers
+                  </MyText>
+                  <MyText
+                      style={{ fontWeight: '500', fontSize: 10, color: '#8489FC' }}
+                  >
+                    See All
+                  </MyText>
+                </View>
+              </View>
+              <View style={{ paddingLeft: 17, paddingRight: 15 }}>
+                {
+                  !loading ? (
+                      data.fixedRate.length > 0 ? (
+                          data.fixedRate?.map((item, index) => (
+                              <RateComp
+                                  key={index}
+                                  name={item.name}
+                                  id={item._id}
+                                  Price={item.hourlyRate}
+                                  designation={item.jobTitle}
+                                  Rating={item.rating}
+                                  Image={item.avatar}
+                                  style={{ marginVertical: 11 }}
+                              />
+                          ))
+                      ) : (
+                          <View style={{flex:1,alignItems:'center',justifyContent:'center',marginTop:20}}>
+                            <Error message='Fixed Rate will be added soon....' />
+                          </View>
+                      )
+                  ) : (
+                      <ActivityIndicator style={{flex:1,}} color={colors.Bluish} size={'large'} />
+                  )
+
+                }
+              </View>
+              <View style={{ marginTop: 10, paddingLeft: 13, paddingRight: 15 }}>
+                <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                >
+                  <MyText style={{ fontSize: 24, fontWeight: '700' }}>
+                    Partners
+                  </MyText>
+                  <Pressable >
+                    <MyText
+                        style={{ fontWeight: '500', fontSize: 10, color: '#8489FC' }}
+                    >
+                      See All
+                    </MyText>
+                  </Pressable>
+                </View>
+              </View>
+              <View style={{ paddingLeft: 17, paddingRight: 15 }}>
+                {
+                  !loading ? (
+                      data.equity.length > 0 ? (
+                              data.equity?.map((item, index) => (
+                                  <RateComp
+                                      key={index}
+                                      name={item.name}
+                                      Price={item.hourlyRate}
+                                      id={item._id}
+                                      designation={item.jobTitle}
+                                      Rating={item.rating}
+                                      Image={item.avatar}
+                                      style={{ marginVertical: 11 }}
+                                  />
+                              )))
+                          : (
+                              <View style={{flex:1,alignItems:'center',justifyContent:'center',marginTop:20}}>
+                                <Error message='Work for equity will be added soon....' />
+                              </View>
+                          )
+                  ) : (
+                      <ActivityIndicator style={{flex:1,}} color={colors.Bluish} size={'large'} />
+                  )
+                }
+              </View>
+            </>
+        ) : (
+            <>
+              <View style={{ marginTop: 10, paddingLeft: 13, paddingRight: 15 }}>
+                <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                >
+                  <MyText style={{ fontSize: 24, fontWeight: '700' }}>
+                    {
+                      selected
+                    }
+                  </MyText>
+                  <MyText
+                      style={{ fontWeight: '500', fontSize: 10, color: '#8489FC' }}
+                  >
+                    See All
+                  </MyText>
+                </View>
+              </View>
+              <View style={{ paddingLeft: 17, paddingRight: 15 }}>
+                {
+                  !loading ? (
+                      categoryData.length > 0 ? (
+                              <FlatList
+                                    data={categoryData}
+                                    renderItem={({ item, index }) => (
+                                        <RateComp
+                                            key={index}
+                                            name={item.name}
+                                            Price={item.hourlyRate}
+                                            id={item._id}
+                                            designation={item.jobTitle}
+                                            Rating={item.rating}
+                                            Image={item.avatar}
+                                            style={{ marginVertical: 11 }}
+                                        />
+                                    )}
+                                />
+                            )
+                          : (
+                              <View style={{flex:1,alignItems:'center',justifyContent:'center',marginTop:20}}>
+                                <Error message='Empty, Search another category....' />
+                              </View>
+                          )
+                  ) : (
+                      <ActivityIndicator style={{flex:1,}} color={colors.Bluish} size={'large'} />
+                  )
+                }
+              </View>
+            </>
+        )
+      }
+
     </ScrollView>
   )
 }

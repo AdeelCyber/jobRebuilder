@@ -7,6 +7,7 @@ import { Image } from 'react-native'
 import CustomHeader from '../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
+import axios from "../../http/axiosSet";
 
 const ViewPortfolio = ({ route }) => {
   const { portfolioDetail } = route.params
@@ -53,7 +54,7 @@ const ViewPortfolio = ({ route }) => {
               return (
                 <Image
                   source={{
-                    uri: i,
+                      uri: axios.defaults.baseURL + 'media/getimage/' + i,
                   }}
                   resizeMode='contain'
                   style={{ height: 278, width: 350, borderRadius: 10 }}
