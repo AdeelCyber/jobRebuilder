@@ -112,6 +112,7 @@ import AmountSpendScreen from './Screens/Profile/Dashboard/AmountSpentScreen'
 import PaymentLinkStatus from "./Screens/Profile/Freelancer/PaymentLinkStatus";
 import StripeWebView from "./Screens/Profile/Freelancer/StripeWebView";
 import ActiveJobDetailScreen from "./Screens/Profile/Freelancer/ActiveJobDetailScreen";
+import ViewAll from "./Screens/campaignHomeScreen/viewAll";
 //Navigation outA
 
 // Creating Stacks
@@ -144,6 +145,12 @@ const MyStack = (props) => {
           />
 
           <Stack.Screen name='ManagingCampaign' component={ManagingCampaign} />
+          <Stack.Screen name='viewAll' component={ViewAll}
+                        options={{
+                            animationEnabled: false,
+                            animation:"none"
+                        }}
+          />
           <Stack.Screen name='ChangeProfile' component={ChangeProfileScreen} />
 
           <Stack.Screen

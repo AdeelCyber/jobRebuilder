@@ -16,6 +16,28 @@ export const getFreelancers = async () => {
   }
 };
 
+export const getFreelancersPaginated = async (type,page) => {
+  try {
+    const token = await AsyncStorage.getItem("@accessToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+
+    };
+    const resp = await axios.post("/freelancer/all",
+        {
+            type:type,
+            page:page,
+        },
+        config);
+    return resp;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+
 export const getFreelancersCategoryWise = async (category) => {
   try {
     const token = await AsyncStorage.getItem("@accessToken");

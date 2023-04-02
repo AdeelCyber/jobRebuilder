@@ -34,14 +34,15 @@ const CampaignHome = ({ navigation, routes }) => {
 
   const userdetails = useContext(CartProvider)
 
-  console.log(userdetails)
+
 
   const searchResult = (s, status) => {
     if (status === true) {
       if (s === 'All') {
         return
       } else {
-        console.log(s)
+
+
         const result = popularTempData?.filter((element) => {
           return element.jobTitle === s
         })
@@ -274,9 +275,8 @@ const CampaignHome = ({ navigation, routes }) => {
     const resp2 = await getFreelancerCategories()
 
     setLoading(false)
-    // console.log(resp.data);
     if (resp.data.status === 'OK') {
-      console.log(resp.data.data)
+
       setData(resp.data.data)
     }
     if (resp2.status === 200) {
@@ -290,10 +290,10 @@ const CampaignHome = ({ navigation, routes }) => {
     const resp = await getFreelancersCategoryWise(cat)
 
     setLoading(false)
-    // console.log(resp.data);
+
     if (resp.data.status === 'OK') {
-      console.log('category data')
-      console.log(resp.data.data)
+
+
 
       setCategoryData(resp.data.data.fixedRate)
     }
@@ -430,11 +430,16 @@ const CampaignHome = ({ navigation, routes }) => {
                   <MyText style={{ fontSize: 24, fontWeight: '700' }}>
                     Most Popular
                   </MyText>
-                  <MyText
-                      style={{ fontWeight: '500', fontSize: 10, color: '#8489FC' }}
-                  >
-                    See All
-                  </MyText>
+                  <Pressable onPress={()=>{
+
+                    navigation.navigate('viewAll',{metadata:data.popularMetaData[0],title:'Most Popular',type:'popular'})
+                  }}>
+                    <MyText
+                        style={{ fontWeight: '500', fontSize: 10, color: '#8489FC' }}
+                    >
+                      See All
+                    </MyText>
+                  </Pressable>
                 </View>
               </View>
               <View style={{ width: '100%', marginTop: 4 }}>
@@ -485,11 +490,17 @@ const CampaignHome = ({ navigation, routes }) => {
                   <MyText style={{ fontSize: 24, fontWeight: '700' }}>
                     Freelancers
                   </MyText>
-                  <MyText
+                    <Pressable onPress={()=>{
+
+                        navigation.navigate('viewAll',{metadata:data.fixedMetaData[0],title:'Freelancers',type:'fixed'})
+                    }}
+                    >
+                      <MyText
                       style={{ fontWeight: '500', fontSize: 10, color: '#8489FC' }}
-                  >
-                    See All
-                  </MyText>
+                      >
+                      See All
+                      </MyText>
+                    </Pressable>
                 </View>
               </View>
               <View style={{ paddingLeft: 17, paddingRight: 15 }}>
@@ -530,7 +541,9 @@ const CampaignHome = ({ navigation, routes }) => {
                   <MyText style={{ fontSize: 24, fontWeight: '700' }}>
                     Partners
                   </MyText>
-                  <Pressable >
+                  <Pressable onPress={()=>{
+                    navigation.navigate('viewAll',{metadata:data.equityMetaData[0],title:'Partners',type:'equity'})
+                  }} >
                     <MyText
                         style={{ fontWeight: '500', fontSize: 10, color: '#8489FC' }}
                     >
