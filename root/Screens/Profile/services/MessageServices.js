@@ -140,6 +140,7 @@ export const oneTimeOrderOfferStatus = async (accessToken, orderid, status) => {
       },
       config
     );
+    console.log(resp);
     return resp;
   } catch (error) {
     return error.response;

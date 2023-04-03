@@ -17,7 +17,7 @@ import {
   FlatList,
   Pressable,
   TouchableOpacity,
-  Modal,
+  Modal, Linking,
 } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Context from '../../Context/Context'
@@ -735,7 +735,7 @@ const MessageBox = ({
                         >
                           <Pressable
                             onPress={() => {
-                              downloadFile(
+                              Linking.openURL(
                                 `https://stepev-dev.up.railway.app/media/getFile/${item.file}`
                               )
                               // Toast.show({
@@ -1030,7 +1030,7 @@ const MessageBox = ({
                       >
                         <Pressable
                           onPress={() => {
-                            downloadFile(
+                            Linking.openURL(
                               `https://stepev-dev.up.railway.app/media/getFile/${item.file}`
                             )
                             // Toast.show({
@@ -1153,6 +1153,8 @@ const MessageBox = ({
                               : item.OneTimeOrder.deliveryTime}
                           </Text>
                         </View>
+                        {item.oneTimeOrder?.offerStatus !== 'Accepted' && item.oneTimeOrder?.offerStatus !== 'Rejected' ? (
+                         <View>
                         <Pressable
                           disabled={
                             item.oneTimeOrder.offerStatus === 'Accepted' ||
@@ -1163,7 +1165,7 @@ const MessageBox = ({
                           // disabled={!loading}
                           style={{
                             width: 192,
-                            height: 31,
+                            height: 30,
                             borderWidth: 1,
                             borderRadius: 10,
                             marginTop: 6,
@@ -1201,7 +1203,7 @@ const MessageBox = ({
                           }
                           style={{
                             width: 192,
-                            height: 31,
+                            height: 30,
                             marginTop: 6,
                             borderRadius: 10,
                             backgroundColor: colors.Bluish,
@@ -1226,6 +1228,34 @@ const MessageBox = ({
                             Reject Offer
                           </Text>
                         </Pressable>
+                        </View>
+                        ) : (
+                            <Pressable
+
+                                // disabled={!loading}
+                                style={{
+                                  width: 192,
+                                  height: 60,
+                                  borderWidth: 1,
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
+                                  borderRadius: 10,
+                                  marginTop: 6,
+                                }}
+
+                            >
+                              <Text
+                                  style={{
+                                    fontSize: 11,
+                                    fontWeight: '400',
+                                    alignSelf: 'center',
+                                    margin: 6,
+                                  }}
+                              >
+                                Offer {item.oneTimeOrder?.offerStatus}
+                              </Text>
+                            </Pressable>
+                        )}
                       </View>
                       <Text
                         style={{
@@ -1319,13 +1349,17 @@ const MessageBox = ({
                           </Text>
                           <Pressable
                             onPress={() => {
-                              downloadFile(
-                                `https://stepev-dev.up.railway.app/media/getFile/${
-                                  item.equityOrder?.partnershipAgreement
-                                    ? item.equityOrder.partnershipAgreement
-                                    : item.EquityOrder.partnershipAgreement
-                                }`
-                              )
+                              Linking.openURL(
+                                  `https://stepev-dev.up.railway.app/media/getFile/${item.equityOrder?.partnershipAgreement ? item.equityOrder.partnershipAgreement
+                                      : item.EquityOrder.partnershipAgreement}`)
+
+                              // downloadFile(
+                              //   `https://stepev-dev.up.railway.app/media/getFile/${
+                              //     item.equityOrder?.partnershipAgreement
+                              //       ? item.equityOrder.partnershipAgreement
+                              //       : item.EquityOrder.partnershipAgreement
+                              //   }`
+
                               // Toast.show({
                               //   topOffset: 60,
                               //   type: "success",
@@ -1336,6 +1370,7 @@ const MessageBox = ({
                             <Text
                               style={{
                                 fontSize: 12,
+                                color: colors.Bluish,
                                 fontWeight: '500',
                               }}
                             >
@@ -1343,71 +1378,103 @@ const MessageBox = ({
                             </Text>
                           </Pressable>
                         </View>
-                        <Pressable
-                          style={{
-                            width: 192,
-                            height: 31,
-                            borderWidth: 1,
-                            borderRadius: 10,
-                            marginTop: 6,
-                          }}
-                          onPress={() => {
-                            let newid = item.equityOrder?._id
-                              ? item.equityOrder._id
-                              : item.EquityOrder._id
-                            console.log(newid)
-                            getstartups()
+                        {
+                            item.equityOrder?.offerStatus === 'Pending' ? (
+                                <View>
+                                  <Pressable
+                                      style={{
+                                        width: 192,
+                                        height: 31,
+                                        borderWidth: 1,
+                                        borderRadius: 10,
+                                        marginTop: 6,
+                                      }}
+                                      onPress={() => {
+                                        let newid = item.equityOrder?._id
+                                            ? item.equityOrder._id
+                                            : item.EquityOrder._id
+                                        console.log(newid)
+                                        getstartups()
 
-                            setequityid(newid)
-                            setModalVisible1(true)
-                            //equityOfferstatus(item.equityOrder._id, "Accepted");
-                          }}
-                        >
-                          <Text
-                            style={{
-                              fontSize: 11,
-                              fontWeight: '400',
-                              alignSelf: 'center',
-                              margin: 6,
-                            }}
-                          >
-                            Accept Offer
-                          </Text>
-                        </Pressable>
-                        <Pressable
-                          disabled={
-                            item.equityOrder.offerStatus === 'Accepted' ||
-                            item.equityOrder.offerStatus === 'Rejected'
-                              ? true
-                              : false
-                          }
-                          style={{
-                            width: 192,
-                            height: 31,
-                            marginTop: 6,
-                            borderRadius: 10,
-                            backgroundColor: colors.Bluish,
-                          }}
-                          onPress={() => {
-                            let newid = item.equityOrder?._id
-                              ? item.equityOrder._id
-                              : item.EquityOrder._id
+                                        setequityid(newid)
+                                        setModalVisible1(true)
+                                        //equityOfferstatus(item.equityOrder._id, "Accepted");
+                                      }}
+                                  >
+                                    <Text
+                                        style={{
+                                          fontSize: 11,
+                                          fontWeight: '400',
+                                          alignSelf: 'center',
+                                          margin: 6,
+                                        }}
+                                    >
+                                      Accept Offer
+                                    </Text>
+                                  </Pressable>
+                                  <Pressable
+                                      disabled={
+                                        item.equityOrder.offerStatus === 'Accepted' ||
+                                        item.equityOrder.offerStatus === 'Rejected'
+                                            ? true
+                                            : false
+                                      }
+                                      style={{
+                                        width: 192,
+                                        height: 31,
+                                        marginTop: 6,
+                                        borderRadius: 10,
+                                        backgroundColor: colors.Bluish,
+                                      }}
+                                      onPress={() => {
+                                        let newid = item.equityOrder?._id
+                                            ? item.equityOrder._id
+                                            : item.EquityOrder._id
 
-                            equityOfferstatusReject(newid, 'Rejected')
-                          }}
-                        >
-                          <Text
-                            style={{
-                              fontSize: 11,
-                              fontWeight: '400',
-                              color: colors.white,
-                              alignSelf: 'center',
-                              margin: 6,
-                            }}
-                          >
-                            Reject Offer
-                          </Text>
-                        </Pressable>
+                                        equityOfferstatusReject(newid, 'Rejected')
+                                      }}
+                                  >
+                                    <Text
+                                        style={{
+                                          fontSize: 11,
+                                          fontWeight: '400',
+                                          color: colors.white,
+                                          alignSelf: 'center',
+                                          margin: 6,
+                                        }}
+                                    >
+                                      Reject Offer
+                                    </Text>
+                                  </Pressable>
+                                </View>
+                            ) : (
+                                <Pressable
+
+                                    // disabled={!loading}
+                                    style={{
+                                      width: 192,
+                                      height: 60,
+                                      borderWidth: 1,
+                                      justifyContent: 'center',
+                                      alignItems: 'center',
+                                      borderRadius: 10,
+                                      marginTop: 6,
+                                    }}
+
+                                >
+                                  <Text
+                                      style={{
+                                        fontSize: 11,
+                                        fontWeight: '400',
+                                        alignSelf: 'center',
+                                        margin: 6,
+                                      }}
+                                  >
+                                    Offer {item.equityOrder?.offerStatus}
+                                  </Text>
+                                </Pressable>
+                            )
+                        }
                       </View>
                       <Text
                         style={{
@@ -1505,7 +1572,7 @@ const MessageBox = ({
                       >
                         <Pressable
                           onPress={() => {
-                            downloadFile(
+                            Linking.openURL(
                               `https://stepev-dev.up.railway.app/media/getFile/${item.file}`
                             )
                             // Toast.show({

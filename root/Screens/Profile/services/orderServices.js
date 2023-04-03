@@ -10,7 +10,7 @@ export const getOrders = async () => {
       },
     }
     // console.log(axios.defaults.baseURL, 'orders')
-    const resp = await Axios.get(`${axios.defaults.baseURL}orders`, config)
+    const resp = await Axios.get(`${axios.defaults.baseURL}orders/user`, config)
     // console.log('Orders', resp)
     return resp
   } catch (error) {

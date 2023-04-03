@@ -17,7 +17,7 @@ import MotoMobileIcon from '../../../../assets/Svgs/MotoMobileIcon'
 import ArrowRightIcon from '../../../../assets/Svgs/ArrowRightIcon'
 import SmallArrowRight from '../../../../assets/Svgs/SmallArrowRight'
 import CustomHeader from '../../../Components/CustomHeader2'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import {MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons'
 import { getAvailableJobs } from '../services/jobServices'
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
@@ -43,11 +43,9 @@ const JobRequestScreen = () => {
   const fetchData = async () => {
     setLoading(true)
     const resp = await getAvailableJobs(startupid)
-    console.log(resp)
     setLoading(false)
     if (resp.status === 200) {
       setJobs(resp.data.data)
-      console.log('data', resp)
     } else if (resp.status === 400 || resp.status === 401) {
       navigation.navigate('LoginScreen')
     }
@@ -111,7 +109,7 @@ const JobRequestScreen = () => {
               flexDirection: 'row',
             }}
           >
-            <SvgImport svg={MotoMobileIcon} />
+              <MaterialIcons name="campaign" size={20} color="black" />
             <MyText style={{ fontSize: 11 }}> {job?.startup?.name}</MyText>
             {/* <Icon name='compass' color='blue' />  */}
           </View>
@@ -260,6 +258,7 @@ const JobRequestScreen = () => {
           </View>
         )}
         {jobs?.map((job, index) => {
+            console.log(job)
           return <RequestBox job={job} key={index} />
         })}
       </View>

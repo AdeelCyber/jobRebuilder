@@ -254,7 +254,7 @@ export default function CheckoutSheet({ route }) {
               fontSize: 16,
             }}
           >
-            Pay
+            Pay {orderItem.totalPrice} USD
           </MyText>
         </Pressable>
       </View>

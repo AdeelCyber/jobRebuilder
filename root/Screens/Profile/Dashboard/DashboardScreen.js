@@ -45,15 +45,16 @@ const DashboardScreen = () => {
 
   const fetchData = async () => {
     const resp = getOrders()
-    const spendResp = getSpendingStartup()
-    const totalOrderResp = getOrderCategoryWise('Completed')
+    const spendResp = getSpendingStartup() //ye sahi chal ri hai
+    const totalOrderResp = getOrderCategoryWise('Active')
     const totalJobResp = getAvailableJobs('abc')
 
     setLoading(true)
     Promise.all([resp, spendResp, totalOrderResp, totalJobResp]).then(
       (responsesArr) => {
         if (responsesArr[0].status === 200) {
-          setOrders(responsesArr[0].data.data)
+            console.log(responsesArr[0].data)
+          // setOrders(responsesArr[0].data.data)
         } else if (resp.status === 400 || resp.status === 401) {
           navigation.navigate('LoginScreen')
         }
@@ -121,7 +122,7 @@ const DashboardScreen = () => {
               alignItems: 'center',
             }}
           >
-            <FontAwesome5 name='bitcoin' color='#FAD461' size={16} />
+            <FontAwesome5 name='dollar' color='#FAD461' size={16} />
             &nbsp; &nbsp;
             <MyText style={{ fontSize: 14, fontWeight: '600' }}>
               ${order?.totalPrice}
