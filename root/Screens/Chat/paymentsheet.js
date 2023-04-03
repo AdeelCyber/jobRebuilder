@@ -26,6 +26,9 @@ export default function CheckoutSheet({ route }) {
   const { initPaymentSheet, presentPaymentSheet } = useStripe()
   const [loading, setLoading] = useState(false)
   const { order } = route.params != undefined ? route.params : undefined
+  const { item } = route.params != undefined ? route.params : undefined
+  let orderItem = item.oneTimeOrder ? item.oneTimeOrder : item
+  console.log("item", item)
   const { accessToken } = useContext(CartProvider)
 
   const fetchPaymentSheetParams = async (order) => {
@@ -33,7 +36,7 @@ export default function CheckoutSheet({ route }) {
     console.log(order)
 
     const response = await fetch(
-      `https://stepdev.up.railway.app/stripe/checkout-connected-direct`,
+      `https://stepev-dev.up.railway.app/stripe/checkout-connected-direct`,
       {
         method: 'POST',
         headers: {
@@ -108,19 +111,126 @@ export default function CheckoutSheet({ route }) {
         styles.container,
         {
           backgroundColor: colors.background,
-          justifyContent: 'center',
+          paddingTop: 80,
         },
       ]}
     >
+      <Image style={{
+        width: 100,
+        height: 100,
+        alignSelf: 'center',
+      }} source={require("../../../assets/icon.png")}>
+
+      </Image>
+      <MyText style={{
+        fontSize: 16,
+        marginLeft:15,
+        marginTop: 20,
+        textDecorationLine: 'underline',
+      }}>
+        Order Details
+      </MyText>
+        <View style={{
+
+        }}>
+
+        <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+        }}>
+          <MyText style={{
+            fontSize: 16,
+            marginLeft:15,
+            flex: 1,
+            color: colors.Bluish,
+            marginTop: 20,
+
+          }}>Title
+
+          </MyText>
+            <MyText style={{
+            fontSize: 16,
+            marginRight:15,
+            flex: 3,
+            marginTop: 20,
+
+            }}>
+                {orderItem.jobTitle}
+            </MyText>
+        </View>
+
+    </View>
+      <View style={{
+
+      }}>
+
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
+          <MyText style={{
+            fontSize: 16,
+            marginLeft:15,
+            flex: 1,
+            color: colors.Bluish,
+            marginTop: 20,
+
+          }}>Description
+
+          </MyText>
+          <MyText style={{
+            fontSize: 16,
+            flex: 3,
+            paddingHorizontal: 10,
+            marginRight:15,
+
+            marginTop: 20,
+
+          }}>
+            {
+                orderItem.description
+            }
+          </MyText>
+        </View>
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
+          <MyText style={{
+            fontSize: 16,
+            marginLeft:15,
+            flex: 1,
+            color: colors.Bluish,
+            marginTop: 20,
+
+          }}>Total Price
+
+          </MyText>
+          <MyText style={{
+            fontSize: 16,
+            flex: 3,
+            paddingHorizontal: 10,
+            marginRight:15,
+
+            marginTop: 20,
+
+          }}>
+            {
+              orderItem.totalPrice
+            } USD
+          </MyText>
+        </View>
+
+      </View>
       <MyText
         style={{
           fontSize: 16,
-          marginTop: 40,
-          margin: 44,
+          marginTop: 100,
+          margin: 10,
           alignSelf: 'center',
         }}
       >
-        Make Your Payment here
+        You are about to pay for your order
       </MyText>
       <View style={{ alignSelf: 'center' }}>
         <Pressable
@@ -131,7 +241,7 @@ export default function CheckoutSheet({ route }) {
             borderRadius: 10,
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: 20,
+            marginTop: 10,
             margin: 44,
           }}
           onPress={() => {

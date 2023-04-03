@@ -13,7 +13,7 @@ instance.interceptors.response.use(
       originalRequest._retry = true
       const refreshToken = await AsyncStorage.getItem('@refreshToken')
       const response = await axios.post(
-        'https://stepdev.up.railway.app/auth/refresh',
+        'https://stepev-dev.up.railway.app/auth/refresh',
         { refreshToken }
       )
       const accessToken = response.data.accessToken

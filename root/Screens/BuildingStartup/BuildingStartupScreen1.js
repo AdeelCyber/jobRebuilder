@@ -2972,7 +2972,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
         text2: "Some fields are missing",
       });
     } else {
-      // const r = await publishStartup(accessToken, startupid);
+      const r = await publishStartup(accessToken, startupid);
       Toast.show({
         topOffset: 60,
         type: "success",

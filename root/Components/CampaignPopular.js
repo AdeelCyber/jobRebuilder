@@ -32,7 +32,7 @@ const CampaignPopular = ({
           justifyContent: 'center',
           alignItems: 'center',
 
-          elevation: 10,
+          elevation: 5,
           shadowColor: '#000',
 
           borderRadius: 10,
