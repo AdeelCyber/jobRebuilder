@@ -12,7 +12,7 @@ import Icon from '@expo/vector-icons/FontAwesome'
 
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader'
-import { getOrderCategoryWise } from '../services/orderServices'
+import {getOrderCategoryWise, getOrders} from '../services/orderServices'
 
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
@@ -31,22 +31,23 @@ const PendingOrdersScreen = (props) => {
 
   const fetchOrder = async () => {
     setLoading(true)
-    const resp = await getOrderCategoryWise('Pending')
+    const resp = await getOrders()
     setLoading(false)
     if (resp.status === 200) {
-      setOrders(resp.data.data)
-      props.fun(resp.data.data.length)
+      setOrders(resp.data.data.pending)
+      props.fun(resp.data.data.pending.length)
+
     } else if (resp.status === 404) {
     } else if (resp.status === 401) {
     }
   }
+  const {
+    theme: { colors },
+  } = useContext(Context)
 
   if (loading) {
     return <Loader visible={loading} color='white' indicatorSize='large' />
   }
-  const {
-    theme: { colors },
-  } = useContext(Context)
 
   const OrderItem = ({ order }) => (
     <TouchableOpacity
@@ -66,7 +67,7 @@ const PendingOrdersScreen = (props) => {
               uri:
                 axios.defaults.baseURL +
                 'media/getimage/' +
-                order?.employer?.avatar,
+                order?.freelancer?.avatar,
             }}
             style={{ width: 36, height: 36 }}
           />
@@ -83,7 +84,7 @@ const PendingOrdersScreen = (props) => {
             <MyText
               style={{ fontSize: 13, fontWeight: '500', marginBottom: 2 }}
             >
-              {order?.employer?.name}
+              {order?.freelancer?.name}
             </MyText>
             <MyText
               style={{

@@ -17,6 +17,7 @@ export const getMessages = async (accessToken, id) => {
     );
     return resp;
   } catch (error) {
+
     console.log(error);
   }
 };
@@ -261,6 +262,7 @@ export const getChats = async (accessToken) => {
 
       config
     );
+
     return resp;
   } catch (error) {
     console.log(error);

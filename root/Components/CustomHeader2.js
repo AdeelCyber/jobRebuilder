@@ -23,7 +23,6 @@ const CustomHeader = ({
       <View
         style={[
           {
-            display: 'flex',
             flexDirection: 'row',
             width: '100%',
 
@@ -34,7 +33,6 @@ const CustomHeader = ({
             paddingHorizontal: 10,
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginTop: 5,
 
             paddingRight: 19,
           },

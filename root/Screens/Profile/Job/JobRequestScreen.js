@@ -203,6 +203,7 @@ const JobRequestScreen = () => {
               navigation.navigate('MessagesBox', {
                 userImg: job?.freelancer.avatar,
                 userName: job?.freelancer.name,
+                id: job?.freelancer._id,
                 chatType: 'simple',
               })
             }}

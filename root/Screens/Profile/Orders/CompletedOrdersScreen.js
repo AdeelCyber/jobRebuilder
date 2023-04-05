@@ -31,23 +31,23 @@ const CompletedOrdersScreen = (props) => {
 
   const fetchOrder = async () => {
     setLoading(true)
-    const resp = await getOrderCategoryWise('Completed')
+    const resp = await getOrders()
     setLoading(false)
     if (resp.status === 200) {
-      setOrders(resp.data.data)
-      props.fun(resp.data.data.length)
+      setOrders(resp.data.data.completed)
+      props.fun(resp.data.data.completed.length)
     } else if (resp.status === 404) {
     } else if (resp.status === 401) {
     }
   }
 
-  if (loading) {
-    return <Loader visible={loading} color='white' indicatorSize='large' />
-  }
-
   const {
     theme: { colors },
   } = useContext(Context)
+
+  if (loading) {
+    return <Loader visible={loading} color='white' indicatorSize='large' />
+  }
 
   const OrderItem = ({ order }) => (
     <TouchableOpacity
@@ -67,7 +67,7 @@ const CompletedOrdersScreen = (props) => {
               uri:
                 axios.defaults.baseURL +
                 'media/getimage/' +
-                order?.employer?.avatar,
+                order?.freelancer?.avatar,
             }}
             style={{ width: 36, height: 36 }}
           />
@@ -84,7 +84,7 @@ const CompletedOrdersScreen = (props) => {
             <MyText
               style={{ fontSize: 13, fontWeight: '500', marginBottom: 2 }}
             >
-              {order?.employer?.name}
+              {order?.freelancer?.name}
             </MyText>
             <MyText
               style={{

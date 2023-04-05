@@ -2991,7 +2991,6 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             label="Idea"
             nextBtnStyle={buttonStyle}
             nextBtnTextStyle={buttonTextStyle}
-            bt
             nextBtnText="Proceed"
             previousBtnDisabled={true}
           >

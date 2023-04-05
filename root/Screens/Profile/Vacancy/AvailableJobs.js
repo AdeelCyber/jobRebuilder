@@ -107,7 +107,6 @@ const AvailableJobs = () => {
             borderRadius: 5,
             paddingVertical: 15,
             paddingHorizontal: 20,
-
             backgroundColor:
               selected === text ? colors.secondary : colors.white,
           },
@@ -140,7 +139,7 @@ const AvailableJobs = () => {
             source={{
               uri: axios.defaults.baseURL + 'media/getimage/' + job?.logo,
             }}
-            style={{ width: 40, height: 40 }}
+            style={{ width: 50, height: 50 ,borderRadius:10 }}
           />
         </View>
         <View
@@ -156,6 +155,15 @@ const AvailableJobs = () => {
               style={{ fontSize: 17, fontWeight: '500', marginBottom: 2 }}
             >
               {job?.businessName}
+            </MyText>
+            <MyText
+                style={{
+                  fontSize: 8,
+                  fontWeight: '500',
+                  color: 'rgba(35, 35, 35, 0.5)',
+                }}
+            >
+              Required Role
             </MyText>
             <MyText
               style={{
@@ -356,6 +364,7 @@ const styles = StyleSheet.create({
     paddingLeft: 13,
     paddingBottom: 14,
     marginHorizontal: 20,
+    flex:1,
     paddingRight: 17,
     // borderWidth: 1,
     // borderColor: 'lightgray',

@@ -45,6 +45,8 @@ const MessagesBox = ({ route }) => {
   //const messages = useRef();
   const isFocused = useIsFocused();
 
+  const { userdetails } = useContext(CartProvider);
+  console.log( "USER DETAILS : ",userdetails)
   const { id, userImg, userName, chatType, members, online } =
     route.params != undefined ? route.params : {};
 

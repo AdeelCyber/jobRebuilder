@@ -7,7 +7,7 @@ import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader'
 import SvgImport from '../../../Components/SvgImport'
 import DollarIcon from '../../../../assets/Svgs/DollarIcon'
-import { getOrderCategoryWise } from '../services/orderServices'
+import {getOrderCategoryWise, getOrders} from '../services/orderServices'
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
 import Error from '../../../Components/Error'
@@ -25,13 +25,17 @@ const ActiveOrdersScreen = (props) => {
 
   const fetchOrder = async () => {
     setLoading(true)
-    const resp = await getOrderCategoryWise('Active')
+    const resp = await getOrders()
+
     setLoading(false)
-    if (resp.status === 200) {
-      setOrders(resp.data.data)
-      props.fun(resp.data.data.length)
-    } else if (resp.status === 404) {
-    } else if (resp.status === 401) {
+    try{
+      setOrders(resp.data.data.active)
+      console.log(resp.data.data.active)
+        props.fun(resp.data.data.active.length)
+
+    }
+    catch(err){
+      setOrders([])
     }
   }
 
@@ -52,7 +56,7 @@ const ActiveOrdersScreen = (props) => {
             uri:
               axios.defaults.baseURL +
               'media/getimage/' +
-              order?.employer?.avatar,
+              order?.freelancer?.avatar,
           }}
           style={{ width: 36, height: 36 }}
         />
@@ -67,7 +71,7 @@ const ActiveOrdersScreen = (props) => {
       >
         <View>
           <MyText style={{ fontSize: 13, fontWeight: '500', marginBottom: 2 }}>
-            {order?.employer?.name}
+            {order?.freelancer?.name}
           </MyText>
           <MyText
             style={{

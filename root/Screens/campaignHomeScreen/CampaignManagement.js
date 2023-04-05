@@ -83,6 +83,11 @@ const CampaignManagement = ({ navigation }) => {
                       showsHorizontalScrollIndicator={false}
                       showsVerticalScrollIndicator={false}
                       style={{}}
+                      ListEmptyComponent={() => (
+                          <View style={{ marginTop: 300 }}>
+                            <Error message="Empty, Create a new Campaign :)" />
+                            </View>
+                        )}
                       renderItem={({ item, index }) => (
                           <CampaignPopular
                               Src={ Buildings}

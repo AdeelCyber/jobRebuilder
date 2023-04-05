@@ -43,7 +43,7 @@ const CampaignMenu = ({ navigation, route }) => {
 
       console.log(resp.data);
       if (resp.data.status === "OK") {
-        console.log("done");
+        console.log(resp.data);
 
         setData(resp.data);
 

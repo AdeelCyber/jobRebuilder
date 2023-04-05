@@ -21,13 +21,15 @@ const RolesDropDown = ({ Title, desc, ...props }) => {
   const [applied, setApplied] = useState(false);
 
   const getFreelancersData = async () => {
+    if (applied) {
+      return;
+    }
     const resp = await RoleApply(props.data.startup._id, props.item._id);
 
     console.log(resp.data);
 
-    if (resp.data.status === "OK") {
-      setApplied(true);
-    }
+    setApplied(true)
+
   };
 
   const update = (data) => {
@@ -87,14 +89,24 @@ const RolesDropDown = ({ Title, desc, ...props }) => {
       {open && (
         <View style={{ marginTop: 10, paddingLeft: 10 }}>
           <MyText
+              style={{
+                fontSize: 10,
+                fontWeight: '500',
+                textDecorationLine: 'underline',
+                color: 'rgba(35, 35, 35, 0.5)',
+              }}
+          >
+            Description
+          </MyText>
+          <MyText
             style={{
               color: colors.heighlight,
               fontWeight: "400",
-              fontSize: 13,
-              lineHeight: 14.32,
+              fontSize: 15,
+                marginTop: 5,
             }}
           >
-            {desc}
+            {"\t\t\t"}{desc}
           </MyText>
 
           {props.show ? (
@@ -168,7 +180,7 @@ const RolesDropDown = ({ Title, desc, ...props }) => {
                 }}
               >
                 {applied && (
-                  <AntDesign name="checkcircle" size={16} color="black" />
+                  <AntDesign style={{marginRight:10}} name="checkcircle" size={16} color="black" />
                 )}
                 {applied ? "Applied" : "Apply"}
               </MyText>

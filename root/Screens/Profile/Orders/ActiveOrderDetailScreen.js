@@ -17,9 +17,9 @@ import CustomHeader from '../../../Components/CustomHeader2'
 import ReactNativeModal from 'react-native-modal'
 import * as DocumentPicker from 'expo-document-picker'
 import {
-  cancelOneTimeOrder,
-  getSingleOrder,
-  uploadFileServer,
+    cancelOneTimeOrder,
+    getSingleOrder, getSingleOrderStartup,
+    uploadFileServer,
 } from '../services/orderServices'
 import { upload } from '../../../Components/DownloadUpload'
 // import { imageUpload } from '../../../Components/uploadNewFile'
@@ -29,6 +29,9 @@ import axios from '../../../http/axiosSet'
 
 import Toast from 'react-native-toast-message'
 import Loader from '../../../Components/Loader'
+import DollarIcon from "../../../../assets/Svgs/DollarIcon";
+import SvgImport from "../../../Components/SvgImport";
+import CartContext from "../../../Context/CartProvider";
 
 const ActiveOrderDetailScreen = ({ route }) => {
   const navigation = useNavigation()
@@ -45,7 +48,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
   const {
     theme: { colors },
   } = useContext(Context)
-
+    const context = useContext(CartContext)
   const uploadFile = async () => {
     const formData = upload()
     if (!formData) {
@@ -70,6 +73,9 @@ const ActiveOrderDetailScreen = ({ route }) => {
   }
 
   const isFocused = useIsFocused()
+    const[name,setName] = useState('')
+    const[avatar,setAvatar] = useState('')
+    const[email,setEmail] = useState('')
 
   const [loading, setLoading] = useState(true)
 
@@ -80,11 +86,32 @@ const ActiveOrderDetailScreen = ({ route }) => {
   const fetchOrder = async () => {
     setLoading(true)
 
-    const resp = await getSingleOrder(orderId)
+    let resp = null
+      if (context.userdetails.role.includes('Startup')) {
+          resp = await getSingleOrderStartup(orderId)
+
+      } else {
+            resp = await getSingleOrder(orderId)
+      }
+
+      console.log("----------------------------",resp.data.data)
+
     setLoading(false)
 
     if (resp.status === 200) {
       setOrder(resp.data.data)
+        console.log(resp.data.data)
+        if(context.userdetails.role.includes('Startup')){
+            setName(resp.data.data.freelancer.name)
+            setAvatar(resp.data.data.freelancer.avatar)
+            setEmail(resp.data.data.freelancer.email)
+        }
+        else{
+            setName(resp.data.data.employer.name)
+            setAvatar(resp.data.data.employer.avatar)
+            setEmail(resp.data.data.employer.email)
+
+        }
       const str = new Date(resp.data.data.deliveryTime)
 
       const currentDate = new Date()
@@ -155,7 +182,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
                 uri:
                   axios.defaults.baseURL +
                   'media/getimage/' +
-                  order?.employer?.avatar,
+                  avatar,
               }}
               style={{ width: 40, height: 40 }}
             />
@@ -172,7 +199,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
               <MyText
                 style={{ fontSize: 15, fontWeight: '500', marginBottom: 2 }}
               >
-                {order?.employer?.name}
+                {name}
               </MyText>
               <MyText
                 style={{
@@ -181,7 +208,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
                   color: 'rgba(35, 35, 35, 0.5)',
                 }}
               >
-                {order?.employer?.email}
+                {email}
               </MyText>
             </View>
             <View>
@@ -193,7 +220,7 @@ const ActiveOrderDetailScreen = ({ route }) => {
                   alignItems: 'center',
                 }}
               >
-                <FontAwesome5 name='bitcoin' color='#FAD461' size={21} />
+                  <SvgImport svg={DollarIcon} />
                 &nbsp; &nbsp;
                 <MyText style={{ fontSize: 18, fontWeight: '600' }}>
                   ${order?.totalPrice}
@@ -246,39 +273,39 @@ const ActiveOrderDetailScreen = ({ route }) => {
             <MyText style={styles.heading}>Delivery Time</MyText>
           </View>
           <View style={{ flexDirection: 'row' }}>
-            {deliveryDate?.map((element, index) => {
-              return (
-                <React.Fragment key={index}>
-                  <View
-                    style={{
-                      backgroundColor: colors.secondary,
-                      borderRadius: 5,
-                      padding: 8,
-                      width: 30,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      marginRight: 5,
-                    }}
-                  >
-                    <MyText style={{ fontSize: 16, color: 'white' }}>
-                      {element}
-                    </MyText>
-                  </View>
-                  {index === 1 && (
-                    <MyText
-                      style={{
-                        fontSize: 20,
-                        fontWeight: '700',
-                        marginTop: 5,
-                        marginHorizontal: 4,
-                      }}
-                    >
-                      -{' '}
-                    </MyText>
-                  )}
-                </React.Fragment>
-              )
-            })}
+            {/*{order?.deliveryTime?.map((element, index) => {*/}
+            {/*  return (*/}
+            {/*    <React.Fragment key={index}>*/}
+            {/*      <View*/}
+            {/*        style={{*/}
+            {/*          backgroundColor: colors.secondary,*/}
+            {/*          borderRadius: 5,*/}
+            {/*          padding: 8,*/}
+            {/*          width: 30,*/}
+            {/*          justifyContent: 'center',*/}
+            {/*          alignItems: 'center',*/}
+            {/*          marginRight: 5,*/}
+            {/*        }}*/}
+            {/*      >*/}
+            {/*        <MyText style={{ fontSize: 16, color: 'white' }}>*/}
+            {/*          {element}*/}
+            {/*        </MyText>*/}
+            {/*      </View>*/}
+            {/*      {index === 1 && (*/}
+            {/*        <MyText*/}
+            {/*          style={{*/}
+            {/*            fontSize: 20,*/}
+            {/*            fontWeight: '700',*/}
+            {/*            marginTop: 5,*/}
+            {/*            marginHorizontal: 4,*/}
+            {/*          }}*/}
+            {/*        >*/}
+            {/*          -{' '}*/}
+            {/*        </MyText>*/}
+            {/*      )}*/}
+            {/*    </React.Fragment>*/}
+            {/*  )*/}
+            {/*})}*/}
           </View>
           <View
             style={{
@@ -319,26 +346,38 @@ const ActiveOrderDetailScreen = ({ route }) => {
           {file?.name}
         </MyText>
 
-        <TouchableOpacity
-          labelStyle={{ color: '#fff' }}
-          style={[styles.btn, { backgroundColor: colors.secondary }]}
-          onPress={() => {
-            navigation.navigate('MessagesBox', {
-              userImg: order?.employer?.avatar,
-              userName: order?.employer?.name,
-              chatType: 'simple',
-            })
-          }}
-        >
-          <MyText
-            style={{
-              color: 'white',
-              fontSize: 14,
-            }}
-          >
-            Message
-          </MyText>
-        </TouchableOpacity>
+        {/*<TouchableOpacity*/}
+        {/*  labelStyle={{ color: '#fff' }}*/}
+        {/*  style={[styles.btn, { backgroundColor: colors.secondary }]}*/}
+        {/*  onPress={() => {*/}
+        {/*    if(context.userdetails.role.includes('Startup')) {*/}
+        {/*        navigation.navigate('MessagesBox', {*/}
+        {/*            userImg: order?.freelancer?.avatar,*/}
+
+        {/*            userName: order?.freelancer?.name,*/}
+        {/*            chatType: 'simple',*/}
+        {/*        })*/}
+        {/*    }*/}
+        {/*    else{*/}
+        {/*        navigation.navigate('MessagesBox', {*/}
+        {/*            userImg: order?.employer?.avatar,*/}
+        {/*            userName: order?.employer?.name,*/}
+        {/*            chatType: 'simple',*/}
+        {/*        })*/}
+        {/*    }*/}
+
+
+        {/*  }}*/}
+        {/*>*/}
+        {/*  <MyText*/}
+        {/*    style={{*/}
+        {/*      color: 'white',*/}
+        {/*      fontSize: 14,*/}
+        {/*    }}*/}
+        {/*  >*/}
+        {/*    Message*/}
+        {/*  </MyText>*/}
+        {/*</TouchableOpacity>*/}
 
         <TouchableOpacity
           labelStyle={{ color: '#fff' }}

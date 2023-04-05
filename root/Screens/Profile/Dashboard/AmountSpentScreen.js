@@ -12,7 +12,7 @@ import Icon from '@expo/vector-icons/FontAwesome'
 
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
-import { getOrderCategoryWise, getOrders } from '../services/orderServices'
+import {getExpensesDetails, getOrderCategoryWise, getOrders} from '../services/orderServices'
 
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
@@ -27,15 +27,16 @@ const AmountSpendScreen = () => {
   useEffect(() => {
     fetchOrder()
   }, [isFocused])
-
+  const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(true)
 
   const fetchOrder = async () => {
     setLoading(true)
-    const resp = await getOrderCategoryWise('Completed')
+    const resp = await getExpensesDetails(page, 10)
     setLoading(false)
     if (resp.status === 200) {
-      setOrders(resp.data.data)
+      console.log(resp.data.data)
+      setOrders(resp.data.data.expenses)
     } else if (resp.status === 404) {
     } else if (resp.status === 401) {
     }
@@ -46,6 +47,7 @@ const AmountSpendScreen = () => {
   } = useContext(Context)
 
   const OrderItem = ({ order }) => (
+      console.log(order),
     <TouchableOpacity
       style={styles.orderItem}
       onPress={() => {
@@ -63,9 +65,9 @@ const AmountSpendScreen = () => {
               uri:
                 axios.defaults.baseURL +
                 'media/getimage/' +
-                order?.employer?.avatar,
+                order?.avatar,
             }}
-            style={{ width: 36, height: 36 }}
+            style={{ width: 36, height: 36 ,borderRadius:5}}
           />
         </View>
         <View
@@ -78,18 +80,31 @@ const AmountSpendScreen = () => {
         >
           <View>
             <MyText
-              style={{ fontSize: 13, fontWeight: '500', marginBottom: 2 }}
+                style={{ fontSize: 8, fontWeight: '500', marginBottom: 2,
+                  color: 'rgba(35, 35, 35, 0.5)'
+                }}
             >
-              {order?.employer?.name}
+              Order Given To
+            </MyText>
+            <MyText
+              style={{ fontSize: 15, fontWeight: '500', marginBottom: 2 }}
+            >
+              {order?.name}
+            </MyText>
+            <MyText
+                style={{ fontSize: 8, fontWeight: '500', marginBottom: 2
+            ,color: 'rgba(35, 35, 35, 0.5)'
+                }}
+            >
+              Job Title
             </MyText>
             <MyText
               style={{
                 fontSize: 11,
                 fontWeight: '500',
-                color: 'rgba(35, 35, 35, 0.5)',
               }}
             >
-              {order?.jobTitle}
+              {order?.title}
             </MyText>
           </View>
           <View>
@@ -102,25 +117,10 @@ const AmountSpendScreen = () => {
               }}
             >
               <MyText style={{ fontSize: 15, fontWeight: '600' }}>
-                ${order?.totalPrice}
+                ${order?.price}
               </MyText>
             </MyText>
-            <MyText
-              style={{
-                fontSize: 11,
-                fontWeight: '500',
-                color: 'rgba(35, 35, 35, 0.5)',
-              }}
-            >
-              {[...Array(5).keys()].map((x) => {
-                return (
-                  <Icon
-                    name='star'
-                    color={x + 1 <= order?.rating ? 'yellow' : '#eeeeee'}
-                  />
-                )
-              })}
-            </MyText>
+
           </View>
         </View>
       </View>
@@ -145,24 +145,6 @@ const AmountSpendScreen = () => {
               </MyText>
             </View>
             <MyText style={{ color: 'gray' }}>
-              {new Date(order?.createdAt).toLocaleDateString('default', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-              })}
-            </MyText>
-          </View>
-          <View>
-            <View
-              style={{
-                borderBottomColor: '#eee',
-              }}
-            >
-              <MyText style={{ marginBottom: 3, fontWeight: '500' }}>
-                Delivered On
-              </MyText>
-            </View>
-            <MyText style={{ color: 'gray' }}>
               {new Date(order?.deliveryTime).toLocaleDateString('default', {
                 month: 'short',
                 day: 'numeric',
@@ -170,6 +152,7 @@ const AmountSpendScreen = () => {
               })}
             </MyText>
           </View>
+
         </View>
 
         <View style={{ flexDirection: 'column-reverse' }}>
@@ -185,7 +168,7 @@ const AmountSpendScreen = () => {
                 color: 'white',
               }}
             >
-              Completed
+              {order.status}
             </MyText>
           </TouchableOpacity>
         </View>
@@ -209,12 +192,15 @@ const AmountSpendScreen = () => {
         }}
         nav={navigation}
       />
-      <View>
+      <View  style={{
+        paddingHorizontal: 20,
+        marginTop: 10,
+      }}>
         {orders?.length !== 0 ? (
           <FlatList
             data={orders}
             keyExtractor={(item) => item._id}
-            renderItem={({ item }) => <OrderItem order={order} />}
+            renderItem={({ item }) => <OrderItem order={item} />}
             showsVerticalScrollIndicator={false}
             ></FlatList>
         ) : (
@@ -240,12 +226,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 9,
     backgroundColor: 'white',
-    shadowColor: '#878787',
+    shadowColor: '#050505',
     shadowOffset: {
       width: 0,
       height: 6,
     },
-    elevation: 15,
+    elevation: 3,
   },
   completedBadge: {
     marginHorizontal: 18,

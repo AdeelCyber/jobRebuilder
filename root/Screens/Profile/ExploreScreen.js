@@ -146,8 +146,6 @@ const ExploreScreen = ({ navigation, routes }) => {
       {/* header */}
       <CustomHeader />
       {/* header out */}
-      {loading && <ActivityIndicator style={{flex:1,alignSelf:'center'}} color={colors.Bluish} size='large' />}
-      {!loading && (
           <ScrollView
               style={{
                 flex: 1,
@@ -193,7 +191,7 @@ const ExploreScreen = ({ navigation, routes }) => {
             {/* seatch bar icon out */}
           </View>
           {/* Categories In */}
-          <View style={{ marginTop: 10 }}>
+          <View style={{ marginTop: 10, display:"none" }}>
             <MyText
               style={{ fontSize: 24, fontWeight: '700', paddingLeft: 10 }}
             >
@@ -217,7 +215,7 @@ const ExploreScreen = ({ navigation, routes }) => {
           {/* Categories Out */}
           {/* popular In */}
 
-          <View style={{ paddingLeft: 10 }}>
+          <View style={{ paddingLeft: 10,marginTop:10 }}>
             <View
               style={{
                 flexDirection: 'row',
@@ -233,47 +231,53 @@ const ExploreScreen = ({ navigation, routes }) => {
                   ? 'Join a business'
                   : ''}
               </Text>
-              {!isSearch && exploreData.length !== 0 && (
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('ExploreAll', { exploreData })
-                  }}
-                >
-                  <MyText
-                    style={{
-                      fontWeight: '500',
-                      fontSize: 10,
-                      color: colors.lighttext,
-                      marginRight: 15,
-                    }}
-                  >
-                    See All
-                  </MyText>
-                </TouchableOpacity>
-              )}
+              {/*{!isSearch && exploreData.length !== 0 && (*/}
+              {/*  // <TouchableOpacity*/}
+              {/*  //   onPress={() => {*/}
+              {/*  //     navigation.navigate('ExploreAll', { exploreData })*/}
+              {/*  //   }}*/}
+              {/*  // >*/}
+              {/*  //   <MyText*/}
+              {/*  //     style={{*/}
+              {/*  //       fontWeight: '500',*/}
+              {/*  //       fontSize: 10,*/}
+              {/*  //       color: colors.lighttext,*/}
+              {/*  //       marginRight: 15,*/}
+              {/*  //     }}*/}
+              {/*  //   >*/}
+              {/*  //     See All*/}
+              {/*  //   </MyText>*/}
+              {/*  // </TouchableOpacity>*/}
+              {/*)}*/}
             </View>
 
-            <View style={{ width: '100%', marginTop: 10 }}>
-              <FlatList
-                horizontal
-                data={exploreData}
-                showsHorizontalScrollIndicator={false}
-                renderItem={({ item, index }) => (
-                  <HomePopular
-                    id={item._id}
-                    Src={Buildings}
-                    title={item.businessName}
-                    Logo={axios.defaults.baseURL + item.logo}
-                    // raisedFunds={item.raisedFunds}
-                    // minInv={item.minInv}
-                    ShareHolders={item.budget}
-                    style={{
-                      width: 200,
-                    }}
-                  />
-                )}
-              />
-            </View>
+            {
+              loading ?
+                  <ActivityIndicator style={{flex:1,alignSelf:'center'}} color={colors.Bluish} size='large' />:
+                  <View style={{ width: '100%', marginTop: 10 }}>
+                    <FlatList
+                        horizontal
+                        data={exploreData}
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item, index }) => (
+                            <HomePopular
+                                id={item._id}
+                                Src={Buildings}
+                                item={item}
+                                title={item.businessName}
+                                Logo={axios.defaults.baseURL +
+                                    'media/getimage/' + item.logo}
+                                // raisedFunds={item.raisedFunds}
+                                // minInv={item.minInv}
+                                ShareHolders={item.budget}
+                                style={{
+                                  width: 200,
+                                }}
+                            />
+                        )}
+                    />
+                  </View>
+            }
           </View>
           {/* popular Out */}
           {/* Recents In  */}
@@ -290,55 +294,58 @@ const ExploreScreen = ({ navigation, routes }) => {
                 <MyText style={{ fontSize: 24, fontWeight: '700' }}>
                   Work as Freelancer
                 </MyText>
-                <TouchableOpacity
-                  onPress={() => {
-                    console.log('Rayyan')
-                    navigation.navigate('ExploreAll', { exploreData })
-                  }}
-                >
-                  <MyText
-                    style={{
-                      fontWeight: '500',
-                      fontSize: 10,
-                      color: colors.lighttext,
-                      marginRight: 15,
-                    }}
-                  >
-                    See All
-                  </MyText>
-                </TouchableOpacity>
+                {/*<TouchableOpacity*/}
+                {/*  onPress={() => {*/}
+                {/*    navigation.navigate('ExploreAll', { exploreData })*/}
+                {/*  }}*/}
+                {/*>*/}
+                {/*  <MyText*/}
+                {/*    style={{*/}
+                {/*      fontWeight: '500',*/}
+                {/*      fontSize: 10,*/}
+                {/*      color: colors.lighttext,*/}
+                {/*      marginRight: 15,*/}
+                {/*    }}*/}
+                {/*  >*/}
+                {/*    See All*/}
+                {/*  </MyText>*/}
+                {/*</TouchableOpacity>*/}
               </View>
 
-              <View style={{ width: '100%', marginTop: 10 }}>
-                <FlatList
-                  horizontal
-                  data={exploreData}
-                  showsHorizontalScrollIndicator={false}
-                  renderItem={({ item, index }) => (
-                    <HomePopular
-                      id={item._id}
-                      Src={Buildings}
-                      title={item.businessName}
-                      Logo={axios.defaults.baseURL + item.logo}
-                      // raisedFunds={item.raisedFunds}
-                      // minInv={item.minInv}
-                      ShareHolders={item.budget}
-                      style={{
-                        width: 200,
-                      }}
-                    />
-                  )}
-                />
-              </View>
+              {
+                loading ?
+                    <ActivityIndicator style={{flex:1,alignSelf:'center'}} color={colors.Bluish} size='large' />:
+                    <View style={{ width: '100%', marginTop: 10 }}>
+                      <FlatList
+                          horizontal
+                          data={exploreData}
+                          showsHorizontalScrollIndicator={false}
+                          renderItem={({ item, index }) => (
+                              <HomePopular
+                                  id={item._id}
+                                  Src={Buildings}
+                                  item = {item}
+                                  title={item.businessName}
+                                  Logo={axios.defaults.baseURL + item.logo}
+                                  // raisedFunds={item.raisedFunds}
+                                  // minInv={item.minInv}
+                                  ShareHolders={item.budget}
+                                  style={{
+                                    width: 200,
+                                  }}
+                              />
+                          )}
+                      />
+                    </View>
+              }
             </View>
           )}
-          {exploreData?.length === 0 && (
+          {exploreData?.length === 0 && !loading &&  (
             <View>
               <Error message='No Campaign Found' />
             </View>
           )}
           </ScrollView>
-      )}
       {/* Recents Out */}
     </View>
   )

@@ -7,10 +7,12 @@ import MyText from './Text'
 import arrow from '../../assets/Svgs/PopularArrow'
 import { TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import axios from "../http/axiosSet";
 
 const HomePopular = ({
   Src,
   title,
+    item,
   id,
   label = 'IT Company',
   Logo = { Logo },
@@ -20,6 +22,8 @@ const HomePopular = ({
   const {
     theme: { colors },
   } = useContext(Context)
+    console.log(item)
+
   return (
     <TouchableOpacity
       style={[
@@ -37,7 +41,7 @@ const HomePopular = ({
           shadowOpacity: 0.25,
           shadowRadius: 3.84,
 
-          elevation: 7,
+          elevation: 3,
           margin: 5,
           backgroundColor: colors.white,
           ...props.style,
@@ -47,8 +51,14 @@ const HomePopular = ({
         navigation.navigate('CampaignMenu', { id: id })
       }}
     >
-      {props.w && <Image source={Src} style={{ width: '100%' }} />}
-      {!props.w && <Image source={Src} style={{ maxWidth: '100%' }} />}
+      {/*{props.w && <Image source={item?.promoMedia?.mediatype === "image" ?*/}
+      {/*  { uri: axios.defaults.baseURL +*/}
+      {/*          'media/getimage/' +item?.promoMedia?.media } : Src*/}
+      {/*} style={{ width: '100%' }} />}*/}
+      {!props.w && <Image source={{ uri: axios.defaults.baseURL +
+              'media/getimage/' +item?.promoMedia?.url }} style={{minWidth:"100%", maxWidth: '100%' }} />}
+
+        <Image source={{ uri: axios.defaults.baseURL +'media/getimage/' +item?.promoMedia?.url }} style={{minWidth:"100%",height:120, maxWidth: '100%' }} />
 
       <View
         style={{
@@ -65,7 +75,7 @@ const HomePopular = ({
           <MyText
             style={{ fontWeight: '500', fontSize: 7, color: colors.lighttext }}
           >
-            {label}
+            {item?.category}
           </MyText>
         </View>
         {/* label title view out */}
@@ -81,7 +91,6 @@ const HomePopular = ({
           justifyContent: 'space-between',
           width: '100%',
           marginTop: 10,
-          paddingHorizontal: 5,
           paddingHorizontal: 14,
         }}
       >
@@ -98,10 +107,10 @@ const HomePopular = ({
             Stage
           </MyText>
           <MyText
-            style={{ fontWeight: '700', fontSize: 14, textAlign: 'center' }}
+            style={{ fontWeight: '700', fontSize: 10, textAlign: 'center', }}
           >
             {/* {props.raisedFunds} */}
-            Idea
+              {item?.stage }
           </MyText>
         </View>
         {/* 2 */}
@@ -117,7 +126,7 @@ const HomePopular = ({
             Team
           </MyText>
           <MyText
-            style={{ fontWeight: '700', fontSize: 14, textAlign: 'center' }}
+            style={{ fontWeight: '700', fontSize: 10, textAlign: 'center' }}
           >
             {/* {props.minInv} */}
             Complete
@@ -135,7 +144,7 @@ const HomePopular = ({
           >
             Budget
           </MyText>
-          <MyText style={{ fontWeight: '700', fontSize: 14 }}>
+          <MyText style={{ fontWeight: '700', fontSize: 10 }}>
             {props.ShareHolders}
           </MyText>
         </View>

@@ -16,12 +16,14 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { getOrderCategoryWise, getOrders } from '../services/orderServices'
+import {getOrderCategoryWise, getOrders, getRecentOrders} from '../services/orderServices'
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
 import { getSpendingStartup } from '../services/walletServices'
 import { getAvailableJobs } from '../services/jobServices'
 import Error from '../../../Components/Error'
+import DollarIcon from "../../../../assets/Svgs/DollarIcon";
+import SvgImport from "../../../Components/SvgImport";
 
 const DashboardScreen = () => {
   const navigation = useNavigation()
@@ -44,19 +46,31 @@ const DashboardScreen = () => {
   }, [isFocused])
 
   const fetchData = async () => {
-    const resp = getOrders()
-    const spendResp = getSpendingStartup() //ye sahi chal ri hai
-    const totalOrderResp = getOrderCategoryWise('Active')
-    const totalJobResp = getAvailableJobs('abc')
+    const resp = await getOrders()
+    const resp2 = await getRecentOrders()
+    const spendResp = await getSpendingStartup() //ye sahi chal ri hai
+    const totalOrderResp = await getOrderCategoryWise('Active')
+    const totalJobResp = await getAvailableJobs('abc')
 
     setLoading(true)
-    Promise.all([resp, spendResp, totalOrderResp, totalJobResp]).then(
+    Promise.all([resp, spendResp, totalOrderResp, totalJobResp,resp2]).then(
       (responsesArr) => {
         if (responsesArr[0].status === 200) {
             console.log(responsesArr[0].data)
           // setOrders(responsesArr[0].data.data)
         } else if (resp.status === 400 || resp.status === 401) {
           navigation.navigate('LoginScreen')
+        }
+        try{
+            // setOrders(resp.data.data.new)
+            setTotalOrder(resp.data.data.active.length)
+            setOrders(resp2.data.data.recentOrders)
+
+        }
+        catch(e){
+
+            setOrders([])
+            setTotalOrder(0)
         }
         if (responsesArr[1].status === 200) {
           setSpending(responsesArr[1].data.data.spendings)
@@ -73,6 +87,7 @@ const DashboardScreen = () => {
   }
 
   const OrderItem = ({ order }) => (
+      console.log(order),
     <TouchableOpacity
       onPress={() => {
         // navigation.navigate('ActiveOrderDetail')
@@ -86,7 +101,7 @@ const DashboardScreen = () => {
             uri:
               axios.defaults.baseURL +
               'media/getimage/' +
-              order?.employer?.avatar,
+              order?.avatar[0],
           }}
           style={{ width: 36, height: 36 }}
         />
@@ -101,7 +116,7 @@ const DashboardScreen = () => {
       >
         <View>
           <MyText style={{ fontSize: 13, fontWeight: '500', marginBottom: 2 }}>
-            {order?.employer?.name}
+            {order?.name[0]}
           </MyText>
           <MyText
             style={{
@@ -122,7 +137,7 @@ const DashboardScreen = () => {
               alignItems: 'center',
             }}
           >
-            <FontAwesome5 name='dollar' color='#FAD461' size={16} />
+              <SvgImport svg={DollarIcon} />
             &nbsp; &nbsp;
             <MyText style={{ fontSize: 14, fontWeight: '600' }}>
               ${order?.totalPrice}
@@ -135,7 +150,7 @@ const DashboardScreen = () => {
               color: 'rgba(35, 35, 35, 0.5)',
             }}
           >
-            Delivery in
+            Delivery in{' '}
             <MyText
               style={{
                 fontSize: 11,
@@ -351,7 +366,7 @@ const DashboardScreen = () => {
                             <Error message='Empty, Create new orders!' />
                         </View>
                     ) : orders?.map((order, index) => {
-                        return <OrderItem key={index} />
+                        return <OrderItem key={index} order={order}/>
                     })
                 ) : (
                     <ActivityIndicator style={{flex:1,}} color={colors.Bluish} size='small' />

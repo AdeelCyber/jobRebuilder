@@ -1,12 +1,13 @@
-import {useIsFocused} from "@react-navigation/native";
+import {useIsFocused, useNavigation} from "@react-navigation/native";
 import React, {useContext, useEffect, useState} from "react";
 import {getFreelancerCategories, getFreelancers, getFreelancersPaginated} from "../Profile/services/FreeLancerServices";
-import {ActivityIndicator, FlatList, View} from "react-native";
+import {ActivityIndicator, FlatList, Pressable, View} from "react-native";
 import PopularComp from "../../Components/PopularComp";
 import Error from "../../Components/Error";
 import RateComp from "../../Components/RateComp";
 import Context from "../../Context/Context";
 import MyText from "../../Components/Text";
+import {Entypo} from "@expo/vector-icons";
 
 
 export default function ViewAll(props){
@@ -45,19 +46,34 @@ export default function ViewAll(props){
        }
 
     }
+    let navigation = useNavigation()
     return(
-        <View style={{flex:1,backgroundColor:'white'}}>
-            <MyText
-                style={{
-                    fontSize: 25,
-                    fontWeight: '700',
-                    color: colors.black,
-                    marginVertical: 10,
-                    marginHorizontal: 10,
-                }}
-            >
-                {title}
-            </MyText>
+        <View style={{flex:1,backgroundColor:'white',}}>
+            <View style={{flexDirection:"row"}}>
+                <Pressable
+                    onPress={()=>{
+                        navigation.goBack()
+                    }}
+                    style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Entypo name="chevron-left" size={24} color="black" />
+                </Pressable>
+                <View style={{
+                    flex:1,
+                    alignItems:'center',
+                }}>
+                    <MyText
+                        style={{
+                            fontSize: 25,
+                            fontWeight: '700',
+                            color: colors.black,
+                            marginVertical: 10,
+                            marginHorizontal: 10,
+                        }}
+                    >
+                        {title}
+                    </MyText>
+                </View>
+            </View>
             <View style={{ paddingLeft: 17, paddingRight: 15 }}>
                 {
                     !loading ? (

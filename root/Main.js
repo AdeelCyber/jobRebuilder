@@ -145,6 +145,7 @@ const MyStack = (props) => {
           />
 
           <Stack.Screen name='ManagingCampaign' component={ManagingCampaign} />
+          <Stack.Screen name='ExploreAll' component={ExploreAll} />
           <Stack.Screen name='viewAll' component={ViewAll}
                         options={{
                             animationEnabled: false,

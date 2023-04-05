@@ -43,7 +43,7 @@ const JobCareerDetailScreen = ({ route }) => {
     }
   }
   return (
-    <View>
+    <View style={{flex:1}}>
       <CustomHeader
         Title='Job'
         style={{ elevation: 0, shadowColor: 'white', borderRadius: 0 }}
@@ -72,7 +72,7 @@ const JobCareerDetailScreen = ({ route }) => {
               source={{
                 uri: axios.defaults.baseURL + 'media/getimage/' + job?.logo,
               }}
-              style={{ width: 40, height: 40 }}
+              style={{ width: 55, height: 55,borderRadius: 10 }}
             />
           </View>
           <View
@@ -89,6 +89,15 @@ const JobCareerDetailScreen = ({ route }) => {
               >
                 {job?.businessName}
               </MyText>
+                <MyText
+                    style={{
+                        fontSize: 8,
+                        fontWeight: '500',
+                        color: 'rgba(35, 35, 35, 0.5)',
+                    }}
+                >
+                    Required Role
+                </MyText>
               <MyText
                 style={{
                   fontSize: 15,
@@ -149,7 +158,7 @@ const JobCareerDetailScreen = ({ route }) => {
             paddingVertical: 10,
             paddingHorizontal: 20,
             borderRadius: 6,
-            width: 90,
+            width: "100%",
             marginTop: 30,
           }}
           onPress={() => {
@@ -161,6 +170,7 @@ const JobCareerDetailScreen = ({ route }) => {
             style={{
               textAlign: 'center',
               fontSize: 15,
+
               color: 'white',
             }}
           >
