@@ -165,6 +165,7 @@ export const publishStartup = async (accessToken, startupid) => {
     )
     return resp
   } catch (error) {
+    console.log(error)
     return error.response
   }
 }
@@ -194,6 +195,7 @@ export const addStartupRole = async (accessToken, startupid, newRole) => {
     )
     return resp
   } catch (error) {
+    console.log(error)
     return error.response
   }
 }

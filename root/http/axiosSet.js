@@ -27,4 +27,5 @@ instance.interceptors.response.use(
   }
 )
 
+export const baseURL =  'https://stepev-dev.up.railway.app/'
 export default instance

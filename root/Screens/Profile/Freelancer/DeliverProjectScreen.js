@@ -53,13 +53,23 @@ const DeliverProjectScreen = ({ route }) => {
   }
 
   const deliver = async () => {
+    if (comment === '' || attachments.length === 0) {
+        Toast.show({
+            topOffset: 60,
+            type: 'error',
+            text1: 'Order cannot be delivered',
+            text2: 'Please add comment and attachment',
+        })
+        return
+    }
     const resp = await deliverOneTimeOrder(orderId, comment, attachments)
-    if (resp.status === 200) {
+    console.log(resp)
+    if (resp.status === 201) {
       Toast.show({
         topOffset: 60,
         type: 'success',
-        text1: 'Order Cancelled',
-        text2: '.',
+        text1: 'Order Delivered Successfully',
+        text2: 'Order is now waiting for client approval',
       })
       navigation.navigate('FreelancerProfile')
     } else if (resp.status === 400 || resp.status === 401) {

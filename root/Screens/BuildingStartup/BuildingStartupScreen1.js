@@ -45,6 +45,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
   } = useContext(Context);
   const { accessToken } = useContext(CartProvider);
   const [getcondition, setcondition] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
   const windowWidth = Dimensions.get('window').width;
 
   const [geterror, seterror] = useState(0);
@@ -68,16 +69,16 @@ const BuildingStartupScreen1 = ({ navigation }) => {
   const buttonStyle = {
     backgroundColor: colors.Bluish,
     height: 50,
-    flex:2,
+    flex:1,
     position: "absolute",
     top: -80,
     left:-windowWidth+60,
-    bottom: 0,
+    bottom: -20,
     width: windowWidth,
     //alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
+    marginTop: 50,
 
 
 
@@ -100,7 +101,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     );
   }
 
-  const Screen1 = () => {
+  const Screen1 = (props) => {
     const [businessName, setbusinessName] = useState();
     const [problemstatement, setproblemstatement] = useState();
     const [impactstatement, setimpactstatement] = useState();
@@ -181,7 +182,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [10, 10],
-        quality: 1,
+        quality: 0.6,
       });
       // console.log(result);
 
@@ -198,7 +199,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [1, 1],
-        quality: 1,
+        quality: 0.6,
       });
 
       if (!result.canceled) {
@@ -278,6 +279,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               text1: "Your Information is successfully saved",
               text2: "Press Proceed to continue",
             });
+            props.setActiveStep(props.activeStep + 1);
           }
         } else {
           Toast.show({
@@ -592,17 +594,17 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             >
               Enter the details
             </MyText>
-            <MyText
-              style={{
-                fontSize: 13,
-                fontWeight: "500",
-                color: "#ACA9A9",
-                alignSelf: "flex-start",
-                marginBottom: 10,
-              }}
-            >
-              Leave boxes empty that doesn’t apply you.
-            </MyText>
+            {/*<MyText*/}
+            {/*  style={{*/}
+            {/*    fontSize: 13,*/}
+            {/*    fontWeight: "500",*/}
+            {/*    color: "#ACA9A9",*/}
+            {/*    alignSelf: "flex-start",*/}
+            {/*    marginBottom: 10,*/}
+            {/*  }}*/}
+            {/*>*/}
+            {/*  Leave boxes empty that doesn’t apply you.*/}
+            {/*</MyText>*/}
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
@@ -904,7 +906,20 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 marginTop: 20,
               }}
               onPress={() => {
-                setScreen(true);
+              //  check if all fields are filled
+                if (location && budget && businessName && getdocinfo
+                    &&
+                    value !== null) {
+                  setScreen(true);
+                }
+                else{
+                  Toast.show({
+                    topOffset: 60,
+                    type: "error",
+                    text1: "Some fields are missing",
+                    text2: "You can proceed after filling all fields",
+                  });
+                }
               }}
             >
               <MyText
@@ -1160,7 +1175,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     }
   };
 
-  const Screen2 = () => {
+  const Screen2 = (props) => {
     const [getScreen2, setScreen2] = useState(false);
     const [search, setsearch] = useState();
     const [positionn, setposition] = useState();
@@ -1219,6 +1234,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             text1: "Your Information is successfully saved",
             text2: "Press Proceed to continue",
           });
+          props.setActiveStep(props.activeStep + 1);
         }
       } catch (error) {
         Toast.show({
@@ -1641,7 +1657,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     }
   };
 
-  const Screen3 = () => {
+  const Screen3 = (props) => {
     const [roles, setroles] = useState();
     const [rolesbrokendown, setrolesbrokendown] = useState();
     const [open2, setOpen2] = useState(false);
@@ -1687,6 +1703,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             text1: "Your Information is successfully saved",
             text2: "Press Proceed to continue",
           });
+          props.setActiveStep(props.activeStep + 1);
         }
       } catch (error) {
         Toast.show({
@@ -1713,18 +1730,29 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     );
 
     const sendRole = async () => {
+      if(rolelist.length == 0){
+        Toast.show({
+          topOffset: 60,
+          type: "error",
+          text1: "Please select atleast one role",
+          text2: ".",
+        });
+        return;
+      }
       const res = await addStartupRole(accessToken, startupid, rolelist);
       console.log(res.data);
       console.log(res);
 
       if (res.status === 201) {
         seterror(geterror + 1);
+
         Toast.show({
           topOffset: 60,
           type: "success",
           text1: "Saved",
           text2: "",
         });
+        props.setActiveStep(props.activeStep + 1);
       }
     };
     if (teamroleScreen == true) {
@@ -1957,9 +1985,10 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               <DropDownPicker
                 style={[styles.inputStyle, { borderColor: "#EEEEEE" }]}
                 textStyle={{ color: "#ACA9A9" }}
-                placeholder="Looking for partner to join business"
+                placeholder="Select an option"
                 open={open2}
                 value={value2}
+
                 items={items2}
                 setOpen={setOpen2}
                 setValue={setValue2}
@@ -1978,7 +2007,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               }}
               onPress={() => {
                 console.log(roles);
-                if (roles !== undefined && rolesbrokendown !== undefined) {
+                if (roles !== undefined && rolesbrokendown !== undefined && value2 !== null) {
                   var obj = {};
 
                   obj["id"] = Math.random();
@@ -1996,9 +2025,12 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   Toast.show({
                     topOffset: 60,
                     type: "error",
-                    text1: "Note",
-                    text2: "Some fields are missing",
+                    text1: "Some fields are missing",
+                    text2: "Role not added",
                   });
+                  setTermScreen(false);
+                  setteamroleScreen(false);
+                  setrolescreen(true);
                 }
               }}
             >
@@ -2011,33 +2043,14 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 Add Role
               </MyText>
             </Pressable>
-            <Pressable
-              style={{
-                backgroundColor: "#EEEEEE",
-                height: 50,
-                width: "100%",
-                borderRadius: 10,
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 20,
-              }}
-              onPress={() => {}}
-            >
-              <MyText
-                style={{
-                  fontSize: 14,
-                }}
-              >
-                Save
-              </MyText>
-            </Pressable>
+
           </View>
         </ScrollView>
       );
     }
     if (rolescreen == true) {
       return (
-        <ScrollView>
+        <View>
           <View
             style={[
               styles.container,
@@ -2088,9 +2101,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               }}
               onPress={() => {
                 sendRole();
-                setteamroleScreen(true);
-                setrolescreen(false);
-                setTermScreen(false);
+
               }}
             >
               <MyText
@@ -2102,7 +2113,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
               </MyText>
             </Pressable>
           </View>
-        </ScrollView>
+        </View>
       );
     }
 
@@ -2334,7 +2345,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                   fontSize: 14,
                 }}
               >
-                Save
+                Save this
               </MyText>
             </Pressable>
           </View>
@@ -2343,7 +2354,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
     }
   };
 
-  const Screen4 = () => {
+  const Screen4 = (props) => {
     const [milestone, setmilestone] = useState(false);
     const [milestonetitle, setmilestonetitle] = useState();
     const [description, setDescription] = useState();
@@ -2371,6 +2382,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             text1: "Your Information is successfully saved",
             text2: "Press Proceed to continue",
           });
+          props.setActiveStep(props.activeStep + 1);
         }
       } catch (error) {
         Toast.show({
@@ -2707,9 +2719,21 @@ const BuildingStartupScreen1 = ({ navigation }) => {
                 obj["title"] = milestonetitle;
                 obj["description"] = description;
                 obj["dueDate"] = duedate;
+                console.log(obj)
+                // check if milestone title is empty
+                if(milestonetitle === "" || milestonetitle == null || description === "" || description == null || duedate === "" || duedate == null) {
+                  Toast.show({
+                    topOffset: 60,
+                    type: "error",
+                    text1: "Milstone not saved",
+                    text2: "Some fields are missing",
+                  });
+                  setmilestone(false);
 
-                setmilestonelist([...milestonelist, obj]);
-                setmilestone(false);
+                } else {
+                  setmilestonelist([...milestonelist, obj]);
+                  setmilestone(false);
+                }
               }}
             >
               <MyText
@@ -2964,29 +2988,33 @@ const BuildingStartupScreen1 = ({ navigation }) => {
 
   const publish = async () => {
     console.log(geterror);
-    if (geterror !== 3) {
-      Toast.show({
-        topOffset: 60,
-        type: "error",
-        text1: "Your Startup has not been created",
-        text2: "Some fields are missing",
-      });
-    } else {
+    // if (geterror < 3) {
+    //   Toast.show({
+    //     topOffset: 60,
+    //     type: "error",
+    //     text1: "Your Startup has not been created",
+    //     text2: "Some fields are missing",
+    //   });
+    // } else {
       const r = await publishStartup(accessToken, startupid);
+        console.log(r);
       Toast.show({
         topOffset: 60,
         type: "success",
         text1: "Your Startup has been sent to the admin for approval",
         text2: "",
       });
-    }
+        navigation.navigate("CampaignManagement");
+
   };
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <CustomHeader6 />
-      <View style={{ flex: 1 }}>
-        <ProgressSteps {...progressStepsStyle}>
+      <View style={{ flex: 1, }}>
+        <ProgressSteps activeStep={activeStep} {...progressStepsStyle}
+
+        >
           <ProgressStep
             label="Idea"
             nextBtnStyle={buttonStyle}
@@ -2994,7 +3022,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             nextBtnText="Proceed"
             previousBtnDisabled={true}
           >
-            <Screen1 />
+            <Screen1 setActiveStep={setActiveStep} activeStep={activeStep} />
           </ProgressStep>
           <ProgressStep
             label="Team"
@@ -3004,7 +3032,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
 
             previousBtnDisabled={true}
           >
-            <Screen2 />
+            <Screen2 setActiveStep={setActiveStep} activeStep={activeStep}  />
           </ProgressStep>
           <ProgressStep
             label="Needed Roles"
@@ -3013,7 +3041,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             nextBtnText="Proceed"
             previousBtnDisabled={true}
           >
-            <Screen3 />
+            <Screen3 setActiveStep={setActiveStep} activeStep={activeStep} />
           </ProgressStep>
           <ProgressStep
             label="Milestones"
@@ -3023,7 +3051,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             previousBtnDisabled={true}
             previousBtnStyle={{ display: "none" }}
           >
-            <Screen4 />
+            <Screen4 setActiveStep={setActiveStep} activeStep={activeStep} />
           </ProgressStep>
           <ProgressStep
             label="Pitch Deck"
@@ -3034,7 +3062,7 @@ const BuildingStartupScreen1 = ({ navigation }) => {
             onSubmit={publish}
             finishBtnText="Publish"
           >
-            <Screen5 />
+            <Screen5  />
           </ProgressStep>
         </ProgressSteps>
       </View>

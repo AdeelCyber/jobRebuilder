@@ -74,7 +74,6 @@ export const oneTimeOrder = async (
   price,
   day
 ) => {
-  console.log(price);
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -87,13 +86,14 @@ export const oneTimeOrder = async (
       {
         clientId: id,
         jobTitle: jobTitle,
-        attachments: ["jbj.png"],
+        attachments: ["none.png"],
         description: description,
         totalPrice: price,
         deliveryTime: day,
       },
       config
     );
+    console.log((await resp).data);
     return resp;
   } catch (error) {
     return error.response;

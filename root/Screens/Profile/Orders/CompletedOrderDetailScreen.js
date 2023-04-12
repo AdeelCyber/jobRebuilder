@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {
-  ScrollView,
-  StyleSheet,
-  View,
-  Switch,
-  TouchableOpacity,
-  Text,
-  Image,
+    ScrollView,
+    StyleSheet,
+    View,
+    Switch,
+    TouchableOpacity,
+    Text,
+    Image, Linking,
 } from 'react-native'
 import MyText from '../../../Components/Text'
 import Context from '../../../Context/Context'
@@ -16,11 +16,14 @@ import { Entypo } from '@expo/vector-icons'
 
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
-import { getSingleOrder } from '../services/orderServices'
+import {getSingleOrder, getSingleOrderStartup} from '../services/orderServices'
 import axios from '../../../http/axiosSet'
 import Loader from '../../../Components/Loader'
+import CartContext from "../../../Context/CartProvider";
+import SvgImport from "../../../Components/SvgImport";
+import DollarIcon from "../../../../assets/Svgs/DollarIcon";
 
-const CompletedOrderDetailScreen = () => {
+const CompletedOrderDetailScreen = ({route}) => {
   const navigation = useNavigation()
 
   const {
@@ -28,6 +31,10 @@ const CompletedOrderDetailScreen = () => {
   } = useContext(Context)
 
   const [order, setOrder] = useState({})
+    const[name,setName] = useState('')
+    const[avatar,setAvatar] = useState('')
+    const[email,setEmail] = useState('')
+    const context  =useContext(CartContext)
 
   const { orderId } = route.params
 
@@ -36,15 +43,36 @@ const CompletedOrderDetailScreen = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchOrder()
+    fetchOrder().then(()=>{
+        console.log('order',order)
+
+    })
   }, [isFocused])
 
   const fetchOrder = async () => {
     setLoading(true)
-    const resp = await getSingleOrder(orderId)
-    setLoading(false)
+      let resp = null
+      if (context.userdetails.role.includes('Startup')) {
+          resp = await getSingleOrderStartup(orderId)
+
+
+      } else {
+          resp = await getSingleOrder(orderId)
+      }
+
+      setLoading(false)
     if (resp.status === 200) {
       setOrder(resp.data.data)
+        if(context.userdetails.role.includes('Startup')){
+            setName(resp.data.data.freelancer.name)
+            setAvatar(resp.data.data.freelancer.avatar)
+            setEmail(resp.data.data.freelancer.email)
+        }
+        else {
+            setName(resp.data.data.employer.name)
+            setAvatar(resp.data.data.employer.avatar)
+            setEmail(resp.data.data.employer.email)
+        }
     } else if (resp.status === 401) {
       navigation.navigate('LoginScreen')
     } else if (resp.status === 400) {
@@ -57,69 +85,78 @@ const CompletedOrderDetailScreen = () => {
   }
 
   const Review = ({ avatar, email, name, rating, date, comment }) => (
-    <View style={{ marginBottom: 15 }}>
-      <View
-        style={{
-          paddingTop: 13,
-          paddingBottom: 14,
-          paddingRight: 17,
-          borderRadius: 10,
-          flexDirection: 'row',
-        }}
-      >
-        <View>
-          <Image
-            source={{
-              uri: avatar,
-            }}
-            style={{ width: 40, height: 40 }}
-          />
-        </View>
-        <View
-          style={{
-            marginLeft: 11,
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <View>
-            <MyText
-              style={{ fontSize: 15, fontWeight: '500', marginBottom: 2 }}
-            >
-              {name}
-            </MyText>
-            <View style={{ flexDirection: 'row' }}>
-              {[...Array(rating).keys()].map((element) => {
-                return (
-                  <Icon
-                    style={{ marginRight: 2.2 }}
-                    name='star'
-                    key={element}
-                    color={element + 1 <= rating ? '#FFB33E' : '#eeeeee'}
-                  />
-                )
-              })}
-            </View>
-          </View>
-          <View>
-            <MyText
-              style={{
-                marginBottom: 3,
-                textAlign: 'right',
-                justifyContent: 'center',
-                alignItems: 'center',
-                color: 'rgba(35, 35, 35, 0.35)',
-              }}
-            >
-              {Math.round((new Date() - new Date(date)) / 1000 / 60 / 60 / 24)}{' '}
-              days ago
-            </MyText>
-          </View>
-        </View>
-      </View>
-      <MyText style={{ color: 'rgba(35, 35, 35, 0.49)' }}>{comment}</MyText>
-    </View>
+      // {
+      //     comment?
+      //         <View style={{ marginBottom: 15 }}>
+      //             <View
+      //                 style={{
+      //                     paddingTop: 13,
+      //                     paddingBottom: 14,
+      //                     paddingRight: 17,
+      //                     borderRadius: 10,
+      //                     flexDirection: 'row',
+      //                 }}
+      //             >
+      //                 <View>
+      //                     <Image
+      //                         source={{
+      //                             uri: avatar,
+      //                         }}
+      //                         style={{ width: 40, height: 40 }}
+      //                     />
+      //                 </View>
+      //                 <View
+      //                     style={{
+      //                         marginLeft: 11,
+      //                         flex: 1,
+      //                         flexDirection: 'row',
+      //                         justifyContent: 'space-between',
+      //                     }}
+      //                 >
+      //                     <View>
+      //                         <MyText
+      //                             style={{ fontSize: 15, fontWeight: '500', marginBottom: 2 }}
+      //                         >
+      //                             {name}
+      //                         </MyText>
+      //                         <View style={{ flexDirection: 'row' }}>
+      //                             {[...Array(rating).keys()].map((element) => {
+      //                                 return (
+      //                                     <Icon
+      //                                         style={{ marginRight: 2.2 }}
+      //                                         name='star'
+      //                                         key={element}
+      //                                         color={element + 1 <= rating ? '#FFB33E' : '#eeeeee'}
+      //                                     />
+      //                                 )
+      //                             })}
+      //                         </View>
+      //                     </View>
+      //                     <View>
+      //                         <MyText
+      //                             style={{
+      //                                 marginBottom: 3,
+      //                                 textAlign: 'right',
+      //                                 justifyContent: 'center',
+      //                                 alignItems: 'center',
+      //                                 color: 'rgba(35, 35, 35, 0.35)',
+      //                             }}
+      //                         >
+      //                             {Math.round((new Date() - new Date(date)) / 1000 / 60 / 60 / 24)}{' '}
+      //                             days ago
+      //                         </MyText>
+      //                     </View>
+      //                 </View>
+      //             </View>
+      //             <MyText style={{ color: 'rgba(35, 35, 35, 0.49)' }}>{comment}</MyText>
+      //         </View>
+      //           :
+              <View>
+                  <MyText>
+                      No Review
+                  </MyText>
+              </View>
+
   )
 
   return (
@@ -157,7 +194,7 @@ const CompletedOrderDetailScreen = () => {
                 uri:
                   axios.defaults.baseURL +
                   'media/getimage/' +
-                  order?.employer?.avatar,
+                  avatar,
               }}
               style={{ width: 40, height: 40 }}
             />
@@ -174,7 +211,7 @@ const CompletedOrderDetailScreen = () => {
               <MyText
                 style={{ fontSize: 15, fontWeight: '500', marginBottom: 2 }}
               >
-                {order?.employer?.name}
+                {name}
               </MyText>
               <MyText
                 style={{
@@ -183,7 +220,7 @@ const CompletedOrderDetailScreen = () => {
                   color: 'rgba(35, 35, 35, 0.5)',
                 }}
               >
-                {order?.employer?.email}
+                {email}
               </MyText>
             </View>
             <View>
@@ -195,8 +232,8 @@ const CompletedOrderDetailScreen = () => {
                   alignItems: 'center',
                 }}
               >
-                <FontAwesome5 name='bitcoin' color='#FAD461' size={21} />
-                &nbsp; &nbsp;
+                  <SvgImport svg={DollarIcon} />
+                  &nbsp; &nbsp;
                 <MyText style={{ fontSize: 18, fontWeight: '600' }}>
                   ${order?.totalPrice}
                 </MyText>
@@ -266,6 +303,7 @@ const CompletedOrderDetailScreen = () => {
             >
               <MyText style={styles.heading}>Due Date</MyText>
             </View>
+              {console.log(order)}
             <MyText style={styles.description}>
               {' '}
               {new Date(order?.deliveryTime).toLocaleDateString('default', {
@@ -286,7 +324,7 @@ const CompletedOrderDetailScreen = () => {
             </View>
             <MyText style={styles.description}>
               {' '}
-              {new Date(order?.delivery).date.toLocaleDateString('default', {
+              {new Date(order?.deliveryTime).toLocaleDateString('default', {
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric',
@@ -299,6 +337,40 @@ const CompletedOrderDetailScreen = () => {
           return (
             <TouchableOpacity
               key={index}
+              onPress={() => {
+              // check if file is image
+                if (
+                    file.includes('.jpg') ||
+                    file.includes('.png') ||
+                    file.includes('.jpeg') ||
+                    file.includes('.gif') ||
+                    file.includes('.svg') ||
+                    file.includes('.webp') ||
+                    file.includes('.bmp') ||
+                    file.includes('.tiff') ||
+                    file.includes('.jfif')  ||
+                    file.includes('.pjpeg') ||
+                    file.includes('.pjp') ||
+                    file.includes('.avif') ||
+                    file.includes('.heif') ||
+                    file.includes('.heic') ||
+                    file.includes('.apng')
+                    ) {
+                    Linking.openURL(
+                        axios.defaults.baseURL +
+                        'media/getImage/' +
+                        file
+                    )
+                    } else {
+                    Linking.openURL(
+                        axios.defaults.baseURL +
+                        'media/getFile/' +
+                        file
+                    )
+                }
+
+
+              }}
               labelStyle={{ color: '#fff' }}
               style={{
                 backgroundColor: '#E8E8E8',
@@ -330,6 +402,7 @@ const CompletedOrderDetailScreen = () => {
           >
             <MyText style={styles.heading}>My Reviews</MyText>
           </View>
+            {}
           <Review
             avatar={order?.review?.avatar}
             name={order?.review?.name}

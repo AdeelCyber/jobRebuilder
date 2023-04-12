@@ -21,14 +21,14 @@ const Tab = ({ title, selected, onSelect, index, selectedFun }) => {
 
       <View
         style={{
-          marginTop: selected === index ? 8 : 13,
+          marginTop: 13,
           alignItems: "center",
           justifyContent: "center",
         }}
       >
         <SvgImport svg={icons[index]} />
 
-        <MyText style={{ marginTop: 3 }}>{title}</MyText>
+        <MyText style={{ marginTop: 3,fontSize:10 }}>{title}</MyText>
       </View>
     </View>
   );
@@ -71,6 +71,7 @@ const TabBar = (props) => {
         }}
       >
         <Tab
+
           title="Home"
           selected={selectedTab}
           selectedFun={setSelectedTab}

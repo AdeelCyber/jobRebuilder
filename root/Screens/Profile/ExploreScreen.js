@@ -191,27 +191,27 @@ const ExploreScreen = ({ navigation, routes }) => {
             {/* seatch bar icon out */}
           </View>
           {/* Categories In */}
-          <View style={{ marginTop: 10, display:"none" }}>
-            <MyText
-              style={{ fontSize: 24, fontWeight: '700', paddingLeft: 10 }}
-            >
-              Categories
-            </MyText>
-            <View style={{ width: '100%' }}>
-              <FlatList
-                horizontal
-                data={catgeories}
-                showsHorizontalScrollIndicator={false}
-                renderItem={({ item, index }) => (
-                  <HomeCategories
-                    svg={item.avatar}
-                    title={item.title}
-                    style={{}}
-                  />
-                )}
-              />
-            </View>
-          </View>
+          {/*<View style={{ marginTop: 10, display:"none" }}>*/}
+          {/*  <MyText*/}
+          {/*    style={{ fontSize: 24, fontWeight: '700', paddingLeft: 10 }}*/}
+          {/*  >*/}
+          {/*    Categories*/}
+          {/*  </MyText>*/}
+          {/*  <View style={{ width: '100%' }}>*/}
+          {/*    <FlatList*/}
+          {/*      horizontal*/}
+          {/*      data={catgeories}*/}
+          {/*      showsHorizontalScrollIndicator={false}*/}
+          {/*      renderItem={({ item, index }) => (*/}
+          {/*        <HomeCategories*/}
+          {/*          svg={item.avatar}*/}
+          {/*          title={item.title}*/}
+          {/*          style={{}}*/}
+          {/*        />*/}
+          {/*      )}*/}
+          {/*    />*/}
+          {/*  </View>*/}
+          {/*</View>*/}
           {/* Categories Out */}
           {/* popular In */}
 

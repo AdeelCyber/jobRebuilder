@@ -29,7 +29,7 @@ const CreateGroup = ({ navigation }) => {
   const {
     theme: { colors },
   } = useContext(Context)
-  const { accessToken, socket, setsocket } = useContext(CartProvider)
+  const { accessToken, socket, setsocket,userdetails } = useContext(CartProvider)
 
   const [getcondition, setcondition] = useState(true)
   const [chat, setchat] = useState()
@@ -118,38 +118,41 @@ const CreateGroup = ({ navigation }) => {
         }}
         nav={navigation}
       />
-      <TouchableOpacity
-        style={{ alignSelf: 'flex-start', flexDirection: 'row', margin: 20 }}
-        onPress={() => {
-          navigation.navigate('CreatingGroup')
-        }}
-      >
-        <View
-          style={{
-            height: 39,
-            width: 39,
-            borderRadius: 50,
-            backgroundColor: colors.Bluish,
-          }}
-        >
-          <FontAwesome
-            name='group'
-            size={16}
-            color={colors.white}
-            style={{ margin: 10 }}
-          />
-        </View>
-        <MyText
-          style={{
-            fontWeight: '500',
-            fontSize: 14,
-            marginLeft: 20,
-            margin: 10,
-          }}
-        >
-          Create New Group
-        </MyText>
-      </TouchableOpacity>
+        {
+            userdetails.role !=="Freelancer" &&
+            <TouchableOpacity
+                style={{ alignSelf: 'flex-start', flexDirection: 'row', margin: 20 }}
+                onPress={() => {
+                    navigation.navigate('CreatingGroup')
+                }}
+            >
+                <View
+                    style={{
+                        height: 39,
+                        width: 39,
+                        borderRadius: 50,
+                        backgroundColor: colors.Bluish,
+                    }}
+                >
+                    <FontAwesome
+                        name='group'
+                        size={16}
+                        color={colors.white}
+                        style={{ margin: 10 }}
+                    />
+                </View>
+                <MyText
+                    style={{
+                        fontWeight: '500',
+                        fontSize: 14,
+                        marginLeft: 20,
+                        margin: 10,
+                    }}
+                >
+                    Create New Group
+                </MyText>
+            </TouchableOpacity>
+        }
       <View style={{ alignSelf: 'flex-start' }}>
         <MyText
           style={{

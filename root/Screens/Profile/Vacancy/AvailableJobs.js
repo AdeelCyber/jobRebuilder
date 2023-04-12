@@ -184,11 +184,12 @@ const AvailableJobs = () => {
                 borderRadius: 6,
               }}
               onPress={() => {
+                if(!job.applied)
                 navigation.navigate('JobCareerDetailScreen', { job: job })
               }}
             >
               <MyText style={{ textAlign: 'center', color: 'white' }}>
-                Apply
+                {job.applied ? 'Applied' : 'Apply'}
               </MyText>
             </TouchableOpacity>
           </View>

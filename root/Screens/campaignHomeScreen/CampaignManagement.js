@@ -88,27 +88,31 @@ const CampaignManagement = ({ navigation }) => {
                             <Error message="Empty, Create a new Campaign :)" />
                             </View>
                         )}
-                      renderItem={({ item, index }) => (
-                          <CampaignPopular
-                              Src={ Buildings}
-                              title={item.businessName}
-                              Logo={item.logo}
-                              Stage={item.stage}
-                              Team={'Complete'}
+                      renderItem={({ item, index }) => {
+                        if(item.status === "Approved" || item.status === "Pending"){
+                          return (
+                              <CampaignPopular
+                                  Src={ Buildings}
+                                  title={item.businessName}
+                                  Logo={item.logo}
+                                  Stage={item.stage}
+                                  Team={'Complete'}
 
-                              Budget={item.budget}
-                              status={item.status}
-                              navigation={navigation}
-                              label={item.category}
-                              show={show}
-                              id={item._id}
-                              style={{
-                                width: '90%',
-                                marginHorizontal: 23,
-                                marginVertical: 14,
-                              }}
-                          />
-                      )}
+                                  Budget={item.budget}
+                                  status={item.status}
+                                  navigation={navigation}
+                                  label={item.category}
+                                  show={show}
+                                  id={item._id}
+                                  style={{
+                                    width: '90%',
+                                    marginHorizontal: 23,
+                                    marginVertical: 14,
+                                  }}
+                              />
+                          )
+                        }
+                      }}
                   />
               ) : (
                   <View style={{ marginTop: 300 }}>

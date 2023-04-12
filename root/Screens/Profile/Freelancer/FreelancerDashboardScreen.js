@@ -61,7 +61,6 @@ const FreelancerDashboardScreen = () => {
   const OrderItem = ({ order }) => (
     <TouchableOpacity
       onPress={() => {
-
         navigation.navigate('ActiveJobDetail', { orderId: order._id })
       }}
       style={[styles.orderItem]}

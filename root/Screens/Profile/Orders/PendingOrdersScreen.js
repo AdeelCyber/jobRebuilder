@@ -116,11 +116,7 @@ const PendingOrdersScreen = (props) => {
                 color: 'rgba(35, 35, 35, 0.5)',
               }}
             >
-              <Icon name='star' color='#eeeeee' />
-              <Icon name='star' color='#eeeeee' />
-              <Icon name='star' color='#eeeeee' />
-              <Icon name='star' color='#eeeeee' />
-              <Icon name='star' color='#eeeeee' />
+
             </MyText>
           </View>
         </View>

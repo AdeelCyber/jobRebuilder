@@ -19,13 +19,16 @@ import { useIsFocused, useNavigation } from '@react-navigation/native'
 import CustomHeader from '../../../Components/CustomHeader2'
 import ReactNativeModal from 'react-native-modal'
 import {
-  cancelOneTimeOrder,
-  changeDeliveryStatus,
-  getSingleOrder,
+    cancelOneTimeOrder,
+    changeDeliveryStatus,
+    getSingleOrder, getSingleOrderStartup,
 } from '../services/orderServices'
 import axios from '../../../http/axiosSet'
 import Toast from 'react-native-toast-message'
 import Loader from '../../../Components/Loader'
+import CartContext from "../../../Context/CartProvider";
+import SvgImport from "../../../Components/SvgImport";
+import DollarIcon from "../../../../assets/Svgs/DollarIcon";
 
 const PendingOrderDetailScreen = ({ route }) => {
   const navigation = useNavigation()
@@ -35,8 +38,8 @@ const PendingOrderDetailScreen = ({ route }) => {
   const [order, setOrder] = useState({})
 
   const isFocused = useIsFocused()
-  const [loading, setLoading] = useState(true)
-
+  const [loading, setLoading] = useState(false)
+  const context = useContext(CartContext)
   const { orderId } = route.params
   const {
     theme: { colors },
@@ -57,10 +60,15 @@ const PendingOrderDetailScreen = ({ route }) => {
       navigation.navigate('LoginScreen')
     }
   }
-
+    const[name,setName] = useState('')
+    const[avatar,setAvatar] = useState('')
+    const[email,setEmail] = useState('')
   const markComplete = async () => {
+
     const resp = await changeDeliveryStatus(orderId, 'Completed')
-    if (resp.status === 200) {
+      console.log(resp)
+
+    if (resp.status === 201) {
       Toast.show({
         topOffset: 60,
         type: 'success',
@@ -74,14 +82,33 @@ const PendingOrderDetailScreen = ({ route }) => {
   }
 
   useEffect(() => {
-    fetchOrder()
+    fetchOrder().then(() => console.log(order))
   }, [isFocused])
 
   const fetchOrder = async () => {
-    const resp = await getSingleOrder(orderId)
+      let resp = null
+      if (context.userdetails.role.includes('Startup')) {
+          resp = await getSingleOrderStartup(orderId)
+
+
+      } else {
+          resp = await getSingleOrder(orderId)
+      }
+
 
     if (resp.status === 200) {
       setOrder(resp.data.data)
+        if(context.userdetails.role.includes('Startup')){
+            setName(resp.data.data.freelancer.name)
+            setAvatar(resp.data.data.freelancer.avatar)
+            setEmail(resp.data.data.freelancer.email)
+        }
+        else{
+            setName(resp.data.data.employer.name)
+            setAvatar(resp.data.data.employer.avatar)
+            setEmail(resp.data.data.employer.email)
+
+        }
     } else if (resp.status === 401) {
       navigation.navigate('LoginScreen')
     } else if (resp.status === 400) {
@@ -128,7 +155,7 @@ const PendingOrderDetailScreen = ({ route }) => {
                 uri:
                   axios.defaults.baseURL +
                   'media/getimage/' +
-                  order?.employer?.avatar,
+                  avatar,
               }}
               style={{ width: 40, height: 40 }}
             />
@@ -145,7 +172,7 @@ const PendingOrderDetailScreen = ({ route }) => {
               <MyText
                 style={{ fontSize: 15, fontWeight: '500', marginBottom: 2 }}
               >
-                {order?.employer?.name}
+                {name}
               </MyText>
               <MyText
                 style={{
@@ -154,7 +181,7 @@ const PendingOrderDetailScreen = ({ route }) => {
                   color: 'rgba(35, 35, 35, 0.5)',
                 }}
               >
-                {order?.employer?.email}
+                {email}
               </MyText>
             </View>
             <View>
@@ -166,8 +193,8 @@ const PendingOrderDetailScreen = ({ route }) => {
                   alignItems: 'center',
                 }}
               >
-                <FontAwesome5 name='bitcoin' color='#FAD461' size={21} />
-                &nbsp; &nbsp;
+                  <SvgImport svg={DollarIcon} />
+                  &nbsp; &nbsp;
                 <MyText style={{ fontSize: 18, fontWeight: '600' }}>
                   ${order?.totalPrice}
                 </MyText>
@@ -253,11 +280,12 @@ const PendingOrderDetailScreen = ({ route }) => {
               <MyText style={styles.heading}>Delivered On</MyText>
             </View>
             <MyText style={styles.description}>
-              {/* {new Date(order.delivery).date.toLocaleDateString('default', {
+
+              {new Date(order.deliveryTime).toLocaleDateString('default', {
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric',
-              })} */}
+              })}
             </MyText>
           </View>
         </View>
@@ -311,39 +339,47 @@ const PendingOrderDetailScreen = ({ route }) => {
           </TouchableOpacity>
         </View> */}
 
-        <TouchableOpacity
-          labelStyle={{ color: '#fff' }}
-          style={[styles.btn, { backgroundColor: colors.secondary }]}
-          onPress={() => {
-            markComplete()
-          }}
-        >
-          <MyText
-            style={{
-              color: 'white',
-              fontSize: 14,
-            }}
-          >
-            Mark Complete
-          </MyText>
-        </TouchableOpacity>
+          {
+              context.userdetails?.role !== 'Freelancer' ? (
+                  <TouchableOpacity
+                      labelStyle={{ color: '#fff' }}
+                      style={[styles.btn, { backgroundColor: colors.secondary }]}
+                      onPress={() => {
+                          markComplete()
+                      }}
+                  >
+                      <MyText
+                          style={{
+                              color: 'white',
+                              fontSize: 14,
+                          }}
+                      >
+                          Mark Complete
+                      </MyText>
+                  </TouchableOpacity>
+                ) : null
+          }
 
-        <TouchableOpacity
-          labelStyle={{ color: '#fff' }}
-          style={[styles.btn, { backgroundColor: '#FF0A0A' }]}
-          onPress={() => {
-            setModalVisible(!isModalVisible)
-          }}
-        >
-          <MyText
-            style={{
-              color: 'white',
-              fontSize: 14,
-            }}
-          >
-            Cancel Order
-          </MyText>
-        </TouchableOpacity>
+          {
+                context.userdetails?.role !== 'Freelancer' ? (
+                    <TouchableOpacity
+                        labelStyle={{ color: '#fff' }}
+                        style={[styles.btn, { backgroundColor: '#FF0A0A' }]}
+                        onPress={() => {
+                            setModalVisible(!isModalVisible)
+                        }}
+                    >
+                        <MyText
+                            style={{
+                                color: 'white',
+                                fontSize: 14,
+                            }}
+                        >
+                            Cancel Order
+                        </MyText>
+                    </TouchableOpacity>
+                ) : null
+          }
 
         <ReactNativeModal
           transparent

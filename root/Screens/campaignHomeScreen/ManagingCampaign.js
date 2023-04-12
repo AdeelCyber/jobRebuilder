@@ -134,7 +134,7 @@ function TodoComponent({ Title, desc, ...props }) {
   )
 }
 
-const ManagingCampaign = ({ navigation, route }) => {
+const ManagingCampaign = ({ navigation, route, }) => {
   const isFocused = useIsFocused()
   //fetch id params from previous screen into useState
 
@@ -320,7 +320,7 @@ const ManagingCampaign = ({ navigation, route }) => {
         backgroundColor: colors.white,
       }}
     >
-      <CustomHeader Title='Beyond' style={{ elevation: 0 }} nav={navigation} />
+      <CustomHeader Title={route.params.title} style={{ elevation: 0 }} nav={navigation} />
       <View style={{ marginTop: 10 }}>
         <FlatList
           horizontal

@@ -44,6 +44,7 @@ export const creategoogle = async (token, role) => {
       tokenId: token,
       role: role,
     });
+    console.log((await resp).data)
     return resp;
   } catch (error) {
     return error.response;

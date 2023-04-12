@@ -114,7 +114,7 @@ const UserInfo = () => {
         <Image
           style={{ height: 78, width: 78, borderRadius: 50, margin: 10 }}
           source={{
-            uri: `https://stepdev.up.railway.app/media/getimage/${userinfo?.userInfo.avatar}`,
+            uri: `https://stepev-dev.up.railway.app/media/getimage/${userinfo?.userInfo.avatar}`,
           }}
         />
         <View style={{ flexDirection: 'column' }}>

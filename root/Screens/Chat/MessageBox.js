@@ -52,6 +52,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 import * as FileSystem from 'expo-file-system'
 import { StorageAccessFramework } from 'expo-file-system'
 import { useIsFocused } from '@react-navigation/native'
+import {baseURL} from "../../http/axiosSet";
 
 const MessageBox = ({
   route,
@@ -212,7 +213,7 @@ const MessageBox = ({
           topOffset: 60,
           type: 'success',
           text1: 'Done',
-          text2: '.',
+          text2: 'Please reload the chat to see the changes.',
         })
       }
     } catch (err) {
@@ -235,7 +236,7 @@ const MessageBox = ({
           topOffset: 60,
           type: 'success',
           text1: 'Done',
-          text2: '.',
+          text2: 'Please reload the chat to see the changes.',
         })
       }
     } catch (error) {
@@ -255,7 +256,7 @@ const MessageBox = ({
           topOffset: 60,
           type: 'success',
           text1: 'Done',
-          text2: '.',
+          text2: 'Please reload the chat to see the changes.',
         })
       }
     } catch (error) {
@@ -537,7 +538,7 @@ const MessageBox = ({
         <View>
           <Image
             source={{
-              uri: `https://stepev-dev.up.railway.app/media/getimage/${userImg}`,
+              uri: `${baseURL}media/getimage/${userImg}`,
             }}
             style={{ height: 46, width: 46, margin: 6, borderRadius: 50 }}
           />
@@ -665,7 +666,7 @@ const MessageBox = ({
                       >
                         <Image
                           source={{
-                            uri: `https://stepev-dev.up.railway.app/media/getimage/${item.sender.avatar}`,
+                            uri: `${baseURL}media/getimage/${item.sender.avatar}`,
                           }}
                           style={{
                             height: 25,
@@ -677,7 +678,7 @@ const MessageBox = ({
                         />
                         <Image
                           source={{
-                            uri: `https://stepev-dev.up.railway.app/media/getimage/${item.image}`,
+                            uri: `${baseURL}media/getimage/${item.image}`,
                           }}
                           style={{
                             height: 150,
@@ -713,7 +714,7 @@ const MessageBox = ({
                       >
                         <Image
                           source={{
-                            uri: `https://stepev-dev.up.railway.app/media/getimage/${item.sender.avatar}`,
+                            uri: `${baseURL}media/getimage/${item.sender.avatar}`,
                           }}
                           style={{
                             height: 25,
@@ -736,7 +737,7 @@ const MessageBox = ({
                           <Pressable
                             onPress={() => {
                               Linking.openURL(
-                                `https://stepev-dev.up.railway.app/media/getFile/${item.file}`
+                                `${baseURL}media/getFile/${item.file}`
                               )
                               // Toast.show({
                               //   topOffset: 60,
@@ -799,7 +800,7 @@ const MessageBox = ({
                     </View>
                     <Image
                       source={{
-                        uri: `https://stepev-dev.up.railway.app/media/getimage/${item.sender.avatar}`,
+                        uri: `${axios.defaults.baseURL}/media/getimage/${item.sender.avatar}`,
                       }}
                       style={{
                         height: 25,
@@ -832,7 +833,7 @@ const MessageBox = ({
                       >
                         <Image
                           source={{
-                            uri: `https://stepev-dev.up.railway.app/media/getimage/${item.image}`,
+                            uri: `${baseURL}media/getimage/${item.image}`,
                           }}
                           style={{
                             height: 150,
@@ -846,7 +847,7 @@ const MessageBox = ({
                         />
                         <Image
                           source={{
-                            uri: `https://stepev-dev.up.railway.app/media/getimage/${item.sender.avatar}`,
+                            uri: `${baseURL}media/getimage/${item.sender.avatar}`,
                           }}
                           style={{
                             height: 25,
@@ -894,7 +895,7 @@ const MessageBox = ({
                           <Pressable
                             onPress={() => {
                               downloadFile(
-                                `https://stepev-dev.up.railway.app/media/getFile/${item.file}`
+                                `${baseURL}media/getFile/${item.file}`
                               )
                               // Toast.show({
                               //   topOffset: 60,
@@ -915,7 +916,7 @@ const MessageBox = ({
                         </View>
                         <Image
                           source={{
-                            uri: `https://stepev-dev.up.railway.app/media/getimage/${item.sender.avatar}`,
+                            uri: `${baseURL}media/getimage/${item.sender.avatar}`,
                           }}
                           style={{
                             height: 25,
@@ -992,7 +993,7 @@ const MessageBox = ({
                     <View>
                       <Image
                         source={{
-                          uri: `https://stepev-dev.up.railway.app/media/getimage/${item.image}`,
+                          uri: `${baseURL}media/getimage/${item.image}`,
                         }}
                         style={{
                           height: 150,
@@ -1031,7 +1032,7 @@ const MessageBox = ({
                         <Pressable
                           onPress={() => {
                             Linking.openURL(
-                              `https://stepev-dev.up.railway.app/media/getFile/${item.file}`
+                              `${baseURL}media/getFile/${item.file}`
                             )
                             // Toast.show({
                             //   topOffset: 60,
@@ -1153,7 +1154,7 @@ const MessageBox = ({
                               : item.OneTimeOrder.deliveryTime}
                           </Text>
                         </View>
-                        {item.oneTimeOrder?.offerStatus !== 'Accepted' && item.oneTimeOrder?.offerStatus !== 'Rejected' ? (
+                        {item.oneTimeOrder?.offerStatus !== 'Accepted' && item.oneTimeOrder?.offerStatus !== 'Rejected' && item.oneTimeOrder?.offerStatus !== 'Withdrawn' ? (
                          <View>
                         <Pressable
                           disabled={
@@ -1350,11 +1351,11 @@ const MessageBox = ({
                           <Pressable
                             onPress={() => {
                               Linking.openURL(
-                                  `https://stepev-dev.up.railway.app/media/getFile/${item.equityOrder?.partnershipAgreement ? item.equityOrder.partnershipAgreement
+                                  `${baseURL}media/getFile/${item.equityOrder?.partnershipAgreement ? item.equityOrder.partnershipAgreement
                                       : item.EquityOrder.partnershipAgreement}`)
 
                               // downloadFile(
-                              //   `https://stepev-dev.up.railway.app/media/getFile/${
+                              //   `${baseURL}media/getFile/${
                               //     item.equityOrder?.partnershipAgreement
                               //       ? item.equityOrder.partnershipAgreement
                               //       : item.EquityOrder.partnershipAgreement
@@ -1530,7 +1531,7 @@ const MessageBox = ({
                     <View>
                       <Image
                         source={{
-                          uri: `https://stepev-dev.up.railway.app/media/getimage/${item.image}`,
+                          uri: `${baseURL}media/getimage/${item.image}`,
                         }}
                         style={{
                           height: 150,
@@ -1573,7 +1574,7 @@ const MessageBox = ({
                         <Pressable
                           onPress={() => {
                             Linking.openURL(
-                              `https://stepev-dev.up.railway.app/media/getFile/${item.file}`
+                              `${baseURL}media/getFile/${item.file}`
                             )
                             // Toast.show({
                             //   topOffset: 60,
@@ -1689,10 +1690,12 @@ const MessageBox = ({
                             }}
                           >
                             {moment(item.oneTimeOrder.deliveryTime).format(
-                              'MMM Do YY'
+                              'MMM Do YYYY'
                             )}
                           </Text>
                         </View>
+                        {item.oneTimeOrder?.offerStatus !== 'Accepted' && item.oneTimeOrder?.offerStatus !== 'Rejected' && item.oneTimeOrder?.offerStatus !== 'Withdrawn' ? (
+                        <View>
                         <Pressable
                           style={{
                             width: 192,
@@ -1718,7 +1721,7 @@ const MessageBox = ({
                         </Pressable>
                         <Pressable
                           disabled={
-                            item.oneTimeOrder.offerStatus === 'Withdrawn'
+                            item.oneTimeOrder.offerStatus === 'Withdrawn '
                               ? true
                               : false
                           }
@@ -1730,6 +1733,10 @@ const MessageBox = ({
                             backgroundColor: colors.white,
                           }}
                           onPress={() => {
+                            if(item.oneTimeOrder.offerStatus === 'Withdrawn')
+                            {
+                              return
+                            }
                             oneTimeOfferstatus(
                               item.oneTimeOrder._id,
                               'Withdrawn'
@@ -1748,6 +1755,34 @@ const MessageBox = ({
                             Withdraw Offer
                           </Text>
                         </Pressable>
+                      </View> ) : (
+                          <Pressable
+
+                          // disabled={!loading}
+                          style={{
+                          width: 192,
+                          height: 60,
+                          borderWidth: 1,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          borderRadius: 10,
+                          marginTop: 6,
+                        }}
+
+                          >
+                          <Text
+                          style={{
+                          fontSize: 11,
+                          fontWeight: '400',
+                          alignSelf: 'center',
+                          margin: 6,
+                        }}
+                          >
+                          Offer {item.oneTimeOrder?.offerStatus}
+                          </Text>
+                          </Pressable>
+                          )}
+
                       </View>
                       <Text
                         style={{
@@ -1841,7 +1876,7 @@ const MessageBox = ({
                           <Pressable
                             onPress={() => {
                               downloadFile(
-                                `https://stepev-dev.up.railway.app/media/getFile/${item.equityOrder.partnershipAgreement}`
+                                `${baseURL}media/getFile/${item.equityOrder.partnershipAgreement}`
                               )
                               // Toast.show({
                               //   topOffset: 60,
@@ -1861,6 +1896,8 @@ const MessageBox = ({
                             </Text>
                           </Pressable>
                         </View>
+                        {item.equityOrder?.offerStatus !== 'Accepted' && item.equityOrder?.offerStatus !== 'Rejected' && item.equityOrder?.offerStatus !== 'Withdrawn' ? (
+                                <View>
                         <Pressable
                           style={{
                             width: 192,
@@ -1916,6 +1953,34 @@ const MessageBox = ({
                             Withdraw Offer
                           </Text>
                         </Pressable>
+                                </View> )
+                            : (
+                          <Pressable
+
+                          // disabled={!loading}
+                          style={{
+                          width: 192,
+                          height: 60,
+                          borderWidth: 1,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          borderRadius: 10,
+                          marginTop: 6,
+                        }}
+
+                          >
+                          <Text
+                          style={{
+                          fontSize: 11,
+                          fontWeight: '400',
+                          alignSelf: 'center',
+                          margin: 6,
+                        }}
+                          >
+                          Offer {item.equityOrder?.offerStatus}
+                          </Text>
+                          </Pressable>
+                          )}
                       </View>
                       <Text
                         style={{

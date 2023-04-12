@@ -123,7 +123,7 @@ const ActiveJobDetailScreen = ({ route }) => {
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <CustomHeader
         nav={navigation}
-        Title='Manage Jobs'
+        Title='Manage Order'
         style={{}}
         icon={() => {
           return <Entypo name='dots-three-vertical' size={20} color='black' />

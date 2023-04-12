@@ -172,6 +172,7 @@ const CampaignPopular = ({
               props.navigation.navigate('ManagingCampaign', {
                 id: props.id,
                 show: show,
+                    title: title,
               })
             }}
           >
@@ -197,6 +198,7 @@ const CampaignPopular = ({
               props.navigation.navigate('ManagingCampaign', {
                 id: props.id,
                 show: show,
+                  title: title,
               })
             }}
           >

@@ -51,14 +51,11 @@ const CreateAccount = ({ route }) => {
   const [getcondition, setcondition] = useState(false);
 
   const [, , promptAsync] = Google.useIdTokenAuthRequest({
-    expoClientId:
-      "253459265127-bgal1cs5eb1c8bcb8suso891fg9mm06m.apps.googleusercontent.com",
-    iosClientId:
-      "253459265127-lbj898i74the28o7f9et447h6e8m3rgi.apps.googleusercontent.com",
-    androidClientId:
-      "253459265127-nhli1d4c8fgubovogtstj3879aro6g6o.apps.googleusercontent.com",
-    webClientId:
-      "253459265127-bgal1cs5eb1c8bcb8suso891fg9mm06m.apps.googleusercontent.com",
+      expoClientId:
+          '392034071256-f97gfdlntmvffso545ibtc0lpp85oun9.apps.googleusercontent.com',
+      iosClientId: '392034071256-t65pcub7vi9tc1gsml37a1k189fic690.apps.googleusercontent.com',
+      androidClientId: '392034071256-khui65funpudtcjnjjq5kb42a4hfqofh.apps.googleusercontent.com',
+      webClientId: '392034071256-4k6v58i4657iuq90pgpdjh5tukrvib6u.apps.googleusercontent.com',
   });
   const [, , fbpromptAsync] = Facebook.useAuthRequest({
     clientId: "1366866914064008",
@@ -80,6 +77,14 @@ const CreateAccount = ({ route }) => {
             text2: ".",
           });
           navigation.navigate("LoginScreen");
+        }
+        else {
+            Toast.show({
+                topOffset: 60,
+                type: "error",
+                text1: "Error",
+                text2: "Something went wrong",
+            });
         }
       }
     } catch (err) {
@@ -112,7 +117,16 @@ const CreateAccount = ({ route }) => {
             text1: "You Successfully created the account",
             text2: ".",
           });
+
           navigation.navigate("LoginScreen");
+        }
+        else {
+            Toast.show({
+                topOffset: 60,
+                type: "error",
+                text1: "Error",
+                text2: "Something went wrong",
+            });
         }
       }
     } catch (err) {

@@ -84,10 +84,10 @@ const Login = () => {
   )
   const [, , promptAsync] = Google.useIdTokenAuthRequest({
     expoClientId:
-      '253459265127-bgal1cs5eb1c8bcb8suso891fg9mm06m.apps.googleusercontent.com',
-    iosClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
-    androidClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
-    webClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
+      '392034071256-f97gfdlntmvffso545ibtc0lpp85oun9.apps.googleusercontent.com',
+    iosClientId: '392034071256-t65pcub7vi9tc1gsml37a1k189fic690.apps.googleusercontent.com',
+    androidClientId: '392034071256-khui65funpudtcjnjjq5kb42a4hfqofh.apps.googleusercontent.com',
+    webClientId: '392034071256-4k6v58i4657iuq90pgpdjh5tukrvib6u.apps.googleusercontent.com',
   })
   const [, , fbpromptAsync] = Facebook.useAuthRequest({
     clientId: '1366866914064008',

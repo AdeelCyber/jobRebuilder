@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {
   Image,
   Pressable,
@@ -8,7 +8,7 @@ import {
   View,
   ImageBackground,
   TextInput,
-  FlatList,
+  FlatList, ActivityIndicator,
 } from "react-native";
 
 import Context from "../../Context/Context";
@@ -42,14 +42,19 @@ const CustomOffer = ({ route }) => {
   const [business, setbusiness] = useState(false);
   const [description, setdescription] = useState();
   const [price, setprice] = useState();
-  const [duedate, setduedate] = useState(new Date());
+  const [duedate, setduedate] = useState("Select Due Date");
+  //set due date to next 7 days
   const [datePicker, setDatePicker] = useState(false);
   // const [date, setDate] = useState(new Date());
   const [getdoc, setdoc] = useState();
   const [getcondition, setcondition] = useState(false);
   const [getdocinfo, setdocinfo] = useState();
+  useEffect(() => {
+
+  }, [duedate]);
   const onDateSelected = (event, value) => {
     setduedate(value);
+
     setDatePicker(false);
   };
   const [jobTitle, setjobTitle] = useState();
@@ -63,31 +68,33 @@ const CustomOffer = ({ route }) => {
   };
 
   const oneTimeOffer = async () => {
-    try {
-      setcondition(true);
-
-      const onetime = await oneTimeOrder(
+  try {
+    setcondition(true);
+    console.log("sending one time order")
+    const onetime = await oneTimeOrder(
         accessToken,
         id,
         jobTitle,
         description,
         price,
-        moment(duedate).format("YYYY-MM-DD")
-      );
-      console.log(onetime.data);
-      if (onetime.status == 201) {
-        setcondition(false);
-        sendMessage(onetime.data.data._id, "oneTimeOrder");
+        moment(duedate).format("YYYY-MM-DD"),
+    );
+    console.log("Order Saved");
+    if (onetime.status === 201) {
+      setcondition(false);
 
-        Toast.show({
-          topOffset: 60,
-          type: "success",
-          text1: "Ordered Created Successfully",
-          text2: ".",
-        });
-      } else {
-      }
-    } catch (err) {
+      await sendMessage(onetime.data.data._id, "oneTimeOrder");
+
+      Toast.show({
+        topOffset: 60,
+        type: "success",
+        text1: "Ordered Created Successfully",
+        text2: ".",
+      });
+    } else {
+    }
+  } catch (err) {
+      console.log(err.message)
       setcondition(false);
       Toast.show({
         topOffset: 60,
@@ -96,7 +103,9 @@ const CustomOffer = ({ route }) => {
         text2: ".",
       });
     }
-  };
+      }
+
+  let today = new Date();
 
   const equityOffer = async () => {
     try {
@@ -112,7 +121,7 @@ const CustomOffer = ({ route }) => {
       // console.log(equity);
       if (equity.status == 201) {
         setcondition(false);
-        sendMessage(equity.data.data._id, "equityOrder");
+        await sendMessage(equity.data.data._id, "equityOrder");
 
         Toast.show({
           topOffset: 60,
@@ -202,16 +211,12 @@ const CustomOffer = ({ route }) => {
 
   //   setmsg([...msg, obj]);
   // });
-  if (getcondition) {
-    return (
-      <Loader visible={getcondition} color="white" indicatorSize="large" />
-    );
-  }
 
   return (
     <ScrollView style={{ backgroundColor: colors.background }}>
       <View style={[styles.container]}>
         <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
+
           {job ? (
             <TouchableOpacity
               style={[styles.btnstyle, { backgroundColor: colors.Bluish }]}
@@ -322,32 +327,32 @@ const CustomOffer = ({ route }) => {
                 marginTop: 40,
               }}
             >
-              <MyText style={{ fontSize: 12, fontWeight: "700" }}>
+              <MyText style={{ fontSize: 12,flex:1, fontWeight: "700" }}>
                 Total Price
               </MyText>
-              <MyText
-                style={{
-                  fontSize: 10,
-                  fontWeight: "400",
-                  marginLeft: 100,
-                  position: "absolute",
-                  left: 160,
-                }}
-              >
-                US$
-              </MyText>
-              <View style={{ height: 24, width: 46, borderRadius: 2 }}>
-                <TextInput
-                  style={[
-                    styles.inputStyle,
-                    {
-                      elevation: 7,
-                    },
-                  ]}
-                  value={price}
-                  onChangeText={(price) => setprice(price)}
-                  placeholderTextColor="#ACA9A9"
-                />
+              <View style={{flexDirection:"row",flex:1,alignItems:"center"}}>
+                <MyText
+                    style={{
+                      fontSize: 10,
+                      fontWeight: "400",
+                      flex:1
+                    }}
+                >
+                  US$
+                </MyText>
+                <View style={{ width:"100%",flex:2 , borderRadius: 2 }}>
+                  <TextInput
+                      style={[
+                        styles.inputStyle,
+                        {
+                          elevation: 2,
+                        },
+                      ]}
+                      value={price}
+                      onChangeText={(price) => setprice(price)}
+                      placeholderTextColor="#ACA9A9"
+                  />
+                </View>
               </View>
             </View>
             <View
@@ -377,26 +382,31 @@ const CustomOffer = ({ route }) => {
                 Delivery Time
               </MyText>
 
-              <View
+              <Pressable
                 style={[
                   styles.SectionStyle,
                   { position: "absolute", left: 194 },
                 ]}
+                onPress={() => {
+                  setDatePicker(true);
+                }}
               >
-                <TextInput
-                  style={[styles.inputStyle2]}
-                  onChangeText={(duedate) => setduedate(duedate)}
-                  placeholder="Due Date"
-                  value={duedate.toDateString()}
-                  placeholderTextColor="#ACA9A9"
-                  underlineColorAndroid="#f000"
-                />
+
+                <MyText
+                  style={[styles.inputStyle2,{
+                    width: 120,
+                    alignSelf: "center",
+                  }]}
+
+                >
+                  {duedate instanceof Date ? duedate.toDateString():duedate}
+                </MyText>
                 <Pressable
                   style={{
                     backgroundColor: "#EEEEEE",
                     borderTopRightRadius: 10,
                     borderBottomRightRadius: 10,
-                    paddingRight: 8,
+                    paddingHorizontal: 8,
                     paddingTop: 10,
                   }}
                   onPress={() => {
@@ -405,12 +415,14 @@ const CustomOffer = ({ route }) => {
                 >
                   <AntDesign name="calendar" size={20} color="#969696" />
                 </Pressable>
-              </View>
+              </Pressable>
             </View>
+
             {datePicker && (
               <DateTimePicker
-                value={duedate}
+                value={new Date()}
                 mode={"date"}
+                minimumDate={new Date(today.getTime() + (24 * 60 * 60 * 1000))}
                 display={Platform.OS === "ios" ? "spinner" : "default"}
                 is24Hour={true}
                 onChange={onDateSelected}
@@ -444,7 +456,13 @@ const CustomOffer = ({ route }) => {
                   fontWeight: "500",
                 }}
               >
-                Create
+                {getcondition ?
+                    <View>
+                      <ActivityIndicator size="large" color={"white"}/>
+                      <MyText>Processing your request</MyText>
+                    </View> :
+                    "Send Offer"
+                }
               </MyText>
             </Pressable>
           </View>
