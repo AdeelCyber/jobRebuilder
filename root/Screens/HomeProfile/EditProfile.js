@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Image,
   Pressable,
@@ -38,7 +38,7 @@ const EditProfile = ({ route }) => {
   const [country, setcountry] = useState(userinfo.about.country);
 
   const [language, setlanguage] = useState(userinfo.about.language);
-  const [work, setwork] = useState(userinfo.about.responseTime);
+  const [work, setwork] = useState(userinfo.services.hourlyRate);
   const [about, setabout] = useState(userinfo.about.aboutMe);
   const [image, setimage] = useState();
   const { accessToken } = useContext(CartProvider);
@@ -440,7 +440,7 @@ const EditProfile = ({ route }) => {
               { borderTopRightRadius: 0, borderBottomRightRadius: 0 },
             ]}
             onChangeText={(work) => setwork(work)}
-            value={work}
+            value={work.toString()}
           />
           <Pressable
             style={{
