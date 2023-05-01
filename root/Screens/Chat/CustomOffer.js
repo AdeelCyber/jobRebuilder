@@ -50,6 +50,7 @@ const CustomOffer = ({ route }) => {
   const [getdoc, setdoc] = useState();
   const [getcondition, setcondition] = useState(false);
   const [getdocinfo, setdocinfo] = useState();
+  const [isUploadingDoc, setIsUploadingDoc] = useState(false);
   useEffect(() => {
     console.log("\n\n\n\ndate", duedate);
   }, [duedate]);
@@ -64,10 +65,16 @@ const CustomOffer = ({ route }) => {
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
 
-    setdoc(result.uri);
+    console.log("here");
     const pdf = await fileUpload(result.uri);
     setdocinfo(JSON.parse(pdf.body));
   };
+  useEffect(() => {
+    console.log("document uploaded", getdocinfo);
+    if (getdocinfo) {
+      setIsUploadingDoc(false);
+    }
+  }, [getdocinfo]);
 
   const oneTimeOffer = async () => {
     try {
@@ -637,29 +644,34 @@ const CustomOffer = ({ route }) => {
                   marginTop: 20,
                 }}
                 onPress={() => {
+                  setIsUploadingDoc(true);
                   pickDocument();
                 }}
               >
-                <View style={{ flexDirection: "row" }}>
-                  <MyText
-                    style={{
-                      fontSize: 11,
-                      margin: 9,
-                      color: "#2323235E",
-                    }}
-                  >
-                    Select from storage
-                  </MyText>
-                  <Image
-                    source={require("../../../assets/img/pdf.png")}
-                    style={{
-                      height: 25,
-                      width: 25,
-                      alignSelf: "center",
-                      margin: 6,
-                    }}
-                  />
-                </View>
+                {isUploadingDoc == true ? (
+                  <ActivityIndicator size="large" color={"black"} />
+                ) : (
+                  <View style={{ flexDirection: "row" }}>
+                    <MyText
+                      style={{
+                        fontSize: 11,
+                        margin: 9,
+                        color: "#2323235E",
+                      }}
+                    >
+                      Select from storage
+                    </MyText>
+                    <Image
+                      source={require("../../../assets/img/pdf.png")}
+                      style={{
+                        height: 25,
+                        width: 25,
+                        alignSelf: "center",
+                        margin: 6,
+                      }}
+                    />
+                  </View>
+                )}
               </Pressable>
             )}
 
