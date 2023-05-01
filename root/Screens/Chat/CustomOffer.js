@@ -86,7 +86,7 @@ const CustomOffer = ({ route }) => {
       if (onetime.status === 201) {
         setcondition(false);
 
-        await sendMessage(onetime.data.data._id, "oneTimeOrder");
+        await sendMessage(onetime.data.data._id, "oneTimeOrder", false);
 
         Toast.show({
           topOffset: 60,
@@ -94,6 +94,7 @@ const CustomOffer = ({ route }) => {
           text1: "Ordered Created Successfully",
           text2: ".",
         });
+        navigation.goBack();
       } else {
         console.log("error");
         console.log(onetime.data);
@@ -126,7 +127,7 @@ const CustomOffer = ({ route }) => {
       // console.log(equity);
       if (equity.status == 201) {
         setcondition(false);
-        await sendMessage(equity.data.data._id, "equityOrder");
+        await sendMessage(equity.data.data._id, "equityOrder", false);
 
         Toast.show({
           topOffset: 60,
@@ -134,6 +135,7 @@ const CustomOffer = ({ route }) => {
           text1: "Ordered Created Successfully",
           text2: ".",
         });
+        navigation.goBack();
 
         // navigation.navigate("MessagesBox", { order: onetime.data });
       } else {
@@ -148,7 +150,7 @@ const CustomOffer = ({ route }) => {
       });
     }
   };
-  const sendMessage = async (message, type) => {
+  const sendMessage = async (message, type, toNavigate = true) => {
     //console.log("type", type);
     //  console.log("msg", message);
     //  console.log("id", id);
@@ -180,7 +182,7 @@ const CustomOffer = ({ route }) => {
           },
         });
       }
-      navigation.navigate("Message");
+      if (toNavigate) navigation.navigate("Message");
     }
     //console.log(res.data);
   };
