@@ -591,8 +591,6 @@ const MessageBox = ({
             </MyText>
           )}
         </View>
-
-        <View>{icon()}</View>
       </View>
       {chatType === 'group' ? (
         <FlatList
