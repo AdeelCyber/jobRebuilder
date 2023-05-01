@@ -113,6 +113,7 @@ const EditProfile = ({ route }) => {
   };
   const profileedit = async () => {
     setcondition(true);
+    console.log(value);
 
     if (logo.filename != undefined) {
       try {
@@ -125,6 +126,7 @@ const EditProfile = ({ route }) => {
           language,
           work,
           about,
+          value == null ? userinfo.userInfo.role : value,
           logo.filename
         );
         console.log(res);
@@ -152,6 +154,7 @@ const EditProfile = ({ route }) => {
           country,
           language,
           work,
+          value == null ? userinfo.userInfo.role : value,
           about,
           logo
         );
