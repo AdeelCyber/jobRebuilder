@@ -52,6 +52,7 @@ const FreelancerProfileScreen = () => {
   const [profile, setProfile] = useState({});
 
   useEffect(() => {
+    console.log("\n\n\n\n\nuserdetails", userdetails);
     getProfile();
   }, []);
 
