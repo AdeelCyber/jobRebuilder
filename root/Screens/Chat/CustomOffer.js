@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Image,
   Pressable,
@@ -8,7 +8,8 @@ import {
   View,
   ImageBackground,
   TextInput,
-  FlatList, ActivityIndicator,
+  FlatList,
+  ActivityIndicator,
 } from "react-native";
 
 import Context from "../../Context/Context";
@@ -49,52 +50,64 @@ const CustomOffer = ({ route }) => {
   const [getdoc, setdoc] = useState();
   const [getcondition, setcondition] = useState(false);
   const [getdocinfo, setdocinfo] = useState();
+  const [isUploadingDoc, setIsUploadingDoc] = useState(false);
   useEffect(() => {
-
+    console.log("\n\n\n\ndate", duedate);
   }, [duedate]);
+
   const onDateSelected = (event, value) => {
     setduedate(value);
-
     setDatePicker(false);
   };
+
   const [jobTitle, setjobTitle] = useState();
 
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
 
-    setdoc(result.uri);
+    console.log("here");
     const pdf = await fileUpload(result.uri);
     setdocinfo(JSON.parse(pdf.body));
   };
+  useEffect(() => {
+    console.log("document uploaded", getdocinfo);
+    if (getdocinfo) {
+      setIsUploadingDoc(false);
+    }
+  }, [getdocinfo]);
 
   const oneTimeOffer = async () => {
-  try {
-    setcondition(true);
-    console.log("sending one time order")
-    const onetime = await oneTimeOrder(
+    try {
+      setcondition(true);
+      console.log("sending one time order");
+      console.log(duedate);
+      const onetime = await oneTimeOrder(
         accessToken,
         id,
         jobTitle,
         description,
         price,
-        moment(duedate).format("YYYY-MM-DD"),
-    );
-    console.log("Order Saved");
-    if (onetime.status === 201) {
-      setcondition(false);
+        moment(duedate).format("YYYY-MM-DD")
+      );
+      console.log(onetime.data);
+      if (onetime.status === 201) {
+        setcondition(false);
 
-      await sendMessage(onetime.data.data._id, "oneTimeOrder");
+        await sendMessage(onetime.data.data._id, "oneTimeOrder", false);
 
-      Toast.show({
-        topOffset: 60,
-        type: "success",
-        text1: "Ordered Created Successfully",
-        text2: ".",
-      });
-    } else {
-    }
-  } catch (err) {
-      console.log(err.message)
+        Toast.show({
+          topOffset: 60,
+          type: "success",
+          text1: "Ordered Created Successfully",
+          text2: ".",
+        });
+        navigation.goBack();
+      } else {
+        console.log("error");
+        console.log(onetime.data);
+      }
+    } catch (err) {
+      console.log(err.message);
       setcondition(false);
       Toast.show({
         topOffset: 60,
@@ -103,7 +116,7 @@ const CustomOffer = ({ route }) => {
         text2: ".",
       });
     }
-      }
+  };
 
   let today = new Date();
 
@@ -121,7 +134,7 @@ const CustomOffer = ({ route }) => {
       // console.log(equity);
       if (equity.status == 201) {
         setcondition(false);
-        await sendMessage(equity.data.data._id, "equityOrder");
+        await sendMessage(equity.data.data._id, "equityOrder", false);
 
         Toast.show({
           topOffset: 60,
@@ -129,6 +142,7 @@ const CustomOffer = ({ route }) => {
           text1: "Ordered Created Successfully",
           text2: ".",
         });
+        navigation.goBack();
 
         // navigation.navigate("MessagesBox", { order: onetime.data });
       } else {
@@ -143,7 +157,7 @@ const CustomOffer = ({ route }) => {
       });
     }
   };
-  const sendMessage = async (message, type) => {
+  const sendMessage = async (message, type, toNavigate = true) => {
     //console.log("type", type);
     //  console.log("msg", message);
     //  console.log("id", id);
@@ -175,7 +189,7 @@ const CustomOffer = ({ route }) => {
           },
         });
       }
-      navigation.navigate("Message");
+      if (toNavigate) navigation.navigate("Message");
     }
     //console.log(res.data);
   };
@@ -216,7 +230,6 @@ const CustomOffer = ({ route }) => {
     <ScrollView style={{ backgroundColor: colors.background }}>
       <View style={[styles.container]}>
         <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-
           {job ? (
             <TouchableOpacity
               style={[styles.btnstyle, { backgroundColor: colors.Bluish }]}
@@ -327,30 +340,32 @@ const CustomOffer = ({ route }) => {
                 marginTop: 40,
               }}
             >
-              <MyText style={{ fontSize: 12,flex:1, fontWeight: "700" }}>
+              <MyText style={{ fontSize: 12, flex: 1, fontWeight: "700" }}>
                 Total Price
               </MyText>
-              <View style={{flexDirection:"row",flex:1,alignItems:"center"}}>
+              <View
+                style={{ flexDirection: "row", flex: 1, alignItems: "center" }}
+              >
                 <MyText
-                    style={{
-                      fontSize: 10,
-                      fontWeight: "400",
-                      flex:1
-                    }}
+                  style={{
+                    fontSize: 10,
+                    fontWeight: "400",
+                    flex: 1,
+                  }}
                 >
                   US$
                 </MyText>
-                <View style={{ width:"100%",flex:2 , borderRadius: 2 }}>
+                <View style={{ width: "100%", flex: 2, borderRadius: 2 }}>
                   <TextInput
-                      style={[
-                        styles.inputStyle,
-                        {
-                          elevation: 2,
-                        },
-                      ]}
-                      value={price}
-                      onChangeText={(price) => setprice(price)}
-                      placeholderTextColor="#ACA9A9"
+                    style={[
+                      styles.inputStyle,
+                      {
+                        elevation: 2,
+                      },
+                    ]}
+                    value={price}
+                    onChangeText={(price) => setprice(price)}
+                    placeholderTextColor="#ACA9A9"
                   />
                 </View>
               </View>
@@ -381,54 +396,52 @@ const CustomOffer = ({ route }) => {
               <MyText style={{ fontSize: 12, fontWeight: "700" }}>
                 Delivery Time
               </MyText>
-
               <Pressable
-                style={[
-                  styles.SectionStyle,
-                  { position: "absolute", left: 194 },
-                ]}
+                style={{
+                  flexDirection: "row",
+                }}
                 onPress={() => {
                   setDatePicker(true);
                 }}
               >
-
                 <MyText
-                  style={[styles.inputStyle2,{
-                    width: 120,
-                    alignSelf: "center",
-                  }]}
-
+                  style={[
+                    styles.inputStyle2,
+                    {
+                      alignSelf: "center",
+                    },
+                  ]}
                 >
-                  {duedate instanceof Date ? duedate.toDateString():duedate}
+                  {duedate instanceof Date ? duedate.toDateString() : duedate}
                 </MyText>
                 <Pressable
                   style={{
-                    backgroundColor: "#EEEEEE",
-                    borderTopRightRadius: 10,
-                    borderBottomRightRadius: 10,
-                    paddingHorizontal: 8,
-                    paddingTop: 10,
+                    marginLeft: 10,
                   }}
                   onPress={() => {
                     setDatePicker(true);
                   }}
                 >
-                  <AntDesign name="calendar" size={20} color="#969696" />
+                  <AntDesign
+                    name="calendar"
+                    size={20}
+                    color="#969696"
+                    style={{ backgroundColor: "#EEEEEE" }}
+                  />
                 </Pressable>
               </Pressable>
+              {datePicker && (
+                <DateTimePicker
+                  value={duedate instanceof Date ? duedate : new Date()}
+                  mode={"date"}
+                  minimumDate={new Date(today.getTime() + 24 * 60 * 60 * 1000)}
+                  display={Platform.OS === "ios" ? "spinner" : "default"}
+                  is24Hour={true}
+                  onChange={onDateSelected}
+                  style={styles.datePicker}
+                />
+              )}
             </View>
-
-            {datePicker && (
-              <DateTimePicker
-                value={new Date()}
-                mode={"date"}
-                minimumDate={new Date(today.getTime() + (24 * 60 * 60 * 1000))}
-                display={Platform.OS === "ios" ? "spinner" : "default"}
-                is24Hour={true}
-                onChange={onDateSelected}
-                style={styles.datePicker}
-              />
-            )}
             <Pressable
               style={{
                 backgroundColor: colors.Bluish,
@@ -456,13 +469,14 @@ const CustomOffer = ({ route }) => {
                   fontWeight: "500",
                 }}
               >
-                {getcondition ?
-                    <View>
-                      <ActivityIndicator size="large" color={"white"}/>
-                      <MyText>Processing your request</MyText>
-                    </View> :
-                    "Send Offer"
-                }
+                {getcondition ? (
+                  <View>
+                    <ActivityIndicator size="large" color={"white"} />
+                    <MyText>Processing your request</MyText>
+                  </View>
+                ) : (
+                  "Send Offer"
+                )}
               </MyText>
             </Pressable>
           </View>
@@ -630,29 +644,34 @@ const CustomOffer = ({ route }) => {
                   marginTop: 20,
                 }}
                 onPress={() => {
+                  setIsUploadingDoc(true);
                   pickDocument();
                 }}
               >
-                <View style={{ flexDirection: "row" }}>
-                  <MyText
-                    style={{
-                      fontSize: 11,
-                      margin: 9,
-                      color: "#2323235E",
-                    }}
-                  >
-                    Select from storage
-                  </MyText>
-                  <Image
-                    source={require("../../../assets/img/pdf.png")}
-                    style={{
-                      height: 25,
-                      width: 25,
-                      alignSelf: "center",
-                      margin: 6,
-                    }}
-                  />
-                </View>
+                {isUploadingDoc == true ? (
+                  <ActivityIndicator size="large" color={"black"} />
+                ) : (
+                  <View style={{ flexDirection: "row" }}>
+                    <MyText
+                      style={{
+                        fontSize: 11,
+                        margin: 9,
+                        color: "#2323235E",
+                      }}
+                    >
+                      Select from storage
+                    </MyText>
+                    <Image
+                      source={require("../../../assets/img/pdf.png")}
+                      style={{
+                        height: 25,
+                        width: 25,
+                        alignSelf: "center",
+                        margin: 6,
+                      }}
+                    />
+                  </View>
+                )}
               </Pressable>
             )}
 
