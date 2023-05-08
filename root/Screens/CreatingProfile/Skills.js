@@ -41,8 +41,9 @@ const Skills = () => {
   const [jobtitle, setjobtitle] = useState();
   const [hourlyrate, sethourlyrate] = useState();
   const [description, setdescription] = useState();
-  const [skills, setskills] = useState([]);
-  const [userskill, setuserskill] = useState();
+  const [skills, setskills] = useState(['new']);
+
+  const [userskill, setuserskill] = useState(['data']);
   const [getcondition, setcondition] = useState(false);
 
   const saveData = async () => {
@@ -56,7 +57,7 @@ const Skills = () => {
         description !== undefined
       ) {
         setcondition(true);
-        await AsyncStorage.setItem("@skills", JSON.stringify(skills));
+        await AsyncStorage.setItem("@skills", skills);
         await AsyncStorage.setItem("@workPreference", value);
         await AsyncStorage.setItem("@availibilityPerWeek", availibility);
         await AsyncStorage.setItem("@jobTitle", jobtitle);

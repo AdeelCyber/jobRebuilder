@@ -1,19 +1,19 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useContext, useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import CrossSimple from "../../assets/Svgs/CrossSimple";
-import CubeIcon from "../../assets/Svgs/CubeIcon";
-import MobileIcon from "../../assets/Svgs/MobileIcon";
-import RectangleIcon from "../../assets/Svgs/RectangleIcon";
-import TabBarBagIcon from "../../assets/Svgs/TabBarBagIcon";
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useNavigation } from '@react-navigation/native'
+import React, { useContext, useEffect, useState } from 'react'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import CrossSimple from '../../assets/Svgs/CrossSimple'
+import CubeIcon from '../../assets/Svgs/CubeIcon'
+import MobileIcon from '../../assets/Svgs/MobileIcon'
+import RectangleIcon from '../../assets/Svgs/RectangleIcon'
+import TabBarBagIcon from '../../assets/Svgs/TabBarBagIcon'
 // import { CartProvider } from '../Context/CartProvider'
-import SvgImport from "./SvgImport";
-import MyText from "./Text";
+import SvgImport from './SvgImport'
+import MyText from './Text'
 
-import { BackHandler } from "react-native";
+import { BackHandler } from 'react-native'
 
-const icons = [CubeIcon, TabBarBagIcon, MobileIcon, CrossSimple];
+const icons = [CubeIcon, TabBarBagIcon, MobileIcon, CrossSimple]
 
 const Tab = ({ title, selected, onSelect, index, selectedFun }) => {
   return (
@@ -23,8 +23,8 @@ const Tab = ({ title, selected, onSelect, index, selectedFun }) => {
       <View
         style={{
           marginTop: selected === index ? 8 : 13,
-          alignItems: "center",
-          justifyContent: "center",
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
         <SvgImport svg={icons[index]} />

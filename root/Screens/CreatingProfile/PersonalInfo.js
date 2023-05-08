@@ -156,9 +156,9 @@ const PersonalInfo = () => {
             returnKeyType="next"
           />
         </View>
-        <View style={styles.SectionStyle}>
+        <View style={styles.dropdown}>
           <DropDownPicker
-            style={[styles.inputStyle, { borderColor: "#EEEEEE" }]}
+            style={[styles.dropdown, { borderColor: "#EEEEEE" }]}
             textStyle={{ color: "#ACA9A9" }}
             placeholder="Gender"
             open={open}
@@ -239,6 +239,12 @@ const styles = StyleSheet.create({
     marginTop: 14,
     marginBottom: 5,
   },
+  dropdown: {
+    position: 'relative',
+   
+    zIndex: 999,
+    backgroundColor: '#fff'
+  }
 });
 
 export default PersonalInfo;

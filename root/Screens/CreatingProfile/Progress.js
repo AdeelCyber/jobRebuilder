@@ -56,14 +56,16 @@ const Progress = () => {
 
   const buttonStyle = {
     backgroundColor: colors.Bluish,
-    width: "111%",
+    width: "65%",
+    
     height: 50,
     justifyContent: "center",
     alignItems: "center",
-    //alignSelf: "center",
+    alignSelf: "center",
     borderRadius: 10,
     marginTop: 20,
-    marginRight: 233,
+    marginBottom:-10,
+    marginRight: 100,
   };
   async function deleteTempStorage() {
     await AsyncStorage.removeItem("@name");
@@ -86,6 +88,7 @@ const Progress = () => {
     try {
       setcondition(true);
       const res = await setProfile(accessToken);
+      
       if (res.status == 201) {
         setcondition(false);
         Toast.show({
@@ -99,6 +102,7 @@ const Progress = () => {
 
         navigation.navigate("HomeService");
       } else {
+    
         Toast.show({
           topOffset: 60,
           type: "error",
@@ -109,6 +113,7 @@ const Progress = () => {
       console.log(res.data);
     } catch (err) {
       setcondition(false);
+      console.log(err);
       Toast.show({
         topOffset: 60,
         type: "error",
@@ -165,7 +170,7 @@ const Progress = () => {
       contest.setComplete("true")
     }
 
-    setActiveStep(step);
+    setActiveStep(0);
   }
     useEffect(() => {
         getActiveStep();
@@ -196,7 +201,7 @@ const Progress = () => {
             nextBtnStyle={buttonStyle}
             nextBtnTextStyle={buttonTextStyle}
             nextBtnText="Proceed"
-            previousBtnDisabled={true}
+            previousBtnDisabled={false}
           >
             <PersonalInfo />
           </ProgressStep>
@@ -205,7 +210,7 @@ const Progress = () => {
             nextBtnStyle={buttonStyle}
             nextBtnTextStyle={buttonTextStyle}
             nextBtnText="Proceed"
-            previousBtnDisabled={true}
+            previousBtnDisabled={false}
           >
             <Skills />
           </ProgressStep>
@@ -214,7 +219,7 @@ const Progress = () => {
             nextBtnStyle={buttonStyle}
             nextBtnTextStyle={buttonTextStyle}
             nextBtnText="Finalize"
-            previousBtnDisabled={true}
+            previousBtnDisabled={false}
             onSubmit={retrieveData}
           >
             <ProfilePic />

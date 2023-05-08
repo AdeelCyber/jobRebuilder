@@ -329,32 +329,32 @@ const Message = ({ route, navigation }) => {
           </View>
         ))}
     </View>
-  );
-};
+  )
+}
 
-export default Message;
+export default Message
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   header: {
-    display: "flex",
-    flexDirection: "row",
-    width: "100%",
-    height: "7%",
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    height: '7%',
 
-    backgroundColor: "white",
+    backgroundColor: 'white',
     marginBottom: 10,
 
     padding: 6,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     paddingHorizontal: 13,
   },
   shadow: {
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,

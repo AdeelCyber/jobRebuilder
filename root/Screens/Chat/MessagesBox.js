@@ -20,7 +20,7 @@ import {
 import Context from "../../Context/Context";
 import { Entypo, AntDesign } from "@expo/vector-icons";
 import MyText from "../../Components/Text";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import CartProvider from "../../Context/CartProvider";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -32,18 +32,9 @@ import {
 import MessageBox from "./MessageBox";
 import Loader from "../../Components/Loader";
 import { useIsFocused } from "@react-navigation/native";
-import { TouchableOpacity } from "react-native";
 
-const MessagesBox = ({ route, navigation }) => {
-  // const navigat = useNavigation();
-  // const currentRouteName = navigat.getState().routes[navigat.getState().index];
-  // useEffect(() => {
-  //   console.log("\n\n\n\nMessagesBox");
-  //   // get current screen name
-  //   const namee = currentRouteName.name;
-  //   console.log("currentRouteName", namee);
-  // }, []);
-
+const MessagesBox = ({ route }) => {
+  const navigation = useNavigation();
   const { accessToken, socket } = useContext(CartProvider);
   const {
     theme: { colors },
@@ -55,8 +46,8 @@ const MessagesBox = ({ route, navigation }) => {
   const isFocused = useIsFocused();
 
   const { userdetails } = useContext(CartProvider);
-  console.log("USER DETAILS : ", userdetails);
-  const { id, userImg, userName, chatType, members, online, toggleBar } =
+  console.log( "USER DETAILS : ",userdetails)
+  const { id, userImg, userName, chatType, members, online } =
     route.params != undefined ? route.params : {};
 
   const getMsg = async () => {
@@ -90,7 +81,6 @@ const MessagesBox = ({ route, navigation }) => {
   }
   return (
     <MessageBox
-      toggleBar={toggleBar}
       messages={messages}
       setMessages={setMessages}
       id={id}

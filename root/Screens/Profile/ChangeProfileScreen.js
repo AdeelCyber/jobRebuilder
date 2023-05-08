@@ -138,6 +138,8 @@ const ChangeProfileScreen = ({ route }) => {
               ...userdetails,
               name: res.data.data.user.name,
               avatar: res.data.data.user.avatar,
+              hourlyRate: res.data.data.user.hourlyRate,
+
             }
           })
           navigation.navigate('Profile')

@@ -76,6 +76,7 @@ const TabBar = (props) => {
           selected={selectedTab}
           selectedFun={setSelectedTab}
           index={0}
+        
         />
       </TouchableOpacity>
       <TouchableOpacity
@@ -153,10 +154,12 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: "#fafafa",
     paddingBottom: 10,
+    
   },
   tab: {
     alignItems: "center",
     justifyContent: "center",
+    
   },
 
   tabTitle: {},
