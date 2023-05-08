@@ -125,20 +125,20 @@ const FreelancerProfileScreen = () => {
     <Pressable style={{ marginTop: 10 }}>
       <TouchableOpacity
         onPress={async () => {
-          if (profile.navigate === 'LoginScreen') {
-            await AsyncStorage.removeItem('@accessToken')
-            await AsyncStorage.removeItem('@refreshToken')
-            await AsyncStorage.removeItem('@userDetail')
-            setuserdetails([])
-            setaccessToken('')
-            setrefreshToken('')
-            setislogin(false)
-          } else if (profile.navigate === 'PaymentMethod') {
-            navigation.navigate('LinkStatus')
-            return
+          if (profile.navigate === "LoginScreen") {
+            await AsyncStorage.removeItem("@accessToken");
+            await AsyncStorage.removeItem("@refreshToken");
+            await AsyncStorage.removeItem("@userDetail");
+            setuserdetails([]);
+            setaccessToken("");
+            setrefreshToken("");
+            setislogin(false);
+          } else if (profile.navigate === "PaymentMethod") {
+            navigation.navigate("LinkStatus");
+            return;
           }
-          console.log(profile.navigate)
-          navigation.navigate(profile.navigate)
+          console.log(profile.navigate);
+          navigation.navigate(profile.navigate);
         }}
       >
         <View style={styles.listItemView}>

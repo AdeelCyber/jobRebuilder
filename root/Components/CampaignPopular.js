@@ -162,10 +162,9 @@ const CampaignPopular = ({
             style={{
               backgroundColor: colors.secondary,
 
-              paddingHorizontal: 5,
-              paddingVertical: 5,
-              borderRadius: 50,
-              marginLeft: 7,
+              paddingHorizontal: 8,
+              paddingVertical: 7,
+              borderRadius: 5,
               flexDirection: 'row',
               alignItems: 'center',
             }}
@@ -177,9 +176,9 @@ const CampaignPopular = ({
               })
             }}
           >
-            <SvgImport svg={edit} style={{ marginRight: 3 }} />
+            <SvgImport svg={edit} style={{ marginRight: 4 }} />
             <MyText
-              style={{ fontSize: 10, color: colors.white }}
+              style={{ fontSize: 11, color: colors.white, marginLeft: 4 }}
             >
               Edit Campaign
             </MyText>

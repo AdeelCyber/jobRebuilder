@@ -26,6 +26,7 @@ import Loader from "../../Components/Loader";
 const CampaignMenu = ({ navigation, route }) => {
   const [show, setshow] = useState(false);
   const [id, setid] = useState(route.params.id);
+  const applied = route.params.applied;
   const {
     theme: { colors },
   } = useContext(Context);
@@ -98,6 +99,7 @@ const CampaignMenu = ({ navigation, route }) => {
       <ScrollView>
         {/* card in */}
         <CampaignCard
+          applied={applied}
           title={data.startup.businessName}
           niche={data.startup.category}
           Logo={data.startup.logo}
@@ -302,7 +304,7 @@ const CampaignMenu = ({ navigation, route }) => {
             </MyText>
           )}
         </Pressable>
-        <BottomPopup show={modal.modal1} setshow={setModal}   />
+        <BottomPopup show={modal.modal1} setshow={setModal} />
       </ScrollView>
     </View>
   ) : (

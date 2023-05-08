@@ -113,18 +113,19 @@ import PaymentLinkStatus from "./Screens/Profile/Freelancer/PaymentLinkStatus";
 import StripeWebView from "./Screens/Profile/Freelancer/StripeWebView";
 import ActiveJobDetailScreen from "./Screens/Profile/Freelancer/ActiveJobDetailScreen";
 import ViewAll from "./Screens/campaignHomeScreen/viewAll";
+import { TouchableOpacity } from "react-native-gesture-handler";
 //Navigation outA
 
 // Creating Stacks
-const Stack = createNativeStackNavigator()
-const Tab = createMaterialBottomTabNavigator()
+const Stack = createNativeStackNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 // All stack Pages goes here
 const MyStack = (props) => {
-  console.log('props', props.screen)
+  console.log("props", props.screen);
 
   if (!props.bool) {
-    return null
+    return null;
   }
   return (
     props.bool && (

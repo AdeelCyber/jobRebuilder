@@ -32,47 +32,51 @@ const Tab = ({ title, selected, onSelect, index, selectedFun }) => {
         <MyText style={{ marginTop: 4, fontSize: 10 }}>{title}</MyText>
       </View>
     </View>
-  )
-}
+  );
+};
 const UserTabBar = (props) => {
-  const navigation = useNavigation()
+  useEffect(() => {
+    console.log("\n\n\n\nUserTabBar");
+    console.log("props", props.showBar);
+  }, [props.showBar]);
+  const navigation = useNavigation();
 
-  const [selectedTab, setSelectedTab] = useState(0)
-  const [isToken, setIsToken] = useState(false)
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [isToken, setIsToken] = useState(false);
 
   useEffect(() => {
-    getToken()
-  })
+    getToken();
+  });
 
   const getToken = async () => {
-    const token = await AsyncStorage.getItem('@accessToken')
+    const token = await AsyncStorage.getItem("@accessToken");
     if (token) {
-      setIsToken(true)
+      setIsToken(true);
     }
-  }
+  };
 
   const goToPage = (index) => {
     if (index === 0) {
-      navigation.navigate('Explore')
+      navigation.navigate("Explore");
     } else if (index === 1) {
-      navigation.navigate('CampaignHome')
+      navigation.navigate("CampaignHome");
     } else if (index === 2) {
-      navigation.navigate('LoginScreen')
+      navigation.navigate("LoginScreen");
     } else if (index === 3) {
-      BackHandler.exitApp()
+      BackHandler.exitApp();
     }
-  }
+  };
 
   return (
-    <View style={[styles.container, { display: props.show ? 'flex' : 'none' }]}>
+    <View style={[styles.container, { display: props.show ? "flex" : "none" }]}>
       <TouchableOpacity
         onPress={() => {
-          setSelectedTab(0)
-          goToPage(0)
+          setSelectedTab(0);
+          goToPage(0);
         }}
       >
         <Tab
-          title='Campaign'
+          title="Campaign"
           selected={selectedTab}
           selectedFun={setSelectedTab}
           index={0}
@@ -80,12 +84,12 @@ const UserTabBar = (props) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          setSelectedTab(1)
-          goToPage(1)
+          setSelectedTab(1);
+          goToPage(1);
         }}
       >
         <Tab
-          title='Freelancers'
+          title="Freelancers"
           selected={selectedTab}
           selectedFun={setSelectedTab}
           index={1}
@@ -94,12 +98,12 @@ const UserTabBar = (props) => {
 
       <TouchableOpacity
         onPress={() => {
-          setSelectedTab(2)
-          goToPage(2)
+          setSelectedTab(2);
+          goToPage(2);
         }}
       >
         <Tab
-          title='Signup'
+          title="Signup"
           selected={selectedTab}
           selectedFun={setSelectedTab}
           index={2}
@@ -107,39 +111,39 @@ const UserTabBar = (props) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          setSelectedTab(3)
-          goToPage(3)
+          setSelectedTab(3);
+          goToPage(3);
         }}
       >
         <Tab
-          title='Exit'
+          title="Exit"
           selected={selectedTab}
           selectedFun={setSelectedTab}
           index={3}
         />
       </TouchableOpacity>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "space-around",
     height: 60,
     paddingHorizontal: 10,
     borderTopWidth: 1,
-    borderTopColor: '#fafafa',
+    borderTopColor: "#fafafa",
     paddingBottom: 10,
   },
   tab: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   tabTitle: {},
-})
+});
 
-export default UserTabBar
+export default UserTabBar;

@@ -189,17 +189,17 @@ export const deletePortfolio = async (accessToken, portfolioId) => {
     data: {
       portfolioId: portfolioId,
     },
-  }
+  };
   try {
     const resp = await axios.delete(
-      '/freelancer/profile/portfolio/delete',
+      "/freelancer/profile/portfolio/delete",
       config
-    )
-    return resp
+    );
+    return resp;
   } catch (error) {
-    return error.response
+    return error.response;
   }
-}
+};
 
 export const editProfile = async (
   accessToken,
